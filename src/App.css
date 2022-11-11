@@ -1,3 +1,6 @@
+.app{
+   height:100vh
+}
 .topBar{
    display: none;
 }
@@ -13,6 +16,9 @@
 .rowColumn{
    display: flex;
    flex-direction: column;
+}
+*{
+   transition: all 0.1s;
 }
 /***************************
 ****************************

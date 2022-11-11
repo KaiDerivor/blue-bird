@@ -3,24 +3,24 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { Provider } from 'react-redux';
+import { Provider, useSelector } from 'react-redux';
 import store from './redux/store';
 import { BrowserRouter } from 'react-router-dom';
 import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
-
+import { getIsDarkMode } from './redux/appSelector';
 //@ts-ignore
-const theme = createTheme({
+const theme =createTheme({
   palette: {
-    mode: "dark",
-    background: {
-      default: "#3a2524",
-      paper: "#46505A",
-    },
-    //@ts-ignore
-    fpage: {
-      main: "#EF8B6B",
-      light: "#262335",
-    },
+    // mode: "dark",
+    // background: {
+    //   default: "#3a2524",
+    //   paper: "#46505A",
+    // },
+    // //@ts-ignore
+    // fpage: {
+    //   main: "#EF8B6B",
+    //   light: "#262335",
+    // },
   },
 });
 const root = ReactDOM.createRoot(
@@ -30,10 +30,7 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Provider store={store}>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
           <App />
-        </ThemeProvider>
       </Provider>
     </BrowserRouter>
   </React.StrictMode>

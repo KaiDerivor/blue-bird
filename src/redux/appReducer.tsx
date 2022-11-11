@@ -3,16 +3,22 @@ import { ThunkAction } from "redux-thunk";
 import { api } from "../api/api";
 import { AppStateType, InferActionsTypes } from "./store";
 
+const TOGGLE_THEME_MODE = 'TOGGLE_THEME_MODE';
 
-const initialState: any = {
-
+const initialState = {
    isFetching: false,
    isInit: false,
-
+   isDarkMode: true
 }
-const appReducer = (state = initialState, action: ActionsTypes): any => {
+type StateType = typeof initialState;
+const appReducer = (state = initialState, action: ActionsTypes): StateType => {
    switch (action.type) {
-
+      case TOGGLE_THEME_MODE: {
+         return {
+            ...state,
+            isDarkMode: !state.isDarkMode
+         }
+      }
       default: return state;
    }
 }
@@ -22,7 +28,7 @@ export type DispatchType = Dispatch<ActionsTypes>;
 
 
 export const actions = {
-
+   toggleThemeMod: () => { return { type: TOGGLE_THEME_MODE } as const }
 }
 
 type ThunksTypes = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>
@@ -40,5 +46,10 @@ type ThunksTypes = ThunkAction<Promise<void>, AppStateType, unknown, ActionsType
 //       })
 //    }
 // }
+export const toggleThemeMode = (): ThunksTypes => {
+   return async (dispatch) => {
+
+   }
+}
 
 export default appReducer;

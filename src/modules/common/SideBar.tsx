@@ -1,21 +1,21 @@
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
-import Button from '@mui/material/Button';
 import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
-import { useState } from 'react';
+import Typography from '@mui/material/Typography';
+import HubIcon from '@mui/icons-material/Hub';
+import FolderSharedIcon from '@mui/icons-material/FolderShared';
+import ClassIcon from '@mui/icons-material/Class';
+import AppsIcon from '@mui/icons-material/Apps';
 
-type SideBarType={
-   isOpenSideMenu:boolean
-   setIsOpenSideMenu:(arg1:boolean)=>void
+type SideBarType = {
+   isOpenSideMenu: boolean
+   setIsOpenSideMenu: (arg1: boolean) => void
 }
-export const SideBar:React.FC<SideBarType> = ({isOpenSideMenu,setIsOpenSideMenu}) => {
+export const SideBar: React.FC<SideBarType> = ({ isOpenSideMenu, setIsOpenSideMenu }) => {
 
 
    return (
@@ -28,34 +28,55 @@ export const SideBar:React.FC<SideBarType> = ({isOpenSideMenu,setIsOpenSideMenu}
             <Box
                role="presentation"
                sx={{ width: '250px' }}
-               onClick={()=>setIsOpenSideMenu(false)}
-               onKeyDown={()=>setIsOpenSideMenu(false)}
+               onClick={() => setIsOpenSideMenu(false)}
+               onKeyDown={() => setIsOpenSideMenu(false)}
             >
                <List>
-                  {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                     <ListItem key={text} disablePadding>
-                        <ListItemButton>
-                           <ListItemIcon>
-                              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                           </ListItemIcon>
-                           <ListItemText primary={text} />
-                        </ListItemButton>
-                     </ListItem>
-                  ))}
+                  <ListItem disablePadding>
+                     <ListItemButton className={''}>
+                        <ListItemIcon className={''}>
+                           <HubIcon />
+                        </ListItemIcon>
+                        <ListItemText primary={
+                           <Typography variant="subtitle1" color="info" noWrap>Головна</Typography>
+                        } />
+                     </ListItemButton>
+                  </ListItem>
+
+                  <ListItem disablePadding>
+                     <ListItemButton className={''}>
+                        <ListItemIcon className={''}>
+                           <FolderSharedIcon />
+                        </ListItemIcon>
+                        <ListItemText primary={
+                           <Typography variant="subtitle1" color="info" noWrap>Профіль</Typography>
+                        } />
+                     </ListItemButton>
+                  </ListItem>
+
+                  <ListItem disablePadding>
+                     <ListItemButton className={''}>
+                        <ListItemIcon className={''}>
+                           <ClassIcon />
+                        </ListItemIcon>
+                        <ListItemText primary={
+                           <Typography variant="subtitle1" color="info" noWrap>Збережені</Typography>
+                        } />
+                     </ListItemButton>
+                  </ListItem>
+
+                  <ListItem disablePadding>
+                     <ListItemButton className={''}>
+                        <ListItemIcon className={''}>
+                           <AppsIcon />
+                        </ListItemIcon>
+                        <ListItemText primary={
+                           <Typography variant="subtitle1" color="info" noWrap>Курси</Typography>
+                        } />
+                     </ListItemButton>
+                  </ListItem>
                </List>
-               <Divider />
-               <List>
-                  {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                     <ListItem key={text} disablePadding>
-                        <ListItemButton>
-                           <ListItemIcon>
-                              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                           </ListItemIcon>
-                           <ListItemText primary={text} />
-                        </ListItemButton>
-                     </ListItem>
-                  ))}
-               </List>
+
             </Box>
          </Drawer>
       </div >
