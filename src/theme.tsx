@@ -9,11 +9,14 @@ export const darkTheme = createTheme({
       },
       //@ts-ignore
       fpage: {
-         dark:'#333',
+         dark: '#333',
          main: "#E3E3E3",
          light: "#fff",
       },
-
+      bgmode:{
+         light:'#150220',
+         main:'#28292A'
+      }
    },
 
 });
@@ -26,11 +29,16 @@ export const lightTheme = createTheme({
       //   default: "#3a2524",
       //   paper: "#46505A",
       // },
-      // //@ts-ignore
-      // fpage: {
-      //   main: "#EF8B6B",
-      //   light: "#262335",
-      // },
+      //@ts-ignore
+      fpage: {
+         dark: '#333',
+         main: "#717171",
+         light: "#262335",
+      },
+      bgmode:{
+         light:'#ec9fff',
+         main:'#F8F8FD'
+      }
    },
 
 });

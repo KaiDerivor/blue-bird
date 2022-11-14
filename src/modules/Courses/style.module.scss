@@ -1,0 +1,46 @@
+$index:calc(1vh + 1vw);
+
+.listSavings {
+   display: grid;
+   grid-template-columns: repeat(3, 1fr);
+   gap: 20px
+}
+
+.boxSession {
+   &__title {
+      margin-bottom: 20px;
+   }
+
+   &__list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5em;
+
+   }
+}
+
+/***************************
+****************************
+**********Adaptive**********
+****************************
+***************************/
+
+@media (max-width: 1210px) {}
+
+@media (max-width: 992px) {}
+
+@media (max-width: 768px) {
+   .listSavings {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+   }
+}
+
+@media (max-width: 576px) {
+   .listSavings {
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+   }
+}
+
+@media (max-width: 375px) {}

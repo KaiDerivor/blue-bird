@@ -49,6 +49,7 @@ function App() {
                 <Route path='/profile' element={<Profile />} />
                 <Route path='/savings' element={<Savings />} />
                 <Route path='/courses' element={<Courses />} />
+                <Route path='/courses/*' element={<Courses />} />
                 <Route path='/*' element={<Home />} />
               </Routes>
             </Box>

@@ -19,8 +19,8 @@ export const HomeContentSection: React.FC<HomeContentSectionType> = ({ title, te
       <>
          <img className={styles.imgHeader_section} src={imgUrl} />
          <Box className={styles.contentSection} >
-            <Typography variant="h2" color="palette.fpage.main" sx={{ ml: 3, pt: 10, pb: 10 }}>{title}</Typography>
-            {text !== '' && <Typography variant="body1" color="palette.fpage.main">{text}</Typography>}
+            <Typography variant="h2" color="fpage.main" sx={{ ml: 3, pt: 10, pb: 10 }}>{title}</Typography>
+            {text !== '' && <Typography variant="body1" color="fpage.main">{text}</Typography>}
             <Box sx={{ pl: 1 }}>
                {buttonsTitle.map((title, index) => {
                   return <ButtonNavigate key={index} title={title} subtitle={buttonsSubtitle[index]} icon={<AddRoadIcon />} />

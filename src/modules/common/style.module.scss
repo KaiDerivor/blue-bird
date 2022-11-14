@@ -1,0 +1,78 @@
+$index:calc(1vh + 1vw);
+
+.header {
+   min-height: 85vh;
+   display: flex;
+   align-items: start;
+   justify-content: center;
+   padding: 56px;
+   border-radius: 24px;
+   flex-direction: column;
+
+   &__wrapper {
+      max-width: 80%;
+   }
+}
+
+.cardGridItem {
+   border-radius: 16px !important;
+   border-bottom-left-radius: 24px !important;
+   border-bottom-right-radius: 24px !important;
+   min-height: 200px;
+   transition: all 0.2s !important;
+   height: 100%;
+ 
+}
+
+/***************************
+****************************
+**********Adaptive**********
+****************************
+***************************/
+
+@media (max-width: 1210px) {
+   .header {
+      min-height: 480px;
+
+      &__header {
+         max-width: auto;
+
+      }
+   }
+}
+
+@media (max-width: 992px) {
+   .header {
+      &__title {
+         font-size: calc($index * 5) !important;
+         padding-bottom: 0.4em;
+      }
+   }
+}
+
+@media (max-width: 768px) {
+   .header {
+      padding: 26px;
+      min-height: 380px;
+
+
+   }
+}
+
+@media (max-width: 576px) {
+   .header {
+      padding: 36px 26px;
+      min-height: auto;
+
+      &__title {
+         font-size: calc($index * 5) !important;
+         padding-bottom: 0.4em;
+      }
+
+      &__subtitle {
+         font-size: 18px !important;
+      }
+   }
+}
+
+@media (max-width: 375px) {}

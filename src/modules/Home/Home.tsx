@@ -15,7 +15,6 @@ export const Home = () => {
       <Container maxWidth="xl" disableGutters >
          <HomeHeader block1={block1} block2={block2} />
          <HomeContent blocks={blocks} />
-         <WavesDividerFullWidth />
          <Footer />
       </Container>
    )

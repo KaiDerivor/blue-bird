@@ -28,10 +28,10 @@ export const ButtonNavigate: React.FC<ButtonNavigateType> = ({ title, subtitle, 
          }}
       >
 
-         <Typography variant="h6" color="palette.fpage.main" sx={{ pb: 1 }}>
+         <Typography variant="h6" color="fpage.main" sx={{ pb: 1 }}>
             {title}
          </Typography>
-         <Typography variant="body1" color="palette.fpage.main">
+         <Typography variant="body1" color="fpage.main">
             {subtitle}
          </Typography>
          <Box className={styles.icon} >
