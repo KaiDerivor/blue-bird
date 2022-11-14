@@ -7,17 +7,14 @@ import Fade from '@mui/material/Fade';
 type HomeContentType = {
    blocks: Array<any>
 }
+
 export const HomeContent: React.FC<HomeContentType> = ({ blocks }) => {
    const [scrolled, setScrolled] = useState(0)
    const [fadeNumberImg, setFadeNumberImg] = useState(0)
-   // const scrollHandle = () => {
-   //    setScrolled(window.scrollY)
-   //    console.log(scrolled)
-   // }
+   let scrollBlock3 = 0;
    useEffect(() => {
       const handleScroll = () => {
          setScrolled(window.scrollY)
-
       }
       window.addEventListener('scroll', handleScroll)
       return () => {
@@ -27,62 +24,68 @@ export const HomeContent: React.FC<HomeContentType> = ({ blocks }) => {
 
    {
       if (blocks[0].current) {
-         if (blocks[1].current.getBoundingClientRect().top < 1520 && blocks[1].current.getBoundingClientRect().top > 550) {
-            fadeNumberImg !== 1 && setFadeNumberImg(1)
-         } else if (blocks[1].current.getBoundingClientRect().top < 1520) {
+         const coorsBlock1 = blocks[0].current.getBoundingClientRect().top;
+         const coordBlock2 = blocks[1].current.getBoundingClientRect().top;
+         const coordBlock3 = blocks[2].current.getBoundingClientRect().top;
+         const triggerStart = window.innerHeight * 1.25;
+         scrollBlock3 = coordBlock3;
+         if (coordBlock3 < triggerStart) {
             fadeNumberImg !== 2 && setFadeNumberImg(2)
+         } else if (coordBlock2 < triggerStart) {
+            fadeNumberImg !== 1 && setFadeNumberImg(1)
          } else {
             fadeNumberImg !== 0 && setFadeNumberImg(0)
          }
-         // console.log(blocks[0].current.getBoundingClientRect().top)
-         console.log(blocks[1].current.getBoundingClientRect().top < 1520 && blocks[1].current.getBoundingClientRect().top > 550,blocks[1].current.getBoundingClientRect().top < 1520)
-
       }
    }
 
-   const buttonsTitle = ['Lorenm', 'Calroof', 'Heneki', 'Teneris']
-   const buttonsSubtitle = ['Lorem ipsum dolor sit amet. Consectetur adipisciscig elit', 'Lorem ipsum dolor sit amet. Consectetur adipisciscig elit', 'Lorem ipsum dolor sit amet. Consectetur adipisciscig elit', 'Lorem ipsum dolor sit amet. Consectetur adipisciscig elit']
+   const buttonsTitle = ['Lorenm', 'Calroof', 'Heneki']
+   const buttonsSubtitle = ['Lorem ipsum dolor sit amet. Consectetur adipisciscig elit', 'Lorem ipsum dolor sit amet. Consectetur adipisciscig elit', 'Lorem ipsum dolor sit amet. Consectetur adipisciscig elit']
    return (
       <>
          <Box className={styles.homeContent}>
             <Box className={styles.homeContent__section} sx={{}}>
-               <HomeContentSection title="Clarior es solito" buttonsTitle={buttonsTitle} buttonsSubtitle={buttonsSubtitle} isDivider refB={blocks[0]} />
-               <HomeContentSection title="Clarior es solito" buttonsTitle={buttonsTitle} buttonsSubtitle={buttonsSubtitle} isDivider refB={blocks[1]} />
-               <HomeContentSection title="Clarior es solito" buttonsTitle={buttonsTitle} buttonsSubtitle={buttonsSubtitle} isDivider refB={blocks[2]} />
+               <HomeContentSection title="Clarior es solito" buttonsTitle={buttonsTitle} buttonsSubtitle={buttonsSubtitle} isDivider refB={blocks[0]} imgUrl={'https://source.unsplash.com/random/?dark'} />
+               <HomeContentSection title="Clarior es solito" buttonsTitle={buttonsTitle} buttonsSubtitle={buttonsSubtitle} isDivider refB={blocks[1]} imgUrl={'https://source.unsplash.com/random/?wood'} />
+               <HomeContentSection title="Clarior es solito" buttonsTitle={buttonsTitle} buttonsSubtitle={buttonsSubtitle} isDivider refB={blocks[2]} imgUrl={'https://source.unsplash.com/random/?city'} />
             </Box>
             <Box
 
                sx={{
                   width: 'calc(50vw - 80px)',
-                  position: 'relative'
+                  position: 'relative',
+                  pb:4
                }}
             >
                <Box sx={{
-                  position: 'sticky', 
-                  //  width: '400px',
-                  top: '10px'
+                  position: 'sticky',
+                  top: '8px'
                }}>
-
-                  <Fade in={fadeNumberImg === 0} appear={false} unmountOnExit >
-                     <Box style={{ backgroundImage: 'url(https://source.unsplash.com/random/?dark)' }}
-                        sx={{ width: '100%', height: '100vh' }}
+                  <Fade in={fadeNumberImg === 0 || window.innerWidth < 1210} appear timeout={600}>
+                     <Box className={styles.fadeWrapper} style={{
+                        backgroundImage: 'url(https://source.unsplash.com/random/?dark)',
+                        zIndex: 10
+                     }}
                      >
                      </Box>
                   </Fade>
-                  <Fade in={fadeNumberImg === 1} appear={false} unmountOnExit >
-                     <Box style={{ backgroundImage: 'url(https://source.unsplash.com/random/?wood)' }}
-                        sx={{ width: '100%', height: '100vh' }}
+                  <Fade in={fadeNumberImg === 1 || window.innerWidth < 1210} appear timeout={600}>
+                     <Box className={styles.fadeWrapper} style={{
+                        backgroundImage: 'url(https://source.unsplash.com/random/?wood)',
+                        zIndex: 20
+                     }}
                      >
                      </Box>
                   </Fade>
-                  <Fade in={fadeNumberImg === 2} appear={false} unmountOnExit >
-                     <Box style={{ backgroundImage: 'url(https://source.unsplash.com/random/?city)' }}
-                        sx={{ width: '100%', height: '100vh' }}
+                  <Fade in={fadeNumberImg === 2 || window.innerWidth < 1210} appear timeout={600}>
+                     <Box className={styles.fadeWrapper} style={{
+                        backgroundImage: 'url(https://source.unsplash.com/random/?cat)',
+                        position: scrollBlock3 < window.innerHeight / 1.1 ? 'relative' : 'absolute',
+                        zIndex: 30
+                     }}
                      >
                      </Box>
                   </Fade>
-
-
                </Box>
             </Box>
          </Box>

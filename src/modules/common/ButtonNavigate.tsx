@@ -10,8 +10,9 @@ type ButtonNavigateType = {
    title: string
    subtitle: string
    element?: any
+   icon?: JSX.Element
 }
-export const ButtonNavigate: React.FC<ButtonNavigateType> = ({ title, subtitle, element }) => {
+export const ButtonNavigate: React.FC<ButtonNavigateType> = ({ title, subtitle, element, icon }) => {
    const isDarkMode = useSelector(getIsDarkMode)
    return (
 
@@ -19,7 +20,7 @@ export const ButtonNavigate: React.FC<ButtonNavigateType> = ({ title, subtitle, 
          sx={{
             backgroundColor: isDarkMode ? '#28292A' : '#F3F6FC', borderRadius: '24px',
             p: 3, textAlign: 'start',
-            mb: 1,
+            mb: 1, position: 'relative'
          }}
          onClick={() => {
             if (!element) return;
@@ -33,6 +34,9 @@ export const ButtonNavigate: React.FC<ButtonNavigateType> = ({ title, subtitle, 
          <Typography variant="body1" color="palette.fpage.main">
             {subtitle}
          </Typography>
+         <Box className={styles.icon} >
+            {icon && icon}
+         </Box>
       </Box>
 
    )

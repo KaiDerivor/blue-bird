@@ -81,7 +81,18 @@
       cursor: pointer;
       &:hover {
          background-color: rgb(163, 163, 163);
+         transition: all 22s;
       }
 
+   }
+   .icon{
+      position: absolute;
+      height: 100%;
+      right: 25px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      top:50%;
+      transform:translateY(-50%);
    }
 }
