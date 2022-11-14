@@ -47,7 +47,7 @@ export const HomeContent: React.FC<HomeContentType> = ({ blocks }) => {
             <Box className={styles.homeContent__section} sx={{}}>
                <HomeContentSection title="Clarior es solito" buttonsTitle={buttonsTitle} buttonsSubtitle={buttonsSubtitle} isDivider refB={blocks[0]} imgUrl={'https://source.unsplash.com/random/?dark'} />
                <HomeContentSection title="Clarior es solito" buttonsTitle={buttonsTitle} buttonsSubtitle={buttonsSubtitle} isDivider refB={blocks[1]} imgUrl={'https://source.unsplash.com/random/?wood'} />
-               <HomeContentSection title="Clarior es solito" buttonsTitle={buttonsTitle} buttonsSubtitle={buttonsSubtitle} isDivider refB={blocks[2]} imgUrl={'https://source.unsplash.com/random/?city'} />
+               <HomeContentSection title="Clarior es solito" buttonsTitle={buttonsTitle} buttonsSubtitle={buttonsSubtitle}  refB={blocks[2]} imgUrl={'https://source.unsplash.com/random/?city'} />
             </Box>
             <Box
 

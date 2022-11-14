@@ -1,0 +1,29 @@
+.wrapperFooter {
+   display: flex;
+   justify-content: space-between;
+
+   &__content {
+      width: 30%;
+   }
+}
+
+.listMenuItem {
+   padding-bottom: 15px;
+}
+
+
+/***************************
+****************************
+**********Adaptive**********
+****************************
+***************************/
+
+@media (max-width: 1210px) {}
+
+@media (max-width: 992px) {}
+
+@media (max-width: 768px) {}
+
+@media (max-width: 576px) {}
+
+@media (max-width: 375px) {}

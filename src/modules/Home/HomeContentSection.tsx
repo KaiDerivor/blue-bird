@@ -11,7 +11,7 @@ type HomeContentSectionType = {
    refB?: any
    buttonsTitle: Array<string>
    buttonsSubtitle: Array<string>
-   isDivider: boolean,
+   isDivider?: boolean,
    imgUrl: string
 }
 export const HomeContentSection: React.FC<HomeContentSectionType> = ({ title, text = '', refB, buttonsTitle, buttonsSubtitle, isDivider, imgUrl }) => {
@@ -27,11 +27,11 @@ export const HomeContentSection: React.FC<HomeContentSectionType> = ({ title, te
                })}
             </Box>
             <div ref={refB}></div>
-            {isDivider &&
-               <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', pb: 10, pt: 10 }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mb: 10, pt: isDivider?15:0 }}>
+               {isDivider &&
                   <WavesDivider />
-               </Box>
-            }
+               }
+            </Box>
          </Box>
       </>
 
