@@ -9,6 +9,7 @@ import { DateEvents } from './DateEvents';
 import { MainChapter } from './MainChapter';
 import { Greetings } from './Greetings';
 import { SelectedCourses } from './SelectedCourses';
+import { NotFinished } from './NotFinished';
 
 export const Profile = () => {
 
@@ -19,7 +20,7 @@ export const Profile = () => {
          <Greetings />
             <MainChapter />
             <SelectedCourses />
-            
+            <NotFinished />
          </Box>
          <Box className={styles.wrapperSide}>
             <CalendarProfile />

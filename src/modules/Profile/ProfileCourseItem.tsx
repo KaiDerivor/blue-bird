@@ -15,8 +15,9 @@ type ItemGridType = {
    text: string,
    isEmpty?: boolean
    navLink?: string
+   stateItem?: string
 }
-export const ProfileCourseItem: React.FC<ItemGridType> = ({ title, text, isEmpty, navLink }) => {
+export const ProfileCourseItem: React.FC<ItemGridType> = ({ title, text, isEmpty, navLink, stateItem }) => {
    if (isEmpty) {
       return (
 
@@ -30,7 +31,7 @@ export const ProfileCourseItem: React.FC<ItemGridType> = ({ title, text, isEmpty
       )
    }
    const renderCard = () => {
-      return (<Card sx={{ backgroundColor: 'bgmode.main',pb:2, '&:hover': { backgroundColor: 'bgmode.light' } }} className={styles.cardGridItem}>
+      return (<Card sx={{ backgroundColor: 'bgmode.main', pb: 2, '&:hover': { backgroundColor: 'bgmode.light' } }} className={styles.cardGridItem}>
 
          <CardContent>
             <Typography gutterBottom variant="h4" component="div">
@@ -45,7 +46,7 @@ export const ProfileCourseItem: React.FC<ItemGridType> = ({ title, text, isEmpty
          </CardActions>
          }
          <CardActions>
-            <Typography variant="body2" color="fpage.main" sx={{pl:1}}>Завершено 10%/100%</Typography>
+            <Typography variant="body2" color="fpage.main" sx={{ pl: 1 }}>{stateItem}</Typography>
          </CardActions>
       </Card>)
    }
