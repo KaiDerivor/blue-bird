@@ -41,7 +41,9 @@ $index:calc(1vh + 1vw);
    grid-template-columns: repeat(2, 1fr);
    gap:20px
 }
-
+.profileCard{
+   border-radius:16px !important;
+}
 /***************************
 ****************************
 **********Adaptive**********

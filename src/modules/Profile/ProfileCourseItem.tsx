@@ -21,7 +21,7 @@ export const ProfileCourseItem: React.FC<ItemGridType> = ({ title, text, isEmpty
    if (isEmpty) {
       return (
 
-         <Card sx={{ backgroundColor: 'bgmode.main', '&:hover': { backgroundColor: 'bgmode.light' } }} className={styles.cardGridItem}>
+         <Card sx={{ backgroundColor: 'bgmode.main','&:hover': { backgroundColor: 'bgmode.light' } }} className={styles.profileCard}>
             <CardContent sx={{ display: 'flex', justifyContent: "center", alignItems: 'center', height: '100%' }}>
                <Typography gutterBottom variant="h5" component="p" sx={{ p: 0, m: 0 }}>
                   Нічого не знайдено
@@ -31,10 +31,13 @@ export const ProfileCourseItem: React.FC<ItemGridType> = ({ title, text, isEmpty
       )
    }
    const renderCard = () => {
-      return (<Card sx={{ backgroundColor: 'bgmode.main', pb: 2, '&:hover': { backgroundColor: 'bgmode.light' } }} className={styles.cardGridItem}>
+      return (<Card sx={{
+         backgroundColor: 'bgmode.main', pb: 2,
+         '&:hover': { backgroundColor: 'bgmode.light' }
+      }} className={styles.profileCard}>
 
          <CardContent>
-            <Typography gutterBottom variant="h4" component="div">
+            <Typography gutterBottom variant="h4" component="div" color='fpage.dark'>
                {title}
             </Typography>
             <Typography variant="body2" color="text.secondary">

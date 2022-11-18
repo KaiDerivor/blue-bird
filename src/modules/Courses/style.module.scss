@@ -15,7 +15,22 @@ $index:calc(1vh + 1vw);
       display: flex;
       flex-direction: column;
       gap: 0.5em;
+   }
+}
 
+.wrapperCourse {
+   display: flex;
+   align-items: flex-start;
+
+   &__body {
+      flex: 1 0 auto
+   }
+
+   &__side {
+      padding: 20px 20px;
+      border-radius: 24px;
+      display: flex;
+      flex-direction: column;
    }
 }
 
@@ -34,12 +49,23 @@ $index:calc(1vh + 1vw);
       display: grid;
       grid-template-columns: repeat(2, 1fr);
    }
+
+   .wrapperCourse {
+      flex-direction: column;
+
+      &__side {width: 100%;}
+   }
 }
 
 @media (max-width: 576px) {
    .listSavings {
       display: grid;
       grid-template-columns: repeat(1, 1fr);
+   }
+   .wrapperCourse{
+      &__side{
+         padding: 20px 10px;
+      }
    }
 }
 

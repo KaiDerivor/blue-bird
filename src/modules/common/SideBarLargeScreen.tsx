@@ -72,16 +72,18 @@ export const SideBarLargeScreen: React.FC<SideBarType> = ({ toggleThemeMod }) =>
             },
             overflow: 'hidden',
             display: 'flex',
-            flexDirection: 'column'
+            flexDirection: 'column',
+            borderRight:'none',
+            backgroundColor:'bgmode.light'
          }}
          variant="permanent"
          anchor="left"
       >
-         <List className={styles.listMenu} sx={{ flexGrow: 1 }}>
-            <MenuItem linkUrl='' linkText="Головна" Icon={<HubIcon />} />
-            <MenuItem linkUrl='profile' linkText="Профіль" Icon={<FolderSharedIcon />} />
-            <MenuItem linkUrl='savings' linkText="Збережені" Icon={<ClassIcon />} />
-            <MenuItem linkUrl='courses' linkText="Курси" Icon={<AppsIcon />} />
+         <List className={styles.listMenu}dense sx={{ flexGrow: 1,mt:2 }}>
+            <MenuItem linkUrl=''  linkText="Головна" Icon={<HubIcon sx={{color:'fmenu.main'}}/>} />
+            <MenuItem linkUrl='profile' linkText="Профіль" Icon={<FolderSharedIcon sx={{color:'fmenu.main'}}/>} />
+            <MenuItem linkUrl='savings' linkText="Збережені" Icon={<ClassIcon sx={{color:'fmenu.main'}}/>} />
+            <MenuItem linkUrl='courses' linkText="Курси" Icon={<AppsIcon sx={{color:'fmenu.main'}}/>} />
             {/* <MenuItem linkUrl='' linkText="Головна" Icon={<HubIcon />} /> */}
          </List>
          <Box sx={{ margin: ' 15px auto' }}>

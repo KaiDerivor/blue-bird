@@ -10,7 +10,7 @@ type ButtonInform = {
 }
 export const ButtonInform: React.FC<ButtonInform> = ({ title, subtitle }) => {
    return (
-      <Box sx={{ backgroundColor: 'bgmode.main', color: 'fpage.main', borderRadius: '16px', pt: 2, pb: 2, pl: 1, pr: 1, borderColor: 'fpage.light', border: '2px solid ', mb: 1 }}>
+      <Box sx={{ backgroundColor: 'bgmode.main', color: 'fpage.main', borderRadius: '16px', pt: 2, pb: 2, pl: 1, pr: 1, border: '2px solid ', borderColor: 'bgmode.light', mb: 1 }}>
          <Typography variant="body2" color="fpage.main">{title}</Typography>
          <Typography variant="body2" color="fpage.main">{subtitle}</Typography>
       </Box>

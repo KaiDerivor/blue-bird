@@ -9,13 +9,13 @@ export const CalendarProfile = () => {
 
    return (
       <Box sx={{pb:3}}>
-         <Calendar onChange={onChange} value={value}
+         {/* <Calendar onChange={onChange} value={value}
             className={styles.calendarProfile}
             defaultView='month'
             prev2Label={''}
             next2Label={''}
             locale={'uk-UK'}
-         />
+         /> */}
       </Box>
    );
 }

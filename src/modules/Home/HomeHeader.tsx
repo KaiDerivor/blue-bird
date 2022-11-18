@@ -11,16 +11,16 @@ type HomeHeader = {
    block2: any
 }
 export const HomeHeader: React.FC<HomeHeader> = ({ block1, block2 }) => {
-
+   
    return (
       <>
 
          <Box className={styles.header} sx={{ mb: 3 }} style={{ backgroundImage: 'url(https://lh3.googleusercontent.com/1g_8dMsxYAfoZ_VS338syoSlyVpl5yD9Ho5eV7clDTqPGwaKElIciZTvzvxZeaM_-dE3vYWh6oZ4FyuUg3bRo21f6Ue56_ADwSBmh6kasSKS3EA5gQE=w2400-rj)' }}>
             <Box className={styles.Header__wrapper} sx={{ pb: 4 }}>
-               <Typography variant="h1" color="#fff" sx={{ textAlign: 'center' }}>
+               <Typography variant="h1" color="#fff" sx={{ textAlign: 'center' }} className={styles.header__title}>
                   Blue Bird
                </Typography>
-               <Typography variant="h5" color="#fff">
+               <Typography variant="h5" color="#fff" className={styles.header__subtitle}>
                   Material 3 is the latest version of Google’s open-source design system. Design and build beautiful, usable products with Material 3.
                </Typography>
             </Box>

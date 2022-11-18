@@ -31,9 +31,6 @@ export const TopBar: React.FC = () => {
                      News
                   </Typography>
                   <Button color="inherit">Login</Button>
-                  <Button color="inherit">Login</Button>
-                  <Button color="inherit">Login</Button>
-                  <Button color="inherit">Login</Button>
                </Toolbar>
             </AppBar>
          </Box>

@@ -80,8 +80,8 @@
    &.hoverEffect {
       cursor: pointer;
       &:hover {
-         background-color: rgb(163, 163, 163);
-         transition: all 22s;
+         background-color: rgba(148, 148, 148, 0.589);
+         transition: all 0.2s;
       }
 
    }

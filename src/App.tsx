@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css';
 import Typography from '@mui/material/Typography';
 import { getIsDarkMode, getIsInit } from './redux/appSelector';
@@ -13,15 +13,26 @@ import { Home } from './modules/Home/Home';
 import { Profile } from './modules/Profile/Profile';
 import { Savings } from './modules/Savings/Savings'
 import { Courses } from './modules/Courses/Courses';
-import { createTheme, ThemeProvider } from "@mui/material";
+import { createTheme, Slide, ThemeProvider, Zoom } from "@mui/material";
 import { darkTheme, lightTheme } from './theme';
+import Fade from '@mui/material/Fade'
+import { useLocation } from 'react-router-dom';
 
 const drawerWidth = 60;
-
 function App() {
+
   const isDarkMode = useSelector(getIsDarkMode);
   const [theme, setTheme] = useState(isDarkMode ? 'dark' : 'light')
-
+  const [isOpenPage, setIsOpenPage] = useState(true)
+  // const location = useLocation();
+  // console.log(location)
+  useEffect(() => {
+    setIsOpenPage(false)
+    setTimeout(() => {
+      setIsOpenPage(true)
+      window.scrollTo(0,0)
+    }, 400)
+  }, [useLocation()])
   const toggleThemeMod = () => {
     setTheme(prev => prev === 'light' ? 'dark' : 'light')
   }
@@ -41,18 +52,24 @@ function App() {
             <CssBaseline />
             <Box
               component="main"
-              sx={{ flexGrow: 1, bgcolor: 'background.default',p:1 }}
+              sx={{ flexGrow: 1, bgcolor: 'background.default', p: 1 }}
             >
+              <Fade in={isOpenPage} appear={false} unmountOnExit >
+                <Slide in={isOpenPage} direction="up" timeout={700}>
 
-              <Routes>
-                <Route path='/' element={<Home />} />
-                <Route path='/profile' element={<Profile />} />
-                <Route path='/savings' element={<Savings />} />
-                <Route path='/courses' element={<Courses />} />
-                <Route path='/courses/*' element={<Courses />} />
-                <Route path='/*' element={<Home />} />
-              </Routes>
-            </Box>
+                  <Box>
+                    <Routes>
+                      <Route path='/' element={<Home />} />
+                      <Route path='/profile' element={<Profile />} />
+                      <Route path='/savings' element={<Savings />} />
+                      <Route path='/courses' element={<Courses />} />
+                      <Route path='/courses/*' element={<Courses />} />
+                      <Route path='/*' element={<Home />} />
+                    </Routes>
+                  </Box>
+                </Slide>
+              </Fade>
+            </Box >
           </Box>
         </div>
       </ThemeProvider >
