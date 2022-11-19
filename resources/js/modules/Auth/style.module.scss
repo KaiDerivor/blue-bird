@@ -1,0 +1,96 @@
+$back-color-form:rgb(133, 40, 133);
+$color-error:rgb(94, 0, 0);
+$font-color1:#696868;
+$bg-opacity:#2e2e2ec9;
+$app-bg-color:#382238;
+
+$index: calc(1vw + 1vh);
+:root{
+  --index:calc(1vw + 1vh);
+}
+
+.forms {
+   display: flex;
+   flex-direction: column;
+   gap: 20px;
+
+   .inputField {
+      width: 100%;
+      border-radius: 6px;
+      padding: 7px 10px;
+      border: 2px solid rgb(160, 159, 159) !important;
+      outline: 4px solid transparent !important;
+      color: $font-color1 !important;
+
+      &:focus {
+         border: 2px solid transparent !important;
+         outline: 4px solid rgba(11, 238, 68, 0.404) !important;
+      }
+   }
+
+   .inputErrorMessage {
+      color: $color-error;
+
+   }
+
+   .buttonSubmit {
+      width: 100%;
+      border: none;
+      padding: 10px;
+      border-radius: 20px;
+      background-color: $back-color-form;
+      color: #fff;
+      border: 2px solid transparent;
+      font-weight: 600;
+
+      &:hover {
+         background-color: #fff;
+         border: 2px solid $back-color-form;
+         color: $color-error;
+      }
+   }
+}
+
+.headerForm {
+   margin-bottom: 20px;
+   color: $font-color1;
+
+   &__title {
+      font-size: 34px;
+      text-align: center;
+      padding-bottom: 15px;
+   }
+
+   p {
+      font-size: 14px;
+      text-align: center;
+   }
+
+   a {
+      color: $back-color-form;
+      font-weight: 600;
+   }
+}
+
+
+/***************************
+****************************
+**********Adaptive**********
+****************************
+***************************/
+
+@media (max-width: 1140px) {}
+
+@media (max-width: 992px) {}
+
+@media (max-width: 768px) {
+   .headerForm {
+      &__title {
+         font-size: calc(var(--index)*3);
+      }
+   }
+}
+
+@media (max-width: 576px) {}
+
+@media (max-width: 375px) {}

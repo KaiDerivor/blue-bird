@@ -1,0 +1,79 @@
+$back-color-form:rgb(133, 40, 133);
+$back-color-content:#fff;
+$font-color:#f0f;
+$color-error:rgb(94, 0, 0);
+$font-color1:#696868;
+$bg-opacity:#2e2e2ec9;
+$app-bg-color:#382238;
+
+$index: calc(1vw + 1vh);
+:root{
+  --index:calc(1vw + 1vh);
+}
+
+.page {
+   background-repeat: no-repeat;
+   width: 100%;
+   min-height: 100vh;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   background-size: cover;
+
+   &__wrapper {
+      max-width: 600px;
+      width: 100%;
+      background-color: $back-color-content;
+      color: $font-color;
+      border-radius: 30px;
+      border: 4px solid $back-color-form;
+   }
+
+   .sectionImg {
+      width: 50%;
+
+      img {
+         object-fit: cover;
+         height: 100%;
+         width: 100%;
+      }
+   }
+
+   .sectionForm {
+      width: 100%;
+      padding: 40px;
+
+   }
+}
+
+
+/***************************
+****************************
+**********Adaptive**********
+****************************
+***************************/
+
+@media (max-width: 1140px) {}
+
+@media (max-width: 992px) {}
+
+@media (max-width: 768px) {
+   .page {
+      &__wrapper {
+         width: calc(var(--index)*47);
+      }
+   }
+}
+
+@media (max-width: 576px) {
+   .page {
+      &__wrapper {
+         width: 85vw;
+      }
+      .sectionForm{
+         padding: 25px 20px 40px;
+      }
+   }
+}
+
+@media (max-width: 375px) {}
