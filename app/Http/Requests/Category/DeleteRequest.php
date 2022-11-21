@@ -4,7 +4,7 @@ namespace App\Http\Requests\Category;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RequestUpdate extends FormRequest
+class DeleteRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,15 +24,7 @@ class RequestUpdate extends FormRequest
     public function rules()
     {
         return [
-            "id"=>"required",
-            'category'=>"required|string"
-        ];
-    }
-    public function messages()
-    {
-        return[
-            'title.required'=>'Please fill in this form',
-            'title.string'=>'Must to be string',
+            'id'=>'required'
         ];
     }
 }

@@ -7,11 +7,15 @@ use App\Models\Category;
 
 class UpdateController extends BaseController
 {
-    public function __invoke(RequestUpdate $request,Category $category){
-        $data=$request->validated();
+    public function __invoke(RequestUpdate $request)
+    {
+        $data = $request->validated();
+        
+        $this->service->update($data);
+        return response(['Crefghnated']);
+        // return response([$data]);
 
-        $this->service->update($category,$data);
 
-        return redirect()->route('admin.category.index');
+
     }
 }

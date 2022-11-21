@@ -2,16 +2,21 @@
 
 namespace App\Http\Controllers\Admin\Category;
 
-use App\Http\Requests\Category\Request;
+use App\Http\Requests\Category\RequestCreate;
 
 class StoreController extends BaseController
 {
-    public function __invoke(Request $request)
+    public function __invoke(RequestCreate $request)
     {
-        $data=$request->validated();
+        // dd('ff');
 
-        $this->service->store($data);
+        $data = $request->validated();
 
-        return redirect()->route('admin.category.index');
+        $msg = $this->service->store($data);
+        if ($msg) {
+            return response([$msg]);
+        } else {
+            return response(['Created']);
+        }
     }
 }
