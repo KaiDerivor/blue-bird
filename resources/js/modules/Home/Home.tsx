@@ -6,12 +6,16 @@ import { Footer } from '../Footer/Footer';
 import { HomeContent } from './HomeContent';
 import { HomeHeader } from './HomeHeader'
 import Fade from '@mui/material/Fade'
+import { AppDispatch } from '../../redux/store';
+import { useDispatch } from 'react-redux';
+import { toggleThemeMode } from '../../redux/appReducer';
 
 export const Home = () => {
    const block1 = useRef(null);
    const block2 = useRef(null);
    const block3 = useRef(null);
    const blocks = [block1, block2, block3]
+
    return (
       <Container maxWidth="xl" disableGutters >
          <Fade in={true} timeout={500} style={{ transitionDelay: '500ms' }}>

@@ -3,10 +3,11 @@ import Button from '@mui/material/Button'
 
 type ButtonSubmitType = {
    text: string
+   isSubmitting:boolean
 }
-export const ButtonSubmit: React.FC<ButtonSubmitType> = ({ text }) => {
+export const ButtonSubmit: React.FC<ButtonSubmitType> = ({ text,isSubmitting }) => {
    return (
-      <Button variant='contained' 
+      <Button type='submit' variant='contained' disabled={isSubmitting}
       sx={{ backgroundColor: 'bgmode.dark', 
       color: 'fpage.main', 
       p:1.2,

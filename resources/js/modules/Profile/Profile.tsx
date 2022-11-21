@@ -14,6 +14,7 @@ import { useSelector } from 'react-redux';
 import { getIsInit } from '../../redux/appSelector';
 import { FormLog } from '../Auth/FormLog';
 import { Navigate } from 'react-router-dom';
+import { Preference } from './Preference';
 
 export const Profile = () => {
    const isInit = useSelector(getIsInit)
@@ -34,6 +35,7 @@ export const Profile = () => {
                </Box>
                <Box className={styles.wrapperSide}>
                   <DateEvents />
+                  <Preference />
                </Box>
             </Box>
          </Fade>

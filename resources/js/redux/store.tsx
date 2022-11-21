@@ -1,6 +1,6 @@
 import { applyMiddleware, combineReducers, compose, legacy_createStore as createStore } from "redux";
 import thunkMiddleware from 'redux-thunk'
-import appReducer from "./appReducer";
+import appReducer, { ActionsTypes, ThunksTypes } from "./appReducer";
 
 let rootReducer = combineReducers({
    app:appReducer
