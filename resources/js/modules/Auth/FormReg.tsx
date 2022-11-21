@@ -1,60 +1,65 @@
-import { Field, reduxForm } from 'redux-form';
-import { FormDataReg } from '../../redux/type';
-import { minLength, required } from '../../utils/validators';
-import InputField from '../common/InputField';
+import React from 'react';
+//@ts-ignore
 import styles from './style.module.scss';
+import { Formik, Field, Form, ErrorMessage } from 'formik';
+import FormLoyauts from './FormLayouts';
+import Box from '@mui/material/Box'
+import Fade from '@mui/material/Fade'
+import { ButtonSubmit } from './ButtonSubmit';
 
-
-const FormReg = (props:any) => {
-   const { handleSubmit } = props
+export const FormReg = () => {
    return (
-      <>
-         <form onSubmit={handleSubmit} className={styles.forms}>
-            <Field
-               className={styles.inputField}
-               type='text'
-               name='name'
-               id='name'
-               placeholder='Your Name'
-               component={InputField}
-               validate={[required, minLength]}
-            />
-            <Field
-               className={styles.inputField}
-               type='email'
-               name='email'
-               id='email'
-               placeholder='Your Email'
-               component={InputField}
-               validate={[required, minLength]}
-            />
-            <Field
-               className={styles.inputField}
-               type='password'
-               name='password'
-               id='password'
-               placeholder='Password'
-               component={InputField}
-               validate={[required, minLength]}
-            />
-            <Field
-               className={styles.inputField}
-               type='password'
-               name='password_confirmation'
-               id='password_confirmation'
-               placeholder='Confirm password'
-               component={InputField}
-               validate={[required, minLength]}
-            />
-            {props.error ? (<div className={styles.inputErrorMessage}>{props.error}</div>) : null}
-            <div>
-               <button className={styles.buttonSubmit} type="submit" >Submit</button>
-            </div>
-         </form>
-      </>
+      <Fade in={true} timeout={500} style={{ transitionDelay: '500ms' }}>
+         <div>
+            <FormLoyauts
+               title='Реєстрація'
+               text="Вже маєш аккаунт?"
+               link='/login'
+               textLink='Увійти'
+            >
+               <div>
+                  <Formik
+                     initialValues={{ email: '', password: '' }}
+                     validate={values => {
+                        const errors = {};
+                        if (!values.email) {
+                           //@ts-ignore
+                           errors.email = 'Required';
+                        }
+                        return errors;
+                     }}
+                     onSubmit={(values) => {
+                        console.log(values)
+                     }}
 
+                  >
+                     {/* {({ isSubmitting }) => ( */}
+                     <Form className={styles.forms}>
+                        <Box>
+                           <Field type="text" name="name" className={styles.inputField} placeholder="Ім'я" />
+                           <ErrorMessage name="name" component="div" />
+                        </Box>
+                        <Box>
+                           <Field type="email" name="email" className={styles.inputField} placeholder='Поштова скринька' />
+                           <ErrorMessage name="email" component="div" />
+                        </Box>
+                        <Box>
+                           <Field type="password" name="password" className={styles.inputField} placeholder='Пароль' />
+                           <ErrorMessage name="password" component="div" />
+                        </Box>
+                        <Box>
+                           <Field type="password" name="password_confirmation" className={styles.inputField} placeholder='Підтвердіть пароль' />
+                           <ErrorMessage name="password" component="div" />
+                        </Box>
+                        <ButtonSubmit text='Зареєструватись' />
+
+                     </Form>
+                     {/* )} */}
+                  </Formik>
+               </div>
+            </FormLoyauts>
+         </div>
+      </Fade>
    )
 }
-export default reduxForm<FormDataReg>({
-   form: 'register-form'
-})(FormReg);
+

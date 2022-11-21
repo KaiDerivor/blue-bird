@@ -38,8 +38,6 @@ $index: calc(1vw + 1vh);
       border: none;
       padding: 10px;
       border-radius: 20px;
-      background-color: $back-color-form;
-      color: #fff;
       border: 2px solid transparent;
       font-weight: 600;
 
@@ -53,8 +51,6 @@ $index: calc(1vw + 1vh);
 
 .headerForm {
    margin-bottom: 20px;
-   color: $font-color1;
-
    &__title {
       font-size: 34px;
       text-align: center;
@@ -62,12 +58,11 @@ $index: calc(1vw + 1vh);
    }
 
    p {
-      font-size: 14px;
+      font-size: 15px;
       text-align: center;
    }
 
    a {
-      color: $back-color-form;
       font-weight: 600;
    }
 }

@@ -1,5 +1,5 @@
 import Container from '@mui/material/Container'
-import { createRef, useRef } from 'react';
+import React, { createRef, useRef } from 'react';
 import { WavesDivider } from '../common/WavesDivider';
 import { WavesDividerFullWidth } from '../common/WavesDividerFullWidth';
 import { Footer } from '../Footer/Footer';

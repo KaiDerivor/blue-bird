@@ -1,4 +1,4 @@
-
+import React from 'react'
 import Box from '@mui/material/Box'
 import { useParams } from 'react-router-dom'
 import { CourseItemHeader } from '../common/CourseItemHeader'

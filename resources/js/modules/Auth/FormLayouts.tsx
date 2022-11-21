@@ -1,9 +1,8 @@
 import React from 'react';
 //@ts-ignore
 import styles from './styleFormLayouts.module.scss';
-//@ts-ignore
-import backgr from './../../img/pixel-back.jpg'
-import FormHeader from '../auth/HeaderForm';
+import FormHeader from './HeaderForm';
+import Box from '@mui/material/Box'
 
 type FormLayoutsType = {
    title: string,
@@ -14,8 +13,10 @@ type FormLayoutsType = {
 }
 
 const FormLoyauts: React.FC<FormLayoutsType> = ({ children, ...props }) => {
-   return <section className={styles.page} style={{ backgroundImage: `url(${backgr})` }}>
-      <div className={styles.page__wrapper}>
+   return <section className={styles.page} >
+      <Box className={styles.page__wrapper}
+      sx={{backgroundColor:'bgmode.main',color:'fpage.main',borderColor:'bgmode.dark'}}
+      >
          <div className={styles.row}>
             <div className={styles.sectionForm}>
                <FormHeader
@@ -27,7 +28,7 @@ const FormLoyauts: React.FC<FormLayoutsType> = ({ children, ...props }) => {
                {children}
             </div>
          </div>
-      </div>
+      </Box>
    </section>
 }
 export default FormLoyauts;

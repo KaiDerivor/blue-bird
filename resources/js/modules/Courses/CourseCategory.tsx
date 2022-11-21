@@ -1,11 +1,12 @@
 import { NavLink, useParams } from "react-router-dom"
 import Typography from '@mui/material/Typography'
 import Box from "@mui/material/Box"
+//@ts-ingore
 import styles from './style.module.scss'
 import { useSelector } from "react-redux"
 import { getIsDarkMode } from "../../redux/appSelector"
 import { ButtonNavigate } from "../common/ButtonNavigate"
-import { useState } from 'react'
+import React, { useState } from 'react'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Switch from '@mui/material/Switch'
 
