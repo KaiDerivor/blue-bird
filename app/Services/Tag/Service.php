@@ -6,12 +6,22 @@ use App\Models\Tag;
 
 class Service
 {
-   public function update($tag,$data)
+   public function update($tag, $data)
    {
-      $tag->update($data);
+      if ($tag) {
+         $tag->update($data);
+         return 'Updated';
+      } else {
+         return 'Noy found such record';
+      }
    }
    public function store($data)
    {
-      Tag::firstOrCreate($data);
+      if (Tag::where('tag', $data)->exists()) {
+         return 'Record alredy exist';
+      } else {
+         Tag::firstOrCreate($data);
+         return 'Created';
+      }
    }
 }

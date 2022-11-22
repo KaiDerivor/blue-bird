@@ -1,3 +1,4 @@
+import React from 'react'
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
@@ -6,6 +7,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+//@ts-ignore
 import styles from './stylesSB.module.scss'
 import HubIcon from '@mui/icons-material/Hub';
 import FolderSharedIcon from '@mui/icons-material/FolderShared';
@@ -19,8 +21,8 @@ import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { AppDispatch } from '../../redux/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { actions } from '../../redux/appReducer';
-import { getIsDarkMode } from '../../redux/appSelector';
+import { appActions } from '../../redux/appReducer';
+import { getIsDarkMode, getUserRole } from '../../redux/appSelector';
 
 const drawerWidth = 85;
 
@@ -30,11 +32,11 @@ type MenuItemType = {
    Icon: JSX.Element
 }
 const MenuItem: React.FC<MenuItemType> = ({ linkUrl, linkText, Icon }) => {
-   const themeMod=useSelector(getIsDarkMode);
+   const themeMod = useSelector(getIsDarkMode);
    return (
       <ListItem disablePadding>
          <ListItemButton className={styles.listMenu__item}>
-            <NavLink to={`/${linkUrl}`} className={`${styles.link} ${themeMod?styles.dark:styles.light}`}>
+            <NavLink to={`/${linkUrl}`} className={`${styles.link} ${themeMod ? styles.dark : styles.light}`}>
                <ListItemIcon className={styles.listMenu__itemIcon}>
                   {Icon}
                </ListItemIcon>
@@ -53,15 +55,16 @@ type SideBarType = {
 export const SideBarLargeScreen: React.FC<SideBarType> = ({ toggleThemeMod }) => {
    const dispatch: AppDispatch = useDispatch();
 
+   const userRole=useSelector(getUserRole)
    const [isLightMode, setIsLightMode] = useState(false)
 
    const toggleTheme = () => {
       setIsLightMode(prev => !prev)
-      dispatch(actions.toggleThemeMod())
+      dispatch(appActions.toggleThemeMod())
       toggleThemeMod();
    }
    return (<>
-    
+
       <Drawer
          sx={{
             width: drawerWidth,
@@ -73,17 +76,24 @@ export const SideBarLargeScreen: React.FC<SideBarType> = ({ toggleThemeMod }) =>
             overflow: 'hidden',
             display: 'flex',
             flexDirection: 'column',
-            borderRight:'none',
-            backgroundColor:'bgmode.light'
+            borderRight: 'none',
+            backgroundColor: 'bgmode.light'
          }}
          variant="permanent"
          anchor="left"
       >
-         <List className={styles.listMenu}dense sx={{ flexGrow: 1,mt:2 }}>
-            <MenuItem linkUrl=''  linkText="Головна" Icon={<HubIcon sx={{color:'fmenu.main'}}/>} />
-            <MenuItem linkUrl='profile' linkText="Профіль" Icon={<FolderSharedIcon sx={{color:'fmenu.main'}}/>} />
-            <MenuItem linkUrl='savings' linkText="Збережені" Icon={<ClassIcon sx={{color:'fmenu.main'}}/>} />
-            <MenuItem linkUrl='courses' linkText="Курси" Icon={<AppsIcon sx={{color:'fmenu.main'}}/>} />
+         <List className={styles.listMenu} dense sx={{ flexGrow: 1, mt: 2 }}>
+            <MenuItem linkUrl='' linkText="Головна" Icon={<HubIcon sx={{ color: 'fmenu.main' }} />} />
+            <MenuItem linkUrl='profile' linkText="Профіль" Icon={<FolderSharedIcon sx={{ color: 'fmenu.main' }} />} />
+            <MenuItem linkUrl='savings' linkText="Збережені" Icon={<ClassIcon sx={{ color: 'fmenu.main' }} />} />
+            <MenuItem linkUrl='courses' linkText="Курси" Icon={<AppsIcon sx={{ color: 'fmenu.main' }} />} />
+            {userRole&&<>
+               <MenuItem linkUrl='admin-categories' linkText="Categories" Icon={<AppsIcon sx={{ color: 'fmenu.main' }} />} />
+               <MenuItem linkUrl='admin-tags' linkText="Tags" Icon={<AppsIcon sx={{ color: 'fmenu.main' }} />} />
+               <MenuItem linkUrl='admin-tasks' linkText="Tasks" Icon={<AppsIcon sx={{ color: 'fmenu.main' }} />} />
+               <MenuItem linkUrl='admin-users' linkText="Users" Icon={<AppsIcon sx={{ color: 'fmenu.main' }} />} />
+            
+            </>}
             {/* <MenuItem linkUrl='' linkText="Головна" Icon={<HubIcon />} /> */}
          </List>
          <Box sx={{ margin: ' 15px auto' }}>

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Category;
+namespace App\Http\Requests\Tag;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -24,14 +24,7 @@ class RequestUpdate extends FormRequest
     public function rules()
     {
         return [
-            'category'=>"required|string"
-        ];
-    }
-    public function messages()
-    {
-        return[
-            'title.required'=>'Please fill in this form',
-            'title.string'=>'Must to be string',
+            'tag' => 'required'
         ];
     }
 }

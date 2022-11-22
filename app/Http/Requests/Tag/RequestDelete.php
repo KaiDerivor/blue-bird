@@ -4,7 +4,7 @@ namespace App\Http\Requests\Tag;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class Request extends FormRequest
+class RequestDelete extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,14 +24,7 @@ class Request extends FormRequest
     public function rules()
     {
         return [
-            'title'=>'required|string'
-        ];
-    }
-    public function messages()
-    {
-        return [
-            'title.required'=>'Please fill in this form',
-            'title.string'=>'Must to be string',
+            'id'=>''
         ];
     }
 }

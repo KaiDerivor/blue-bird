@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Category;
+namespace App\Http\Requests\Tag;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RequestUpdate extends FormRequest
+class RequestCreate extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,14 +24,14 @@ class RequestUpdate extends FormRequest
     public function rules()
     {
         return [
-            'category'=>"required|string"
+            'tag'=>'required|string'
         ];
     }
     public function messages()
     {
-        return[
-            'title.required'=>'Please fill in this form',
-            'title.string'=>'Must to be string',
+        return [
+            'tag.required'=>'Please fill in this form',
+            'tag.string'=>'Must to be string',
         ];
     }
 }

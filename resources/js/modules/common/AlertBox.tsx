@@ -10,7 +10,7 @@ import styles from './style.module.scss'
 import { useDispatch, useSelector } from 'react-redux';
 import { getErrorText } from '../../redux/appSelector';
 import { AppDispatch } from '../../redux/store';
-import { actions } from '../../redux/appReducer';
+import { appActions } from '../../redux/appReducer';
 
 export const AlertBox = () => {
    const dispatch: AppDispatch = useDispatch();
@@ -25,7 +25,7 @@ export const AlertBox = () => {
    }, [errorText])
 
    return (
-      <Box sx={{}} className={styles.alertBox}>
+      <Box sx={{zIndex:1500}} className={styles.alertBox}>
          <Collapse in={open}>
             <Alert severity="info"
                action={
@@ -35,7 +35,7 @@ export const AlertBox = () => {
                      size="small"
                      onClick={() => {
                         setOpen(false);
-                        dispatch(actions.eraseError())
+                        dispatch(appActions.eraseError())
                      }}
                   >
                      <CloseIcon fontSize="inherit" />

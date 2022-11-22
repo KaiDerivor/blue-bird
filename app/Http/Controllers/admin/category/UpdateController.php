@@ -3,19 +3,17 @@
 namespace App\Http\Controllers\Admin\Category;
 
 use App\Http\Requests\Category\RequestUpdate;
+use App\Http\Resources\Category\CategoryResource;
 use App\Models\Category;
 
 class UpdateController extends BaseController
 {
-    public function __invoke(RequestUpdate $request)
+    public function __invoke(RequestUpdate $request, Category $category)
     {
         $data = $request->validated();
-        
-        $this->service->update($data);
-        return response(['Crefghnated']);
-        // return response([$data]);
 
-
-
+        $this->service->update($category, $data);
+        $categories = Category::all();
+        return CategoryResource::collection($categories);
     }
 }

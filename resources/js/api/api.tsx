@@ -2,7 +2,7 @@ import axios from "axios";
 import { FormDataLogType } from './../redux/appReducer'
 
 const isConnected = false;
-// const url=`https://projectmoon.000webhostapp.com/api/`;
+
 const url = `http://127.0.0.1:8000/api/`;
 const instance = axios.create({
   baseURL: url,
@@ -30,8 +30,8 @@ instance.interceptors.response.use(
     return config;
   },
   (error) => {
-
-    if (error.response.data.message === "Token has expired") {
+    // console.log(error)
+    if (error.response.data.message === "Unauthenticated.") {
       instance
         .post(
           "auth/refresh",
@@ -43,12 +43,14 @@ instance.interceptors.response.use(
           }
         )
         .then((response) => {
+          console.log(response)
           localStorage.access_token = response.data.access_token;
           error.config.headers.authorization = `Bearer ${localStorage.access_token}`;
           return instance.request(error.config);
         });
+      return;
     }
-    return Promise.reject(error);;
+    return Promise.reject(error);
   }
 );
 
@@ -97,7 +99,7 @@ export const api = {
   },
 
   me: function () {
-    return instance.get("auth/me").then((response) => {
+    return instance.post("auth/me").then((response) => {
       return response.data
     }).catch(err => {
       if (err.response) {
@@ -109,7 +111,114 @@ export const api = {
       }
     });
   },
-
+  //category
+  getCategories: function () {
+    return instance.get('admin/categories').then(res => {
+      return res.data.data;
+    }).catch(err => {
+      if (err.response) {
+        return err.response.statusText
+      } else if (err.request) {
+        return 'Bad network. Try again later'
+      } else {
+        return 'Try again later'
+      }
+    });
+  },
+  createCategory: function (category: string) {
+    return instance.post('admin/categories', { category }).then(res => {
+      return res.data.data;
+    }).catch(err => {
+      if (err.response) {
+        return err.response.statusText
+      } else if (err.request) {
+        return 'Bad network. Try again later'
+      } else {
+        return 'Try again later'
+      }
+    });
+  },
+  updateCategory: function (id: number | string, category: string) {
+    // console.log(id,category,`admin/categories/${id}`)
+    // return ;
+    return instance.patch(`admin/categories/${id}`, { category }).then(res => {
+      return res.data.data;
+    }).catch(err => {
+      if (err.response) {
+        return err.response.statusText
+      } else if (err.request) {
+        return 'Bad network. Try again later'
+      } else {
+        return 'Try again later'
+      }
+    });
+  },
+  deleteCategory: function (id: number | string) {
+    return instance.delete(`admin/categories/${id}`).then(res => {
+      return res.data.data;
+    }).catch(err => {
+      if (err.response) {
+        return err.response.statusText
+      } else if (err.request) {
+        return 'Bad network. Try again later'
+      } else {
+        return 'Try again later'
+      }
+    });
+  },
+  //tag
+  getTags: function () {
+    return instance.get('admin/tags').then(res => {
+      return res.data;
+    }).catch(err => {
+      if (err.response) {
+        return err.response.statusText
+      } else if (err.request) {
+        return 'Bad network. Try again later'
+      } else {
+        return 'Try again later'
+      }
+    });
+  },
+  createTag: function (tag: string) {
+    return instance.post('admin/tags', { tag }).then(res => {
+      return res.data;
+    }).catch(err => {
+      if (err.response) {
+        return err.response.statusText
+      } else if (err.request) {
+        return 'Bad network. Try again later'
+      } else {
+        return 'Try again later'
+      }
+    });
+  },
+  updateTag: function (id: number | string, tag: string) {
+    return instance.patch(`admin/tags/${id}`, { tag }).then(res => {
+      return res.data;
+    }).catch(err => {
+      if (err.response) {
+        return err.response.statusText
+      } else if (err.request) {
+        return 'Bad network. Try again later'
+      } else {
+        return 'Try again later'
+      }
+    });
+  },
+  deleteTag: function (id: number | string) {
+    return instance.delete(`admin/tags/${id}`).then(res => {
+      return res.data;
+    }).catch(err => {
+      if (err.response) {
+        return err.response.statusText
+      } else if (err.request) {
+        return 'Bad network. Try again later'
+      } else {
+        return 'Try again later'
+      }
+    });
+  }
 
 };
 

@@ -16,7 +16,9 @@ const initialState = {
    isInit: localStorage.access_token ? true : false,
    isDarkMode: true,
    errorText: '',
-   isSetData: false
+   isSetData: false,
+   name: 'User',
+   role: 'user'
 }
 type StateType = typeof initialState;
 const appReducer = (state = initialState, action: ActionsTypes): StateType => {
@@ -67,11 +69,11 @@ const appReducer = (state = initialState, action: ActionsTypes): StateType => {
    }
 }
 
-export type ActionsTypes = InferActionsTypes<typeof actions>;
+export type ActionsTypes = InferActionsTypes<typeof appActions>;
 export type DispatchType = Dispatch<ActionsTypes>;
 
 
-export const actions = {
+export const appActions = {
    toggleThemeMod: () => { return { type: TOGGLE_THEME_MODE } as const },
    toggleFetching: () => { return { type: TOGGLE_FETCHING } as const },
    init: (data: any) => { return { type: INIT, data } as const },
@@ -93,10 +95,10 @@ export const loginThunk = (formData: FormDataLogType): ThunksTypes => {
    return async (dispatch) => {
       api.login(formData)?.then(res => {
          if (typeof res === 'string') {
-            dispatch(actions.setErrorText(res))
+            dispatch(appActions.setErrorText(res))
          } else {
             api.me().then(res => {
-               dispatch(actions.init(res))
+               dispatch(appActions.init(res))
             })
          }
       })
@@ -106,10 +108,10 @@ export const logoutThunk = (): ThunksTypes => {
    return async (dispatch) => {
       api.logout()?.then(res => {
          if (typeof res === 'string') {
-            dispatch(actions.setErrorText(res))
+            dispatch(appActions.setErrorText(res))
 
          } else {
-            dispatch(actions.logout())
+            dispatch(appActions.logout())
 
          }
       })
@@ -119,11 +121,11 @@ export const registerThunk = (formData: FormDataRegType): ThunksTypes => {
    return async (dispatch) => {
       api.register(formData)?.then(res => {
          if (typeof res === 'string') {
-            dispatch(actions.setErrorText(res))
+            dispatch(appActions.setErrorText(res))
          } else {
             api.me().then(res => {
 
-               dispatch(actions.init(res))
+               dispatch(appActions.init(res))
             })
          }
       })
@@ -132,10 +134,11 @@ export const registerThunk = (formData: FormDataRegType): ThunksTypes => {
 export const setData = (): ThunksTypes => {
    return async (dispatch) => {
       api.me().then(res => {
+
          if (typeof res === 'string') {
-            dispatch(actions.setErrorText(res))
+            dispatch(appActions.setErrorText(res))
          } else {
-            dispatch(actions.init(res))
+            dispatch(appActions.init(res))
          }
       })
    }

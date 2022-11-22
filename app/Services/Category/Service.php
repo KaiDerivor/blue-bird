@@ -6,10 +6,9 @@ use App\Models\Category;
 
 class Service
 {
-   public function update($data)
+   public function update($category, $data)
    {
-      $category = Category::find($data['id']);
-      $category->update(['category' => $data['category']]);
+      $category->update($data);
    }
    public function store($category)
    {
@@ -19,14 +18,5 @@ class Service
          Category::firstOrCreate($category);
       }
    }
-   public function delete($id)
-   {
-      $category = Category::find($id);
-      if (count($category) >= 1) {
-         $category[0]->delete();
-         return 'Deleted';
-      } else {
-         return 'Such category not found';
-      }
-   }
+
 }
