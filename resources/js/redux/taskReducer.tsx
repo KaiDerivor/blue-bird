@@ -13,7 +13,7 @@ export type TaskRecord = {
    id: string | number,
 }
 const initialState = {
-   list: [] as Array<TaskRecord>,
+   listTasks: [] as Array<TaskRecord>,
    errorText: ''
 }
 type StateType = typeof initialState;
@@ -22,7 +22,7 @@ const taskReducer = (state = initialState, action: ActionsTypes): StateType => {
       case INIT: {
          return {
             ...state,
-            list: action.list
+            listTasks: action.list
          }
       }
       case SET_ERROR_MESSAGE: {

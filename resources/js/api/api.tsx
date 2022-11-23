@@ -43,7 +43,6 @@ instance.interceptors.response.use(
           }
         )
         .then((response) => {
-          console.log(response)
           localStorage.access_token = response.data.access_token;
           error.config.headers.authorization = `Bearer ${localStorage.access_token}`;
           return instance.request(error.config);

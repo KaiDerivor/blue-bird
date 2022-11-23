@@ -69,7 +69,7 @@ export const TableCat: React.FC<TableCatType> = ({ list }) => {
                   <TableRow>
                      <StyledTableCell>#id</StyledTableCell>
                      <StyledTableCell align="right">Category</StyledTableCell>
-                     <StyledTableCell align="right">Title&nbsp;(g)</StyledTableCell>
+                     <StyledTableCell align="right">Actions</StyledTableCell>
                      <StyledTableCell align="right"></StyledTableCell>
                      <StyledTableCell align="right"></StyledTableCell>
                   </TableRow>

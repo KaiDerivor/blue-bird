@@ -19,11 +19,11 @@ export const getUserRole = (state: AppStateType) => {
    return state.app.role;
 }
 export const getCategories = (state: AppStateType) => {
-   return state.category.list
+   return state.category.listCats
 }
 export const getTags = (state: AppStateType) => {
-   return state.tag.list
+   return state.tag.listTags
 }
-export const getTask = (state: AppStateType) => {
-   return state.task.list
+export const getTasks = (state: AppStateType) => {
+   return state.task.listTasks
 }

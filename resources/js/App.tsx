@@ -23,6 +23,7 @@ import { AppDispatch } from './redux/store';
 import { setData } from './redux/appReducer';
 import { Categories } from './modules/Admin/Categories';
 import { Tags } from './modules/Admin/Tags';
+import { Tasks } from './modules/Admin/Tasks';
 const drawerWidth = 60;
 
 function App() {
@@ -76,7 +77,7 @@ function App() {
                   {userRole && (<>
                     <Route path='/admin-categories/*' element={<Categories />} />
                     <Route path='/admin-tags/*' element={<Tags />} />
-                    <Route path='/admin-tasks/*' element={<PH />} />
+                    <Route path='/admin-tasks/*' element={<Tasks />} />
                     <Route path='/admin-users/*' element={<PH />} />
                   </>
                   )}

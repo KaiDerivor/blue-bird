@@ -19,6 +19,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { useDispatch } from 'react-redux';
 import { Collapse } from '@mui/material';
 import { TaskRecord } from '../../redux/taskReducer';
+import { TaskDialog } from './TaskDialog';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
    [`&.${tableCellClasses.head}`]: {
@@ -43,7 +44,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 type TableTaskType = {
    list: Array<TaskRecord>
 }
-export const TableCat: React.FC<TableTaskType> = ({ list }) => {
+export const TableTask: React.FC<TableTaskType> = ({ list }) => {
    const [openDilaog, setOpenDialog] = useState(false)
    const [taskId, setTaskId] = useState<string | number>(0)
    const [taskNumber, setTaskNumber] = useState('')
@@ -94,7 +95,7 @@ export const TableCat: React.FC<TableTaskType> = ({ list }) => {
             </Table>
          </TableContainer>
 
-         <FormDialog
+         <TaskDialog
             openDilaog={openDilaog}
             setOpenDialog={setOpenDialog}
             taskId={taskId}
@@ -106,73 +107,5 @@ export const TableCat: React.FC<TableTaskType> = ({ list }) => {
 }
 
 
-type FormDialogType = {
-   openDilaog: boolean
-   setOpenDialog: (arg1: boolean) => void
-   taskId: number | string
-   taskNumber: string
-   switchHandler: string
-}
-const FormDialog: React.FC<FormDialogType> = ({ openDilaog, setOpenDialog, taskId, taskNumber, switchHandler }) => {
 
-   const dispatch: any = useDispatch();
 
-   const [field, setField] = useState('')
-
-   const handleClose = () => {
-      setOpenDialog(false);
-   };
-
-   const handleConfirm = () => {
-      switch (switchHandler) {
-         case 'save': {
-            dispatch(createCategory(field))
-            break;
-         }
-         case 'update': {
-            dispatch(updateCategory(taskId, field))
-            break;
-         }
-         case 'delete': {
-            dispatch(deleteCategory(taskId))
-            break;
-         }
-         default: {
-            return;
-         }
-
-      }
-      setField('')
-      setOpenDialog(false)
-   };
-   return (
-      <div>
-
-         <Dialog open={openDilaog} onClose={handleClose}>
-            <DialogTitle>Are you sure?</DialogTitle>
-            <DialogContent>
-               <DialogContentText>
-                  Confirm action
-               </DialogContentText>
-               <Collapse in={switchHandler !== 'delete'}>
-                  <TextField
-                     margin="dense"
-                     id="name"
-                     label="Category text"
-                     type="text"
-                     fullWidth
-                     variant="standard"
-                     autoFocus
-                     defaultValue={taskNumber}
-                     onChange={(el => setField(el.target.value))}
-                  />
-               </Collapse>
-            </DialogContent>
-            <DialogActions>
-               <Button onClick={handleClose}>Cancel</Button>
-               <Button onClick={handleConfirm}>Confirm</Button>
-            </DialogActions>
-         </Dialog>
-      </div >
-   );
-}

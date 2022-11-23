@@ -13,7 +13,7 @@ export type CategoryRecord = {
    id: string | number,
 }
 const initialState = {
-   list: [] as Array<CategoryRecord>,
+   listCats: [] as Array<CategoryRecord>,
    errorText: ''
 }
 type StateType = typeof initialState;
@@ -22,7 +22,7 @@ const catReducer = (state = initialState, action: ActionsTypes): StateType => {
       case INIT: {
          return {
             ...state,
-            list: action.list
+            listCats: action.list
          }
       }
       case SET_ERROR_MESSAGE: {

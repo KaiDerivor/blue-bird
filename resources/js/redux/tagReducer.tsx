@@ -13,7 +13,7 @@ export type TagRecordType = {
    id: string | number,
 }
 const initialState = {
-   list: [] as Array<TagRecordType>,
+   listTags: [] as Array<TagRecordType>,
    errorText: ''
 }
 type StateType = typeof initialState;
@@ -22,7 +22,7 @@ const tagReducer = (state = initialState, action: ActionsTypes): StateType => {
       case INIT: {
          return {
             ...state,
-            list: action.list
+            listTags: action.list
          }
       }
       case SET_ERROR_MESSAGE: {
@@ -61,9 +61,9 @@ export const getTagsInit = (): ThunksTypes => {
    return async (dispatch) => {
       api.getTags()?.then(res => {
          if (typeof res === 'string'||res===undefined) {
-            dispatch(appActions.setErrorText(res))
+            dispatch(tagActions.setErrorText(res))
          } else {
-            console.log(res)
+         
             dispatch(tagActions.init(res))
          }
       })

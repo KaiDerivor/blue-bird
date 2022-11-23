@@ -67,7 +67,7 @@ export const TableTag:React.FC<TableTagType> = ({ list }) => {
                   <TableRow>
                      <StyledTableCell>#id</StyledTableCell>
                      <StyledTableCell align="right">Tag</StyledTableCell>
-                     <StyledTableCell align="right">Title</StyledTableCell>
+                     <StyledTableCell align="right">Actions</StyledTableCell>
                      <StyledTableCell align="right"></StyledTableCell>
                      <StyledTableCell align="right"></StyledTableCell>
                   </TableRow>
