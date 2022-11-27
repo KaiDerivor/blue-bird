@@ -9,7 +9,7 @@ class Service
    public function update($user, $data)
    {
       $user->update($data);
-      
+      return $user;
    }
    public function store($data)
    {

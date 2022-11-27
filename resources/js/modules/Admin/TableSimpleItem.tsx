@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -7,7 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { CategoryRecord, createCategory, deleteCategory, updateCategory } from '../../redux/catReducer';
+import { CategoryRecordType, createCategory, deleteCategory, updateCategory } from '../../redux/catReducer';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -15,9 +15,8 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import AddIcon from '@mui/icons-material/Add';
-import { useDispatch } from 'react-redux';
-import { Collapse } from '@mui/material';
+import { TagRecordType } from '../../redux/tagReducer';
+import { ButtonAddItem } from './ButtonAddItem';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
    [`&.${tableCellClasses.head}`]: {
@@ -39,39 +38,32 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
    },
 }));
 
-
-
-
-
-type TableCatType = {
-   list: Array<CategoryRecord>
+type TableItemsType = {
+   list: Array<CategoryRecordType | TagRecordType>
+   setSwitchHandler: (arg1: string) => void
+   handleConfirm: (id?: number | string, field?: string) => void
 }
-export const TableCat: React.FC<TableCatType> = ({ list }) => {
+export const TableSimpleItem: React.FC<TableItemsType> = ({ list, setSwitchHandler, handleConfirm }) => {
+
    const [openDilaog, setOpenDialog] = useState(false)
-   const [categoryId, setCategoryId] = useState<number | string>(0)
-   const [categoryText, setCategoryText] = useState('')
-   const [switchHandler, setSwitchHandler] = useState('save')
+   const [itemId, setItemId] = useState<number | string>(0)
+   const [itemText, setItemText] = useState('')
+   
    return (
       <>
-         <Button variant="outlined"
-            endIcon={<AddIcon />}
-            sx={{ color: 'fpage.main', borderColor: 'bgmode.dark', mt: 3, mb: 2 }}
-            onClick={() => {
-               setSwitchHandler('save');
-               setOpenDialog(true);
-            }}
-         >
-            Add
-         </Button>
+         <ButtonAddItem setOpenDialog={setOpenDialog} setSwitchHandler={setSwitchHandler} />
          <TableContainer component={Paper}>
             <Table aria-label="customized table">
                <TableHead>
                   <TableRow>
                      <StyledTableCell>#id</StyledTableCell>
-                     <StyledTableCell align="right">Category</StyledTableCell>
+                     <StyledTableCell align="right">Title</StyledTableCell>
+                     <StyledTableCell align="right">Description</StyledTableCell>
+                     <StyledTableCell align="right">img</StyledTableCell>
+
                      <StyledTableCell align="right">Actions</StyledTableCell>
                      <StyledTableCell align="right"></StyledTableCell>
-                     <StyledTableCell align="right"></StyledTableCell>
+
                   </TableRow>
                </TableHead>
                <TableBody>
@@ -80,17 +72,26 @@ export const TableCat: React.FC<TableCatType> = ({ list }) => {
                         <StyledTableCell component="th" scope="row">
                            #{row.id}
                         </StyledTableCell>
-                        <StyledTableCell align="right">{row.category}</StyledTableCell>
                         <StyledTableCell align="right">
-                           <Button onClick={() => { setSwitchHandler('update'); setCategoryText(row.category); setCategoryId(row.id); setOpenDialog(true) }}
-                           >Update</Button>
+                           {row.title}
                         </StyledTableCell>
                         <StyledTableCell align="right">
-                           <Button onClick={() => { setSwitchHandler('delete'); setCategoryText(''); setCategoryId(row.id); setOpenDialog(true) }}
-                           >Delete</Button>
+                           {row.description}
                         </StyledTableCell>
                         <StyledTableCell align="right">
+                           {row.img}
                         </StyledTableCell>
+                        <StyledTableCell align="right">
+                           <Button onClick={() => { setSwitchHandler('update'); setItemText(row.title); setItemId(row.id); setOpenDialog(true) }}>
+                              Update
+                           </Button>
+                        </StyledTableCell>
+                        <StyledTableCell align="right">
+                           <Button onClick={() => { setSwitchHandler('delete'); setItemText(''); setItemId(row.id); setOpenDialog(true) }}>
+                              Delete
+                           </Button>
+                        </StyledTableCell>
+
                      </StyledTableRow>
                   ))}
                </TableBody>
@@ -100,9 +101,9 @@ export const TableCat: React.FC<TableCatType> = ({ list }) => {
          <FormDialog
             openDilaog={openDilaog}
             setOpenDialog={setOpenDialog}
-            categoryId={categoryId}
-            categoryText={categoryText}
-            switchHandler={switchHandler}
+            itemId={itemId}
+            itemText={itemText}
+            handleConfirm={handleConfirm}
          />
       </>
    );
@@ -112,68 +113,47 @@ export const TableCat: React.FC<TableCatType> = ({ list }) => {
 type FormDialogType = {
    openDilaog: boolean
    setOpenDialog: (arg1: boolean) => void
-   categoryId: number | string
-   categoryText: string
-   switchHandler: string
+   itemId: number | string
+   itemText: string
+   handleConfirm: (id?: number | string, field?: string) => void
 }
-const FormDialog: React.FC<FormDialogType> = ({ openDilaog, setOpenDialog, categoryId, categoryText, switchHandler }) => {
-
-   const dispatch: any = useDispatch();
-
+const FormDialog: React.FC<FormDialogType> = ({ openDilaog, setOpenDialog, itemId, itemText, handleConfirm }) => {
    const [field, setField] = useState('')
 
-   const handleClose = () => {
+
+   const handleCloseForm = () => {
       setOpenDialog(false);
    };
 
-   const handleConfirm = () => {
-      switch (switchHandler) {
-         case 'save': {
-            dispatch(createCategory(field))
-            break;
-         }
-         case 'update': {
-            dispatch(updateCategory(categoryId, field))
-            break;
-         }
-         case 'delete': {
-            dispatch(deleteCategory(categoryId))
-            break;
-         }
-         default: {
-            return;
-         }
-
-      }
+   const handleConfirmForm = () => {
+      handleConfirm(itemId, field);
       setField('')
       setOpenDialog(false)
    };
    return (
       <div>
 
-         <Dialog open={openDilaog} onClose={handleClose}>
+         <Dialog open={openDilaog} onClose={handleCloseForm}>
             <DialogTitle>Are you sure?</DialogTitle>
             <DialogContent>
                <DialogContentText>
                   Confirm action
                </DialogContentText>
-               <Collapse in={switchHandler !== 'delete'}>
-                  <TextField
-                     margin="dense"
-                     id="name"
-                     label="Category text"
-                     type="text"
-                     fullWidth
-                     variant="standard"
-                     autoFocus
-                     defaultValue={categoryText}
-                     onChange={(el => setField(el.target.value))}
-                  />
-               </Collapse>
+               <TextField
+                  margin="dense"
+                  id="name"
+                  label="Category text"
+                  type="text"
+                  fullWidth
+                  variant="standard"
+                  autoFocus
+                  defaultValue={itemText}
+                  onChange={(el => setField(el.target.value))}
+               />
             </DialogContent>
             <DialogActions>
-               <Button onClick={handleClose}>Cancel</Button>
-               <Button onClick={handleConfirm}>Confirm</Button>
+               <Button onClick={handleCloseForm}>Cancel</Button>
+               <Button onClick={handleConfirmForm}>Confirm</Button>
             </DialogActions>
          </Dialog>
       </div >

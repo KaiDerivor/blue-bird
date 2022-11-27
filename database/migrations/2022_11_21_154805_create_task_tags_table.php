@@ -13,16 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('task_tags', function (Blueprint $table) {
+        Schema::create('themes', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('task_id')->nullable();
-            $table->unsignedBigInteger('tag_id')->nullable();
+            $table->string('title')->nullable();
+            $table->string('description')->nullable();
+            $table->string('img')->nullable();
 
-            $table->index('task_id', 'tag_task_task_idx');
-            $table->index('tag_id', 'tag_task_tag_idx');
-
-            $table->foreign('task_id', 'tag_task_task_fk')->on('tasks')->references('id');
-            $table->foreign('tag_id', 'tag_task_tag_fk')->on('tags')->references('id');
             $table->timestamps();
         });
     }
@@ -34,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('task_tags');
+        Schema::dropIfExists('themes');
     }
 };

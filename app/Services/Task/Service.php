@@ -3,7 +3,6 @@
 namespace App\Services\Task;
 
 use App\Models\Task;
-use App\Services\Tag\Service as TagService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -12,55 +11,41 @@ class Service
 
    public function update($task, $data)
    {
-      if (isset($data['file'])) {
-         $data['task'] = Storage::disk('public')->put('/img-tasks', $data['file']);
-         unset($data['file']);
+      if (isset($data['task'])) {
+         $data['task'] = Storage::disk('public')->put('/img-tasks', $data['task']);
+
       }
-
-
+      // return $task;
       if (strip_tags($data['content']) === 'NONE') {
-         $data['solution'] = '';
-      } elseif ($data['content']) {
-         $data['solution'] = $data['content'];
+         $data['content'] = '';
       }
 
-      $tags = $data['tags'];
-      unset($data['tags']);
-      unset($data['content']);
-      // $t=Task::where('category_id',$data['category_id'],'number_of_task',$data['number_of_task']);
-      // dd($t);
       $task->update($data);
-
-      $task->tags()->sync($tags);
-      // return $subject->fresh();
+      return $task;
    }
    public function store($data)
    {
+      // $tt=Task::where(['category_id'=>$data['category_id'],'task_id'=>$data['task_id']])->first();
+      $task = Task::where([
+         ['category_id', '=', $data['category_id']],
+         ['tag_id', '=', $data['tag_id']],
+         ['number_of_task', '=', $data['number_of_task']]
+      ])->first();
+      if ($task) {
+         return "This records alredy exists. ID:" . $task->id;
+      }
       try {
          DB::beginTransaction();
-         if (isset($data['tags'])) {
-            $tags = $data['tags'];
-            unset($data['tags']);
-         }
-
-         if (isset($data['content'])) {
-            $data['solution'] = $data['content'];
-            unset($data['content']);
-         }
-
-         $data['task'] = Storage::disk('public')->put('/img-tasks', $data['file']);
-         unset($data['file']);
-
+         $data['task'] = Storage::disk('public')->put('/img-tasks', $data['task']);
 
          $data = Task::create($data);
 
-
-         $data->tags()->attach($tags);
          DB::commit();
       } catch (\Exception $th) {
          DB::rollBack();
          dd($th->getMessage());
          return $th->getMessage();
       }
+      return $data;
    }
 }

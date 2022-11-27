@@ -3,6 +3,9 @@ import { ThunkAction } from "redux-thunk";
 import { api } from "../api/api";
 import { AppStateType, InferActionsTypes } from "./store";
 
+export const URL_STORAGE='storage/'
+
+
 const TOGGLE_THEME_MODE = 'TOGGLE_THEME_MODE';
 const TOGGLE_FETCHING = 'TOGGLE_FETCHING';
 const INIT = 'INIT'
@@ -26,7 +29,7 @@ const appReducer = (state = initialState, action: ActionsTypes): StateType => {
       case INIT: {
          return {
             ...state,
-            isInit: true,
+            isInit: !!action.data,
             isSetData: true,
             ...action.data,
          }

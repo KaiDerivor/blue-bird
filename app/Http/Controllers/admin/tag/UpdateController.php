@@ -13,8 +13,6 @@ class UpdateController extends BaseController
     {
         $data = $request->validated();
         $msg = $this->service->update($tag, $data);
-
-        $tags = Tag::all();
-        return response(TagResource::collection($tags));
+        return new TagResource($msg) ;
     }
 }

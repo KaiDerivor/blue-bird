@@ -10,6 +10,6 @@ class IndexController extends BaseController
     public function __invoke()
     {
         $tags = Tag::all();
-        return response(TagResource::collection($tags));
+        return TagResource::collection($tags);
     }
 }

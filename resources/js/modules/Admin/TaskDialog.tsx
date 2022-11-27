@@ -1,7 +1,10 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
-
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
@@ -12,6 +15,7 @@ import { TransitionProps } from '@mui/material/transitions';
 import { useDispatch } from 'react-redux';
 import Box from '@mui/material/Box'
 import { TaskForm } from './TaskForm';
+import { TaskRecordType } from '../../redux/taskReducer';
 
 const Transition = React.forwardRef(function Transition(
    props: TransitionProps & {
@@ -26,61 +30,42 @@ const Transition = React.forwardRef(function Transition(
 type FormDialogType = {
    openDilaog: boolean
    setOpenDialog: (arg1: boolean) => void
-   taskId: number | string
-   taskNumber: string
-   switchHandler: string
+   handleConfirm: (id?: number | string, field?: TaskRecordType) => void
+   idTask: string | number
+   task: TaskRecordType
+   isDeleteConfirm: boolean
 }
 
-export const TaskDialog: React.FC<FormDialogType> = ({ openDilaog, setOpenDialog, taskId, taskNumber, switchHandler }) => {
-   const [open, setOpen] = React.useState(false);
-   const dispatch: any = useDispatch();
+export const TaskDialog: React.FC<FormDialogType> = ({ openDilaog, setOpenDialog, idTask = '', task = {}, handleConfirm, isDeleteConfirm }) => {
 
-   const [field, setField] = React.useState('')
-
-
-   const handleConfirm = () => {
-      switch (switchHandler) {
-         case 'save': {
-            // dispatch(createCategory(field))
-            break;
-         }
-         case 'update': {
-            // dispatch(updateCategory(taskId, field))
-            break;
-         }
-         case 'delete': {
-            // dispatch(deleteCategory(taskId))
-            break;
-         }
-         default: {
-            return;
-         }
-
-      }
-      console.log('sended')
-      setField('')
-      setOpenDialog(false)
-   };
-
-   const handleClose = () => {
+   const handleConfirmForm = (taskItem: TaskRecordType = {}) => {
+      handleConfirm(idTask, taskItem)
       setOpenDialog(false);
    };
 
+   const handleCloseForm = () => {
+      setOpenDialog(false);
+   };
+
+   if (isDeleteConfirm) {
+      return <DialogConfirm handleClose={handleCloseForm} handleConfirm={handleConfirmForm} openDilaog={openDilaog} />
+   }
    return (
       <div>
 
          <Dialog
             fullScreen
             open={openDilaog}
-            onClose={handleClose}
+            onClose={handleCloseForm}
             TransitionComponent={Transition}
          >
+
             <AppBar sx={{ position: 'relative' }}>
                <Toolbar>
                   <IconButton
                      edge="start"
                      color="inherit"
-                     onClick={handleClose}
+                     onClick={handleCloseForm}
                      aria-label="close"
                   >
                      <CloseIcon />
@@ -88,15 +73,34 @@ export const TaskDialog: React.FC<FormDialogType> = ({ openDilaog, setOpenDialog
                   <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
                      Form Task
                   </Typography>
-                  <Button autoFocus color="inherit" onClick={handleConfirm}>
-                     save
-                  </Button>
                </Toolbar>
             </AppBar>
             <Box sx={{ m: 3 }}>
-               <TaskForm />
+               <TaskForm handleConfirm={handleConfirmForm} task={task} />
             </Box>
          </Dialog>
       </div>
    );
+}
+type DialogConfirm = {
+   openDilaog: boolean
+   handleClose: () => void
+   handleConfirm: () => void
+}
+const DialogConfirm: React.FC<DialogConfirm> = ({ openDilaog, handleClose, handleConfirm }) => {
+   return (
+      <Dialog open={openDilaog} onClose={handleClose}>
+         <DialogTitle>Are you sure?</DialogTitle>
+         <DialogContent>
+            <DialogContentText>
+               Confirm delete
+            </DialogContentText>
+
+         </DialogContent>
+         <DialogActions>
+            <Button onClick={handleClose}>Cancel</Button>
+            <Button onClick={handleConfirm}>Confirm</Button>
+         </DialogActions>
+      </Dialog>
+   )
 }

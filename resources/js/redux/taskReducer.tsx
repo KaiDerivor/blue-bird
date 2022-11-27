@@ -4,22 +4,32 @@ import { api } from "../api/api";
 import { appActions } from "./appReducer";
 import store, { AppStateType, InferActionsTypes } from "./store";
 
-const INIT = 'INIT'
+const INIT_TASKS = 'INIT_TASKS'
 const SET_ERROR_MESSAGE = 'SET_ERROR_MESSAGE'
 const ERASE_ERROR = 'ERASE_ERROR'
+const UPDATE_TASK = 'UPDATE_TASK'
+export const TASK_IMAGE_FOLDER = 'img-tasks/'
 
-export type TaskRecord = {
-   category: string,
-   id: string | number,
+export type TaskRecordType = {
+   id?: string | number
+   task?: any
+   answer?: string
+   content?: string
+   category_id?: string
+   tag_id?: string
+   number_of_task?: string | number
+
+
 }
 const initialState = {
-   listTasks: [] as Array<TaskRecord>,
+   listTasks: [] as Array<TaskRecordType>,
    errorText: ''
 }
 type StateType = typeof initialState;
 const taskReducer = (state = initialState, action: ActionsTypes): StateType => {
    switch (action.type) {
-      case INIT: {
+      case INIT_TASKS: {
+
          return {
             ...state,
             listTasks: action.list
@@ -41,77 +51,99 @@ const taskReducer = (state = initialState, action: ActionsTypes): StateType => {
             errorText: ''
          }
       }
+      case UPDATE_TASK: {
+         let isSetted = false;
+         for (let i = 0; i < state.listTasks.length; i++) {
+            if (state.listTasks[i].id === action.task.id) {
+               state.listTasks.splice(i, 1, action.task);
+               isSetted = true;
+               break;
+            }
+         }
+         if (!isSetted) {
+            state.listTasks.push(action.task)
+         }
+         return {
+            ...state,
+            listTasks: [...state.listTasks]
+         }
+      }
       default: return state;
    }
 }
 
-export type ActionsTypes = InferActionsTypes<typeof catActions>;
+export type ActionsTypes = InferActionsTypes<typeof taskActions>;
 export type DispatchType = Dispatch<ActionsTypes>;
 
 
-export const catActions = {
-   init: (list: Array<TaskRecord>) => { return { type: INIT, list } as const },
+export const taskActions = {
+   init: (list: Array<TaskRecordType>) => { return { type: INIT_TASKS, list } as const },
    setErrorText: (err: string) => { return { type: SET_ERROR_MESSAGE, errorText: err } as const },
-   eraseError: () => { return { type: ERASE_ERROR } as const }
+   eraseError: () => { return { type: ERASE_ERROR } as const },
+   updateTask: (task: TaskRecordType) => { return { type: UPDATE_TASK, task } as const }
 }
 
 export type ThunksTypes = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>
 
-// export const getCategoriesInit = (): ThunksTypes => {
-//    return async (dispatch) => {
-//       api.getCategories()?.then(res => {
-//          if (typeof res === 'string') {
-//             dispatch(appActions.setErrorText(res))
-//          } else {
-//             dispatch(catActions.init(res))
-//          }
-//       })
-//    }
-// }
-export const createTask = (category: string): ThunksTypes => {
+export const getTasksInit = (categoryId: string = '', tagId: string = ''): ThunksTypes => {
    return async (dispatch) => {
-      api.createCategory(category)?.then(res => {
-         if (res) {
-            if (typeof res === 'string') {
-               dispatch(appActions.setErrorText(res))
-            } else {
-               dispatch(appActions.setErrorText('Created'))
-               dispatch(catActions.init(res))
-            }
+      api.getTasks(categoryId, tagId)?.then(res => {
+         if (typeof res === 'string') {
+            dispatch(appActions.setErrorText(res))
+         } else {
+            dispatch(taskActions.init(res))
          }
       })
    }
 }
-// export const updateCategory = (id: number|string, category: string): ThunksTypes => {
-//    return async (dispatch) => {
-//       api.updateCategory(id, category)?.then(res => {
+export const createTask = (task: TaskRecordType): ThunksTypes => {
+   return async (dispatch) => {
 
+      api.createTask(task)
+         ?.then(res => {
+            if (res) {
+               if (typeof res === 'string') {
+                  dispatch(appActions.setErrorText(res))
+               } else {
+                  dispatch(appActions.setErrorText('Created'))
+                  dispatch(taskActions.updateTask(res))
+               }
+            }
+         })
+   }
+}
+export const updateTask = (id: number | string | undefined, task: TaskRecordType): ThunksTypes => {
 
-//          if (typeof res === 'string') {
-//             dispatch(appActions.setErrorText(res))
-//          } else {
-//             dispatch(appActions.setErrorText('Updated'))
-//             dispatch(catActions.init(res))
-//          }
+   return async (dispatch) => {
+      if (task.task === null)
+         delete task.task
+      if (id === undefined) {
+         dispatch(appActions.setErrorText('Error: id can\'t be undefined'))
+         return;
+      }
+      api.updateTask(id, task)?.then(res => {
+         if (typeof res === 'string') {
+            dispatch(appActions.setErrorText(res))
+         } else {
+            dispatch(taskActions.updateTask(res))
+         }
 
-//       })
-//    }
-// }
-// export const deleteCategory = (id: number|string): ThunksTypes => {
-//    return async (dispatch) => {
-//       api.deleteCategory(id)?.then(res => {
+      })
+   }
+}
+export const deleteTask = (id: number | string): ThunksTypes => {
+   return async (dispatch) => {
+      api.deleteTask(id)?.then(res => {
+         if (typeof res === 'string') {
+            dispatch(appActions.setErrorText(res))
+         } else {
+            dispatch(appActions.setErrorText('Deleted'))
+            dispatch(taskActions.init(res))
+         }
 
-
-//          if (typeof res === 'string') {
-//             dispatch(appActions.setErrorText(res))
-//          } else {
-//             dispatch(appActions.setErrorText('Deleted'))
-//             dispatch(catActions.init(res))
-//          }
-
-//       })
-//    }
-// }
+      })
+   }
+}
 
 
 export default taskReducer;

@@ -12,8 +12,6 @@ class StoreController extends BaseController
     {
         $data = $request->validated();
         $msg = $this->service->store($data);
-
-        $tags = Tag::all();
-        return response(TagResource::collection($tags));
+        return response(['data'=>$msg]);
     }
 }

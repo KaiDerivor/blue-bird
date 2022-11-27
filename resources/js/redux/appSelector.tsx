@@ -27,3 +27,6 @@ export const getTags = (state: AppStateType) => {
 export const getTasks = (state: AppStateType) => {
    return state.task.listTasks
 }
+export const getUsers = (state: AppStateType) => {
+   return state.user.listUsers
+}

@@ -63,19 +63,14 @@ Route::group(['middleware' => 'jwt.auth', 'prefix' => 'auth'], function () {
 Route::group([
     'namespace' => 'App\Http\Controllers\Admin',
     'prefix' => 'admin',
-    'middleware' => ['auth','admin']
+    'middleware' => ['auth', 'admin']
 ], function () {
-    // Route::group(['namespace'=>'Subject'],function (){
-    //     Route::get('/post','IndexController')->name('admin.post.index');
-    // });
-    // Route::get('/', 'IndexController')->name('admin.index');
-    // Route::get('/main-dashboard', 'App\Http\Controllers\Admin\Dashboards\Main\IndexController')->name('admin.dashboard.main');
 
     Route::group(['namespace' => 'Task'], function () {
         Route::get('/tasks', 'IndexController')->name('admin.task.index');
         Route::post('/tasks', "StoreController")->name('admin.task.store');
-        Route::patch('/tasks', "UpdateController")->name('admin.task.update');
-        Route::delete('/tasks', "DeleteController")->name('admin.task.delete');
+        Route::post('/tasks/{task}', "UpdateController")->name('admin.task.update');
+        Route::delete('/tasks/{task}', "DeleteController")->name('admin.task.delete');
     });
 
     Route::group(['namespace' => 'Category'], function () {
@@ -92,19 +87,13 @@ Route::group([
         Route::delete('/tags/{tag}', "DeleteController")->name('admin.tag.delete');
     });
 
-    // Route::group(['namespace' => 'User'], function () {
-    //     Route::get('/user', 'IndexController')->name('admin.user.index');
-    //     Route::get('/user/create', "CreateController")->name('admin.user.create');
+    Route::group(['namespace' => 'User'], function () {
+        Route::get('/users', 'IndexController')->name('admin.user.index');
 
-    //     Route::post('/user', "StoreController")->name('admin.user.store');
-    //     Route::get('/user/{user}', "ShowController")->name('admin.user.show');
-
-    //     Route::get('/user/{user}/edit', "EditController")->name('admin.user.edit');
-    //     Route::patch('/user/{user}', "UpdateController")->name('admin.user.update');
-    //     Route::delete('/user/{user}', "DeleteController")->name('admin.user.delete');
-    // });
-    // Route::get('/','IndexController')->name('admin.index');
-    // Route::get('/','IndexController')->name('admin.index');
-    // Route::get('/','IndexController')->name('admin.index');
+        Route::patch('/users/{user}', "UpdateController")->name('admin.user.update');
+        Route::delete('/users/{user}', "DeleteController")->name('admin.user.delete');
+    });
+    // Route::get('/users','IndexController')->name('admin.index');
+    // Route::get('/users','IndexController')->name('admin.index');
 
 });

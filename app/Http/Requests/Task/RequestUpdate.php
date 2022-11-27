@@ -24,19 +24,12 @@ class RequestUpdate extends FormRequest
     public function rules()
     {
         return [
-            'file' => '',
+            'task' => '',
             'answer' => '',
             'content' => '',
-            'category_id' => 'required',
-            'tags' => '',
+            'category_id' => '',
+            'tag_id' => '',
             'number_of_task' => ''
-        ];
-    }
-    public function messages()
-    {
-        return [
-            'category_id' => 'Choose category, please',
-
         ];
     }
 }

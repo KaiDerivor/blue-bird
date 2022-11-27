@@ -12,8 +12,7 @@ class UpdateController extends BaseController
     {
         $data = $request->validated();
 
-        $this->service->update($category, $data);
-        $categories = Category::all();
-        return CategoryResource::collection($categories);
+        $msg=$this->service->update($category, $data);
+       return new CategoryResource($msg);
     }
 }

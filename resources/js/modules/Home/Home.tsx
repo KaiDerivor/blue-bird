@@ -25,6 +25,7 @@ export const Home = () => {
       <Container maxWidth="xl" disableGutters >
          <Fade in={true} timeout={500} style={{ transitionDelay: '500ms' }}>
             <div>
+               {/* <img src='storage/img-tasks/1.png'/> */}
                <HomeHeader block1={block1} block2={block2} />
                <HomeContent blocks={blocks} />
                <Footer />

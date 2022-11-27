@@ -9,9 +9,8 @@ class DeleteController extends BaseController
 {
     public function __invoke(Tag $tag)
     {
-       $tag->delete();
-       
-       $tags = Tag::all();
-        return response(TagResource::collection($tags));
+        $tag->delete();
+        $tags = Tag::all();
+        return TagResource::collection($tags);
     }
 }

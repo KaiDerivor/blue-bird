@@ -24,6 +24,7 @@ import { setData } from './redux/appReducer';
 import { Categories } from './modules/Admin/Categories';
 import { Tags } from './modules/Admin/Tags';
 import { Tasks } from './modules/Admin/Tasks';
+import { Users } from './modules/Admin/Users';
 const drawerWidth = 60;
 
 function App() {
@@ -35,14 +36,15 @@ function App() {
   const userRole = useSelector(getUserRole)
 
   useEffect(() => {
-    if (!isSetData) {
-      //@ts-ignore
-      dispatch(setData())
+    return () => {
+      if (!isSetData) {
+        //@ts-ignore
+        dispatch(setData())
+      }
     }
-  }, [isSetData])
+  }, [])
 
   const [theme, setTheme] = useState(isDarkMode ? 'dark' : 'light')
-
 
   const toggleThemeMod = () => {
     setTheme(prev => prev === 'light' ? 'dark' : 'light')
@@ -78,7 +80,7 @@ function App() {
                     <Route path='/admin-categories/*' element={<Categories />} />
                     <Route path='/admin-tags/*' element={<Tags />} />
                     <Route path='/admin-tasks/*' element={<Tasks />} />
-                    <Route path='/admin-users/*' element={<PH />} />
+                    <Route path='/admin-users/*' element={<Users />} />
                   </>
                   )}
                   <Route path='/*' element={<Home />} />

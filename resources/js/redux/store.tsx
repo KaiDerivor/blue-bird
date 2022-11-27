@@ -4,12 +4,14 @@ import appReducer, { ActionsTypes, ThunksTypes } from "./appReducer";
 import catReducer from "./catReducer";
 import tagReducer from "./tagReducer";
 import taskReducer from "./taskReducer";
+import userReducer from "./userReducer";
 
 let rootReducer = combineReducers({
    app: appReducer,
    category: catReducer,
    tag:tagReducer,
-   task:taskReducer
+   task:taskReducer,
+   user:userReducer
 });
 
 // @ts-ignore

@@ -17,12 +17,17 @@ return new class extends Migration
             $table->id();
             $table->string('task')->nullable();
             $table->string('answer')->nullable();
-            $table->text('solution')->nullable();
+            $table->text('content')->nullable();
+            $table->text('number_of_task')->nullable();
             
             $table->unsignedBigInteger('category_id')->nullable();
+            $table->unsignedBigInteger('tag_id')->nullable();
+
             $table->index('category_id','tasks_category_idx');
+            $table->index('tag_id','tag_idx');
             
             $table->foreign('category_id','tasks_category_fk')->on('categories')->references('id');
+            $table->foreign('tag_id','tasks_tag_fk')->on('tags')->references('id');
             $table->timestamps();
         });
     }

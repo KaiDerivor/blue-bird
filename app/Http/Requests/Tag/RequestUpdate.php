@@ -24,7 +24,7 @@ class RequestUpdate extends FormRequest
     public function rules()
     {
         return [
-            'tag' => 'required'
+            'title' => 'required|string|max:50|min:6'
         ];
     }
 }

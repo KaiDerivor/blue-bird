@@ -13,11 +13,6 @@ class StoreController extends BaseController
         $data = $request->validated();
 
         $msg = $this->service->store($data);
-        if ($msg) {
-            return response([$msg]);
-        } else {
-            $categories = Category::all();
-            return CategoryResource::collection($categories);
-        }
+        return response(['data'=>$msg]);
     }
 }

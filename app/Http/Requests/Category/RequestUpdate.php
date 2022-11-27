@@ -24,14 +24,8 @@ class RequestUpdate extends FormRequest
     public function rules()
     {
         return [
-            'category'=>"required|string"
+            'title' => 'required|string|max:50|min:4'
         ];
     }
-    public function messages()
-    {
-        return[
-            'title.required'=>'Please fill in this form',
-            'title.string'=>'Must to be string',
-        ];
-    }
+
 }

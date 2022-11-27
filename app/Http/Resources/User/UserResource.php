@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Resources\Tag;
+namespace App\Http\Resources\User;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class TagResource extends JsonResource
+class UserResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,8 +15,10 @@ class TagResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'title' => $this->title, 
-            'id'=>$this->id
+            'id'=>$this->id,
+            'name'=>$this->name,
+            'email'=>$this->email,
+            'role'=>$this->role
         ];
     }
 }

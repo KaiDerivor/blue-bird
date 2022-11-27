@@ -1,8 +1,37 @@
-.forms{
-   .inputField{
-      width:400px;
-      border-radius: 16px;
-      padding: 7px;
-      margin-bottom: 20px;
-   }
+.forms {
+    .inputField {
+        width: 100%;
+        border-radius: 16px;
+        padding: 7px;
+        margin-bottom: 20px;
+    }
+
+    .wrapperField {
+        padding-bottom: 30px;
+        min-width: 45%;
+
+        textarea {
+            resize: none;
+        }
+    }
 }
+
+/***************************
+****************************
+**********Adaptive**********
+****************************
+***************************/
+
+
+
+@media (max-width: 768px) {
+    .forms {
+        .wrapperField {
+            min-width: 100%;
+        }
+    }
+}
+
+@media (max-width: 576px) {}
+
+@media (max-width: 375px) {}

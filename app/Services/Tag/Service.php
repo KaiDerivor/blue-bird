@@ -8,20 +8,12 @@ class Service
 {
    public function update($tag, $data)
    {
-      if ($tag) {
-         $tag->update($data);
-         return 'Updated';
-      } else {
-         return 'Noy found such record';
-      }
+      $tag->update($data);
+      return $tag;
    }
    public function store($data)
    {
-      if (Tag::where('tag', $data)->exists()) {
-         return 'Record alredy exist';
-      } else {
-         Tag::firstOrCreate($data);
-         return 'Created';
-      }
+      $tag = Tag::firstOrCreate($data);
+      return $tag;
    }
 }

@@ -2,15 +2,17 @@ import { Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
 import { api } from "../api/api";
 import { appActions } from "./appReducer";
-import store, { AppStateType, InferActionsTypes } from "./store";
+import { AppStateType, InferActionsTypes } from "./store";
 
-const INIT = 'INIT'
+const INIT_TAGS = 'cat/INIT_TAGS'
 const SET_ERROR_MESSAGE = 'SET_ERROR_MESSAGE'
 const ERASE_ERROR = 'ERASE_ERROR'
-
+const UPDATE_TAG = 'cat/UPDATE_TAG'
 export type TagRecordType = {
-   tag: string,
+   title: string,
    id: string | number,
+   description?: string
+   img?: string
 }
 const initialState = {
    listTags: [] as Array<TagRecordType>,
@@ -19,7 +21,7 @@ const initialState = {
 type StateType = typeof initialState;
 const tagReducer = (state = initialState, action: ActionsTypes): StateType => {
    switch (action.type) {
-      case INIT: {
+      case INIT_TAGS: {
          return {
             ...state,
             listTags: action.list
@@ -41,6 +43,23 @@ const tagReducer = (state = initialState, action: ActionsTypes): StateType => {
             errorText: ''
          }
       }
+      case UPDATE_TAG: {
+         let isSetted=false;
+         for (let i = 0; i < state.listTags.length; i++) {
+            if (state.listTags[i].id === action.tag.id) {
+               state.listTags.splice(i, 1, action.tag);
+               isSetted=true;
+               break;
+            }
+         }
+         if(!isSetted){
+            state.listTags.push(action.tag)
+         }
+         return {
+            ...state,
+            listTags: [...state.listTags]
+         }
+      }
       default: return state;
    }
 }
@@ -50,9 +69,10 @@ export type DispatchType = Dispatch<ActionsTypes>;
 
 
 export const tagActions = {
-   init: (list: Array<TagRecordType>) => { return { type: INIT, list } as const },
+   init: (list: Array<TagRecordType>) => { return { type: INIT_TAGS, list } as const },
    setErrorText: (err: string) => { return { type: SET_ERROR_MESSAGE, errorText: err } as const },
-   eraseError: () => { return { type: ERASE_ERROR } as const }
+   eraseError: () => { return { type: ERASE_ERROR } as const },
+   updateTag: (tag: TagRecordType) => { return { type: UPDATE_TAG, tag } as const }
 }
 
 export type ThunksTypes = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>
@@ -60,10 +80,9 @@ export type ThunksTypes = ThunkAction<Promise<void>, AppStateType, unknown, Acti
 export const getTagsInit = (): ThunksTypes => {
    return async (dispatch) => {
       api.getTags()?.then(res => {
-         if (typeof res === 'string'||res===undefined) {
+         if (typeof res === 'string' || res === undefined) {
             dispatch(tagActions.setErrorText(res))
          } else {
-         
             dispatch(tagActions.init(res))
          }
       })
@@ -77,13 +96,13 @@ export const createTag = (tag: string): ThunksTypes => {
                dispatch(appActions.setErrorText(res))
             } else {
                dispatch(appActions.setErrorText('Created'))
-               dispatch(tagActions.init(res))
+               dispatch(tagActions.updateTag(res))
             }
          }
       })
    }
 }
-export const updateTag = (id: number|string, tag: string): ThunksTypes => {
+export const updateTag = (id: number | string, tag: string): ThunksTypes => {
    return async (dispatch) => {
       api.updateTag(id, tag)?.then(res => {
 
@@ -92,13 +111,13 @@ export const updateTag = (id: number|string, tag: string): ThunksTypes => {
             dispatch(appActions.setErrorText(res))
          } else {
             dispatch(appActions.setErrorText('Updated'))
-            dispatch(tagActions.init(res))
+            dispatch(tagActions.updateTag(res))
          }
 
       })
    }
 }
-export const deleteTag = (id: number|string): ThunksTypes => {
+export const deleteTag = (id: number | string): ThunksTypes => {
    return async (dispatch) => {
       api.deleteTag(id)?.then(res => {
 

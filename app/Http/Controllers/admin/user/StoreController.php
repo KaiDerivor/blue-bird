@@ -13,6 +13,6 @@ class StoreController extends BaseController
         $data = $request->validated();
         $data['password']=Hash::make($data['password']);
         $this->service->store($data);
-        return redirect()->route('admin.user.index');
+        return response(['data'=>'Created']);
     }
 }

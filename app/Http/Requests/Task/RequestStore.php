@@ -24,22 +24,14 @@ class RequestStore extends FormRequest
     public function rules()
     {
         return [
-            'file'=>'required|file',
+            'task'=>'file',
             'answer'=>'string',
             'content'=>'string',
             'category_id'=>'required',
-            'tags'=>'',
+            'tag_id'=>'string',
             'number_of_task'=>''
 
         ];
     }
-    public function messages()
-    {
-        return [
-            'file.required'=>'Unload file, please',
-            'answer.required'=>'Input answer, please',
-            'category_id'=>'Choose category, please',
 
-        ];
-    }
 }

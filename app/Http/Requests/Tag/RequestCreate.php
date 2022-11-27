@@ -24,14 +24,8 @@ class RequestCreate extends FormRequest
     public function rules()
     {
         return [
-            'tag'=>'required|string'
+            'title' => 'required|string|size:6'
         ];
     }
-    public function messages()
-    {
-        return [
-            'tag.required'=>'Please fill in this form',
-            'tag.string'=>'Must to be string',
-        ];
-    }
+
 }

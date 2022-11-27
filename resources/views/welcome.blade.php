@@ -8,6 +8,10 @@
         <title>Laravel</title>
     </head>
 <body>
+    {{-- <img style="height: 300px" src="{{ asset('storage/public/img-tasks/1.png') }}" alt="" title="">
+    <img src="{{ url('storage/public/img-tasks/'.'1.png') }}" alt="" title="" />
+    <img src="{{ url('storage/img-tasks/'.'1.png') }}" alt="" title="" /> --}}
+
     <div id='root'></div>
 
 </body>

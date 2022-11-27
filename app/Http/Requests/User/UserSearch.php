@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Tag;
+namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RequestDelete extends FormRequest
+class UserSearch extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,12 @@ class RequestDelete extends FormRequest
     public function rules()
     {
         return [
-            'id'=>''
+            'name'=>'max:50',
+            'email'=>'max:70',
+            'role'=>'in:admin,user,',
+
+            'page' => '',
+            'per_page' => ''
         ];
     }
 }

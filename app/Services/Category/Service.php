@@ -9,14 +9,11 @@ class Service
    public function update($category, $data)
    {
       $category->update($data);
+      return $category;
    }
    public function store($category)
    {
-      if (Category::where('category', $category)->exists()) {
-         return 'Record alredy exist';
-      } else {
-         Category::firstOrCreate($category);
-      }
+        return Category::firstOrCreate($category);
    }
 
 }
