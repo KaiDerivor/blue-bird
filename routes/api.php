@@ -68,6 +68,7 @@ Route::group([
 
     Route::group(['namespace' => 'Task'], function () {
         Route::get('/tasks', 'IndexController')->name('admin.task.index');
+        Route::get('/tasks/{category}/{tag}', 'IndexParamsController')->name('admin.task.params.index');
         Route::post('/tasks', "StoreController")->name('admin.task.store');
         Route::post('/tasks/{task}', "UpdateController")->name('admin.task.update');
         Route::delete('/tasks/{task}', "DeleteController")->name('admin.task.delete');

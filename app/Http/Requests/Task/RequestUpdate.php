@@ -29,7 +29,9 @@ class RequestUpdate extends FormRequest
             'content' => '',
             'category_id' => '',
             'tag_id' => '',
-            'number_of_task' => ''
+            'number_of_task' => '',
+            'task_type'=>'required|string|in:letter4,letter5,range,letters,short',
+
         ];
     }
 }

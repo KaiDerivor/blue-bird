@@ -52,7 +52,8 @@ export const TaskForm: React.FC<TaskFormType> = ({ handleConfirm, task }) => {
                task: task?.task ? task.task : '',
                number_of_task: task?.number_of_task ? task.number_of_task : '',
                category_id: task?.category_id ? task.category_id : `${categories[0]!.id}`,
-               tag_id: task?.tag_id ? task.tag_id : `${tagsList[0]!.id}`
+               tag_id: task?.tag_id ? task.tag_id : `${tagsList[0]!.id}`,
+               task_type: task?.task_type ? task.task_type : ''
             }}
             onSubmit={(values) => {
                //@ts-ignore
@@ -82,6 +83,11 @@ export const TaskForm: React.FC<TaskFormType> = ({ handleConfirm, task }) => {
                   setError('Choose tag')
                   return;
                }
+               if (!formData.task_type) {
+                  setError('Choose task_type')
+                  return;
+               }
+               console.log(formData)
                handleConfirm(formData)
             }}
          >
@@ -147,6 +153,16 @@ export const TaskForm: React.FC<TaskFormType> = ({ handleConfirm, task }) => {
 
                      </Field>
                      <ErrorMessage name="tag_id" component="div" />
+                  </Box>
+                  <Box className={styles.wrapperField}>
+                     <Field as="select" name="task_type" className={styles.inputField}>
+                        <option value='letter4'>letter4</option>
+                        <option value='letter5'>letter5</option>
+                        <option value='letters'>letters</option>
+                        <option value='range'>range</option>
+                        <option value='short'>short</option>
+                     </Field>
+                     <ErrorMessage name="task_type" component="div" />
                   </Box>
                </Box>
                <Box className={styles.wrapperField}>

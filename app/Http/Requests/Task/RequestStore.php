@@ -29,7 +29,8 @@ class RequestStore extends FormRequest
             'content'=>'string',
             'category_id'=>'required',
             'tag_id'=>'string',
-            'number_of_task'=>''
+            'number_of_task'=>'',
+            'task_type'=>'required|string|in:letter4,letter5,range,letters,short',
 
         ];
     }

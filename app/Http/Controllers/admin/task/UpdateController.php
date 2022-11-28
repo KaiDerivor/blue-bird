@@ -10,7 +10,6 @@ class UpdateController extends BaseController
 {
     public function __invoke(RequestUpdate $request, Task $task)
     {
-        // return response($task);
         $data = $request->validated();
         $task = $this->service->update($task, $data);
         return new TaskResource($task);

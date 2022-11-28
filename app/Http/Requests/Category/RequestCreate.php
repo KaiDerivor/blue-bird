@@ -28,9 +28,10 @@ class RequestCreate extends FormRequest
             'img'=>'required',
             'description'=>'',
             'tags'=>'array',
+          
             'textUrl'=>'string|required|max:20'
         ];
     }
 
- 
+
 }

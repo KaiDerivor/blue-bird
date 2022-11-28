@@ -1,37 +1,98 @@
 $index:calc(1vh + 1vw);
 
 .listSavings {
-   display: grid;
-   grid-template-columns: repeat(3, 1fr);
-   gap: 20px
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px
 }
 
 .boxSession {
-   &__title {
-      margin-bottom: 20px;
-   }
+    &__title {
+        margin-bottom: 20px;
+    }
 
-   &__list {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5em;
-   }
+    &__list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5em;
+    }
 }
 
 .wrapperCourse {
-   display: flex;
-   align-items: flex-start;
+    display: flex;
+    align-items: flex-start;
 
-   &__body {
-      flex: 1 0 auto
-   }
+    &__body {
+        flex: 1 0 auto
+    }
 
-   &__side {
-      padding: 20px 20px;
-      border-radius: 24px;
-      display: flex;
-      flex-direction: column;
-   }
+    &__side {
+        padding: 20px 20px;
+        border-radius: 24px;
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+.wrapperRadio {
+   margin-right: 8px;
+    .radioField {
+        appearance: none;
+
+        &:checked+span.marker.error {
+            border-color: rgb(255, 0, 0);
+
+            &::after,
+            &::before {
+                background-color: rgb(255, 0, 0);
+            }
+        }
+
+        &:checked+span.marker.correct {
+            border-color: rgb(0, 255, 0);
+
+            &::after,
+            &::before {
+                background-color: rgb(0, 255, 0);
+            }
+        }
+
+        &:checked+span.marker {
+            position: relative;
+            overflow: hidden;
+            border-color: #fff;
+
+            &::after,
+            &::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                width: 3px;
+                height: 200%;
+                background-color: #fff;
+                transform-origin: top;
+            }
+
+            &::after {
+                transform: rotate(-45deg) translateY(-3%);
+                left: 0;
+            }
+
+            &::before {
+
+                right: 0;
+                transform: rotate(45deg) translateY(-3%);
+            }
+        }
+    }
+
+    .marker {
+        width: 40px;
+        height: 40px;
+        display: inline-block;
+        border: 3px solid rgb(88, 88, 88);
+
+    }
 }
 
 /***************************
@@ -45,28 +106,31 @@ $index:calc(1vh + 1vw);
 @media (max-width: 992px) {}
 
 @media (max-width: 768px) {
-   .listSavings {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-   }
+    .listSavings {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
 
-   .wrapperCourse {
-      flex-direction: column;
+    .wrapperCourse {
+        flex-direction: column;
 
-      &__side {width: 100%;}
-   }
+        &__side {
+            width: 100%;
+        }
+    }
 }
 
 @media (max-width: 576px) {
-   .listSavings {
-      display: grid;
-      grid-template-columns: repeat(1, 1fr);
-   }
-   .wrapperCourse{
-      &__side{
-         padding: 20px 10px;
-      }
-   }
+    .listSavings {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .wrapperCourse {
+        &__side {
+            padding: 20px 10px;
+        }
+    }
 }
 
 @media (max-width: 375px) {}

@@ -30,3 +30,6 @@ export const getTasks = (state: AppStateType) => {
 export const getUsers = (state: AppStateType) => {
    return state.user.listUsers
 }
+export const getTest=(state:AppStateType)=>{
+   return state.task.test
+}

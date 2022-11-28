@@ -271,6 +271,19 @@ export const api = {
       }
     });
   },
+  getTest: function (category_id: number, tag_id: number) {
+    return instance.get(`admin/tasks/${category_id}/${tag_id}`).then(res => {
+      return res.data.data;
+    }).catch(err => {
+      if (err.response) {
+        return err.response.statusText
+      } else if (err.request) {
+        return 'Bad network. Try again later'
+      } else {
+        return 'Try again later'
+      }
+    });
+  },
   createTask: function (task: TaskRecordType) {
     return instance.post('admin/tasks', { ...task }, {
       headers: {

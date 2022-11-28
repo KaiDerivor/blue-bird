@@ -3,6 +3,7 @@ import { ThunkAction } from "redux-thunk";
 import { api } from "../api/api";
 import { appActions } from "./appReducer";
 import store, { AppStateType, InferActionsTypes } from "./store";
+import { TagRecordType } from "./tagReducer";
 
 const INIT = 'cat/INIT'
 const SET_ERROR_MESSAGE = 'SET_ERROR_MESSAGE'
@@ -15,7 +16,7 @@ export type CategoryRecordType = {
    description?: string
    img?: any,
    textUrl: string,
-   tags?: Array<number>
+   tags?: Array<TagRecordType|number>
 }
 const initialState = {
    listCats: [] as Array<CategoryRecordType>,
@@ -108,7 +109,7 @@ export const createCategory = (category: CategoryRecordType): ThunksTypes => {
 }
 export const updateCategory = (id: number, category: CategoryRecordType): ThunksTypes => {
    return async (dispatch) => {
-      if (!category.img.name) {
+      if (!category?.img?.name) {
          delete category.img
       }
       api.updateCategory(id, category)?.then(res => {
