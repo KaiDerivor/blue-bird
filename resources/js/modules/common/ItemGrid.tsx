@@ -5,18 +5,19 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+//@ts-ignore
 import styles from './style.module.scss'
 import { NavLink } from 'react-router-dom';
 import Box from '@mui/material/Box'
 
 type ItemGridType = {
    title: string
-   text: string
+   text: string | undefined
    imgUrl?: string
    isEmpty?: boolean
    navLink?: string
 }
-export const ItemGrid: React.FC<ItemGridType> = ({ title, text, isEmpty, navLink, imgUrl }) => {
+export const ItemGrid: React.FC<ItemGridType> = ({ title, text = '', isEmpty, navLink, imgUrl }) => {
    if (isEmpty) {
       return (
          <Card sx={{ backgroundColor: 'bgmode.main', '&:hover': { backgroundColor: 'bgmode.dark' } }} className={styles.cardGridItem}>
@@ -30,7 +31,7 @@ export const ItemGrid: React.FC<ItemGridType> = ({ title, text, isEmpty, navLink
    }
    const renderCard = () => {
       return (
-         <Card sx={{ backgroundColor: 'bgmode.main',transition:'all 0.5s', '&:hover': { backgroundColor: 'bgmode.dark','.MuiCardMedia-root ':{transform:'scale(1.3)',transition:'all 0.6s'} } }} className={styles.cardGridItem}>
+         <Card sx={{ backgroundColor: 'bgmode.main', transition: 'all 0.5s', '&:hover': { backgroundColor: 'bgmode.dark', '.MuiCardMedia-root ': { transform: 'scale(1.3)', transition: 'all 0.6s' } } }} className={styles.cardGridItem}>
             <Box sx={{ overflow: 'hidden' }}>
                <CardMedia
                   component="img"

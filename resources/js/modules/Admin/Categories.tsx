@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getCategories } from '../../redux/appSelector'
-import { createCategory, deleteCategory, getCategoriesInit, updateCategory } from '../../redux/catReducer'
+import { CategoryRecordType, createCategory, deleteCategory, getCategoriesInit, updateCategory } from '../../redux/catReducer'
 import { AppDispatch } from '../../redux/store'
 import { TableSimpleItem } from './TableSimpleItem'
 
@@ -17,14 +17,14 @@ export const Categories = () => {
             dispatch(getCategoriesInit())
       }
    }, [])
-   const handleConfirm = (categoryId = '' as string | number, field = '' as string) => {
+   const handleConfirm = (categoryId = 0, category: CategoryRecordType = { title: '', textUrl: '' }) => {
       switch (switchHandler) {
          case 'save': {
-            dispatch(createCategory(field))
+            dispatch(createCategory(category))
             break;
          }
          case 'update': {
-            dispatch(updateCategory(categoryId, field))
+            dispatch(updateCategory(categoryId, category))
             break;
          }
          case 'delete': {

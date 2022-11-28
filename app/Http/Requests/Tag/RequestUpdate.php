@@ -24,7 +24,10 @@ class RequestUpdate extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string|max:50|min:6'
+            'title'=>'required|string|max:50|min:4',
+            'img'=>'',
+            'description'=>'',
+            'textUrl'=>'string|required|max:20'
         ];
     }
 }

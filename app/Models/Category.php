@@ -15,5 +15,8 @@ class Category extends Model
     {
         return $this->hasMany(Task::class,'category_id','id');
     }
-
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class,'category_tags','category_id','tag_id');
+    }
 }

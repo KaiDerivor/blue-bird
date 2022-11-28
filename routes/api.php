@@ -76,14 +76,14 @@ Route::group([
     Route::group(['namespace' => 'Category'], function () {
         Route::get('/categories', 'IndexController')->name('admin.category.index');
         Route::post('/categories', "StoreController")->name('admin.category.store');
-        Route::patch('/categories/{category}', "UpdateController")->name('admin.category.update');
+        Route::post('/categories/{category}', "UpdateController")->name('admin.category.update');
         Route::delete('/categories/{category}', "DeleteController")->name('admin.category.delete');
     });
 
     Route::group(['namespace' => 'Tag'], function () {
         Route::get('/tags', 'IndexController')->name('admin.tag.index');
         Route::post('/tags', "StoreController")->name('admin.tag.store');
-        Route::patch('/tags/{tag}', "UpdateController")->name('admin.tag.update');
+        Route::post('/tags/{tag}', "UpdateController")->name('admin.tag.update');
         Route::delete('/tags/{tag}', "DeleteController")->name('admin.tag.delete');
     });
 

@@ -24,7 +24,10 @@ class RequestCreate extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string|size:6'
+            'title'=>'required|string|max:50|min:4',
+            'img'=>'required',
+            'description'=>'',
+            'textUrl'=>'string|required|max:20'
         ];
     }
 

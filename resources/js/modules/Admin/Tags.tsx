@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getTags } from '../../redux/appSelector'
-import { createTag, deleteTag, getTagsInit, updateTag } from '../../redux/tagReducer'
+import { createTag, deleteTag, getTagsInit, TagRecordType, updateTag } from '../../redux/tagReducer'
 import { TableSimpleItem } from './TableSimpleItem'
 
 export const Tags = () => {
@@ -16,14 +16,14 @@ export const Tags = () => {
             dispatch(getTagsInit())
       }
    }, [])
-   const handleConfirm = (tagId = '' as string | number, field = '' as string) => {
+   const handleConfirm = (tagId = 0, tag: TagRecordType = { title: '', textUrl: '' }) => {
       switch (switchHandler) {
          case 'save': {
-            dispatch(createTag(field))
+            dispatch(createTag(tag))
             break;
          }
          case 'update': {
-            dispatch(updateTag(tagId, field))
+            dispatch(updateTag(tagId, tag))
             break;
          }
          case 'delete': {

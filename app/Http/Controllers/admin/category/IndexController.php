@@ -9,7 +9,7 @@ class IndexController extends BaseController
 {
     public function __invoke()
     {
-        $categories = Category::all();
+        $categories = Category::orderBy('title','asc')->get();
         return CategoryResource::collection($categories);
     }
 }

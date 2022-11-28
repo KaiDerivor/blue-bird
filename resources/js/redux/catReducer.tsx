@@ -7,13 +7,15 @@ import store, { AppStateType, InferActionsTypes } from "./store";
 const INIT = 'cat/INIT'
 const SET_ERROR_MESSAGE = 'SET_ERROR_MESSAGE'
 const ERASE_ERROR = 'ERASE_ERROR'
-const UPDATE_CATEGORIES = 'UPDATE_CATEGORIES'
+const UPDATE_CATEGORIES = 'cat/UPDATE_CATEGORIES'
 
 export type CategoryRecordType = {
+   id?: number,
    title: string,
-   id: string | number,
    description?: string
-   img?: string
+   img?: any,
+   textUrl: string,
+   tags?: Array<number>
 }
 const initialState = {
    listCats: [] as Array<CategoryRecordType>,
@@ -45,15 +47,15 @@ const catReducer = (state = initialState, action: ActionsTypes): StateType => {
          }
       }
       case UPDATE_CATEGORIES: {
-       let isSetted=false;
+         let isSetted = false;
          for (let i = 0; i < state.listCats.length; i++) {
             if (state.listCats[i].id === action.category.id) {
                state.listCats.splice(i, 1, action.category);
-               isSetted=true;
+               isSetted = true;
                break;
             }
          }
-         if(!isSetted){
+         if (!isSetted) {
             state.listCats.push(action.category)
          }
          return {
@@ -90,7 +92,7 @@ export const getCategoriesInit = (): ThunksTypes => {
       })
    }
 }
-export const createCategory = (category: string): ThunksTypes => {
+export const createCategory = (category: CategoryRecordType): ThunksTypes => {
    return async (dispatch) => {
       api.createCategory(category)?.then(res => {
          if (res) {
@@ -104,8 +106,11 @@ export const createCategory = (category: string): ThunksTypes => {
       })
    }
 }
-export const updateCategory = (id: number | string, category: string): ThunksTypes => {
+export const updateCategory = (id: number, category: CategoryRecordType): ThunksTypes => {
    return async (dispatch) => {
+      if (!category.img.name) {
+         delete category.img
+      }
       api.updateCategory(id, category)?.then(res => {
 
          if (typeof res === 'string') {
@@ -118,7 +123,7 @@ export const updateCategory = (id: number | string, category: string): ThunksTyp
       })
    }
 }
-export const deleteCategory = (id: number | string): ThunksTypes => {
+export const deleteCategory = (id: number): ThunksTypes => {
    return async (dispatch) => {
       api.deleteCategory(id)?.then(res => {
 

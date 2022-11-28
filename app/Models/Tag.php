@@ -12,8 +12,13 @@ class Tag extends Model
     protected $guarded = [];
     public function tasks()
     {
-    
-        return $this->hasMany(Task::class,'tag_id','id');
-        
+        return $this->hasMany(Task::class, 'tag_id', 'id');
+    }
+    // public function categories(){
+    //     return $this->hasMany(Category::class,'tag_id','id');
+    // }
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'category_tags', 'tag_id', 'category_id');
     }
 }

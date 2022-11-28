@@ -11,7 +11,6 @@ class StoreController extends BaseController
     public function __invoke(RequestCreate $request)
     {
         $data = $request->validated();
-
         $msg = $this->service->store($data);
         return response(['data'=>$msg]);
     }

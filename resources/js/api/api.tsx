@@ -1,4 +1,6 @@
 import axios from "axios";
+import { CategoryRecordType } from "../redux/catReducer";
+import { TagRecordType } from "../redux/tagReducer";
 import { TaskRecordType } from "../redux/taskReducer";
 import { UserRecordType } from "../redux/userReducer";
 import { FormDataLogType } from './../redux/appReducer'
@@ -136,8 +138,14 @@ export const api = {
       }
     });
   },
-  createCategory: function (title: string) {
-    return instance.post('admin/categories', { title }).then(res => {
+  createCategory: function (category: CategoryRecordType) {
+    // console.log(category)
+    // return;
+    return instance.post('admin/categories', { ...category }, {
+      headers: {
+        'content-type': 'multipart/form-data'
+      }
+    }).then(res => {
       return res.data.data;
     }).catch(err => {
       if (err.response.data.message) {
@@ -151,8 +159,12 @@ export const api = {
       }
     });
   },
-  updateCategory: function (id: number | string, title: string) {
-    return instance.patch(`admin/categories/${id}`, { title }).then(res => {
+  updateCategory: function (id: number, category: CategoryRecordType) {
+    return instance.post(`admin/categories/${id}`, { ...category }, {
+      headers: {
+        'content-type': 'multipart/form-data'
+      }
+    }).then(res => {
       return res.data.data;
     }).catch(err => {
       if (err.response.data.message) {
@@ -166,7 +178,7 @@ export const api = {
       }
     });
   },
-  deleteCategory: function (id: number | string) {
+  deleteCategory: function (id: number) {
     return instance.delete(`admin/categories/${id}`).then(res => {
       return res.data.data;
     }).catch(err => {
@@ -193,8 +205,12 @@ export const api = {
       }
     });
   },
-  createTag: function (title: string) {
-    return instance.post('admin/tags', { title }).then(res => {
+  createTag: function (tag: TagRecordType) {
+    return instance.post('admin/tags', { ...tag }, {
+      headers: {
+        'content-type': 'multipart/form-data' // do not forget this 
+      }
+    }).then(res => {
       return res.data.data;
     }).catch(err => {
       if (err.response.data.message) {
@@ -208,8 +224,12 @@ export const api = {
       }
     });
   },
-  updateTag: function (id: number | string, title: string) {
-    return instance.patch(`admin/tags/${id}`, { title }).then(res => {
+  updateTag: function (id: number, tag: TagRecordType) {
+    return instance.post(`admin/tags/${id}`, { ...tag }, {
+      headers: {
+        'content-type': 'multipart/form-data' // do not forget this 
+      }
+    }).then(res => {
       return res.data.data;
     }).catch(err => {
       if (err.response.data.message) {
@@ -223,7 +243,7 @@ export const api = {
       }
     });
   },
-  deleteTag: function (id: number | string) {
+  deleteTag: function (id: number) {
     return instance.delete(`admin/tags/${id}`).then(res => {
       return res.data.data;
     }).catch(err => {

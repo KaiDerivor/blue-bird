@@ -9,10 +9,11 @@ const SET_ERROR_MESSAGE = 'SET_ERROR_MESSAGE'
 const ERASE_ERROR = 'ERASE_ERROR'
 const UPDATE_TAG = 'cat/UPDATE_TAG'
 export type TagRecordType = {
+   id?: number,
    title: string,
-   id: string | number,
    description?: string
    img?: string
+   textUrl: string
 }
 const initialState = {
    listTags: [] as Array<TagRecordType>,
@@ -44,15 +45,15 @@ const tagReducer = (state = initialState, action: ActionsTypes): StateType => {
          }
       }
       case UPDATE_TAG: {
-         let isSetted=false;
+         let isSetted = false;
          for (let i = 0; i < state.listTags.length; i++) {
             if (state.listTags[i].id === action.tag.id) {
                state.listTags.splice(i, 1, action.tag);
-               isSetted=true;
+               isSetted = true;
                break;
             }
          }
-         if(!isSetted){
+         if (!isSetted) {
             state.listTags.push(action.tag)
          }
          return {
@@ -88,8 +89,10 @@ export const getTagsInit = (): ThunksTypes => {
       })
    }
 }
-export const createTag = (tag: string): ThunksTypes => {
+export const createTag = (tag: TagRecordType): ThunksTypes => {
    return async (dispatch) => {
+
+
       api.createTag(tag)?.then(res => {
          if (res) {
             if (typeof res === 'string') {
@@ -102,11 +105,13 @@ export const createTag = (tag: string): ThunksTypes => {
       })
    }
 }
-export const updateTag = (id: number | string, tag: string): ThunksTypes => {
+export const updateTag = (id: number, tag: TagRecordType): ThunksTypes => {
    return async (dispatch) => {
+      //@ts-ignore
+      if (!tag.img.name) {
+         delete tag.img
+      }
       api.updateTag(id, tag)?.then(res => {
-
-
          if (typeof res === 'string') {
             dispatch(appActions.setErrorText(res))
          } else {
@@ -117,7 +122,7 @@ export const updateTag = (id: number | string, tag: string): ThunksTypes => {
       })
    }
 }
-export const deleteTag = (id: number | string): ThunksTypes => {
+export const deleteTag = (id: number): ThunksTypes => {
    return async (dispatch) => {
       api.deleteTag(id)?.then(res => {
 

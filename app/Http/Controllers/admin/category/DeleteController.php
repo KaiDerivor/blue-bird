@@ -10,8 +10,9 @@ class DeleteController extends BaseController
 {
     public function __invoke(Category $category)
     {
+        $category->tags()->sync([]);
         $category->delete();
-        $categories = Category::all();
+        $categories = Category::orderBy('title','asc')->get();
         return CategoryResource::collection($categories);
     }
 }

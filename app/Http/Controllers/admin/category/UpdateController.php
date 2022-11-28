@@ -10,8 +10,9 @@ class UpdateController extends BaseController
 {
     public function __invoke(RequestUpdate $request, Category $category)
     {
-        $data = $request->validated();
+        // return response('data');
 
+        $data = $request->validated();
         $msg=$this->service->update($category, $data);
        return new CategoryResource($msg);
     }
