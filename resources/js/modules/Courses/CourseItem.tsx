@@ -83,7 +83,7 @@ export const CourseItem = () => {
    const showTask = () => {
       for (const task of test) {
          if (task.number_of_task === taskNumber) {
-            console.log(userAnswers)
+          
             return (
                <>
                <div>

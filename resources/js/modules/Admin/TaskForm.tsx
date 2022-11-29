@@ -87,7 +87,6 @@ export const TaskForm: React.FC<TaskFormType> = ({ handleConfirm, task }) => {
                   setError('Choose task_type')
                   return;
                }
-               console.log(formData)
                handleConfirm(formData)
             }}
          >

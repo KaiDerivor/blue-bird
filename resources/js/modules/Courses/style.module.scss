@@ -35,7 +35,8 @@ $index:calc(1vh + 1vw);
 }
 
 .wrapperRadio {
-   margin-right: 8px;
+    margin-right: 8px;
+
     .radioField {
         appearance: none;
 
@@ -95,6 +96,11 @@ $index:calc(1vh + 1vw);
     }
 }
 
+.rangeWrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
 /***************************
 ****************************
 **********Adaptive**********
@@ -117,6 +123,11 @@ $index:calc(1vh + 1vw);
         &__side {
             width: 100%;
         }
+    }
+
+    .rangeWrapper {
+        flex-wrap: wrap;
+        flex-direction: column;
     }
 }
 
