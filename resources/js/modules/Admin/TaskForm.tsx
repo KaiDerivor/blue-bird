@@ -42,7 +42,6 @@ export const TaskForm: React.FC<TaskFormType> = ({ handleConfirm, task }) => {
          setIsSubmiting(false)
       }
    }, [errorText])
-
    return (
       <div>
          <Formik
@@ -53,20 +52,15 @@ export const TaskForm: React.FC<TaskFormType> = ({ handleConfirm, task }) => {
                number_of_task: task?.number_of_task ? task.number_of_task : '',
                category_id: task?.category_id ? task.category_id : `${categories[0]!.id}`,
                tag_id: task?.tag_id ? task.tag_id : `${tagsList[0]!.id}`,
-               task_type: task?.task_type ? task.task_type : ''
+               task_type: task?.task_type ? task.task_type : '',
+               taskAnswers: task?.test_qa ? JSON.parse(task.test_qa).taskAnswers.join('##') : '',
+               taskQuestion: task?.test_qa ? JSON.parse(task.test_qa).taskQuestion : ''
             }}
             onSubmit={(values) => {
                //@ts-ignore
                let formData = { ...values, task: taskImg, number_of_task }
 
-               if (!formData.task) {
-                  if (task?.task) {
 
-                  } else {
-                     setError('Upload file')
-                     return;
-                  }
-               }
                if (!formData.answer) {
                   setError('Fill answer')
                   return;
@@ -87,6 +81,13 @@ export const TaskForm: React.FC<TaskFormType> = ({ handleConfirm, task }) => {
                   setError('Choose task_type')
                   return;
                }
+               //@ts-ignore
+               formData.test_qa = JSON.stringify({
+                  taskQuestion: formData.taskQuestion,
+                  taskAnswers: formData.taskAnswers.split('##')
+               })
+               delete formData.taskQuestion
+               delete formData.taskAnswers
                handleConfirm(formData)
             }}
          >
@@ -96,7 +97,6 @@ export const TaskForm: React.FC<TaskFormType> = ({ handleConfirm, task }) => {
                   {task?.task && <img src={`${URL_STORAGE}${task?.task}`} />}
                </Box>
                <Box className={styles.wrapperField}>
-
                   <Stack direction="row" alignItems="center" spacing={2}>
                      <div>
 
@@ -120,7 +120,14 @@ export const TaskForm: React.FC<TaskFormType> = ({ handleConfirm, task }) => {
                      </div>
 
                   </Stack>
-
+               </Box>
+               <Box className={styles.wrapperField}>
+                  <Field as="textarea" rows='10' name="taskQuestion" className={styles.inputField}
+                     placeholder="Task" autoComplete='' />
+               </Box>
+               <Box className={styles.wrapperField}>
+                  <Field as="textarea" rows='10' name="taskAnswers" className={styles.inputField}
+                     placeholder="Separete by ##" autoComplete='' />
                </Box>
                <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', width: '100%', gap: '20px' }}>
 
@@ -158,8 +165,9 @@ export const TaskForm: React.FC<TaskFormType> = ({ handleConfirm, task }) => {
                         <option value='letter4'>letter4</option>
                         <option value='letter5'>letter5</option>
                         <option value='letters'>letters</option>
-                        <option value='range'>range</option>
-                        <option value='short'>short</option>
+                        <option value='range1'>range1</option>
+                        <option value='range2'>range2</option>
+                        <option value='range3'>range3</option>
                      </Field>
                      <ErrorMessage name="task_type" component="div" />
                   </Box>

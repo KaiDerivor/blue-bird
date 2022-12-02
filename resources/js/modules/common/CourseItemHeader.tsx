@@ -1,9 +1,10 @@
+import React, { useRef } from 'react'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import { useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { ButtonNavigate } from '../common/ButtonNavigate'
 import { WavesDivider } from '../common/WavesDivider'
+//@ts-ignore
 import styles from './style.module.scss'
 
 type CommonHeaderType = {
@@ -14,7 +15,7 @@ export const CourseItemHeader: React.FC<CommonHeaderType> = ({ title, subtitle }
 
    return (
       <>
-         <Box sx={{mb:4}}
+         <Box sx={{ mb: 4 }}
          >
             <Typography className={styles.header__title} variant="h3" color="fpage.main" >
                {title}

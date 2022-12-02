@@ -11,7 +11,9 @@ class StoreController extends BaseController
     public function __invoke(RequestStore $request)
     {
         $data = $request->validated();
+        
         $msg = $this->service->store($data);
+        // return response([$msg['test_qa']]);
         return new TaskResource($msg);
     }
 }

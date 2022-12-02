@@ -22,7 +22,8 @@ class TaskResource extends JsonResource
             'category_id'=>$this->category_id,
             'tag_id'=>$this->tag_id,
             'task_type'=>$this->task_type,
-            'number_of_task'=>$this->number_of_task
+            'number_of_task'=>$this->number_of_task,
+            'test_qa'=>$this->test_qa
         ];
     }
 }

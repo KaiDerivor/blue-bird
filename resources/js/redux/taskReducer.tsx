@@ -20,6 +20,7 @@ export type TaskRecordType = {
    tag_id?: string
    number_of_task: number
    task_type: string
+   test_qa:any
 }
 const initialState = {
    listTasks: [] as Array<TaskRecordType>,

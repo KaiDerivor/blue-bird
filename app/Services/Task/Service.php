@@ -40,7 +40,6 @@ class Service extends Path2File
    }
    public function store($data)
    {
-      // $tt=Task::where(['category_id'=>$data['category_id'],'task_id'=>$data['task_id']])->first();
       $task = Task::where([
          ['category_id', '=', $data['category_id']],
          ['tag_id', '=', $data['tag_id']],
@@ -49,8 +48,10 @@ class Service extends Path2File
       if ($task) {
          return "This records alredy exists. ID:" . $task->id;
       }
+ 
       try {
          DB::beginTransaction();
+         if(isset($data['task']))
          $data['task'] = Storage::disk('public')->put('/img-tasks', $data['task']);
 
          $data = Task::create($data);

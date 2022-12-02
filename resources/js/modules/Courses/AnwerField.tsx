@@ -5,34 +5,70 @@ import { TaskRecordType } from '../../redux/taskReducer'
 import styles from './style.module.scss'
 import TextField from '@mui/material/TextField'
 import { Typography } from '@mui/material'
-import { Stack } from '@mui/system'
 
 const lettersOfAnswers = ['А', 'Б', 'В', 'Г', 'Д'];
 
 type AnswerFieldType = {
    task: TaskRecordType
    userAnswers: any
-   setUserAnswers: (arg1: any) => void
+   setUserAnswers?: (arg1: any) => void
+   isAsAnswer?: boolean
 }
-export const AnswerField: React.FC<AnswerFieldType> = ({ task, setUserAnswers, userAnswers }) => {
+export const AnswerField: React.FC<AnswerFieldType> = ({ task, setUserAnswers, userAnswers, isAsAnswer = false }) => {
 
+   const [answerType, setAnswerType] = useState('letter4')
+   const [answerElement, setAnswerElement] = useState(<></>)
    const handleChange = (answer: string) => {
-      setUserAnswers((prev => {
-         return {
-            ...prev,
-            [task.number_of_task]: answer
-         }
-      }))
+      if (setUserAnswers)
+         setUserAnswers((prev => {
+            return {
+               ...prev,
+               [task.number_of_task]: answer
+            }
+         }))
    };
+
+   switch (task.task_type) {
+      case ('letter4'): {
+         if (answerType !== 'letter4') {
+            setAnswerElement(<CheckLetter task={task} handleChange={handleChange} userAnswers={userAnswers} isAsAnswer={isAsAnswer} />)
+            setAnswerType(task.task_type)
+         }
+         break;
+      }
+      case ('letter5'): {
+         if (answerType !== 'letter5') {
+            setAnswerElement(<CheckLetter task={task} handleChange={handleChange} userAnswers={userAnswers} isAsAnswer={isAsAnswer} />)
+            setAnswerType(task.task_type)
+         }
+         break;
+      }
+      case 'short': {
+         if (answerType !== 'short') {
+            setAnswerElement(<Range1 handleChange={handleChange} userAnswers={userAnswers} task={task} isAsAnswer={isAsAnswer} />)
+            setAnswerType(task.task_type)
+         }
+         break;
+      }
+      case 'letters': {
+         if (answerType !== 'letters') {
+            setAnswerElement(<Letters handleChange={handleChange} userAnswers={userAnswers} task={task} isAsAnswer={isAsAnswer} />)
+            setAnswerType(task.task_type)
+         }
+         break;
+      }
+      case 'range': {
+         if (answerType !== 'range') {
+            setAnswerElement(<Range3 handleChange={handleChange} userAnswers={userAnswers} task={task} isAsAnswer={isAsAnswer} />)
+            setAnswerType(task.task_type)
+         }
+         break;
+      }
+   }
+
    return (
-      <Box sx={{ pt: 3 }}>
-         {task.task_type === 'letter4' || task.task_type === 'letter5'
-            ? <CheckLetter task={task} handleChange={handleChange} userAnswers={userAnswers} />
-            : task.task_type === 'short'
-               ? <FieldShort handleChange={handleChange} userAnswers={userAnswers} task={task} />
-               : task.task_type === 'letters'
-                  ? <Letters handleChange={handleChange} userAnswers={userAnswers} task={task} />
-                  : <Range handleChange={handleChange} userAnswers={userAnswers} task={task} />}
+      <Box sx={{ pt: 3, pb: 5 }}>
+         {answerElement}
       </Box>
    )
 }
@@ -40,26 +76,64 @@ type AnswerComponentType = {
    task: TaskRecordType
    handleChange: (arg1: string) => void
    userAnswers: any
-
+   isAsAnswer?: boolean
 }
-export const CheckLetter: React.FC<AnswerComponentType> = ({ task, handleChange, userAnswers }) => {
+export const CheckLetter: React.FC<AnswerComponentType> = ({ task, handleChange, userAnswers, isAsAnswer = false }) => {
    const refA = createRef()
    const refB = createRef()
    const refC = createRef()
    const refD = createRef()
    const refE = createRef()
    const refK = createRef()
+
+   if (isAsAnswer)
+      useEffect(() => {
+         if (task.answer === 'A') {
+            refA.current.classList.add(styles.radioField__correct)
+         } else if (task.answer === 'Б') {
+            refB.current.classList.add(styles.radioField__correct)
+         } else if (task.answer === 'В') {
+            refC.current.classList.add(styles.radioField__correct)
+         } else if (task.answer === 'Г') {
+            refD.current.classList.add(styles.radioField__correct)
+         } else if (task.answer === 'Д') {
+            refE.current.classList.add(styles.radioField__correct)
+         } else {
+            refK.current.checked = true
+         }
+      }, [refK, task.number_of_task])
+
    useEffect(() => {
-      if (userAnswers[task.number_of_task] === 'A') {
-         refA.current.checked = true
+      if (userAnswers[task.number_of_task] === 'А') {
+         if (isAsAnswer) {
+            userAnswers[task.number_of_task] === task.answer ? refA.current.classList.add(styles.radioField__correct) : refA.current.classList.add(styles.radioField__error)
+         } else {
+            refA.current.checked = true
+         }
       } else if (userAnswers[task.number_of_task] === 'Б') {
-         refB.current.checked = true
+         if (isAsAnswer) {
+            userAnswers === task.answer ? refA.current.classList.add(styles.radioField__correct) : refA.current.classList.add(styles.radioField__error)
+         } else {
+            refB.current.checked = true
+         }
       } else if (userAnswers[task.number_of_task] === 'В') {
-         refC.current.checked = true
+         if (isAsAnswer) {
+            userAnswers === task.answer ? refA.current.classList.add(styles.radioField__correct) : refA.current.classList.add(styles.radioField__error)
+         } else {
+            refC.current.checked = true
+         }
       } else if (userAnswers[task.number_of_task] === 'Г') {
-         refD.current.checked = true
+         if (isAsAnswer) {
+            userAnswers === task.answer ? refA.current.classList.add(styles.radioField__correct) : refA.current.classList.add(styles.radioField__error)
+         } else {
+            refD.current.checked = true
+         }
       } else if (userAnswers[task.number_of_task] === 'Д') {
-         refE.current.checked = true
+         if (isAsAnswer) {
+            userAnswers === task.answer ? refA.current.classList.add(styles.radioField__correct) : refA.current.classList.add(styles.radioField__error)
+         } else {
+            refE.current.checked = true
+         }
       } else {
          refK.current.checked = true
       }
@@ -79,28 +153,49 @@ export const CheckLetter: React.FC<AnswerComponentType> = ({ task, handleChange,
                   <tr>
                      <td>
                         <label className={styles.wrapperRadio}>
-                           <input ref={refA} type="radio" value="А" onChange={(el) => handleChange(el.target.value)} name={`${task.number_of_task}`} className={styles.radioField} /><span className={styles.marker}></span>
-                        </label>
-                     </td>
-                     <td>
-                        <label ref={refB} className={styles.wrapperRadio}>
-                           <input type="radio" value="Б" defaultChecked={userAnswers[task.number_of_task] === 'Б'} onChange={(el) => handleChange(el.target.value)} name={`${task.number_of_task}`} className={styles.radioField} /><span className={styles.marker}></span>
-                        </label>
-                     </td>
-                     <td>
-                        <label className={styles.wrapperRadio}>
-                           <input ref={refC} type="radio" value="В" defaultChecked={userAnswers[task.number_of_task] === 'В'} onChange={(el) => handleChange(el.target.value)} name={`${task.number_of_task}`} className={styles.radioField} /><span className={styles.marker}></span>
+                           <input ref={refA} type="radio" value="А"
+                              disabled={isAsAnswer}
+                              onChange={(el) => handleChange(el.target.value)}
+                              name={`${task.number_of_task}`}
+                              className={styles.radioField} />
+                           <span className={styles.marker}></span>
                         </label>
                      </td>
                      <td>
                         <label className={styles.wrapperRadio}>
-                           <input ref={refD} type="radio" value="Г" defaultChecked={userAnswers[task.number_of_task] === 'Г'} onChange={(el) => handleChange(el.target.value)} name={`${task.number_of_task}`} className={styles.radioField} /><span className={styles.marker}></span>
+                           <input ref={refB} type="radio" value="Б"
+                              onChange={(el) => handleChange(el.target.value)}
+                              disabled={isAsAnswer}
+                              name={`${task.number_of_task}`} className={styles.radioField} />
+                           <span className={styles.marker}></span>
+                        </label>
+                     </td>
+                     <td>
+                        <label className={styles.wrapperRadio}>
+                           <input ref={refC} type="radio" value="В"
+                              disabled={isAsAnswer}
+                              onChange={(el) => handleChange(el.target.value)}
+                              name={`${task.number_of_task}`} className={styles.radioField} />
+                           <span className={styles.marker}></span>
+                        </label>
+                     </td>
+                     <td>
+                        <label className={styles.wrapperRadio}>
+                           <input ref={refD} type="radio" value="Г"
+                              disabled={isAsAnswer}
+                              onChange={(el) => handleChange(el.target.value)}
+                              name={`${task.number_of_task}`} className={styles.radioField} />
+                           <span className={styles.marker}></span>
                         </label>
                      </td>
                      {task.task_type === 'letter4' || task.task_type === 'letter5' &&
                         <td>
                            <label className={styles.wrapperRadio}>
-                              <input ref={refE} type="radio" value="Д" defaultChecked={userAnswers[task.number_of_task] === 'Д'} onChange={(el) => handleChange(el.target.value)} name={`${task.number_of_task}`} className={styles.radioField} /><span className={styles.marker}></span>
+                              <input ref={refE} type="radio" value="Д"
+                                 disabled={isAsAnswer}
+                                 onChange={(el) => handleChange(el.target.value)}
+                                 name={`${task.number_of_task}`} className={styles.radioField} />
+                              <span className={styles.marker}></span>
                            </label>
                         </td>
                      }
@@ -116,37 +211,8 @@ export const CheckLetter: React.FC<AnswerComponentType> = ({ task, handleChange,
       </>
    )
 }
-export const FieldShort: React.FC<AnswerComponentType> = ({ handleChange, userAnswers, task }) => {
-   const [fieldAnswer, setFieldAnswer] = useState(() => {
-      if (userAnswers[task.number_of_task]) {
-         return userAnswers[task.number_of_task]
-      }
-      return ''
-   })
-   return (
-      <Box >
-         <Typography variant="h5" color="fpage.main" sx={{ mb: 2 }}>Ваша відповідь</Typography>
-         <TextField
-            id="outlined-basic"
-            label="Ваша відповідь"
-            variant="outlined"
-            size='small'
-            value={fieldAnswer}
-            onChange={(el) => {
-               let answer = el.target.value;
-               //@ts-ignore
-               if (!isNaN(answer)) {
-                  handleChange(answer)
-                  setFieldAnswer(answer)
-               }
-            }}
 
-         />
-
-      </Box>
-   )
-}
-export const Letters: React.FC<AnswerComponentType> = ({ handleChange, userAnswers, task }) => {
+export const Letters: React.FC<AnswerComponentType> = ({ handleChange, userAnswers, task, isAsAnswer }) => {
 
    let radioButtonsRange = {
       a1: [createRef(), createRef(), createRef(), createRef(), createRef(), createRef()],
@@ -156,17 +222,29 @@ export const Letters: React.FC<AnswerComponentType> = ({ handleChange, userAnswe
    };
 
    const rangeAlredyAnswered = userAnswers[task.number_of_task]
+   const rightAnswers = task.answer.split(',')
    useEffect(() => {
       if (rangeAlredyAnswered) {
+         // console.log(rightAnswers)
+         // console.log(rangeAlredyAnswered)
          const range = rangeAlredyAnswered.split('')
          for (let i = 0; i < 4; i++) {
             radioButtonsRange[`a${i + 1}`].forEach((element, index) => {
+
                if (range[i] === lettersOfAnswers[index]) {
-                  element.current.checked = true;
+                  if (isAsAnswer) {
+                     rightAnswers[i] === range[i] ? element.current.classList.add(styles.radioField__correct) : element.current.classList.add(styles.radioField__error)
+                  } else {
+                     element.current.checked = true;
+                  }
                }
                else {
                   element.current.checked = false;
+                  if (isAsAnswer) {
+                     rightAnswers[i] === lettersOfAnswers[index] && element.current.classList.add(styles.radioField__correct)
+                  }
                }
+               element.current.disabled = isAsAnswer
             });
 
          }
@@ -256,13 +334,164 @@ export const Letters: React.FC<AnswerComponentType> = ({ handleChange, userAnswe
       </>
    )
 }
-export const Range: React.FC<AnswerComponentType> = ({ handleChange, userAnswers, task }) => {
+export const Range1: React.FC<AnswerComponentType> = ({ handleChange, userAnswers, task, isAsAnswer }) => {
+   const [fieldAnswer, setFieldAnswer] = useState(() => {
+      if (userAnswers[task.number_of_task]) {
+         return userAnswers[task.number_of_task]
+      }
+      return ''
+   })
+
+   return (
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+         <TextField
+            inputProps={{ readOnly: isAsAnswer }}
+            color={isAsAnswer && `${userAnswers[task.number_of_task]}` === `${task.answer}` ? 'success' : `${userAnswers[task.number_of_task]}` !== `${task.answer}` ? 'error' : undefined}
+            id="outlined-basic"
+            label="Ваша відповідь"
+            variant="outlined"
+            size='small'
+            value={fieldAnswer}
+            focused
+            onChange={(el) => {
+               let answer = el.target.value;
+               //@ts-ignore
+               if (!isNaN(answer)) {
+                  handleChange(answer)
+                  setFieldAnswer(answer)
+               }
+            }}
+
+         />
+         {(isAsAnswer && `${userAnswers[task.number_of_task]}` !== `${task.answer}`) &&
+            <TextField id="standard-basic" variant="standard" color='success' focused value={task.answer} inputProps={{ readOnly: isAsAnswer }} />
+         }
+      </Box>
+   )
+}
+export const Range2: React.FC<AnswerComponentType> = ({ handleChange, userAnswers, task, isAsAnswer }) => {
+   const [fieldAnswer1, setFieldAnswer1] = useState('')
+   const [fieldAnswer2, setFieldAnswer2] = useState('')
+   const rightAnswers = task.answer.split(',')
+   useEffect(() => {
+      setFieldAnswer1(() => {
+         if (userAnswers[task.number_of_task]) {
+            return userAnswers[task.number_of_task].split('')[0]
+         }
+         return ''
+      })
+      setFieldAnswer2(() => {
+         if (userAnswers[task.number_of_task]) {
+            return userAnswers[task.number_of_task].split('')[1]
+         }
+         return ''
+      })
+   }, [task.number_of_task])
+   useEffect(() => {
+      handleChange(`${fieldAnswer1 ? fieldAnswer1 : ','}${fieldAnswer2 ? fieldAnswer2 : ','}`)
+
+   }, [fieldAnswer1, fieldAnswer2])
+
+   return (
+      <Box >
+         <Box className={styles.rangeWrapper}>
+            <TextField
+               className={styles.rangeWrapper__fieldRange3}
+               inputProps={{ readOnly: isAsAnswer }}
+               color={isAsAnswer && userAnswers[task.number_of_task].split('')[0] === rightAnswers[0] ? 'success' : userAnswers[task.number_of_task].split('')[0] !== rightAnswers[0] ? 'error' : undefined}
+               sx={{ mb: 2 }}
+               type='number'
+               id="outlined-basic"
+               variant="outlined"
+               size='small'
+               value={fieldAnswer1}
+               focused
+               onChange={(el) => {
+                  let number = el.target.value;
+                  if (number === '-') {
+                     return;
+                  }
+                  if (`${number}`.split('').length > 1 && `${number}`.split('')[1] === '-') {
+                     return;
+                  }
+                  if (`${number}`.split('').length > 1) {
+                     let lastNumber = +`${number}`.split('')[1]
+                     lastNumber > 7 ? setFieldAnswer1('7') : setFieldAnswer1(`${lastNumber}`)
+                  } else if (+number > 7) {
+                     setFieldAnswer1('7')
+                  } else {
+                     setFieldAnswer1(el.target.value)
+                  }
+               }}
+            />
+            <TextField
+               className={styles.rangeWrapper__fieldRange3}
+               inputProps={{ readOnly: isAsAnswer }}
+               color={isAsAnswer && userAnswers[task.number_of_task].split('')[1] === rightAnswers[0] ? 'success' : userAnswers[task.number_of_task].split('')[1] !== rightAnswers[0] ? 'error' : undefined}
+               sx={{ mb: 2 }}
+               type='number'
+               id="outlined-basic"
+               variant="outlined"
+               size='small'
+               value={fieldAnswer2}
+               focused
+               onChange={(el) => {
+                  let number = el.target.value;
+                  if (number === '-') {
+                     return;
+                  }
+                  if (`${number}`.split('').length > 1 && `${number}`.split('')[1] === '-') {
+                     return;
+                  }
+                  if (`${number}`.split('').length > 1) {
+                     let lastNumber = +`${number}`.split('')[1]
+                     lastNumber > 7 ? setFieldAnswer1('7') : setFieldAnswer1(`${lastNumber}`)
+                  } else if (+number > 7) {
+                     setFieldAnswer1('7')
+                  } else {
+                     setFieldAnswer2(el.target.value)
+                  }
+
+
+               }}
+            />
+
+         </Box>
+         {isAsAnswer && <Box className={styles.rangeWrapper}>
+            <TextField
+               className={styles.rangeWrapper__fieldRange3}
+               inputProps={{ readOnly: isAsAnswer }}
+               color='success'
+               sx={{ mb: 2 }}
+               type='number'
+               id="outlined-basic"
+               variant="outlined"
+               size='small'
+               value={rightAnswers[0]}
+               focused
+            />
+            <TextField
+               className={styles.rangeWrapper__fieldRange3}
+               inputProps={{ readOnly: isAsAnswer }}
+               color='success'
+               sx={{ mb: 2 }}
+               type='number'
+               id="outlined-basic"
+               variant="outlined"
+               size='small'
+               value={rightAnswers[1]}
+               focused
+            />
+         </Box>}
+      </Box>
+   )
+}
+export const Range3: React.FC<AnswerComponentType> = ({ handleChange, userAnswers, task, isAsAnswer }) => {
    const [fieldAnswer1, setFieldAnswer1] = useState('')
    const [fieldAnswer2, setFieldAnswer2] = useState('')
    const [fieldAnswer3, setFieldAnswer3] = useState('')
-
+   const rightAnswers = task.answer.split(',')
    useEffect(() => {
-      console.log(userAnswers[task.number_of_task])
       setFieldAnswer1(() => {
          if (userAnswers[task.number_of_task]) {
             return userAnswers[task.number_of_task].split('')[0]
@@ -289,17 +518,18 @@ export const Range: React.FC<AnswerComponentType> = ({ handleChange, userAnswers
 
    return (
       <Box >
-         <Typography variant="h5" color="fpage.main" sx={{ mb: 2 }}>Ваша відповідь</Typography>
          <Box className={styles.rangeWrapper}>
-
             <TextField
+               className={styles.rangeWrapper__fieldRange3}
+               inputProps={{ readOnly: isAsAnswer }}
+               color={isAsAnswer && rightAnswers.includes(userAnswers[task.number_of_task].split('')[0]) ? 'success' : userAnswers[task.number_of_task].split('')[0] !== rightAnswers[0] ? 'error' : undefined}
                sx={{ mb: 2 }}
                type='number'
                id="outlined-basic"
-               label="Ваша відповідь"
                variant="outlined"
                size='small'
                value={fieldAnswer1}
+               focused
                onChange={(el) => {
                   let number = el.target.value;
                   if (number === '-') {
@@ -319,13 +549,16 @@ export const Range: React.FC<AnswerComponentType> = ({ handleChange, userAnswers
                }}
             />
             <TextField
+               className={styles.rangeWrapper__fieldRange3}
+               inputProps={{ readOnly: isAsAnswer }}
+               color={isAsAnswer && rightAnswers.includes(userAnswers[task.number_of_task].split('')[1]) ? 'success' : userAnswers[task.number_of_task].split('')[1] !== rightAnswers[0] ? 'error' : undefined}
                sx={{ mb: 2 }}
                type='number'
                id="outlined-basic"
-               label="Ваша відповідь"
                variant="outlined"
                size='small'
                value={fieldAnswer2}
+               focused
                onChange={(el) => {
                   let number = el.target.value;
                   if (number === '-') {
@@ -347,13 +580,16 @@ export const Range: React.FC<AnswerComponentType> = ({ handleChange, userAnswers
                }}
             />
             <TextField
+               className={styles.rangeWrapper__fieldRange3}
+               inputProps={{ readOnly: isAsAnswer }}
+               color={isAsAnswer && rightAnswers.includes(userAnswers[task.number_of_task].split('')[2]) ? 'success' : userAnswers[task.number_of_task].split('')[2] !== rightAnswers[2] ? 'error' : undefined}
                sx={{ mb: 2 }}
                type='number'
                id="outlined-basic"
-               label="Ваша відповідь"
                variant="outlined"
                size='small'
                value={fieldAnswer3}
+               focused
                onChange={(el) => {
                   let number = el.target.value;
                   if (number === '-') {
@@ -374,7 +610,45 @@ export const Range: React.FC<AnswerComponentType> = ({ handleChange, userAnswers
                }}
             />
          </Box>
+         {isAsAnswer && <Box className={styles.rangeWrapper}>
+            <TextField
+               className={styles.rangeWrapper__fieldRange3}
+               inputProps={{ readOnly: isAsAnswer }}
+               color='success'
+               sx={{ mb: 2 }}
+               type='number'
+               id="outlined-basic"
+               variant="outlined"
+               size='small'
+               value={rightAnswers[0]}
+               focused
+            />
+            <TextField
+               className={styles.rangeWrapper__fieldRange3}
+               inputProps={{ readOnly: isAsAnswer }}
+               color='success'
+               sx={{ mb: 2 }}
+               type='number'
+               id="outlined-basic"
+               variant="outlined"
+               size='small'
+               value={rightAnswers[1]}
+               focused
+            />
+            <TextField
+               className={styles.rangeWrapper__fieldRange3}
+               inputProps={{ readOnly: isAsAnswer }}
+               color='success'
+               sx={{ mb: 2 }}
+               type='number'
+               id="outlined-basic"
+               variant="outlined"
+               size='small'
+               value={rightAnswers[2]}
+               focused
 
+            />
+         </Box>}
       </Box>
    )
 }
