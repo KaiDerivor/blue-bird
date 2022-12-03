@@ -1,30 +1,32 @@
 import React from 'react';
 import Box from '@mui/material/Box'
 import Fade from '@mui/material/Fade'
-import { TaskRecordType } from '../../redux/taskReducer';
-import { AnswerField } from './AnwerField';
+import { TaskType } from '../../redux/taskReducer';
+import { AnswerField } from './AnswerField';
 import { URL_STORAGE } from '../../redux/appReducer';
+import { CategoryRecordType } from '../../redux/catReducer';
 
 type ResultOfTestType = {
-   test: Array<TaskRecordType>
+   currCategory:CategoryRecordType
+   test: Array<TaskType>
    userAnswers: any
-   currTagUrl:string
+   currTagUrl: string
 }
-export const ResultOfTest: React.FC<ResultOfTestType> = ({ test, userAnswers ,currTagUrl}) => {
+export const ResultOfTest: React.FC<ResultOfTestType> = ({currCategory, test, userAnswers, currTagUrl }) => {
    const displayAllTasks = () => {
-      let tasks=[] as Array<JSX.Element>
+      let tasks = [] as Array<JSX.Element>
       for (const task of test) {
          tasks.push(<Box key={task.id}>
-               <div>
-                  <img src={`${URL_STORAGE}${task.task}`} alt={`task ${currTagUrl} ${task.number_of_task}`} />
-               </div>
-               <div>{task.number_of_task}</div>
-               <AnswerField
-                  task={task}
-                  userAnswers={userAnswers} 
-                  isAsAnswer
-                  />
-            </Box>
+            <div>
+               <img src={`${URL_STORAGE}${task.task}`} alt={`${currCategory.textUrl}-${currTagUrl}-${task.number_of_task}`} />
+            </div>
+            <div>{task.number_of_task}</div>
+            <AnswerField
+               task={task}
+               userAnswers={userAnswers}
+               isAsAnswer
+            />
+         </Box>
          )
 
       }

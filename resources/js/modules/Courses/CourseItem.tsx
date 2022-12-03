@@ -9,12 +9,17 @@ import { getCategories, getTest } from '../../redux/appSelector'
 import { CategoryRecordType, getCategoriesInit } from '../../redux/catReducer'
 import { AppDispatch } from '../../redux/store'
 import { detectCategory } from '../utils/detectCategory'
-import { ConstructionOutlined } from '@mui/icons-material'
-import { getTestInit, TaskRecordType } from '../../redux/taskReducer'
+import { getTestInit, lettersOfAnswers, TaskRecordType, TaskType } from '../../redux/taskReducer'
 import { URL_STORAGE } from '../../redux/appReducer'
-import { AnswerField } from './AnwerField'
-import { Collapse, Fade } from '@mui/material'
+import { AnswerField } from './AnswerField'
+import { Collapse, Typography } from '@mui/material'
 import { ResultOfTest } from './ResultOfTest'
+//@ts-ignore
+import styles from './style.module.scss'
+
+const buttonsAction = {
+   backgroundColor: 'bgmode.main', color: 'fpage.main', borderColor: 'bgmode.main'
+}
 
 export const CourseItem = () => {
 
@@ -22,29 +27,32 @@ export const CourseItem = () => {
    const dispatch: AppDispatch = useDispatch()
 
    const categories: Array<CategoryRecordType> = useSelector(getCategories)
-   const test: Array<TaskRecordType> = useSelector(getTest)
+   const test: Array<TaskType> = useSelector(getTest)
 
    const [currCategory, setCurrCategory] = useState(detectCategory(categories, params))
    const [currTagUrl, setCurrTagUrl] = useState('')
-   const [currTask, setCurrTask] = useState<TaskRecordType>({ task_type: '', number_of_task: 0 })
-   const [taskNumber, setTaskNumber] = useState(1)
+   const [currTask, setCurrTask] = useState<TaskType>({} as TaskType)
+   const [taskNumber, setTaskNumber] = useState(25)
    const [userAnswers, setUserAnswers] = useState({
       "1": "А",
       "6": "ВАДА",
       "11": "БГВБ",
       "13": "13.44",
       "15": "234",
-      "21": "741"
-  })
-   const [isEndTest, setIsEndTest] = useState(true) //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-   const [isOpenSolution, setIsOpenSolution] = useState(false)
+      "21": "741",
+      "25": '2,36'
+   })
+
+   const [isEndTest, setIsEndTest] = useState(false) //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   const [isOpenSolution, setIsOpenSolution] = useState(true)
 
    const allTasksNumbers = () => {
       let numbers: Array<number> = [];
       for (const key in test) {
          if (Object.prototype.hasOwnProperty.call(test, key)) {
             const element = test[key];
-            numbers.push(element.number_of_task)
+            if (element.number_of_task)
+               numbers.push(element.number_of_task)  // choose first task as answer default
          }
       }
       return numbers
@@ -61,11 +69,12 @@ export const CourseItem = () => {
 
             if (Object.prototype.hasOwnProperty.call(test, key)) {
                const element = test[key];
-               if (!userAnswers[element.number_of_task] || userAnswers[element.number_of_task] === ',,,') {
-                  setTaskNumber(element.number_of_task)
-                  isSetNumber = true;
-                  break;
-               }
+               if (element.number_of_task)
+                  if (!userAnswers[element.number_of_task] || userAnswers[element.number_of_task] === ',,,' || userAnswers[element.number_of_task]) {
+                     setTaskNumber(element.number_of_task)
+                     isSetNumber = true;
+                     break;
+                  }
             }
          }
          if (!isSetNumber) {
@@ -102,9 +111,7 @@ export const CourseItem = () => {
    }, [currCategory])
 
    useEffect(() => {
-      // return () => {
       setIsOpenSolution(false)
-      // };
    }, [taskNumber])
    const clickNumberTaskHandler = (value: HTMLButtonElement) => {
       const numberTask = value.getAttribute('data-number-task');
@@ -120,6 +127,7 @@ export const CourseItem = () => {
             key={task.number_of_task}
             data-number-task={task.number_of_task}
             onClick={(el) => clickNumberTaskHandler(el.target as HTMLButtonElement)}
+            className={styles.button2Task}
             sx={{
                borderColor: task.number_of_task === taskNumber ? 'fpage.main' : 'bgmode.main',
                backgroundColor: task.number_of_task === taskNumber ? 'bgmode.dark' : 'bgmode.main',
@@ -131,19 +139,40 @@ export const CourseItem = () => {
       }
       return buttons
    }
-   const showTask = () => {
+   const renderTask = () => {
+      let taskAnswers = [] as Array<string>
+      let taskQuestion = ''
+
       for (const task of test) {
          if (task.number_of_task === taskNumber) {
             if (currTask.number_of_task !== task.number_of_task)
-               setCurrTask(task)
+               setCurrTask(task as TaskType)
+            if (task.test_qa) {
+               const taskQA = JSON.parse(task.test_qa)
+               taskAnswers = taskQA.taskAnswers
+               taskQuestion = taskQA.taskQuestion
+            }
             return (
                <>
-                  <div>
-                     <img src={`${URL_STORAGE}${task.task}`} alt={`${currCategory.textUrl}-${currTagUrl}-${task.number_of_task}`} />
-                  </div>
-                  <div>{task.number_of_task}</div>
+                  <Box sx={{pb:3}}>
+                     <Typography variant="body1" color="fpage.main">{taskQuestion}</Typography>
+                  </Box>
+                  {task.task &&
+                     <Box sx={{pb:3}}>
+                        <img src={`${URL_STORAGE}${task.task}`} alt={`${currCategory.textUrl}-${currTagUrl}-${task.number_of_task}`} />
+                     </Box>
+                  }
+                  <Box sx={{}}>
+                     {
+                        taskAnswers && taskAnswers.map((answerVariant, index) => {
+                           return <Typography variant="body1" color="fpage.main">
+                              {lettersOfAnswers[index]} {answerVariant}
+                           </Typography>
+                        })
+                     }
+                  </Box>
                   <AnswerField
-                     task={task}
+                     task={task as TaskType}
                      setUserAnswers={setUserAnswers}
                      userAnswers={userAnswers} />
                </>
@@ -154,7 +183,7 @@ export const CourseItem = () => {
    }
 
    if (isEndTest) {
-      return <ResultOfTest test={test} userAnswers={userAnswers} currTagUrl={currTagUrl} />
+      return <ResultOfTest test={test} userAnswers={userAnswers} currTagUrl={currTagUrl} currCategory={currCategory} />
    }
    return (
 
@@ -164,21 +193,22 @@ export const CourseItem = () => {
             {renderTaskButtons()}
          </Box>
          <Box sx={{ margin: '0 auto' }}>
-            {showTask()}
+            {renderTask()}
          </Box>
-         <Box sx={{ pt: 5, display: 'flex', justifyContent: 'space-between' }}>
-            <Button variant="outlined" color="primary"
+         <Box sx={{ pt: 3, display: 'flex', justifyContent: 'space-between' }}>
+            <Button variant="outlined"
+               sx={buttonsAction}
                onClick={nextTaskHandler}
             >
                Наступне завдання
             </Button>
             <Button variant="outlined" color="primary"
+               sx={buttonsAction}
                onClick={() => setIsEndTest(true)}
             >
                Завершити тест
             </Button>
          </Box>
-
          {currTask.content &&
             <Solution setIsOpenSolution={setIsOpenSolution} isOpenSolution={isOpenSolution} currTask={currTask} />}
       </Box>
@@ -195,8 +225,9 @@ type SolutionType = {
 const Solution: React.FC<SolutionType> = ({ setIsOpenSolution, isOpenSolution, currTask }) => {
    return (
       <>
-         <Box sx={{ pt: 5, display: 'flex', justifyContent: 'space-between' }}>
+         <Box sx={{ pt: 2, display: 'flex', justifyContent: 'space-between' }}>
             <Button variant="outlined" color="primary"
+               sx={buttonsAction}
                onClick={() => {//@ts-ignore
                   setIsOpenSolution((prev) => !prev)
                }}
@@ -204,10 +235,9 @@ const Solution: React.FC<SolutionType> = ({ setIsOpenSolution, isOpenSolution, c
                Дивитися розв'язок
             </Button>
          </Box>
-         <Box>
+         <Box sx={{ pt: 3 }}>
             <Collapse in={isOpenSolution}>
                {currTask.content}
-               jjjjjj
             </Collapse>
          </Box>
       </>

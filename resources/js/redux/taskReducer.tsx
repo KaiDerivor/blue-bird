@@ -4,6 +4,9 @@ import { api } from "../api/api";
 import { appActions } from "./appReducer";
 import store, { AppStateType, InferActionsTypes } from "./store";
 
+export const lettersOfAnswers = ['А', 'Б', 'В', 'Г', 'Д'];
+
+
 const INIT_TASKS = 'task/INIT_TASKS'
 const SET_ERROR_MESSAGE = 'SET_ERROR_MESSAGE'
 const ERASE_ERROR = 'ERASE_ERROR'
@@ -12,19 +15,30 @@ const INIT_TEST = 'task/INIT_TEST'
 export const TASK_IMAGE_FOLDER = 'img-tasks/'
 
 export type TaskRecordType = {
-   id?: string | number
+   id?: number
    task?: any
    answer?: string
    content?: string
    category_id?: string
    tag_id?: string
+   number_of_task?: number
+   task_type?: string
+   test_qa?: any
+}
+export type TaskType = {
+   id: number
+   task?: any
+   answer: string
+   content?: string
+   category_id: string
+   tag_id: string
    number_of_task: number
    task_type: string
-   test_qa:any
+   test_qa?: any
 }
 const initialState = {
-   listTasks: [] as Array<TaskRecordType>,
-   test: [] as Array<TaskRecordType>,
+   listTasks: [] as Array<TaskType>,
+   test: [] as Array<TaskType>,
    errorText: ''
 }
 type StateType = typeof initialState;
@@ -85,11 +99,11 @@ export type DispatchType = Dispatch<ActionsTypes>;
 
 
 export const taskActions = {
-   init: (list: Array<TaskRecordType>) => { return { type: INIT_TASKS, list } as const },
+   init: (list: Array<TaskType>) => { return { type: INIT_TASKS, list } as const },
    setErrorText: (err: string) => { return { type: SET_ERROR_MESSAGE, errorText: err } as const },
    eraseError: () => { return { type: ERASE_ERROR } as const },
-   updateTask: (task: TaskRecordType) => { return { type: UPDATE_TASK, task } as const },
-   setTest: (list: Array<TaskRecordType>) => { return { type: INIT_TEST, list } as const }
+   updateTask: (task: TaskType) => { return { type: UPDATE_TASK, task } as const },
+   setTest: (list: Array<TaskType>) => { return { type: INIT_TEST, list } as const }
 }
 
 export type ThunksTypes = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>

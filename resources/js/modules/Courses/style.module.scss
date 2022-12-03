@@ -34,8 +34,15 @@ $index:calc(1vh + 1vw);
     }
 }
 
+.answerTable {
+    border-spacing: 0px;
+
+    th {
+        padding-left: 10px;
+    }
+}
+
 .wrapperRadio {
-    margin-right: 8px;
 
     .marker {
         position: relative;
@@ -124,6 +131,7 @@ $index:calc(1vh + 1vw);
     }
 }
 
+
 .rangeWrapper {
     display: flex;
     // justify-content: space-between;
@@ -177,6 +185,10 @@ $index:calc(1vh + 1vw);
         flex-wrap: wrap;
         flex-direction: column;
     }
+    .button2Task{
+        max-width: 50px;
+        min-width: auto !important;
+    }
 }
 
 @media (max-width: 576px) {
@@ -188,6 +200,13 @@ $index:calc(1vh + 1vw);
     .wrapperCourse {
         &__side {
             padding: 20px 10px;
+        }
+    }
+
+    .wrapperRadio {
+        .marker {
+            width: 35px;
+            height: 35px;
         }
     }
 }
