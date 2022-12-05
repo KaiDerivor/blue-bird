@@ -16,6 +16,7 @@ import { Collapse, Typography } from '@mui/material'
 import { ResultOfTest } from './ResultOfTest'
 //@ts-ignore
 import styles from './style.module.scss'
+import { TagRecordType } from '../../redux/tagReducer'
 
 const buttonsAction = {
    backgroundColor: 'bgmode.main', color: 'fpage.main', borderColor: 'bgmode.main'
@@ -30,9 +31,9 @@ export const CourseItem = () => {
    const test: Array<TaskType> = useSelector(getTest)
 
    const [currCategory, setCurrCategory] = useState(detectCategory(categories, params))
-   const [currTagUrl, setCurrTagUrl] = useState('')
+   const [currTag, setCurrTag] = useState({} as TagRecordType)
    const [currTask, setCurrTask] = useState<TaskType>({} as TaskType)
-   const [taskNumber, setTaskNumber] = useState(25)
+   const [taskNumber, setTaskNumber] = useState(1)
    const [userAnswers, setUserAnswers] = useState({
       "1": "А",
       "6": "ВАДА",
@@ -43,7 +44,7 @@ export const CourseItem = () => {
       "25": '2,36'
    })
 
-   const [isEndTest, setIsEndTest] = useState(false) //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   const [isEndTest, setIsEndTest] = useState(true) //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
    const [isOpenSolution, setIsOpenSolution] = useState(true)
 
    const allTasksNumbers = () => {
@@ -104,7 +105,7 @@ export const CourseItem = () => {
             if (tag.textUrl === params.id) {
                //@ts-ignore
                dispatch(getTestInit(currCategory.id, tag.id))
-               setCurrTagUrl(tag.textUrl)
+               setCurrTag(tag)
             }
          })
       }
@@ -154,12 +155,12 @@ export const CourseItem = () => {
             }
             return (
                <>
-                  <Box sx={{pb:3}}>
+                  <Box sx={{ pb: 3 }}>
                      <Typography variant="body1" color="fpage.main">{taskQuestion}</Typography>
                   </Box>
                   {task.task &&
-                     <Box sx={{pb:3}}>
-                        <img src={`${URL_STORAGE}${task.task}`} alt={`${currCategory.textUrl}-${currTagUrl}-${task.number_of_task}`} />
+                     <Box sx={{ pb: 3 }}>
+                        <img src={`${URL_STORAGE}${task.task}`} alt={`${currCategory.textUrl}-${currTag.textUrl}-${task.number_of_task}`} />
                      </Box>
                   }
                   <Box sx={{}}>
@@ -183,7 +184,7 @@ export const CourseItem = () => {
    }
 
    if (isEndTest) {
-      return <ResultOfTest test={test} userAnswers={userAnswers} currTagUrl={currTagUrl} currCategory={currCategory} />
+      return <ResultOfTest test={test} userAnswers={userAnswers} currTag={currTag} currCategory={currCategory} />
    }
    return (
 

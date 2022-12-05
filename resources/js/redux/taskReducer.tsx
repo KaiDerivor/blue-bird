@@ -12,8 +12,15 @@ const SET_ERROR_MESSAGE = 'SET_ERROR_MESSAGE'
 const ERASE_ERROR = 'ERASE_ERROR'
 const UPDATE_TASK = 'task/UPDATE_TASK'
 const INIT_TEST = 'task/INIT_TEST'
-export const TASK_IMAGE_FOLDER = 'img-tasks/'
+const SET_FILTER = 'task/SET_FILTER'
+const SET_RESULT_TABLE = 'task/SET_RESULT_TABLE'
 
+export const TASK_IMAGE_FOLDER = 'img-tasks/'
+export type ResultTableType = {
+   categoryId: string
+   tagId: string
+   value: JSON
+}
 export type TaskRecordType = {
    id?: number
    task?: any
@@ -39,7 +46,10 @@ export type TaskType = {
 const initialState = {
    listTasks: [] as Array<TaskType>,
    test: [] as Array<TaskType>,
-   errorText: ''
+   errorText: '',
+   filterCategory: localStorage.categoryId ? localStorage.categoryId : '',
+   filterTag: localStorage.tagId ? localStorage.tagId : '',
+   result: {} as ResultTableType
 }
 type StateType = typeof initialState;
 const taskReducer = (state = initialState, action: ActionsTypes): StateType => {
@@ -90,6 +100,19 @@ const taskReducer = (state = initialState, action: ActionsTypes): StateType => {
             listTasks: [...state.listTasks]
          }
       }
+      case SET_FILTER: {
+         return {
+            ...state,
+            filterCategory: action.categoryId,
+            filterTag: action.tagId
+         }
+      }
+      case SET_RESULT_TABLE: {
+         return {
+            ...state,
+            result: action.result
+         }
+      }
       default: return state;
    }
 }
@@ -103,7 +126,9 @@ export const taskActions = {
    setErrorText: (err: string) => { return { type: SET_ERROR_MESSAGE, errorText: err } as const },
    eraseError: () => { return { type: ERASE_ERROR } as const },
    updateTask: (task: TaskType) => { return { type: UPDATE_TASK, task } as const },
-   setTest: (list: Array<TaskType>) => { return { type: INIT_TEST, list } as const }
+   setTest: (list: Array<TaskType>) => { return { type: INIT_TEST, list } as const },
+   setFilter: (categoryId: string, tagId: string) => { return { type: SET_FILTER, categoryId, tagId } as const },
+   setResultTable: (result: ResultTableType) => { return { type: SET_RESULT_TABLE, result } as const }
 }
 
 export type ThunksTypes = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>
@@ -114,6 +139,12 @@ export const getTasksInit = (categoryId: string = '', tagId: string = ''): Thunk
          if (typeof res === 'string') {
             dispatch(appActions.setErrorText(res))
          } else {
+            if (categoryId || tagId) {
+               localStorage.categoryId = categoryId
+               localStorage.tagId = tagId
+
+               dispatch(taskActions.setFilter(categoryId, tagId))
+            }
             dispatch(taskActions.init(res))
          }
       })
@@ -177,6 +208,19 @@ export const deleteTask = (id: number | string): ThunksTypes => {
          } else {
             dispatch(appActions.setErrorText('Deleted'))
             dispatch(taskActions.init(res))
+         }
+
+      })
+   }
+}
+
+export const getResultTable = (categoryId: string, tagId: string): ThunksTypes => {
+   return async (dispatch) => {
+      api.getResult(categoryId, tagId)?.then(res => {
+         if (typeof res === 'string') {
+            dispatch(appActions.setErrorText(res))
+         } else {
+            dispatch(taskActions.setResultTable(res))
          }
 
       })

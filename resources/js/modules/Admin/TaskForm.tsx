@@ -4,7 +4,7 @@ import styles from './style.module.scss';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import Box from '@mui/material/Box'
 import { useDispatch, useSelector } from 'react-redux';
-import { getCategories, getErrorText, getTags } from '../../redux/appSelector';
+import { getCategories, getErrorText, getTags, getTaskFilter } from '../../redux/appSelector';
 import { AppDispatch } from '../../redux/store';
 import { ButtonSubmit } from '../Auth/ButtonSubmit';
 import Button from '@mui/material/Button';
@@ -26,6 +26,7 @@ export const TaskForm: React.FC<TaskFormType> = ({ handleConfirm, task }) => {
    const categories = useSelector(getCategories)
    const tagsList = useSelector(getTags)
 
+   let [filterTag, filterCategory] = useSelector(getTaskFilter)
    const [isSubmiting, setIsSubmiting] = useState(false)
    const [number_of_task, setNumberTask] = useState(() => {
       if (task?.number_of_task) {
@@ -36,12 +37,17 @@ export const TaskForm: React.FC<TaskFormType> = ({ handleConfirm, task }) => {
    })
    const [taskImg, setTaskImg] = useState<any>(null)
    const [error, setError] = useState('')
-
    useEffect(() => {
       if (errorText.length <= 1) {
          setIsSubmiting(false)
       }
    }, [errorText])
+   if (!filterTag) {
+      filterTag = '0';
+   }
+   if (!filterCategory) {
+      filterCategory = '0'
+   }
    return (
       <div>
          <Formik
@@ -50,9 +56,9 @@ export const TaskForm: React.FC<TaskFormType> = ({ handleConfirm, task }) => {
                content: task?.content ? task.content : '',
                task: task?.task ? task.task : '',
                number_of_task: task?.number_of_task ? task.number_of_task : '',
-               category_id: task?.category_id ? task.category_id : `${categories[0]!.id}`,
-               tag_id: task?.tag_id ? task.tag_id : `${tagsList[0]!.id}`,
-               task_type: task?.task_type ? task.task_type : '',
+               category_id: task?.category_id ? task.category_id : `${filterCategory}`,
+               tag_id: task?.tag_id ? task.tag_id : `${filterTag}`,
+               task_type: task?.task_type ? task.task_type : 'letter5',
                taskAnswers: task?.test_qa ? JSON.parse(task.test_qa).taskAnswers.join('##') : '',
                taskQuestion: task?.test_qa ? JSON.parse(task.test_qa).taskQuestion : ''
             }}
@@ -63,10 +69,6 @@ export const TaskForm: React.FC<TaskFormType> = ({ handleConfirm, task }) => {
 
                if (!formData.answer) {
                   setError('Fill answer')
-                  return;
-               }
-               if (!formData.content) {
-                  setError('Fill content')
                   return;
                }
                if (!formData.category_id) {
@@ -164,10 +166,12 @@ export const TaskForm: React.FC<TaskFormType> = ({ handleConfirm, task }) => {
                      <Field as="select" name="task_type" className={styles.inputField}>
                         <option value='letter4'>letter4</option>
                         <option value='letter5'>letter5</option>
-                        <option value='letters'>letters</option>
+                        <option value='letters3'>letters3</option>
+                        <option value='letters4'>letters4</option>
                         <option value='range1'>range1</option>
                         <option value='range2'>range2</option>
                         <option value='range3'>range3</option>
+                        <option value='default'>default</option>
                      </Field>
                      <ErrorMessage name="task_type" component="div" />
                   </Box>

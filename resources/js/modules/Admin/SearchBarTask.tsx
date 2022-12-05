@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Box from '@mui/material/Box'
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -8,8 +8,9 @@ import { CategoryRecordType } from '../../redux/catReducer';
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import { AppDispatch } from '../../redux/store';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getTasksInit } from '../../redux/taskReducer';
+import { getTaskFilter } from '../../redux/appSelector';
 
 
 type SearchBarTaskType = {
@@ -19,9 +20,9 @@ type SearchBarTaskType = {
 
 export const SearchBarTask: React.FC<SearchBarTaskType> = ({ categories, tags }) => {
    const dispatch: AppDispatch = useDispatch();
-   const [categoryField, setCategoryField] = useState('')
-   const [tagField, setTagField] = useState('')
-
+   const [categoryFilter, tagFilter] = useSelector(getTaskFilter)
+   const [categoryField, setCategoryField] = useState(categoryFilter)
+   const [tagField, setTagField] = useState(tagFilter)
    const onSearch = () => {
       //@ts-ignore
       dispatch(getTasksInit(categoryField, tagField))
@@ -29,6 +30,13 @@ export const SearchBarTask: React.FC<SearchBarTaskType> = ({ categories, tags })
    if (!categories && !tags) {
       return <div>Loading...</div>
    }
+   useEffect(() => {
+      return () => {
+         if (categoryField || tagField) {
+            onSearch()
+         }
+      };
+   }, [])
    return (
       <Box sx={{ pb: 2 }}>
          <Typography variant="subtitle2" color="fpage.main" sx={{ mb: 2 }}>Filters</Typography>

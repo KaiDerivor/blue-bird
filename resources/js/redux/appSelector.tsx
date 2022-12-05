@@ -33,3 +33,9 @@ export const getUsers = (state: AppStateType) => {
 export const getTest=(state:AppStateType)=>{
    return state.task.test
 }
+export const getTaskFilter=(state:AppStateType)=>{
+   return [state.task.filterCategory,state.task.filterTag]
+}
+export const getTableOfResult=(state:AppStateType)=>{
+   return state.task.result;
+}

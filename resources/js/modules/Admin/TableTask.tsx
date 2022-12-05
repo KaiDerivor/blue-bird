@@ -80,7 +80,7 @@ export const TableTask: React.FC<TableTaskType> = ({ list, categories, tags, set
    }
    return (
       <>
-         <ButtonAddItem setSwitchHandler={setSwitchHandler} setOpenDialog={setOpenDialog} />
+         <ButtonAddItem setSwitchHandler={setSwitchHandler} setOpenDialog={setOpenDialog} setItem={setTask}/>
          <SearchBarTask categories={categories} tags={tags} />
          <TableContainer component={Paper}>
             <Table aria-label="customized table">

@@ -5,8 +5,9 @@ import AddIcon from '@mui/icons-material/Add';
 type ButtonAddItemType = {
    setSwitchHandler: (arg1: string) => void
    setOpenDialog: (arg1: boolean) => void
+   setItem: (arg1: any) => void
 }
-export const ButtonAddItem: React.FC<ButtonAddItemType> = ({ setSwitchHandler, setOpenDialog }) => {
+export const ButtonAddItem: React.FC<ButtonAddItemType> = ({ setSwitchHandler, setOpenDialog, setItem }) => {
 
    return (
       <Button variant="outlined"
@@ -15,6 +16,7 @@ export const ButtonAddItem: React.FC<ButtonAddItemType> = ({ setSwitchHandler, s
          onClick={() => {
             setSwitchHandler('save');
             setOpenDialog(true);
+            setItem({})
          }}
       >
          Add Item

@@ -395,6 +395,20 @@ export const api = {
       }
     });
   },
+  //result
+  getResult: function (categoryId: string = '', tagId: string = '') {
+    return instance.get(`admin/results?categoryId=${categoryId}&tagId=${tagId}`).then(res => {
+      return res.data.data;
+    }).catch(err => {
+      if (err.response) {
+        return err.response.statusText
+      } else if (err.request) {
+        return 'Bad network. Try again later'
+      } else {
+        return 'Try again later'
+      }
+    });
+  },
 };
 
 /*const _axios = require('axios') 
