@@ -24,8 +24,8 @@ class FilterRequest extends FormRequest
     public function rules()
     {
         return [
-            'categoryId' => 'integer',
-            'tagId' => 'integer',
+            'categoryId' => '',
+            'tagId' => '',
         ];
     }
 }

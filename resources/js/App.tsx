@@ -25,6 +25,7 @@ import { Categories } from './modules/Admin/Categories';
 import { Tags } from './modules/Admin/Tags';
 import { Tasks } from './modules/Admin/Tasks';
 import { Users } from './modules/Admin/Users';
+import { Results } from './modules/Admin/Results';
 const drawerWidth = 60;
 
 function App() {
@@ -34,13 +35,12 @@ function App() {
   const isDarkMode = useSelector(getIsDarkMode);
   const isSetData = useSelector(getIsSetData)
   const userRole = useSelector(getUserRole)
-
+  const isInit = useSelector(getIsInit)
+  console.log(userRole)
   useEffect(() => {
-    return () => {
-      if (!isSetData) {
-        //@ts-ignore
-        dispatch(setData())
-      }
+    if (isInit) {
+      //@ts-ignore
+      dispatch(setData())
     }
   }, [])
 
@@ -49,6 +49,9 @@ function App() {
   const toggleThemeMod = () => {
     setTheme(prev => prev === 'light' ? 'dark' : 'light')
   }
+  // if (!isInit) {
+  //   return <div>Loading...</div>
+  // }
   return (
     <>
       <CssBaseline />
@@ -76,11 +79,12 @@ function App() {
                   <Route path='/courses/*' element={<Courses />} />
                   <Route path='/login' element={<FormLog />} />
                   <Route path='/register' element={<FormReg />} />
-                  {userRole && (<>
+                  {userRole==='admin' && (<>
                     <Route path='/admin-categories/*' element={<Categories />} />
                     <Route path='/admin-tags/*' element={<Tags />} />
                     <Route path='/admin-tasks/*' element={<Tasks />} />
                     <Route path='/admin-users/*' element={<Users />} />
+                    <Route path='/admin-results/*' element={<Results />} />
                   </>
                   )}
                   <Route path='/*' element={<Home />} />

@@ -15,6 +15,7 @@ class ResultResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'category' => $this->categoryId,
             'tag' => $this->tagId,
             'value' => $this->value

@@ -39,3 +39,6 @@ export const getTaskFilter=(state:AppStateType)=>{
 export const getTableOfResult=(state:AppStateType)=>{
    return state.task.result;
 }
+export const getResultTables=(state:AppStateType)=>{
+   return state.task.results
+}

@@ -39,6 +39,6 @@ export const Categories = () => {
 
    };
    return (
-      <TableSimpleItem list={categories} handleConfirm={handleConfirm} setSwitchHandler={setSwitchHandler} />
+      <TableSimpleItem list={categories} handleConfirm={handleConfirm} setSwitchHandler={setSwitchHandler} typeDialog="CATEGORY" />
    )
 }

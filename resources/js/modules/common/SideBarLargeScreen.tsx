@@ -55,7 +55,7 @@ type SideBarType = {
 export const SideBarLargeScreen: React.FC<SideBarType> = ({ toggleThemeMod }) => {
    const dispatch: AppDispatch = useDispatch();
 
-   const userRole=useSelector(getUserRole)
+   const userRole = useSelector(getUserRole)
    const [isLightMode, setIsLightMode] = useState(false)
 
    const toggleTheme = () => {
@@ -87,17 +87,16 @@ export const SideBarLargeScreen: React.FC<SideBarType> = ({ toggleThemeMod }) =>
             <MenuItem linkUrl='profile' linkText="Профіль" Icon={<FolderSharedIcon sx={{ color: 'fmenu.main' }} />} />
             <MenuItem linkUrl='savings' linkText="Збережені" Icon={<ClassIcon sx={{ color: 'fmenu.main' }} />} />
             <MenuItem linkUrl='courses' linkText="Курси" Icon={<AppsIcon sx={{ color: 'fmenu.main' }} />} />
-            {userRole&&<>
+            {userRole === 'admin' && <>
                <MenuItem linkUrl='admin-categories' linkText="Categories" Icon={<AppsIcon sx={{ color: 'fmenu.main' }} />} />
                <MenuItem linkUrl='admin-tags' linkText="Tags" Icon={<AppsIcon sx={{ color: 'fmenu.main' }} />} />
                <MenuItem linkUrl='admin-tasks' linkText="Tasks" Icon={<AppsIcon sx={{ color: 'fmenu.main' }} />} />
                <MenuItem linkUrl='admin-users' linkText="Users" Icon={<AppsIcon sx={{ color: 'fmenu.main' }} />} />
-            
+               <MenuItem linkUrl='admin-results' linkText="Results" Icon={<AppsIcon sx={{ color: 'fmenu.main' }} />} />
+
             </>}
-            {/* <MenuItem linkUrl='' linkText="Головна" Icon={<HubIcon />} /> */}
          </List>
          <Box sx={{ margin: ' 15px auto' }}>
-            {/* switcher_lightMode */}
             <IconButton className={`${styles.switcher} ${isLightMode ? styles.switcher_lightMode : ''}`} sx={{ width: drawerWidth - 35 }} onClick={() => toggleTheme()}>
                <LightModeIcon className={styles.lightIcon} />
                <DarkModeOutlinedIcon className={styles.darkIncon} />

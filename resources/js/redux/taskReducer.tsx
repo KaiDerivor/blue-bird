@@ -14,12 +14,20 @@ const UPDATE_TASK = 'task/UPDATE_TASK'
 const INIT_TEST = 'task/INIT_TEST'
 const SET_FILTER = 'task/SET_FILTER'
 const SET_RESULT_TABLE = 'task/SET_RESULT_TABLE'
+const UPDATE_RESULTS_TABLE = 'task/UPDATE_RESULTS_TABLE'
 
 export const TASK_IMAGE_FOLDER = 'img-tasks/'
 export type ResultTableType = {
-   categoryId: string
-   tagId: string
+   id: number,
+   category: string
+   tag: string
    value: JSON
+}
+export type ResultRecordType = {
+   id?: number,
+   category?: string
+   tag?: string
+   value?: JSON | string
 }
 export type TaskRecordType = {
    id?: number
@@ -49,7 +57,8 @@ const initialState = {
    errorText: '',
    filterCategory: localStorage.categoryId ? localStorage.categoryId : '',
    filterTag: localStorage.tagId ? localStorage.tagId : '',
-   result: {} as ResultTableType
+   result: {} as ResultTableType,
+   results: [] as Array<ResultTableType>
 }
 type StateType = typeof initialState;
 const taskReducer = (state = initialState, action: ActionsTypes): StateType => {
@@ -108,9 +117,34 @@ const taskReducer = (state = initialState, action: ActionsTypes): StateType => {
          }
       }
       case SET_RESULT_TABLE: {
+         if (Array.isArray(action.result)) {
+            return {
+               ...state,
+               results: action.result
+            }
+         } else {
+
+            return {
+               ...state,
+               result: action.result
+            }
+         }
+      }
+      case UPDATE_RESULTS_TABLE: {
+         let isSetted = false;
+         for (let i = 0; i < state.results.length; i++) {
+            if (state.results[i].id === action.result.id) {
+               state.results.splice(i, 1, action.result);
+               isSetted = true;
+               break;
+            }
+         }
+         if (!isSetted) {
+            state.results.push(action.result)
+         }
          return {
             ...state,
-            result: action.result
+            results: [...state.results]
          }
       }
       default: return state;
@@ -128,7 +162,8 @@ export const taskActions = {
    updateTask: (task: TaskType) => { return { type: UPDATE_TASK, task } as const },
    setTest: (list: Array<TaskType>) => { return { type: INIT_TEST, list } as const },
    setFilter: (categoryId: string, tagId: string) => { return { type: SET_FILTER, categoryId, tagId } as const },
-   setResultTable: (result: ResultTableType) => { return { type: SET_RESULT_TABLE, result } as const }
+   setResultTable: (result: ResultTableType | Array<ResultTableType>) => { return { type: SET_RESULT_TABLE, result } as const },
+   updateResultTable: (result: ResultTableType) => { return { type: UPDATE_RESULTS_TABLE, result } as const }
 }
 
 export type ThunksTypes = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>
@@ -214,7 +249,7 @@ export const deleteTask = (id: number | string): ThunksTypes => {
    }
 }
 
-export const getResultTable = (categoryId: string, tagId: string): ThunksTypes => {
+export const getResultTableInit = (categoryId = '', tagId = ''): ThunksTypes => {
    return async (dispatch) => {
       api.getResult(categoryId, tagId)?.then(res => {
          if (typeof res === 'string') {
@@ -226,7 +261,39 @@ export const getResultTable = (categoryId: string, tagId: string): ThunksTypes =
       })
    }
 }
-
+export const createResultTable = (result: ResultRecordType): ThunksTypes => {
+   return async (dispatch) => {
+      api.createResult(result)?.then(res => {
+         if (typeof res === 'string') {
+            dispatch(appActions.setErrorText(res))
+         } else {
+            dispatch(taskActions.updateResultTable(res))
+         }
+      })
+   }
+}
+export const updateResultTable = (id: number, result: ResultRecordType): ThunksTypes => {
+   return async (dispatch) => {
+      api.updateResult(id, result)?.then(res => {
+         if (typeof res === 'string') {
+            dispatch(appActions.setErrorText(res))
+         } else {
+            dispatch(taskActions.updateResultTable(res))
+         }
+      })
+   }
+}
+export const deleteResultTable = (id: number): ThunksTypes => {
+   return async (dispatch) => {
+      api.deleteResult(id)?.then(res => {
+         if (typeof res === 'string') {
+            dispatch(appActions.setErrorText(res))
+         } else {
+            dispatch(taskActions.setResultTable(res))
+         }
+      })
+   }
+}
 
 export default taskReducer;
 

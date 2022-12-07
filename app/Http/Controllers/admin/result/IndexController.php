@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Admin\Result;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Admin\Result\BaseController;
 use App\Http\Filters\ResultSubFilter;
 use App\Http\Requests\Result\FilterRequest;
 use App\Http\Resources\Result\ResultResource;
 use App\Models\Result;
 use Illuminate\Http\Request;
 
-class IndexController extends Controller
+class IndexController extends BaseController
 {
     public function __invoke(FilterRequest $request)
     {

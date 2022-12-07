@@ -38,6 +38,6 @@ export const Tags = () => {
 
    };
    return (
-      <TableSimpleItem list={tasgs} handleConfirm={handleConfirm} setSwitchHandler={setSwitchHandler} />
+      <TableSimpleItem list={tasgs} handleConfirm={handleConfirm} setSwitchHandler={setSwitchHandler} typeDialog='TAG' />
    )
 }

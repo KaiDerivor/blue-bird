@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Admin\Result;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Admin\Result\BaseController;
 use App\Http\Resources\Result\ResultResource;
 use App\Models\Result;
 use Illuminate\Http\Request;
 
-class DeleteController extends Controller
+class DeleteController extends BaseController
 {
     public function __invoke(Result $result)
     {

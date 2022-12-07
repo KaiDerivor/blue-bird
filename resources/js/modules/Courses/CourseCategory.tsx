@@ -39,7 +39,6 @@ const BodyCourseCategory: React.FC<BodyCourseCategory> = ({ toggleShowingTasks }
    const configAddToProfileHandler = () => {
       console.log('sdfgg')
    }
-
    const currCategory = detectCategory(categories,params);
    return (
       <>

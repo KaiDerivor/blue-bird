@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box'
 import Fade from '@mui/material/Fade'
-import { getResultTable, TaskType } from '../../redux/taskReducer';
+import { getResultTableInit, TaskType } from '../../redux/taskReducer';
 import { AnswerField } from './AnswerField';
 import { URL_STORAGE } from '../../redux/appReducer';
 import { CategoryRecordType } from '../../redux/catReducer';
@@ -24,7 +24,7 @@ export const ResultOfTest: React.FC<ResultOfTestType> = ({ currCategory, test, u
    useEffect(() => {
       if (currCategory.id !== undefined && currTag.id !== undefined) {
          //@ts-ignore
-         dispatch(getResultTable(`${currCategory.id}`, `${currTag.id}`))
+         dispatch(getResultTableInit(`${currCategory.id}`, `${currTag.id}`))
       }
    }, [currCategory, currTag])
 

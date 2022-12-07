@@ -1,7 +1,7 @@
 import axios from "axios";
 import { CategoryRecordType } from "../redux/catReducer";
 import { TagRecordType } from "../redux/tagReducer";
-import { TaskRecordType } from "../redux/taskReducer";
+import { ResultRecordType, TaskRecordType } from "../redux/taskReducer";
 import { UserRecordType } from "../redux/userReducer";
 import { FormDataLogType } from './../redux/appReducer'
 
@@ -46,21 +46,20 @@ instance.interceptors.response.use(
     // console.log(error)
     // debugger
     if (error.response.data.message === "Unauthenticated.") {
-      instance
-        .post(
-          "auth/refresh",
-          {},
-          {
-            headers: {
-              authorization: `Bearer ${localStorage.access_token}`,
-            },
+      if (localStorage.access_token) {
+
+        instance.post("auth/refresh", {}, {
+          headers: {
+            authorization: `Bearer ${localStorage.access_token}`,
           }
-        )
-        .then((response) => {
-          localStorage.access_token = response.data.access_token;
-          error.config.headers.authorization = `Bearer ${localStorage.access_token}`;
-          return instance.request(error.config);
-        });
+        })
+          .then((response) => {
+            localStorage.access_token = response.data.access_token;
+            error.config.headers.authorization = `Bearer ${localStorage.access_token}`;
+            return instance.request(error.config);
+          });
+      }
+
       return;
     }
     return Promise.reject(error);
@@ -398,6 +397,51 @@ export const api = {
   //result
   getResult: function (categoryId: string = '', tagId: string = '') {
     return instance.get(`admin/results?categoryId=${categoryId}&tagId=${tagId}`).then(res => {
+      return res.data.data;
+    }).catch(err => {
+      if (err.response) {
+        return err.response.statusText
+      } else if (err.request) {
+        return 'Bad network. Try again later'
+      } else {
+        return 'Try again later'
+      }
+    });
+  },
+  createResult: function (result: ResultRecordType) {
+    return instance.post('admin/results', { ...result }).then(res => {
+      return res.data.data;
+    }).catch(err => {
+      if (err.response.data.message) {
+        return err.response.data.message
+      } else if (err.response) {
+        return err.response.statusText
+      } else if (err.request) {
+        return 'Bad network. Try again later'
+      } else {
+        return 'Try again later'
+      }
+    });
+  },
+  updateResult: function (id: number | string, result: ResultRecordType) {
+    console.log(id, result)
+    return instance.patch(`admin/results/${id}`, { ...result }).then(res => {
+      console.log(res.data)
+      return res.data.data;
+    }).catch(err => {
+      if (err.response.data.message) {
+        return err.response.data.message
+      } else if (err.response) {
+        return err.response.statusText
+      } else if (err.request) {
+        return 'Bad network. Try again later'
+      } else {
+        return 'Try again later'
+      }
+    });
+  },
+  deleteResult: function (id: number | string) {
+    return instance.delete(`admin/results/${id}`).then(res => {
       return res.data.data;
     }).catch(err => {
       if (err.response) {
