@@ -5,7 +5,7 @@ import Box from '@mui/material/Box'
 import styles from './style.module.scss'
 import { lettersOfAnswers } from '../../redux/taskReducer'
 
-export const CheckLetters: React.FC<AnswerComponentType> = ({ handleChange, userAnswers, task, isAsAnswer }) => {
+export const CheckLetters: React.FC<AnswerComponentType> = ({ handleChange, userAnswers, task, isAsAnswer = false }) => {
    const radioButtonsRange = {
       a1: [createRef(), createRef(), createRef(), createRef(), createRef(), createRef()],
       a2: [createRef(), createRef(), createRef(), createRef(), createRef(), createRef()],
@@ -13,12 +13,14 @@ export const CheckLetters: React.FC<AnswerComponentType> = ({ handleChange, user
       a4: [createRef(), createRef(), createRef(), createRef(), createRef(), createRef()],
    };
 
+   const maxCountOfRows = task.task_type === 'letters' ? 4 : 3;
    const rightAnswers = task.answer.split(',')
    useEffect(() => {
-      const rangeAlredyAnswered = userAnswers[task.number_of_task]
+      // debugger
+      const rangeAlredyAnswered = userAnswers[task.number_of_task] ? userAnswers[task.number_of_task] : ',,,,'
       if (rangeAlredyAnswered) {
          const range = rangeAlredyAnswered.split('')
-         for (let i = 0; i < 4; i++) {
+         for (let i = 0; i < maxCountOfRows; i++) {
             radioButtonsRange[`a${i + 1}`].forEach((element, index) => {
 
                if (range[i] === lettersOfAnswers[index]) {
@@ -39,7 +41,7 @@ export const CheckLetters: React.FC<AnswerComponentType> = ({ handleChange, user
 
          }
       } else {
-         for (let i = 0; i < 4; i++) {
+         for (let i = 0; i < maxCountOfRows; i++) {
             radioButtonsRange[`a${i + 1}`].forEach((element) => {
                element.current.checked = false;
             });
@@ -88,7 +90,7 @@ export const CheckLetters: React.FC<AnswerComponentType> = ({ handleChange, user
             </td>
 
             <td>
-               <label className={styles.wrapperRadio}>
+               <label className={styles.wrapperRadio}  >
                   <input ref={radioButtonsRange[`a${rowNumber}`][4]} type="radio" value="Д" onChange={(el) => checkAnswer(el.target.value, rowNumber)} name={`${task.number_of_task}-${rowNumber}`} className={styles.radioField} /><span className={styles.marker}></span>
                   <input hidden ref={radioButtonsRange[`a${rowNumber}`][5]} type="radio" value="5" name={`${task.number_of_task}-${rowNumber}`} className={styles.radioField} />
                </label>
@@ -113,7 +115,7 @@ export const CheckLetters: React.FC<AnswerComponentType> = ({ handleChange, user
                   {renderTableRow(1)}
                   {renderTableRow(2)}
                   {renderTableRow(3)}
-                  {renderTableRow(4)}
+                  {maxCountOfRows === 4 && renderTableRow(4)}
                </tbody>
             </table>
             <div>

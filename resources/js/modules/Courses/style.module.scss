@@ -144,6 +144,19 @@ $index:calc(1vh + 1vw);
 
     }
 
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        /* display: none; <- Crashes Chrome on hover */
+        -webkit-appearance: none;
+        margin: 0;
+        /* <-- Apparently some margin are still there even though it's hidden */
+    }
+
+    input[type=number] {
+        -moz-appearance: textfield;
+        /* Firefox */
+    }
+
     &__fieldRange3 {
         width: 7pc
     }
@@ -157,6 +170,24 @@ $index:calc(1vh + 1vw);
     border: 2px solid rgb(255, 0, 0) !important;
 }
 
+.noScrollBar {
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Hide scrollbar for IE, Edge and Firefox */
+    & {
+        -ms-overflow-style: none;
+        /* IE and Edge */
+        scrollbar-width: none;
+        /* Firefox */
+    }
+
+}
+.markNumberTask{
+    // width: fit-content;
+    padding: 4px 10px ;
+}
 /***************************
 ****************************
 **********Adaptive**********
@@ -185,7 +216,8 @@ $index:calc(1vh + 1vw);
         flex-wrap: wrap;
         flex-direction: column;
     }
-    .button2Task{
+
+    .button2Task {
         max-width: 50px;
         min-width: auto !important;
     }

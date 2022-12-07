@@ -43,7 +43,7 @@ export const CheckRange3: React.FC<AnswerComponentType> = ({ handleChange, userA
    const onValidate = (number: string, fn: Function) => {
       if (number === '-') {
          return;
-      }else if(+number===0){
+      } else if (+number === 0) {
          fn(1)
       }
       if (`${number}`.split('').length > 1 && `${number}`.split('')[1] === '-') {

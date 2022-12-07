@@ -3,7 +3,7 @@ import { ThunkAction } from "redux-thunk";
 import { api } from "../api/api";
 import { AppStateType, InferActionsTypes } from "./store";
 
-export const URL_STORAGE='/storage/'
+export const URL_STORAGE = '/storage/'
 
 
 const TOGGLE_THEME_MODE = 'TOGGLE_THEME_MODE';
@@ -134,6 +134,7 @@ export const registerThunk = (formData: FormDataRegType): ThunksTypes => {
       })
    }
 }
+
 export const setData = (): ThunksTypes => {
    return async (dispatch) => {
       api.me().then(res => {

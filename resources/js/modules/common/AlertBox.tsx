@@ -21,11 +21,15 @@ export const AlertBox = () => {
    useEffect(() => {
       if (errorText.length > 1) {
          setOpen(true)
+         setTimeout(() => {
+            dispatch(appActions.eraseError())
+            setOpen(false)
+         }, 2000)
       }
    }, [errorText])
 
    return (
-      <Box sx={{zIndex:1500}} className={styles.alertBox}>
+      <Box sx={{ zIndex: 1500 }} className={styles.alertBox}>
          <Collapse in={open}>
             <Alert severity="info"
                action={

@@ -24,11 +24,10 @@ export const AnswerField: React.FC<AnswerFieldType> = ({ task, setUserAnswers, u
             }
          })
    };
-
    return (
       <Box sx={{ pt: 3, pb: 5 }}>
          {
-            task.task_type === 'letters'
+            task.task_type === 'letters' || task.task_type === 'letters3'
                ? <CheckLetters handleChange={handleChange} userAnswers={userAnswers} task={task} isAsAnswer={isAsAnswer} />
                : task.task_type === 'range1'
                   ? <CheckRange1 handleChange={handleChange} userAnswers={userAnswers} task={task} isAsAnswer={isAsAnswer} />
@@ -36,6 +35,8 @@ export const AnswerField: React.FC<AnswerFieldType> = ({ task, setUserAnswers, u
                      ? <CheckRange2 handleChange={handleChange} userAnswers={userAnswers} task={task} isAsAnswer={isAsAnswer} />
                      : task.task_type === 'range3'
                         ? <CheckRange3 handleChange={handleChange} userAnswers={userAnswers} task={task} isAsAnswer={isAsAnswer} />
+                        : task.task_type === 'default'?
+                        ''
                         : <CheckLetter task={task} handleChange={handleChange} userAnswers={userAnswers} isAsAnswer={isAsAnswer} />
          }
       </Box>

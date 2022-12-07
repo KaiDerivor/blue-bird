@@ -17,6 +17,7 @@ import { ResultOfTest } from './ResultOfTest'
 //@ts-ignore
 import styles from './style.module.scss'
 import { TagRecordType } from '../../redux/tagReducer'
+import { TaskComponent } from './Task'
 
 const buttonsAction = {
    backgroundColor: 'bgmode.main', color: 'fpage.main', borderColor: 'bgmode.main'
@@ -41,10 +42,10 @@ export const CourseItem = () => {
       "13": "13.44",
       "15": "234",
       "21": "741",
-      "25": '2,36'
+      "25": '2,30'
    })
 
-   const [isEndTest, setIsEndTest] = useState(true) //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   const [isEndTest, setIsEndTest] = useState(false) //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
    const [isOpenSolution, setIsOpenSolution] = useState(true)
 
    const allTasksNumbers = () => {
@@ -60,9 +61,17 @@ export const CourseItem = () => {
    }
    const nextTaskHandler = () => {
       const numbers = allTasksNumbers();
-
-      if (numbers[numbers.indexOf(taskNumber) + 1] && !userAnswers[numbers[numbers.indexOf(taskNumber) + 1]]) {
-         setTaskNumber(numbers[numbers.indexOf(taskNumber) + 1]);
+      if (numbers[numbers.indexOf(taskNumber) + 1]) {
+         if (userAnswers[numbers[numbers.indexOf(taskNumber) + 1]]) {
+            for (let i = numbers.indexOf(taskNumber); i < numbers.length; i++) {
+               if (!userAnswers[numbers[i+1]]) {
+                  setTaskNumber(numbers[i]);
+                  return;
+               }
+            }
+         } else {
+            setTaskNumber(numbers[numbers.indexOf(taskNumber) + 1]);
+         }
       } else {
          let isSetNumber = false;
 
@@ -71,7 +80,7 @@ export const CourseItem = () => {
             if (Object.prototype.hasOwnProperty.call(test, key)) {
                const element = test[key];
                if (element.number_of_task)
-                  if (!userAnswers[element.number_of_task] || userAnswers[element.number_of_task] === ',,,' || userAnswers[element.number_of_task]) {
+                  if (!userAnswers[element.number_of_task] || userAnswers[element.number_of_task] === ',,,') {
                      setTaskNumber(element.number_of_task)
                      isSetNumber = true;
                      break;
@@ -154,29 +163,8 @@ export const CourseItem = () => {
                taskQuestion = taskQA.taskQuestion
             }
             return (
-               <>
-                  <Box sx={{ pb: 3 }}>
-                     <Typography variant="body1" color="fpage.main">{taskQuestion}</Typography>
-                  </Box>
-                  {task.task &&
-                     <Box sx={{ pb: 3 }}>
-                        <img src={`${URL_STORAGE}${task.task}`} alt={`${currCategory.textUrl}-${currTag.textUrl}-${task.number_of_task}`} />
-                     </Box>
-                  }
-                  <Box sx={{}}>
-                     {
-                        taskAnswers && taskAnswers.map((answerVariant, index) => {
-                           return <Typography variant="body1" color="fpage.main">
-                              {lettersOfAnswers[index]} {answerVariant}
-                           </Typography>
-                        })
-                     }
-                  </Box>
-                  <AnswerField
-                     task={task as TaskType}
-                     setUserAnswers={setUserAnswers}
-                     userAnswers={userAnswers} />
-               </>
+               <TaskComponent task={task} currCategory={currCategory} currTag={currTag}
+                  setUserAnswers={setUserAnswers} userAnswers={userAnswers} />
             )
          }
       }
@@ -190,8 +178,10 @@ export const CourseItem = () => {
 
       <Box>
          <CourseItemHeader title={`${currCategory.title}`} subtitle={`${currCategory.description}`} />
-         <Box sx={{ mb: 3 }}>
-            {renderTaskButtons()}
+         <Box className={styles.noScrollBar} sx={{ overflowX: 'scroll', width: '80vw', maxHeight: '100px', overflowY: 'hidden', margin: '0 auto', mb: 3, pr: 1, pl: 1 }}>
+            <Box sx={{ width: '70%', display: 'flex' }}>
+               {renderTaskButtons()}
+            </Box>
          </Box>
          <Box sx={{ margin: '0 auto' }}>
             {renderTask()}

@@ -17,11 +17,11 @@ export const CheckRange1: React.FC<AnswerComponentType> = ({ handleChange, userA
             inputProps={{ readOnly: isAsAnswer }}
             color={isAsAnswer && `${userAnswers[task.number_of_task]}` === `${task.answer}` ? 'success' : `${userAnswers[task.number_of_task]}` !== `${task.answer}` ? 'error' : undefined}
             id="outlined-basic"
-            label="Ваша відповідь"
-            variant="outlined"
+            label={isAsAnswer?'':"Ваша відповідь"}
+            variant="standard"
             size='small'
             value={fieldAnswer}
-            focused
+            focused={isAsAnswer}
             onChange={(el) => {
                let answer = el.target.value;
                //@ts-ignore
@@ -33,7 +33,7 @@ export const CheckRange1: React.FC<AnswerComponentType> = ({ handleChange, userA
 
          />
          {(isAsAnswer && `${userAnswers[task.number_of_task]}` !== `${task.answer}`) &&
-            <TextField id="standard-basic" variant="standard" color='success' focused value={task.answer} inputProps={{ readOnly: isAsAnswer }} />
+            <TextField id="standard-basic" variant="standard" size='small' color='success' focused value={task.answer} inputProps={{ readOnly: isAsAnswer }} />
          }
       </Box>
    )

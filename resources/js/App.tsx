@@ -36,7 +36,7 @@ function App() {
   const isSetData = useSelector(getIsSetData)
   const userRole = useSelector(getUserRole)
   const isInit = useSelector(getIsInit)
-  console.log(userRole)
+
   useEffect(() => {
     if (isInit) {
       //@ts-ignore
@@ -49,9 +49,7 @@ function App() {
   const toggleThemeMod = () => {
     setTheme(prev => prev === 'light' ? 'dark' : 'light')
   }
-  // if (!isInit) {
-  //   return <div>Loading...</div>
-  // }
+
   return (
     <>
       <CssBaseline />
@@ -79,7 +77,7 @@ function App() {
                   <Route path='/courses/*' element={<Courses />} />
                   <Route path='/login' element={<FormLog />} />
                   <Route path='/register' element={<FormReg />} />
-                  {userRole==='admin' && (<>
+                  {userRole === 'admin' && (<>
                     <Route path='/admin-categories/*' element={<Categories />} />
                     <Route path='/admin-tags/*' element={<Tags />} />
                     <Route path='/admin-tasks/*' element={<Tasks />} />
