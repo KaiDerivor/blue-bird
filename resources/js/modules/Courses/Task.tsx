@@ -1,5 +1,5 @@
 
-import React from 'react'
+import React, { useState } from 'react'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { lettersOfAnswers, TaskType } from '../../redux/taskReducer'
@@ -10,6 +10,7 @@ import { TagRecordType } from '../../redux/tagReducer'
 //@ts-ignore
 import styles from './style.module.scss'
 import Divider from '@mui/material/Divider'
+import { ButtonsActionSecond } from './ButtonsActionSecond'
 
 type TaskComponentType = {
   task: TaskType
@@ -17,23 +18,26 @@ type TaskComponentType = {
   currTag: TagRecordType
   setUserAnswers?: (value: any) => void
   userAnswers: Object
-  isAsAnswers?: boolean
+  isAsAnswer?: boolean
 }
 export const TaskComponent: React.FC<TaskComponentType> = ({
   task, currCategory,
   currTag, setUserAnswers,
-  userAnswers, isAsAnswers = false
+  userAnswers, isAsAnswer = false
 }) => {
   let taskAnswers = [] as Array<string>
   let taskQuestion = ''
+
+  const [isOpenSolution, setIsOpenSolution] = useState(false)
+
   if (task.test_qa) {
     const taskQA = JSON.parse(task.test_qa)
     taskAnswers = taskQA.taskAnswers
     taskQuestion = taskQA.taskQuestion
   }
   return (
-    <Box sx={{ color: 'fpage.main', pt:4 }}>
-      <Box sx={{mb:3}}>
+    <Box sx={{ color: 'fpage.main', pt: 4 }} key={task.id}>
+      <Box sx={{ mb: 3 }}>
         <Divider textAlign="right">
           <Typography variant="subtitle1" color="inherit" className={styles.markNumberTask}
             sx={{
@@ -53,7 +57,7 @@ export const TaskComponent: React.FC<TaskComponentType> = ({
       </Box>
       {task.task &&
         <Box sx={{ pb: 3 }}>
-          <img src={`${URL_STORAGE}${task.task}`} alt={`${currCategory.textUrl}-${currTag.textUrl}-${task.number_of_task}`} />
+          <img style={{minHeight:'100px'}} src={`${URL_STORAGE}${task.task}`} alt={`${currCategory.textUrl}-${currTag.textUrl}-${task.number_of_task}`} />
         </Box>
       }
       <Box sx={{}}>
@@ -67,10 +71,14 @@ export const TaskComponent: React.FC<TaskComponentType> = ({
       </Box>
       <AnswerField
         task={task as TaskType}
-        setUserAnswers={isAsAnswers ? () => { } : setUserAnswers}
+        setUserAnswers={isAsAnswer ? () => { } : setUserAnswers}
         userAnswers={userAnswers}
-        isAsAnswer={isAsAnswers}
+        isAsAnswer={isAsAnswer}
       />
+      {isAsAnswer &&
+        <ButtonsActionSecond setIsOpenSolution={setIsOpenSolution} isOpenSolution={isOpenSolution} currTask={task} isAsAnswer={isAsAnswer} />
+      }
+
     </Box >
   )
 }

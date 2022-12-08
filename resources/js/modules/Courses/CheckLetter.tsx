@@ -3,6 +3,9 @@ import { AnswerComponentType } from './AnswerField'
 import Box from '@mui/material/Box'
 //@ts-ignore
 import styles from './style.module.scss'
+import Typography from '@mui/material/Typography'
+import { Button } from '@mui/material'
+import { ButtonTask } from './ButtonTask'
 
 export const CheckLetter: React.FC<AnswerComponentType> = ({ task, handleChange, userAnswers, isAsAnswer = false }) => {
    const refA = createRef<HTMLInputElement>()
@@ -11,6 +14,8 @@ export const CheckLetter: React.FC<AnswerComponentType> = ({ task, handleChange,
    const refD = createRef<HTMLInputElement>()
    const refE = createRef<HTMLInputElement>()
    const refK = createRef<HTMLInputElement>()
+
+   const isCorrect = userAnswers[task.number_of_task] === task.answer
 
    if (isAsAnswer)
       useEffect(() => {
@@ -47,9 +52,6 @@ export const CheckLetter: React.FC<AnswerComponentType> = ({ task, handleChange,
       }, [refK, task.number_of_task])
 
    useEffect(() => {
-      // console.log(userAnswers[task.number_of_task],task.number_of_task)
-      // debugger
-      // console.log(userAnswers[task.number_of_task] , task.answer)
       switch (userAnswers[task.number_of_task]) {
          case 'А': {
             if (isAsAnswer) {
@@ -140,7 +142,7 @@ export const CheckLetter: React.FC<AnswerComponentType> = ({ task, handleChange,
 
    return (
       <>
-         <Box>
+         <Box sx={{ color: 'fpage.main' }}>
             <table className={styles.answerTable}>
                <tbody><tr>
                   <th>А</th>
@@ -202,10 +204,20 @@ export const CheckLetter: React.FC<AnswerComponentType> = ({ task, handleChange,
                   </tr>
                </tbody>
             </table>
-            <div>
+            <Box sx={{ mb: 3 }}>
                <input ref={refK} type="radio" value="K" hidden
                   onChange={(el) => handleChange(el.target.value)} name={`${task.number_of_task}`} className={styles.radioField} /><span className={styles.marker}></span>
-            </div>
+            </Box>
+            {isAsAnswer &&
+               <>
+                  <Box>
+                     <Typography variant="subtitle1" color="inherit">
+                        Кількість балів: <strong>{isCorrect ? '1' : '0'}</strong>
+                     </Typography>
+                  </Box>
+                
+               </>
+            }
          </Box >
       </>
    )

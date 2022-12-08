@@ -31,8 +31,11 @@ export const ResultOfTest: React.FC<ResultOfTestType> = ({ currCategory, test, u
    const displayAllTasks = () => {
       let tasks = [] as Array<JSX.Element>
       for (const task of test) {
-         tasks.push(<TaskComponent key={task.id} task={task} currCategory={currCategory} currTag={currTag}
-            userAnswers={userAnswers} isAsAnswers />
+         tasks.push(
+            <Box>
+               <TaskComponent task={task} currCategory={currCategory} currTag={currTag}
+                  userAnswers={userAnswers} isAsAnswer />
+            </Box>
          )
       }
       return tasks;

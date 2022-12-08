@@ -109,32 +109,7 @@ export const CheckRange2: React.FC<AnswerComponentType> = ({ handleChange, userA
                </Stack>
             </Stack>
          </Box>
-         {isAsAnswer && <Box className={styles.rangeWrapper}>
-            <TextField
-               className={styles.rangeWrapper__fieldRange3}
-               inputProps={{ readOnly: isAsAnswer }}
-               color='success'
-               sx={{ mb: 2 }}
-               type='number'
-               id="outlined-basic"
-               variant="outlined"
-               size='small'
-               value={rightAnswers[0]}
-               focused
-            />
-            <TextField
-               className={styles.rangeWrapper__fieldRange3}
-               inputProps={{ readOnly: isAsAnswer }}
-               color='success'
-               sx={{ mb: 2 }}
-               type='number'
-               id="outlined-basic"
-               variant="outlined"
-               size='small'
-               value={rightAnswers[1]}
-               focused
-            />
-         </Box>}
+      
       </Box>
    )
 }

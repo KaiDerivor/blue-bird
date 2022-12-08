@@ -18,6 +18,8 @@ import { ResultOfTest } from './ResultOfTest'
 import styles from './style.module.scss'
 import { TagRecordType } from '../../redux/tagReducer'
 import { TaskComponent } from './Task'
+import { ButtonsActionSecond } from './ButtonsActionSecond'
+import { ButtonTask } from './ButtonTask'
 
 const buttonsAction = {
    backgroundColor: 'bgmode.main', color: 'fpage.main', borderColor: 'bgmode.main'
@@ -37,6 +39,7 @@ export const CourseItem = () => {
    const [taskNumber, setTaskNumber] = useState(1)
    const [userAnswers, setUserAnswers] = useState({
       "1": "А",
+      "2": "Г",
       "6": "ВАДА",
       "11": "БГВБ",
       "13": "13.44",
@@ -64,7 +67,7 @@ export const CourseItem = () => {
       if (numbers[numbers.indexOf(taskNumber) + 1]) {
          if (userAnswers[numbers[numbers.indexOf(taskNumber) + 1]]) {
             for (let i = numbers.indexOf(taskNumber); i < numbers.length; i++) {
-               if (!userAnswers[numbers[i+1]]) {
+               if (!userAnswers[numbers[i + 1]]) {
                   setTaskNumber(numbers[i]);
                   return;
                }
@@ -187,50 +190,13 @@ export const CourseItem = () => {
             {renderTask()}
          </Box>
          <Box sx={{ pt: 3, display: 'flex', justifyContent: 'space-between' }}>
-            <Button variant="outlined"
-               sx={buttonsAction}
-               onClick={nextTaskHandler}
-            >
-               Наступне завдання
-            </Button>
-            <Button variant="outlined" color="primary"
-               sx={buttonsAction}
-               onClick={() => setIsEndTest(true)}
-            >
-               Завершити тест
-            </Button>
+            <ButtonTask title='Наступне завдання' fn={nextTaskHandler} />
+            <ButtonTask title='  Завершити тест' fn={() => setIsEndTest(true)} />
          </Box>
-         {currTask.content &&
-            <Solution setIsOpenSolution={setIsOpenSolution} isOpenSolution={isOpenSolution} currTask={currTask} />}
+            <ButtonsActionSecond setIsOpenSolution={setIsOpenSolution} isOpenSolution={isOpenSolution} currTask={currTask} />
       </Box>
    )
 
 
 }
 
-type SolutionType = {
-   setIsOpenSolution: (arg1: boolean) => void
-   isOpenSolution: boolean
-   currTask: TaskRecordType
-}
-const Solution: React.FC<SolutionType> = ({ setIsOpenSolution, isOpenSolution, currTask }) => {
-   return (
-      <>
-         <Box sx={{ pt: 2, display: 'flex', justifyContent: 'space-between' }}>
-            <Button variant="outlined" color="primary"
-               sx={buttonsAction}
-               onClick={() => {//@ts-ignore
-                  setIsOpenSolution((prev) => !prev)
-               }}
-            >
-               Дивитися розв'язок
-            </Button>
-         </Box>
-         <Box sx={{ pt: 3 }}>
-            <Collapse in={isOpenSolution}>
-               {currTask.content}
-            </Collapse>
-         </Box>
-      </>
-   )
-}
