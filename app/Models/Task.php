@@ -24,5 +24,8 @@ class Task extends Model
     {
         return $this->belongsToMany(Tag::class, 'task_themes', 'task_id', 'theme_id');
     }
-    
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'like_tasks', 'task_id', 'user_id');
+    }
 }

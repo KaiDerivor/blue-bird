@@ -4,6 +4,12 @@ import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 import Collapse from '@mui/material/Collapse'
 import { ButtonTask } from './ButtonTask'
+import { AppDispatch } from '../../redux/store'
+import { useDispatch, useSelector } from 'react-redux'
+import { FormDataMeUpdateType, updateMe } from '../../redux/appReducer'
+import { getLikedTasks } from '../../redux/appSelector'
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
+import FavoriteIcon from '@mui/icons-material/Favorite'
 
 const buttonsActionStyle = {
    backgroundColor: 'bgmode.main',
@@ -19,15 +25,38 @@ type SolutionType = {
    isAsAnswer?: boolean
 }
 export const ButtonsActionSecond: React.FC<SolutionType> = ({ setIsOpenSolution, isOpenSolution, currTask, isAsAnswer = false }) => {
+   const dispatch: any = useDispatch()
+   const likedTasks = useSelector(getLikedTasks)
+   const Icon = likedTasks.includes(currTask.id) ? <FavoriteIcon /> : <FavoriteBorderIcon />
+
+   const saveTask = (idLiked: number) => {
+      let isSetted = false;
+
+      const sendMe = {
+         likedTasks: likedTasks.filter(id => {
+            if (id === idLiked) {
+               isSetted = true
+               return
+            } else {
+               return id
+            }
+         })
+      }
+      isSetted || sendMe.likedTasks.push(idLiked)
+      dispatch(updateMe(sendMe))
+   }
    return (
       <>
          <Box sx={{ pt: 2, mb: 3, display: 'flex', justifyContent: 'space-between' }}>
             {currTask.content &&
-               <ButtonTask title='Дивитися пояснення' fn={() => {//@ts-ignore
-                  setIsOpenSolution((prev) => !prev)
-               }} />
+               <ButtonTask title='Дивитися пояснення'
+                  fn={() => {//@ts-ignore
+                     setIsOpenSolution((prev) => !prev)
+                  }} />
             }
-            <ButtonTask title='До збереженого' fn={() => { console.log(currTask.id) }} />
+            <ButtonTask title='До збереженого'
+               Icon={Icon}
+               fn={() => saveTask(currTask.id)} />
 
          </Box>
          <Box >

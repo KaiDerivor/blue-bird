@@ -3,7 +3,7 @@ import { CategoryRecordType } from "../redux/catReducer";
 import { TagRecordType } from "../redux/tagReducer";
 import { ResultRecordType, TaskRecordType } from "../redux/taskReducer";
 import { UserRecordType } from "../redux/userReducer";
-import { FormDataLogType } from './../redux/appReducer'
+import { FormDataLogType, FormDataMeUpdateType } from './../redux/appReducer'
 
 const isConnected = false;
 
@@ -113,6 +113,32 @@ export const api = {
   me: function () {
     return instance.post("auth/me").then((response) => {
       return response.data
+    }).catch(err => {
+      if (err.response) {
+        return err.response.statusText
+      } else if (err.request) {
+        return 'Bad network. Try again later'
+      } else {
+        return 'Try again later'
+      }
+    });
+  },
+  meInfo: function () {
+    return instance.get("auth/info").then((response) => {
+      return response.data.data
+    }).catch(err => {
+      if (err.response) {
+        return err.response.statusText
+      } else if (err.request) {
+        return 'Bad network. Try again later'
+      } else {
+        return 'Try again later'
+      }
+    });
+  },
+  meUpdate: function (data: FormDataMeUpdateType) {
+    return instance.patch("auth/me", { ...data }).then((response) => {
+      return response.data.data
     }).catch(err => {
       if (err.response) {
         return err.response.statusText

@@ -7,10 +7,13 @@ const buttonsAction = {
 type ButtonTaskType = {
    fn: () => void
    title: string
+   Icon?: JSX.Element
 }
-export const ButtonTask: React.FC<ButtonTaskType> = ({ fn, title }) => {
+export const ButtonTask: React.FC<ButtonTaskType> = ({ fn, title, Icon=(<></>) }) => {
    return (
       <Button variant="outlined"
+         endIcon={Icon}
+
          sx={buttonsAction}
          onClick={fn}
       >

@@ -24,9 +24,11 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'string|required',
-            'email' => 'email|required',
-            'role' => 'string|required|max:50',
+            'name' => 'string',
+            'email' => 'email',
+            'role' => 'string',
+            'likedTasks'=>'',
+            'likedTasks.*'=>'numeric'
         ];
     }
 }

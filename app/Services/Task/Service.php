@@ -14,15 +14,6 @@ class Service extends Path2File
    public function update($task, $data)
    {
 
-
-      // if (Task::where('number_of_task', $data['number_of_task'])
-      //    ->where('category_id', $data['category_id'])
-      //    ->where('tag_id', $data['tag_id'])
-      //    ->first()
-      // ){
-      //    return 'This record alredy exists';
-      // }
-
          if (isset($data['task'])) {
             $image_path  = $this->makePath($task['task']);
             if (File::exists($image_path)) {

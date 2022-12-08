@@ -19,6 +19,7 @@ type TaskComponentType = {
   setUserAnswers?: (value: any) => void
   userAnswers: Object
   isAsAnswer?: boolean
+  
 }
 export const TaskComponent: React.FC<TaskComponentType> = ({
   task, currCategory,

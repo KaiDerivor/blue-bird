@@ -1,5 +1,6 @@
 import { Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
+import { StringDecoder } from "string_decoder";
 import { api } from "../api/api";
 import { AppStateType, InferActionsTypes } from "./store";
 
@@ -21,7 +22,8 @@ const initialState = {
    errorText: '',
    isSetData: false,
    name: 'User',
-   role: 'user'
+   role: 'user',
+   likedTasks: [] as Array<number>
 }
 type StateType = typeof initialState;
 const appReducer = (state = initialState, action: ActionsTypes): StateType => {
@@ -141,13 +143,30 @@ export const setData = (): ThunksTypes => {
 
          if (typeof res === 'string') {
             dispatch(appActions.setErrorText(res))
+         }
+      }).then(() => {
+         api.meInfo()?.then(res => {
+
+            if (typeof res === 'string') {
+               dispatch(appActions.setErrorText(res))
+            } else {
+               dispatch(appActions.init(res))
+            }
+         })
+      })
+   }
+}
+export const updateMe = (me: FormDataMeUpdateType): ThunksTypes => {
+   return async (dispatch) => {
+      api.meUpdate(me)?.then(res => {
+         if (typeof res === 'string') {
+            dispatch(appActions.setErrorText(res))
          } else {
             dispatch(appActions.init(res))
          }
       })
    }
 }
-
 export default appReducer;
 
 
@@ -161,4 +180,9 @@ export type FormDataRegType = {
    email: string,
    password: string
    password_confirmation: string
+}
+export type FormDataMeUpdateType = {
+   name?: StringDecoder
+   email?: string,
+   likedTasks?: Array<number>
 }

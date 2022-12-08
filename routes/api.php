@@ -33,7 +33,8 @@ Route::group([
 Route::group(['namespace' => 'App\Http\Controllers\User', 'prefix' => 'auth'], function () {
 
     Route::post('register', 'StoreController');
-    // Route::get('me', "IndexController");
+    Route::patch('me', 'UpdateController');
+    Route::get('info', "IndexController");
 });
 // Route::get('/test',function(){
 //     return response(['OK']);

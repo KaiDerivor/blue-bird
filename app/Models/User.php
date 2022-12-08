@@ -15,7 +15,7 @@ class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable;
     use Filterable;
-    const ROLE_ADMIN='admin';
+    const ROLE_ADMIN = 'admin';
     /**
      * The attributes that are mass assignable.
      *
@@ -25,8 +25,9 @@ class User extends Authenticatable implements JWTSubject
         'name',
         'email',
         'password',
+        
     ];
-
+    protected $guarded = ['role'];
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -68,5 +69,10 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function tasks()
+    {
+        return $this->belongsToMany(Task::class, 'like_tasks', 'user_id', 'task_id');
     }
 }
