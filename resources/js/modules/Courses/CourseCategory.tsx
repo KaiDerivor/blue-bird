@@ -4,14 +4,15 @@ import Box from "@mui/material/Box"
 //@ts-ignore
 import styles from './style.module.scss'
 import { useDispatch, useSelector } from "react-redux"
-import { getCategories, getIsDarkMode } from "../../redux/appSelector"
+import { getCategories, getIsDarkMode, getLikedCategories } from "../../redux/appSelector"
 import { ButtonNavigate } from "../common/ButtonNavigate"
 import React, { useDeferredValue, useEffect, useState } from 'react'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Switch from '@mui/material/Switch'
-import { CategoryRecordType, getCategoriesInit } from "../../redux/catReducer"
+import { CategoryRecordType, CategoryType, getCategoriesInit } from "../../redux/catReducer"
 import { AppDispatch } from "../../redux/store"
 import { detectCategory } from "../utils/detectCategory"
+import { FormDataMeUpdateType, updateMe } from "../../redux/appReducer"
 
 type BodyCourseCategory = {
    toggleShowingTasks: () => void
@@ -20,10 +21,14 @@ type BodyCourseCategory = {
 const BodyCourseCategory: React.FC<BodyCourseCategory> = ({ toggleShowingTasks }) => {
 
    const params = useParams();
-   const dispatch: AppDispatch = useDispatch()
+   const dispatch: any = useDispatch()
 
+   const likedCategories = useSelector(getLikedCategories)
    const isDarkMode = useSelector(getIsDarkMode)
-   const categories:Array<CategoryRecordType> = useSelector(getCategories)
+   const categories: Array<CategoryType> = useSelector(getCategories)
+   const currCategory = detectCategory(categories, params);
+   const [isCategoryAdded, setisCategoryAdded] = useState(likedCategories.includes(currCategory.id))
+
 
    useEffect(() => {
       return () => {
@@ -36,10 +41,16 @@ const BodyCourseCategory: React.FC<BodyCourseCategory> = ({ toggleShowingTasks }
    }
 
 
-   const configAddToProfileHandler = () => {
-      console.log('sdfgg')
+   const configAddToProfileHandler = (isChecked: boolean) => {
+      const sendMe = {
+         likedCategories: isChecked
+            ? [...likedCategories, currCategory.id]
+            : likedCategories.filter(id => id !== currCategory.id)
+      }
+      setisCategoryAdded(sendMe.likedCategories.includes(currCategory.id))
+      dispatch(updateMe(sendMe as FormDataMeUpdateType));
    }
-   const currCategory = detectCategory(categories,params);
+   console.log(isCategoryAdded)
    return (
       <>
          <ButtonNavigate fn={toggleShowingTasks} title="Показати завдання по темам" subtitle="Усі завдання по певних теиах" />
@@ -54,9 +65,7 @@ const BodyCourseCategory: React.FC<BodyCourseCategory> = ({ toggleShowingTasks }
                         })
                         : <Typography variant="h5" color="fpage.main" sx={{ pb: 4 }}>Не має доступних тестів</Typography>
                      }
-                     {/* <Typography variant="body1" color="fpage.main"><NavLink to={`2022-a`} style={navLinkStyles}>2022-A</NavLink> </Typography> */}
-                     {/* <Typography variant="body1" color="fpage.main"><NavLink to={`2022-b`} style={navLinkStyles}>2022-Б</NavLink></Typography> */}
-                     {/* <Typography variant="body1" color="fpage.main"><NavLink to={`2022-c`} style={navLinkStyles}>2022 Пробна</NavLink></Typography> */}
+
                   </Box>
                </Box>
 
@@ -68,13 +77,15 @@ const BodyCourseCategory: React.FC<BodyCourseCategory> = ({ toggleShowingTasks }
 
                   <FormControlLabel
                      value="start"
-                     control={<Switch color="warning" onChange={() => configAddToProfileHandler()} />}
+                     control={
+                        <Switch color="warning" onChange={(el) => configAddToProfileHandler(el.target.checked)} checked={isCategoryAdded} />
+                     }
                      label="Добавити до профілю"
                      labelPlacement="start"
                   />
                   <FormControlLabel
                      value="start"
-                     control={<Switch color="warning" onChange={() => configAddToProfileHandler()} />}
+                     control={<Switch color="warning" onChange={() => { }} />}
                      label="Показувати на графіку"
                      labelPlacement="start"
                   />

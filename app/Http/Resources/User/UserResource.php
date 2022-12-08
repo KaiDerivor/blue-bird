@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\User;
 
+use App\Http\Resources\Category\CategoryIdResource;
 use App\Http\Resources\Task\TaskIdResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -20,7 +21,8 @@ class UserResource extends JsonResource
             'name'=>$this->name,
             'email'=>$this->email,
             'role'=>$this->role,
-            'likedTasks'=>TaskIdResource ::collection($this->tasks)
+            'likedTasks'=>TaskIdResource ::collection($this->tasks),
+            'likedCategories'=>CategoryIdResource::collection($this->categories)
         ];
     }
 }

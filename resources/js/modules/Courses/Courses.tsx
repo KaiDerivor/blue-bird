@@ -4,6 +4,7 @@ import Typography from '@mui/material/Typography'
 import { Container } from "@mui/system"
 import { Footer } from "../Footer/Footer"
 import Box from "@mui/material/Box"
+//@ts-ignore
 import styles from './style.module.scss'
 import { CoursesList } from "./CoursesList"
 import { Route, Routes, useParams } from "react-router-dom"

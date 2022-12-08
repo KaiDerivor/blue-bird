@@ -23,7 +23,8 @@ const initialState = {
    isSetData: false,
    name: 'User',
    role: 'user',
-   likedTasks: [] as Array<number>
+   likedTasks: [] as Array<number>,
+   likedCategories: [] as Array<number>
 }
 type StateType = typeof initialState;
 const appReducer = (state = initialState, action: ActionsTypes): StateType => {

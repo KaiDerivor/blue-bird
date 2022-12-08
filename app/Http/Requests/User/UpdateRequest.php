@@ -28,7 +28,9 @@ class UpdateRequest extends FormRequest
             'email' => 'email',
             'role' => 'string',
             'likedTasks'=>'',
-            'likedTasks.*'=>'numeric'
+            'likedTasks.*'=>'numeric',
+            'likedCategories'=>'',
+            'likedCategories.*'=>'numeric'
         ];
     }
 }

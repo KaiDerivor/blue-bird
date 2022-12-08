@@ -45,3 +45,6 @@ export const getResultTables=(state:AppStateType)=>{
 export const getLikedTasks=(state:AppStateType)=>{
    return state.app.likedTasks;
 }
+export const getLikedCategories=(state:AppStateType)=>{
+   return state.app.likedCategories
+}

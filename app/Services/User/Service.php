@@ -11,13 +11,20 @@ class Service
    {
       $user = User::find(auth()->user()->id);
       $likedTasks = [];
+      $likedCategories=[];
 
       if (isset($data['likedTasks'])) {
          $likedTasks = $data['likedTasks'];
          unset($data['likedTasks']);
+         $user->tasks()->sync($likedTasks);
+      }
+      
+      if (isset($data['likedCategories'])) {
+         $likedCategories = $data['likedCategories'];
+         unset($data['likedCategories']);
+         $user->categories()->sync($likedCategories);
       }
       $user->update($data);
-      $user->tasks()->sync($likedTasks);
       $user->fresh();
       return $user;
    }

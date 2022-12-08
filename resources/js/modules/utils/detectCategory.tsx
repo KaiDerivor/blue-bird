@@ -1,4 +1,4 @@
-import { CategoryRecordType } from "../../redux/catReducer"
+import { CategoryRecordType, CategoryType } from "../../redux/catReducer"
 import { TagRecordType } from "../../redux/tagReducer";
 
 export const detectItem = (id: string | undefined, list: Array<CategoryRecordType | TagRecordType>) => {
@@ -11,7 +11,7 @@ export const detectItem = (id: string | undefined, list: Array<CategoryRecordTyp
    }
 }
 
-export const detectCategory = (categories: Array<CategoryRecordType>, params) => {
+export const detectCategory = (categories: Array<CategoryType>, params) => {
    if (categories.length > 0) {
       for (const category of categories) {
          if (category.textUrl === params.category) {

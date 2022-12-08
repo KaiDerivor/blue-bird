@@ -16,10 +16,18 @@ export type CategoryRecordType = {
    description?: string
    img?: any,
    textUrl: string,
-   tags?: Array<TagRecordType|number>
+   tags?: Array<TagRecordType>
+}
+export type CategoryType = {
+   id: number,
+   title: string,
+   description?: string
+   img?: any,
+   textUrl: string,
+   tags?: Array<TagRecordType>
 }
 const initialState = {
-   listCats: [] as Array<CategoryRecordType>,
+   listCats: [] as Array<CategoryType>,
    errorText: ''
 }
 type StateType = typeof initialState;
@@ -73,10 +81,10 @@ export type DispatchType = Dispatch<ActionsTypes>;
 
 
 export const catActions = {
-   init: (list: Array<CategoryRecordType>) => { return { type: INIT, list } as const },
+   init: (list: Array<CategoryType>) => { return { type: INIT, list } as const },
    setErrorText: (err: string) => { return { type: SET_ERROR_MESSAGE, errorText: err } as const },
    eraseError: () => { return { type: ERASE_ERROR } as const },
-   updateCategory: (category: CategoryRecordType) => { return { type: UPDATE_CATEGORIES, category } as const }
+   updateCategory: (category: CategoryType) => { return { type: UPDATE_CATEGORIES, category } as const }
 
 }
 
