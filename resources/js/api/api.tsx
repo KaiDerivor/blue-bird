@@ -479,6 +479,63 @@ export const api = {
       }
     });
   },
+  //events
+  getEvents: function () {
+    return instance.get(`admin/events`).then(res => {
+      return res.data.data;
+    }).catch(err => {
+      if (err.response) {
+        return err.response.statusText
+      } else if (err.request) {
+        return 'Bad network. Try again later'
+      } else {
+        return 'Try again later'
+      }
+    });
+  },
+  createEvent: function (result: ResultRecordType) {
+    return instance.post('admin/events', { ...result }).then(res => {
+      return res.data.data;
+    }).catch(err => {
+      if (err.response.data.message) {
+        return err.response.data.message
+      } else if (err.response) {
+        return err.response.statusText
+      } else if (err.request) {
+        return 'Bad network. Try again later'
+      } else {
+        return 'Try again later'
+      }
+    });
+  },
+  updateEvent: function (id: number | string, result: ResultRecordType) {
+    return instance.patch(`admin/events/${id}`, { ...result }).then(res => {
+      return res.data.data;
+    }).catch(err => {
+      if (err.response.data.message) {
+        return err.response.data.message
+      } else if (err.response) {
+        return err.response.statusText
+      } else if (err.request) {
+        return 'Bad network. Try again later'
+      } else {
+        return 'Try again later'
+      }
+    });
+  },
+  deleteEvent: function (id: number | string) {
+    return instance.delete(`admin/events/${id}`).then(res => {
+      return res.data.data;
+    }).catch(err => {
+      if (err.response) {
+        return err.response.statusText
+      } else if (err.request) {
+        return 'Bad network. Try again later'
+      } else {
+        return 'Try again later'
+      }
+    });
+  },
 };
 
 /*const _axios = require('axios') 

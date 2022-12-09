@@ -15,24 +15,27 @@ import { Tags } from './Tags';
 import { Tasks } from './Tasks';
 import { Users } from './Users';
 import { Results } from './Results';
+import { DataEvents } from './DataEvents';
 
 export const AdminPage = () => {
    return (
       <Box sx={{ color: 'fpage.main' }}>
          <Stack direction='row' sx={{ gap: 2 }}>
-            <MenuItemAdmin linkUrl='admin/admin-categories' linkText="Categories" Icon={<AppsIcon sx={{ color: 'inherit' }} />} />
-            <MenuItemAdmin linkUrl='admin/admin-tags' linkText="Tags" Icon={<AppsIcon sx={{ color: 'inherit' }} />} />
-            <MenuItemAdmin linkUrl='admin/admin-tasks' linkText="Tasks" Icon={<AppsIcon sx={{ color: 'inherit' }} />} />
-            <MenuItemAdmin linkUrl='admin/admin-users' linkText="Users" Icon={<AppsIcon sx={{ color: 'inherit' }} />} />
-            <MenuItemAdmin linkUrl='admin/admin-results' linkText="Results" Icon={<AppsIcon sx={{ color: 'inherit' }} />} />
+            <MenuItemAdmin linkUrl='admin/categories' linkText="Categories" Icon={<AppsIcon sx={{ color: 'inherit' }} />} />
+            <MenuItemAdmin linkUrl='admin/tags' linkText="Tags" Icon={<AppsIcon sx={{ color: 'inherit' }} />} />
+            <MenuItemAdmin linkUrl='admin/tasks' linkText="Tasks" Icon={<AppsIcon sx={{ color: 'inherit' }} />} />
+            <MenuItemAdmin linkUrl='admin/users' linkText="Users" Icon={<AppsIcon sx={{ color: 'inherit' }} />} />
+            <MenuItemAdmin linkUrl='admin/results' linkText="Results" Icon={<AppsIcon sx={{ color: 'inherit' }} />} />
+            <MenuItemAdmin linkUrl='admin/events' linkText="Events" Icon={<AppsIcon sx={{ color: 'inherit' }} />} />
          </Stack>
          <Box>
             <Routes>
-               <Route path='admin-categories/*' element={<Categories />} />
-               <Route path='admin-tags/*' element={<Tags />} />
-               <Route path='admin-tasks/*' element={<Tasks />} />
-               <Route path='admin-users/*' element={<Users />} />
-               <Route path='admin-results/*' element={<Results />} />
+               <Route path='categories/*' element={<Categories />} />
+               <Route path='tags/*' element={<Tags />} />
+               <Route path='tasks/*' element={<Tasks />} />
+               <Route path='users/*' element={<Users />} />
+               <Route path='results/*' element={<Results />} />
+               <Route path='events/*' element={<DataEvents />} />
             </Routes>
          </Box>
       </Box >

@@ -30,21 +30,24 @@ export const getTasks = (state: AppStateType) => {
 export const getUsers = (state: AppStateType) => {
    return state.user.listUsers
 }
-export const getTest=(state:AppStateType)=>{
+export const getTest = (state: AppStateType) => {
    return state.task.test
 }
-export const getTaskFilter=(state:AppStateType)=>{
-   return [state.task.filterCategory,state.task.filterTag]
+export const getTaskFilter = (state: AppStateType) => {
+   return [state.task.filterCategory, state.task.filterTag]
 }
-export const getTableOfResult=(state:AppStateType)=>{
+export const getTableOfResult = (state: AppStateType) => {
    return state.task.result;
 }
-export const getResultTables=(state:AppStateType)=>{
+export const getResultTables = (state: AppStateType) => {
    return state.task.results
 }
-export const getLikedTasks=(state:AppStateType)=>{
+export const getLikedTasks = (state: AppStateType) => {
    return state.app.likedTasks;
 }
-export const getLikedCategories=(state:AppStateType)=>{
+export const getLikedCategories = (state: AppStateType) => {
    return state.app.likedCategories
+}
+export const getListEvents = (state: AppStateType) => {
+   return state.event.listEvents
 }

@@ -2,6 +2,7 @@ import { applyMiddleware, combineReducers, compose, legacy_createStore as create
 import thunkMiddleware from 'redux-thunk'
 import appReducer, { ActionsTypes, ThunksTypes } from "./appReducer";
 import catReducer from "./catReducer";
+import eventReducer from "./eventReducer";
 import tagReducer from "./tagReducer";
 import taskReducer from "./taskReducer";
 import userReducer from "./userReducer";
@@ -11,7 +12,8 @@ let rootReducer = combineReducers({
    category: catReducer,
    tag:tagReducer,
    task:taskReducer,
-   user:userReducer
+   user:userReducer,
+   event:eventReducer
 });
 
 // @ts-ignore

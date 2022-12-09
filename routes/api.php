@@ -102,6 +102,12 @@ Route::group([
         Route::patch('/results/{result}', "UpdateController")->name('admin.result.update');
         Route::delete('/results/{result}', "DeleteController")->name('admin.result.delete');
     });
+    Route::group(['namespace' => 'Event'], function () {
+        Route::get('/events', "IndexController")->name('admin.event.index');
+        Route::post('/events', "StoreController")->name('admin.event.store');
+        Route::patch('/events/{event}', "UpdateController")->name('admin.event.update');
+        Route::delete('/events/{event}', "DeleteController")->name('admin.event.delete');
+    });
     // Route::get('/users','IndexController')->name('admin.index');
     // Route::get('/users','IndexController')->name('admin.index');
 

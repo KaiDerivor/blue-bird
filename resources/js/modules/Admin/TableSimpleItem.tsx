@@ -28,6 +28,8 @@ import Typography from '@mui/material/Typography'
 import { ButtonSubmit } from '../Auth/ButtonSubmit';
 import { DialogFormTags } from './DialogFormTags';
 import { DialogFormCategories } from './DialogFormCategories';
+import { DialogFormEvents } from './DialogFormEvents';
+import { EventRecordType } from '../../redux/eventReducer';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
    [`&.${tableCellClasses.head}`]: {
@@ -68,20 +70,42 @@ const dilaogForms = {
          handleConfirm={handleConfirm}
          setItem={setItem}
       />
+   },
+   event: (openDilaog, setOpenDialog, itemId, item, handleConfirm, setItem) => {
+      return <DialogFormEvents openDilaog={openDilaog}
+         setOpenDialog={setOpenDialog}
+         itemId={itemId}
+         item={item}
+         handleConfirm={handleConfirm}
+         setItem={setItem}
+      />
    }
 }
 type TableItemsType = {
-   list: Array<CategoryRecordType | TagRecordType>
+   list: Array<CategoryRecordType | TagRecordType | EventRecordType>
    setSwitchHandler: (arg1: string) => void
-   handleConfirm: (id?: number, field?: CategoryRecordType | TagRecordType) => void
+   handleConfirm: (id?: number, field?: CategoryRecordType | TagRecordType | EventRecordType) => void
    typeDialog: string
 }
 export const TableSimpleItem: React.FC<TableItemsType> = ({ list, setSwitchHandler, handleConfirm, typeDialog }) => {
 
    const [openDilaog, setOpenDialog] = useState(false)
    const [itemId, setItemId] = useState<number | undefined>(0)
-   const [item, setItem] = useState<CategoryRecordType | TagRecordType | undefined>(undefined)
-   // console.log(list)
+   const [item, setItem] = useState<CategoryRecordType | TagRecordType | EventRecordType | undefined>(undefined)
+   const renderDialogForm = () => {
+      switch (typeDialog) {
+         case "TAG": {
+            return dilaogForms.tag(openDilaog, setOpenDialog, itemId, item, handleConfirm, setItem);
+         }
+         case 'CATEGORY': {
+            return dilaogForms.category(openDilaog, setOpenDialog, itemId, item, handleConfirm, setItem)
+         }
+         case 'EVENT': {
+            return dilaogForms.event(openDilaog, setOpenDialog, itemId, item, handleConfirm, setItem)
+         }
+         default: return 'Type of dialog form not found';
+      }
+   }
    return (
       <>
          <ButtonAddItem setOpenDialog={setOpenDialog} setSwitchHandler={setSwitchHandler} />
@@ -112,7 +136,8 @@ export const TableSimpleItem: React.FC<TableItemsType> = ({ list, setSwitchHandl
                            {row.description}
                         </StyledTableCell>
                         <StyledTableCell align="right">
-                           {row.textUrl}
+                           {//@ts-ignore
+                              row?.textUrl && row.textUrl}
                         </StyledTableCell>
                         <StyledTableCell align="right">
                            <Button onClick={() => { setSwitchHandler('update'); setItem(row); setItemId(row.id); setOpenDialog(true) }}>
@@ -130,9 +155,10 @@ export const TableSimpleItem: React.FC<TableItemsType> = ({ list, setSwitchHandl
                </TableBody>
             </Table>
          </TableContainer>
-         {typeDialog === 'TAG'
+         {/* {typeDialog === 'TAG'
             ? dilaogForms.tag(openDilaog, setOpenDialog, itemId, item, handleConfirm, setItem)
-            : dilaogForms.category(openDilaog, setOpenDialog, itemId, item, handleConfirm, setItem)}
+            : dilaogForms.category(openDilaog, setOpenDialog, itemId, item, handleConfirm, setItem)} */}
+         {renderDialogForm()}
 
       </>
    );
