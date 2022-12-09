@@ -31,7 +31,7 @@ type MenuItemType = {
    linkText: string
    Icon: JSX.Element
 }
-const MenuItem: React.FC<MenuItemType> = ({ linkUrl, linkText, Icon }) => {
+export const MenuItem: React.FC<MenuItemType> = ({ linkUrl, linkText, Icon }) => {
    const themeMod = useSelector(getIsDarkMode);
    return (
       <ListItem disablePadding>
@@ -88,11 +88,8 @@ export const SideBarLargeScreen: React.FC<SideBarType> = ({ toggleThemeMod }) =>
             <MenuItem linkUrl='savings' linkText="Збережені" Icon={<ClassIcon sx={{ color: 'fmenu.main' }} />} />
             <MenuItem linkUrl='courses' linkText="Курси" Icon={<AppsIcon sx={{ color: 'fmenu.main' }} />} />
             {userRole === 'admin' && <>
-               <MenuItem linkUrl='admin-categories' linkText="Categories" Icon={<AppsIcon sx={{ color: 'fmenu.main' }} />} />
-               <MenuItem linkUrl='admin-tags' linkText="Tags" Icon={<AppsIcon sx={{ color: 'fmenu.main' }} />} />
-               <MenuItem linkUrl='admin-tasks' linkText="Tasks" Icon={<AppsIcon sx={{ color: 'fmenu.main' }} />} />
-               <MenuItem linkUrl='admin-users' linkText="Users" Icon={<AppsIcon sx={{ color: 'fmenu.main' }} />} />
-               <MenuItem linkUrl='admin-results' linkText="Results" Icon={<AppsIcon sx={{ color: 'fmenu.main' }} />} />
+               <MenuItem linkUrl='admin' linkText="Admin" Icon={<AppsIcon sx={{ color: 'fmenu.main' }} />} />
+             
 
             </>}
          </List>

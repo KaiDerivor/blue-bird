@@ -76,6 +76,16 @@ export const SideBar: React.FC<SideBarType> = ({ isOpenSideMenu, setIsOpenSideMe
                         } />
                      </ListItemButton>
                   </ListItem>
+                  <ListItem disablePadding>
+                     <ListItemButton className={''}>
+                        <ListItemIcon className={''}>
+                           <AppsIcon />
+                        </ListItemIcon>
+                        <ListItemText primary={
+                           <Typography variant="subtitle1" color="info" noWrap>Admin</Typography>
+                        } />
+                     </ListItemButton>
+                  </ListItem>
                </List>
 
             </Box>

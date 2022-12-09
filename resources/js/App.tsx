@@ -26,6 +26,7 @@ import { Tags } from './modules/Admin/Tags';
 import { Tasks } from './modules/Admin/Tasks';
 import { Users } from './modules/Admin/Users';
 import { Results } from './modules/Admin/Results';
+import { AdminPage } from './modules/Admin/AdminPage';
 const drawerWidth = 60;
 
 function App() {
@@ -78,11 +79,8 @@ function App() {
                   <Route path='/login' element={<FormLog />} />
                   <Route path='/register' element={<FormReg />} />
                   {userRole === 'admin' && (<>
-                    <Route path='/admin-categories/*' element={<Categories />} />
-                    <Route path='/admin-tags/*' element={<Tags />} />
-                    <Route path='/admin-tasks/*' element={<Tasks />} />
-                    <Route path='/admin-users/*' element={<Users />} />
-                    <Route path='/admin-results/*' element={<Results />} />
+                    <Route path='/admin/*' element={<AdminPage />} />
+
                   </>
                   )}
                   <Route path='/*' element={<Home />} />
