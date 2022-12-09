@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './App.css';
-import { getIsDarkMode, getIsInit, getIsSetData, getUserRole } from './redux/appSelector';
+import { getAppTheme, getIsDarkMode, getIsInit, getIsSetData, getUserRole } from './redux/appSelector';
 import { useDispatch, useSelector } from 'react-redux'
 import { TopBar } from './modules/common/TopBar';
 import { SideBarLargeScreen } from './modules/common/SideBarLargeScreen';
@@ -11,22 +11,16 @@ import { Home } from './modules/Home/Home';
 import { Profile } from './modules/Profile/Profile';
 import { Savings } from './modules/Savings/Savings'
 import { Courses } from './modules/Courses/Courses';
-import { Slide, ThemeProvider } from "@mui/material";
-import { darkTheme, lightTheme } from './theme';
-import Fade from '@mui/material/Fade'
-import { useLocation } from 'react-router-dom';
+import { ThemeProvider } from "@mui/material";
+import { darkTheme, lightTheme, themeVariants } from './theme';
 import { FormLog } from './modules/Auth/FormLog';
 import { FormReg } from './modules/Auth/FormReg';
-import { useNavigate } from 'react-router-dom';
 import { AlertBox } from './modules/common/AlertBox';
 import { AppDispatch } from './redux/store';
 import { setData } from './redux/appReducer';
-import { Categories } from './modules/Admin/Categories';
-import { Tags } from './modules/Admin/Tags';
-import { Tasks } from './modules/Admin/Tasks';
-import { Users } from './modules/Admin/Users';
-import { Results } from './modules/Admin/Results';
+
 import { AdminPage } from './modules/Admin/AdminPage';
+
 const drawerWidth = 60;
 
 function App() {
@@ -37,6 +31,13 @@ function App() {
   const isSetData = useSelector(getIsSetData)
   const userRole = useSelector(getUserRole)
   const isInit = useSelector(getIsInit)
+  const appTheme = useSelector(getAppTheme)
+  const [themeMode, setTheme] = useState(isDarkMode ? 'Dark' : 'Light')
+  const [currTheme, setCurrTheme] = useState(themeVariants['config' + themeMode + appTheme])
+
+  useEffect(() => {
+    setCurrTheme(themeVariants['config' + themeMode + appTheme])
+  }, [appTheme])
 
   useEffect(() => {
     if (isInit) {
@@ -45,16 +46,17 @@ function App() {
     }
   }, [])
 
-  const [theme, setTheme] = useState(isDarkMode ? 'dark' : 'light')
 
   const toggleThemeMod = () => {
-    setTheme(prev => prev === 'light' ? 'dark' : 'light')
+    const toggleMode = themeMode === 'Light' ? 'Dark' : 'Light'
+    setTheme(toggleMode)
+    setCurrTheme(themeVariants['config' + toggleMode + appTheme])
   }
 
   return (
     <>
       <CssBaseline />
-      <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
+      <ThemeProvider theme={currTheme}>
         <div className="app">
           <Box className='app__wrapper'>
             <div className='topBar'>

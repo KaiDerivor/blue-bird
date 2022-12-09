@@ -71,10 +71,10 @@ export const DialogFormEvents: React.FC<DialogFormTagsType> = ({ openDilaog, set
                      }
                      for (const key in formData) {
                         if (Object.prototype.hasOwnProperty.call(formData, key)) {
-                           
-                         if(!formData[key]){
-                           delete formData[key]
-                         }
+
+                           if (!formData[key]) {
+                              delete formData[key]
+                           }
                         }
                      }
                      handleConfirmForm(formData)
@@ -105,6 +105,7 @@ export const DialogFormEvents: React.FC<DialogFormTagsType> = ({ openDilaog, set
                      <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', width: '100%', gap: '20px' }}>
                         <Box className={styles.wrapperField}>
                            <Field as="select" name="categoryId" className={styles.inputField}>
+                              <option value=''></option>
                               {categories && categories.map(cat => {
                                  return (<option key={cat.id} value={cat.id}>{cat.title}</option>)
                               })}

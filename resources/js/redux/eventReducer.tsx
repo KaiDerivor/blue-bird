@@ -10,8 +10,8 @@ const SET_ERROR_MESSAGE = 'SET_ERROR_MESSAGE'
 const ERASE_ERROR = 'ERASE_ERROR'
 const UPDATE_EVENT = 'event/UPDATE_EVENT'
 export type EventRecordType = {
-   id?: number,
-   title?: string,
+   id: number,
+   title: string,
    description?: string
    eventType?: string
    time?: string,

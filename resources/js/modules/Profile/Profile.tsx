@@ -31,7 +31,7 @@ export const Profile = () => {
                   <Greetings />
                   <MainChapter />
                   <SelectedCourses />
-                  <NotFinished />
+                  {/* <NotFinished /> */}
                </Box>
                <Box className={styles.wrapperSide}>
                   <DateEvents />

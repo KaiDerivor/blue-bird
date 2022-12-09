@@ -7,24 +7,25 @@ import { AppStateType, InferActionsTypes } from "./store";
 export const URL_STORAGE = '/storage/'
 
 
-const TOGGLE_THEME_MODE = 'TOGGLE_THEME_MODE';
-const TOGGLE_FETCHING = 'TOGGLE_FETCHING';
-const INIT = 'INIT'
-const SET_ERROR_MESSAGE = 'SET_ERROR_MESSAGE'
-const ERASE_ERROR = 'ERASE_ERROR'
-const LOGOUT = 'LOGOUT'
-const IS_SET_DATA = 'IS_SET_DATA'
+const TOGGLE_THEME_MODE = 'app/TOGGLE_THEME_MODE'
+const TOGGLE_FETCHING = 'app/TOGGLE_FETCHING'
+const INIT = 'app/INIT'
+const SET_ERROR_MESSAGE = 'app/SET_ERROR_MESSAGE'
+const ERASE_ERROR = 'app/ERASE_ERROR'
+const LOGOUT = 'app/LOGOUT'
+const SET_THEME = 'app/SET_THEME'
 
 const initialState = {
    isFetching: false,
    isInit: localStorage.access_token ? true : false,
-   isDarkMode: true,
+   isDarkMode: localStorage.appThemeMode ? JSON.parse(localStorage.appThemeMode) : true,
    errorText: '',
    isSetData: false,
    name: 'User',
    role: 'user',
    likedTasks: [] as Array<number>,
-   likedCategories: [] as Array<number>
+   likedCategories: [] as Array<number>,
+   appTheme: localStorage.appTheme ? localStorage.appTheme : 'RED'
 }
 type StateType = typeof initialState;
 const appReducer = (state = initialState, action: ActionsTypes): StateType => {
@@ -38,6 +39,7 @@ const appReducer = (state = initialState, action: ActionsTypes): StateType => {
          }
       }
       case TOGGLE_THEME_MODE: {
+         localStorage.appThemeMode = JSON.stringify(!state.isDarkMode);
          return {
             ...state,
             isDarkMode: !state.isDarkMode
@@ -71,6 +73,13 @@ const appReducer = (state = initialState, action: ActionsTypes): StateType => {
             isInit: false
          }
       }
+      case SET_THEME: {
+         localStorage.appTheme = action.appTheme;
+         return {
+            ...state,
+            appTheme: action.appTheme
+         }
+      }
       default: return state;
    }
 }
@@ -85,8 +94,8 @@ export const appActions = {
    init: (data: any) => { return { type: INIT, data } as const },
    setErrorText: (err: string) => { return { type: SET_ERROR_MESSAGE, errorText: err } as const },
    eraseError: () => { return { type: ERASE_ERROR } as const },
-   logout: () => { return { type: LOGOUT } as const }
-
+   logout: () => { return { type: LOGOUT } as const },
+   setTheme: (appTheme: AppThemesType) => { return { type: SET_THEME, appTheme } as const }
 }
 
 export type ThunksTypes = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>
@@ -187,3 +196,4 @@ export type FormDataMeUpdateType = {
    email?: string,
    likedTasks?: Array<number>
 }
+export type AppThemesType = 'RED' | 'GREEN' | 'YELLOW' | 'PURPLE';

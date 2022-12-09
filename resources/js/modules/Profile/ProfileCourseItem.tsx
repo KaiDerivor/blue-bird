@@ -5,6 +5,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+//@ts-ignore
 import styles from './style.module.scss'
 import { NavLink } from 'react-router-dom';
 
@@ -12,16 +13,16 @@ import { NavLink } from 'react-router-dom';
 
 type ItemGridType = {
    title: string
-   text: string,
+   text?: string,
    isEmpty?: boolean
    navLink?: string
    stateItem?: string
 }
-export const ProfileCourseItem: React.FC<ItemGridType> = ({ title, text, isEmpty, navLink, stateItem }) => {
+export const ProfileCourseItem: React.FC<ItemGridType> = ({ title, text = '', isEmpty, navLink, stateItem }) => {
    if (isEmpty) {
       return (
 
-         <Card sx={{ backgroundColor: 'bgmode.main','&:hover': { backgroundColor: 'bgmode.light' } }} className={styles.profileCard}>
+         <Card sx={{ backgroundColor: 'bgmode.main', '&:hover': { backgroundColor: 'bgmode.light' } }} className={styles.profileCard}>
             <CardContent sx={{ display: 'flex', justifyContent: "center", alignItems: 'center', height: '100%' }}>
                <Typography gutterBottom variant="h5" component="p" sx={{ p: 0, m: 0 }}>
                   Нічого не знайдено

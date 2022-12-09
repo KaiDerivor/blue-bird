@@ -155,11 +155,7 @@ export const TableSimpleItem: React.FC<TableItemsType> = ({ list, setSwitchHandl
                </TableBody>
             </Table>
          </TableContainer>
-         {/* {typeDialog === 'TAG'
-            ? dilaogForms.tag(openDilaog, setOpenDialog, itemId, item, handleConfirm, setItem)
-            : dilaogForms.category(openDilaog, setOpenDialog, itemId, item, handleConfirm, setItem)} */}
          {renderDialogForm()}
-
       </>
    );
 }

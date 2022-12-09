@@ -51,3 +51,6 @@ export const getLikedCategories = (state: AppStateType) => {
 export const getListEvents = (state: AppStateType) => {
    return state.event.listEvents
 }
+export const getAppTheme = (state: AppStateType) => {
+   return state.app.appTheme
+}

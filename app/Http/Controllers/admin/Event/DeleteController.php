@@ -12,7 +12,7 @@ class DeleteController extends BaseController
     public function __invoke(Event $event)
     {
         $event->delete();
-        $events = Event::all();
+        $events = Event::orderBy('created_at', 'desc')->get();
         return EventResource::collection($events);
     }
 }
