@@ -29,6 +29,7 @@ class StoreRequest extends FormRequest
             'eventType'=>'string|required|in:update,zno',
             'time'=>'string|max:50|min:8',
             'categoryId'=>'integer'
+            
         ];
     }
 }

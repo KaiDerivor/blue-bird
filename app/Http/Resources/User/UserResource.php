@@ -17,12 +17,13 @@ class UserResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'=>$this->id,
-            'name'=>$this->name,
-            'email'=>$this->email,
-            'role'=>$this->role,
-            'likedTasks'=>TaskIdResource ::collection($this->tasks),
-            'likedCategories'=>CategoryIdResource::collection($this->categories)
+            'id' => $this->id,
+            'name' => $this->name,
+            'email' => $this->email,
+            'role' => $this->role,
+            'likedTasks' => TaskIdResource::collection($this->tasks),
+            'likedCategories' => CategoryIdResource::collection($this->categories),
+            'chart' => $this->chart
         ];
     }
 }

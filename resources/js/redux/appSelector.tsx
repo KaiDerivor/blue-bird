@@ -54,3 +54,6 @@ export const getListEvents = (state: AppStateType) => {
 export const getAppTheme = (state: AppStateType) => {
    return state.app.appTheme
 }
+export const getChapterInfo = (state: AppStateType) => {
+   return JSON.parse(state.app.chart)
+}

@@ -27,10 +27,11 @@ class UpdateRequest extends FormRequest
             'name' => 'string',
             'email' => 'email',
             'role' => 'string',
-            'likedTasks'=>'',
-            'likedTasks.*'=>'numeric',
-            'likedCategories'=>'',
-            'likedCategories.*'=>'numeric'
+            'likedTasks' => '',
+            'likedTasks.*' => 'numeric',
+            'likedCategories' => 'array|max:5',
+            'likedCategories.*' => 'numeric',
+            'chart' => 'json'
         ];
     }
 }

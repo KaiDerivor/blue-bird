@@ -25,7 +25,8 @@ const initialState = {
    role: 'user',
    likedTasks: [] as Array<number>,
    likedCategories: [] as Array<number>,
-   appTheme: localStorage.appTheme ? localStorage.appTheme : 'RED'
+   appTheme: localStorage.appTheme ? localStorage.appTheme : 'RED',
+   chart:JSON.stringify({})
 }
 type StateType = typeof initialState;
 const appReducer = (state = initialState, action: ActionsTypes): StateType => {
@@ -112,6 +113,7 @@ export const loginThunk = (formData: FormDataLogType): ThunksTypes => {
          if (typeof res === 'string') {
             dispatch(appActions.setErrorText(res))
          } else {
+            console.log(res)
             api.me().then(res => {
                dispatch(appActions.init(res))
             })
@@ -193,7 +195,8 @@ export type FormDataRegType = {
 }
 export type FormDataMeUpdateType = {
    name?: StringDecoder
-   email?: string,
+   email?: string
    likedTasks?: Array<number>
+   chart?: JSON
 }
 export type AppThemesType = 'RED' | 'GREEN' | 'YELLOW' | 'PURPLE';

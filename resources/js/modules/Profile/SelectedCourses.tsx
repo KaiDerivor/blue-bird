@@ -25,13 +25,12 @@ export const SelectedCourses = () => {
       let categoryItems = [] as Array<JSX.Element>
       for (const category of categories) {
          if (likedCategories.includes(category.id)) {
-            categoryItems.push(<ProfileCourseItem text={category.description} title={category.title} navLink={`/courses/${category.textUrl}`}
+            categoryItems.push(<ProfileCourseItem key={category.id} text={category.description} title={category.title} navLink={`/courses/${category.textUrl}`}
             />)
          }
       }
       return categoryItems
    }
-   console.log(categories, likedCategories)
    return (
       <>
          {likedCategories.length > 0 &&
@@ -39,9 +38,6 @@ export const SelectedCourses = () => {
                <Typography variant="h3" color="fpage.main" sx={{ pb: 3 }}>Збережені курси</Typography>
                <Box className={styles.listSelected}>
                   {renderSavingsCategories()}
-                  {/* <ProfileCourseItem text={'izards are a widespread group of squamate reptiles, with over 6,000'} title={'Consectecteetir'} navLink={'/courses/Consectecteetir'} stateItem={'2/54'} />
-                  <ProfileCourseItem text={'izards are a widespread group of squamate reptiles, with over 6,000'} title={'adpsicing'} navLink={'/courses/adpsicing'} stateItem={'14/58'} />
-                  <ProfileCourseItem text={'izards are a widespread group of squamate reptiles, with over 6,000'} title={'Elit'} navLink={'/courses/Elit'} stateItem={'14/40'} /> */}
                </Box>
             </Box>
          }
