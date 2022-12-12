@@ -16,27 +16,21 @@ import { getTaskFilter } from '../../redux/appSelector';
 type SearchBarTaskType = {
    categories: Array<CategoryRecordType>
    tags: Array<CategoryRecordType>
+   fnSearch: (arg1: string, arg2: string) => void
 }
 
-export const SearchBarResult: React.FC<SearchBarTaskType> = ({ categories, tags }) => {
+export const SearchBarCategoryTag: React.FC<SearchBarTaskType> = ({ categories, tags, fnSearch }) => {
    const dispatch: AppDispatch = useDispatch();
    const [categoryFilter, tagFilter] = useSelector(getTaskFilter)
    const [categoryField, setCategoryField] = useState(categoryFilter)
    const [tagField, setTagField] = useState(tagFilter)
    const onSearch = () => {
-      //@ts-ignore
-      dispatch(getResultTableInit(categoryField, tagField))
+      fnSearch(categoryField, tagField)
    }
    if (!categories && !tags) {
       return <div>Loading...</div>
    }
-   useEffect(() => {
-      return () => {
-         if (categoryField || tagField) {
-            onSearch()
-         }
-      };
-   }, [])
+ 
    return (
       <Box sx={{ pb: 2 }}>
          <Typography variant="subtitle2" color="fpage.main" sx={{ mb: 2 }}>Filters</Typography>

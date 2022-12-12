@@ -6,9 +6,11 @@ import store, { AppStateType, InferActionsTypes } from "./store";
 import { TagRecordType } from "./tagReducer";
 
 const INIT = 'cat/INIT'
-const SET_ERROR_MESSAGE = 'SET_ERROR_MESSAGE'
-const ERASE_ERROR = 'ERASE_ERROR'
+const SET_ERROR_MESSAGE = 'app/SET_ERROR_MESSAGE'
+const ERASE_ERROR = 'app/ERASE_ERROR'
 const UPDATE_CATEGORIES = 'cat/UPDATE_CATEGORIES'
+const INIT_CATEGORY_TAGS = 'cat/INIT_CATEGORY_TAGS'
+const UPDATE_CATEGORY_TAGS = 'cat/UPDATE_CATEGORY_TAGS'
 
 export type CategoryRecordType = {
    id?: number,
@@ -26,9 +28,23 @@ export type CategoryType = {
    textUrl: string,
    tags?: Array<TagRecordType>
 }
+export type CategoryTagType = {
+   id: number
+   maxTime: number
+   table200img: string
+   table12img: string
+   tag: TagRecordType
+   category: CategoryType
+}
+export type CategoryTagRecordType = {
+   maxTime?: number | string
+   table200img?: any
+   table12img?: any
+}
 const initialState = {
    listCats: [] as Array<CategoryType>,
-   errorText: ''
+   errorText: '',
+   listCategoryTags: [] as Array<CategoryTagType>
 }
 type StateType = typeof initialState;
 const catReducer = (state = initialState, action: ActionsTypes): StateType => {
@@ -72,6 +88,29 @@ const catReducer = (state = initialState, action: ActionsTypes): StateType => {
             listCats: [...state.listCats]
          }
       }
+      case INIT_CATEGORY_TAGS: {
+         return {
+            ...state,
+            listCategoryTags: action.categoryTags
+         }
+      }
+      case UPDATE_CATEGORY_TAGS: {
+         let isSetted = false;
+         for (let i = 0; i < state.listCategoryTags.length; i++) {
+            if (state.listCategoryTags[i].id === action.categoryTag.id) {
+               state.listCategoryTags.splice(i, 1, action.categoryTag);
+               isSetted = true;
+               break;
+            }
+         }
+         if (!isSetted) {
+            state.listCategoryTags.push(action.categoryTag)
+         }
+         return {
+            ...state,
+            listCategoryTags: [...state.listCategoryTags]
+         }
+      }
       default: return state;
    }
 }
@@ -84,7 +123,9 @@ export const catActions = {
    init: (list: Array<CategoryType>) => { return { type: INIT, list } as const },
    setErrorText: (err: string) => { return { type: SET_ERROR_MESSAGE, errorText: err } as const },
    eraseError: () => { return { type: ERASE_ERROR } as const },
-   updateCategory: (category: CategoryType) => { return { type: UPDATE_CATEGORIES, category } as const }
+   updateCategory: (category: CategoryType) => { return { type: UPDATE_CATEGORIES, category } as const },
+   initCategoryTags: (categoryTags: Array<CategoryTagType>) => { return { type: INIT_CATEGORY_TAGS, categoryTags } as const },
+   updateCategoryTag: (categoryTag: CategoryTagType) => { return { type: UPDATE_CATEGORY_TAGS, categoryTag } as const }
 
 }
 
@@ -147,7 +188,45 @@ export const deleteCategory = (id: number): ThunksTypes => {
       })
    }
 }
+export const getCategoryTagsInit = (categoryId = '', tagId = ''): ThunksTypes => {
+   return async (dispatch) => {
+      api.getCategoryTags(categoryId, tagId)?.then(res => {
 
+
+         if (typeof res === 'string') {
+            dispatch(appActions.setErrorText(res))
+         } else {
+            dispatch(catActions.initCategoryTags(res))
+         }
+      })
+   }
+}
+export const updateCategoryTag = (id: number, categoryTag: CategoryTagRecordType): ThunksTypes => {
+   return async (dispatch) => {
+      api.updateCategoryTag(id, categoryTag)?.then(res => {
+         console.log(res)
+         if (typeof res === 'string') {
+            dispatch(appActions.setErrorText(res))
+         } else {
+            dispatch(appActions.setErrorText('Updated'))
+            dispatch(catActions.updateCategoryTag(res))
+         }
+      })
+   }
+}
+export const deleteCategoryTag = (id: number): ThunksTypes => {
+   return async (dispatch) => {
+      api.deleteCategoryTag(id)?.then(res => {
+
+         if (typeof res === 'string') {
+            dispatch(appActions.setErrorText(res))
+         } else {
+            dispatch(appActions.setErrorText('Deleted'))
+            dispatch(catActions.initCategoryTags(res))
+         }
+      })
+   }
+}
 export default catReducer;
 
 

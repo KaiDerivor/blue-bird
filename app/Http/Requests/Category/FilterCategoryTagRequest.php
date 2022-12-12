@@ -4,7 +4,7 @@ namespace App\Http\Requests\Category;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RequestUpdate extends FormRequest
+class FilterCategoryTagRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,8 @@ class RequestUpdate extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string|max:50|min:4',
-            'img' => '',
-            'description' => '',
-            'tags' => '',
-            'textUrl' => 'string|required|max:20',
+            'categoryId' => '',
+            'tagId' => '',
         ];
     }
 }

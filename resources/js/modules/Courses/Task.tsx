@@ -58,7 +58,7 @@ export const TaskComponent: React.FC<TaskComponentType> = ({
       </Box>
       {task.task &&
         <Box sx={{ pb: 3 }}>
-          <img style={{minHeight:'100px'}} src={`${URL_STORAGE}${task.task}`} alt={`${currCategory.textUrl}-${currTag.textUrl}-${task.number_of_task}`} />
+          <img src={`${URL_STORAGE}${task.task}`} alt={`${currCategory.textUrl}-${currTag.textUrl}-${task.number_of_task}`} />
         </Box>
       }
       <Box sx={{}}>

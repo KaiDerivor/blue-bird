@@ -7,7 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { CategoryRecordType } from '../../redux/catReducer';
+import { CategoryRecordType, CategoryTagRecordType, CategoryTagType } from '../../redux/catReducer';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -38,9 +38,11 @@ import Box from '@mui/material/Box'
 import { TaskForm } from './TaskForm';
 import { TaskRecordType } from '../../redux/taskReducer';
 import { SearchBarCategoryTag } from './SearchBarCategoryTag';
+import { getRandomValues } from 'crypto';
+import Stack from '@mui/material/Stack'
+import PhotoCamera from '@mui/icons-material/PhotoCamera';
+import { URL_STORAGE } from '../../redux/appReducer';
 
-const default200 = '{\n"0": "100", \n"1": "100", \n"2": "100", \n"3": "100", \n"4": "100", \n"5": "100", \n"6": "100", \n"7": "100", \n"8": "100", \n"9": "100", \n"10": "100", \n"11": "100", \n"12": "100", \n"13": "100", \n"14": "100", \n"15": "100", \n"16": "100", \n"17": "100", \n"18": "100", \n"19": "100", \n"20": "100", \n"21": "100", \n"22": "100", \n"23": "100", \n"24": "100", \n"25": "100", \n"26": "100", \n"27": "100", \n"28": "100", \n"29": "100", \n"30": "100", \n"31": "100", \n"32": "100", \n"33": "100", \n"34": "100", \n"35": "100", \n"36": "100", \n"37": "100", \n"38": "100", \n"39": "100", \n"40": "100", \n"41": "100", \n"42": "100", \n"43": "100", \n"44": "100", \n"45": "100", \n"46": "100", \n"47": "100", \n"48": "100", \n"49": "100", \n"50": "100", \n"51": "100", \n"52": "100", \n"53": "100", \n"54": "100", \n"55": "100", \n"56": "100", \n"57": "100", \n"58": "100", \n"59": "100", \n"60": "100", \n"61": "100", \n"62": "100"\n}'
-const default12 = '{\n"1":"1-1", \n"2":"2-2",\n"3":"3-3",\n"4":"4-4",\n"5":"5-5",\n"6":"6-6",\n"7":"7-7",\n"8":"8-8",\n"9":"9-9",\n"10":"10-10",\n"11":"11-11",\n"12":"12-12"\n}'
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
    [`&.${tableCellClasses.head}`]: {
       backgroundColor: theme.palette.common.black,
@@ -83,23 +85,24 @@ const dilaogForms = {
    }
 }
 type TableItemsType = {
-   list: Array<ResultTableType>
+   list: Array<CategoryTagType>
    setSwitchHandler: (arg1: string) => void
-   handleConfirm: (id?: number, field?: ResultRecordType) => void
-   searchFilter: (arg1: string, arg2: string) => void
+   handleConfirm: (id?: number, field?: CategoryTagRecordType) => void
+   fnSearch: (arg1: string, arg2: string) => void
+
 }
-export const TableResults: React.FC<TableItemsType> = ({ list, setSwitchHandler, handleConfirm, searchFilter }) => {
+export const TableCategoryTag: React.FC<TableItemsType> = ({ list, setSwitchHandler, handleConfirm, fnSearch }) => {
 
    const tags = useSelector(getTags)
    const categories = useSelector(getCategories)
 
    const [openDilaog, setOpenDialog] = useState(false)
    const [itemId, setItemId] = useState<number>(0)
-   const [item, setItem] = useState<ResultTableType>({} as ResultTableType)
+   const [item, setItem] = useState<CategoryTagType>({} as CategoryTagType)
 
    return (
       <>
-         <SearchBarCategoryTag categories={categories} tags={tags} fnSearch={searchFilter} />
+         <SearchBarCategoryTag categories={categories} tags={tags} fnSearch={fnSearch} />
          <ButtonAddItem setOpenDialog={setOpenDialog} setSwitchHandler={setSwitchHandler} />
          <TableContainer component={Paper}>
             <Table aria-label="customized table">
@@ -120,10 +123,10 @@ export const TableResults: React.FC<TableItemsType> = ({ list, setSwitchHandler,
                            #{row.id}
                         </StyledTableCell>
                         <StyledTableCell align="right">
-                           {detectItem(row.category, categories)}
+                           {row.tag.title}
                         </StyledTableCell>
                         <StyledTableCell align="right">
-                           {detectItem(row.tag, tags)}
+                           {row.category.title}
                         </StyledTableCell>
                         <StyledTableCell align="right">
                            <Button onClick={() => { setSwitchHandler('update'); setItem(row); setItemId(row.id); setOpenDialog(true) }}>
@@ -131,7 +134,7 @@ export const TableResults: React.FC<TableItemsType> = ({ list, setSwitchHandler,
                            </Button>
                         </StyledTableCell>
                         <StyledTableCell align="right">
-                           <Button onClick={() => { setSwitchHandler('delete'); setItem({} as ResultTableType); setItemId(row.id); setOpenDialog(true) }}>
+                           <Button onClick={() => { setSwitchHandler('delete'); setItem({} as CategoryTagType); setItemId(row.id); setOpenDialog(true) }}>
                               Delete
                            </Button>
                         </StyledTableCell>
@@ -147,8 +150,7 @@ export const TableResults: React.FC<TableItemsType> = ({ list, setSwitchHandler,
             item={item}
             itemId={itemId}
             handleConfirm={handleConfirm}
-            tags={tags}
-            categories={categories}
+
          // isDeleteConfirm={isDeleteConfirm}
          />
       </>
@@ -157,24 +159,25 @@ export const TableResults: React.FC<TableItemsType> = ({ list, setSwitchHandler,
 type FormDialogType = {
    openDilaog: boolean
    setOpenDialog: (arg1: boolean) => void
-   handleConfirm: (id?: number, field?: ResultRecordType) => void
+   handleConfirm: (id?: number, field?: CategoryTagRecordType) => void
    itemId: number
-   item: ResultTableType
-   categories: Array<CategoryRecordType>
-   tags: Array<TagRecordType>
-   // isDeleteConfirm: boolean
+   item: CategoryTagType
+
+}
+type FileType = {
+   name?: string
 }
 export const ResultDialog: React.FC<FormDialogType> = ({
    openDilaog,
    setOpenDialog,
    itemId,
-   item = { category: 0, tag: 0, value: JSON.stringify({}) },
-   categories,
-   tags,
+   item,
    handleConfirm
 }) => {
 
-   const handleConfirmForm = (formItem: ResultRecordType = {} as ResultRecordType) => {
+   const [table200img, setTable200img] = useState<FileType>({} as FileType)
+   const [table12img, setTable12img] = useState<FileType>({} as FileType)
+   const handleConfirmForm = (formItem: CategoryTagRecordType = {} as CategoryTagRecordType) => {
       handleConfirm(itemId, formItem)
       setOpenDialog(false);
    };
@@ -182,10 +185,7 @@ export const ResultDialog: React.FC<FormDialogType> = ({
    const handleCloseForm = () => {
       setOpenDialog(false);
    };
-   // if (isDeleteConfirm) {
-   //    return <DialogConfirm handleClose={handleCloseForm} handleConfirm={handleConfirmForm} openDilaog={openDilaog} />
-   // }
-   // const rende
+
    return (
       <div>
 
@@ -214,53 +214,76 @@ export const ResultDialog: React.FC<FormDialogType> = ({
                <div>
                   <Formik
                      initialValues={{
-                        category: item?.category ? item.category : 1,
-                        tag: item?.tag ? item.tag : 1,
-                        //@ts-ignore
-                        value200: item?.value ? JSON.stringify(JSON.parse(item.value).value200) : default200,
-                        //@ts-ignore
-                        value12: item?.value ? JSON.stringify(JSON.parse(item.value).value12) : default12,
+                        maxTime: item?.maxTime ? item.maxTime : '',
                      }}
                      onSubmit={(values) => {
-                        let formData = {
-                           categoryId: values.category,
-                           tagId: values.tag,
-                           value: JSON.stringify({
-                              value200: { ...JSON.parse(values.value200) },
-                              value12: { ...JSON.parse(values.value12) }
-                           })
+                        const formData = {
+                           ...values,
+                           table200img,
+                           table12img
                         }
+                        console.log(formData)
                         handleConfirmForm(formData)
                      }}
                   >
                      <Form className={styles.forms}>
+                        <Box className={styles.wrapperField}>
+                           {item.table200img && <img src={`${URL_STORAGE}${item.table200img}`} />}
+                           <Stack direction="row" alignItems="center" spacing={2}>
+                              <div>
 
+                                 <Button variant="contained" component="label">
+                                    Upload
+                                    <input hidden multiple type="file" onChange={(el) => {
+                                       //@ts-ignore
+                                       setTable200img(el.target.files[0])
+                                    }} />
+                                 </Button>
+                                 <IconButton color="primary" aria-label="upload picture" component="label">
 
+                                    <input hidden accept="image/*" type="file" onChange={(el) => {
+                                       //@ts-ignore
+                                       setTable200img(el.target.files[0])
+                                    }}
 
-                        <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', width: '100%', gap: '20px' }}>
-                           <Box className={styles.wrapperField}>
-                              <Field as="select" name="category" className={styles.inputField}>
-                                 {categories && categories.map(cat => {
-                                    return (<option key={cat.id} value={cat.id}>{cat.title}</option>)
-                                 })}
-                              </Field>
-                           </Box>
-                           <Box className={styles.wrapperField}>
-                              <Field as="select" name="tag" className={styles.inputField}>
-                                 {tags && tags.map(tag => {
-                                    return (<option key={tag.id} value={tag.id}>{tag.title}</option>)
-                                 })}
-                              </Field>
-                           </Box>
+                                    />
+                                    <PhotoCamera />
+                                 </IconButton>{table200img?.name}
+                              </div>
+
+                           </Stack>
                         </Box>
                         <Box className={styles.wrapperField}>
-                           <Field as="textarea" rows='10' name="value200" className={styles.inputField}
-                              placeholder="" autoComplete='' />
+                           {item.table12img && <img src={`${URL_STORAGE}${item.table12img}`} />}
+                           <Stack direction="row" alignItems="center" spacing={2}>
+                              <div>
+
+                                 <Button variant="contained" component="label">
+                                    Upload
+                                    <input hidden multiple type="file" onChange={(el) => {
+                                       //@ts-ignore
+                                       setTable12img(el.target.files[0])
+                                    }} />
+                                 </Button>
+                                 <IconButton color="primary" aria-label="upload picture" component="label">
+
+                                    <input hidden accept="image/*" type="file" onChange={(el) => {
+                                       //@ts-ignore
+                                       setTable12img(el.target.files[0])
+                                    }}
+
+                                    />
+                                    <PhotoCamera />
+                                 </IconButton>{table12img?.name}
+                              </div>
+
+                           </Stack>
                         </Box>
                         <Box className={styles.wrapperField}>
-                           <Field as="textarea" rows='10' name="value12" className={styles.inputField}
+                           <Field type="number" maxValue='300' rows='10' name="maxTime" className={styles.inputField}
                               placeholder="" autoComplete='' />
                         </Box>
+
                         <ButtonSubmit text='Відправити' />
                      </Form>
                   </Formik>

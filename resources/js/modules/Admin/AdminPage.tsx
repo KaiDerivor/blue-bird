@@ -16,17 +16,19 @@ import { Tasks } from './Tasks';
 import { Users } from './Users';
 import { Results } from './Results';
 import { DataEvents } from './DataEvents';
+import { CategoryTags } from './CategoryTags';
 
 export const AdminPage = () => {
    return (
       <Box sx={{ color: 'fpage.main' }}>
-         <Stack direction='row' sx={{ gap: 2 }}>
+         <Stack direction='row' sx={{ gap: 2,flexWrap:'wrap' }}>
             <MenuItemAdmin linkUrl='admin/categories' linkText="Categories" Icon={<AppsIcon sx={{ color: 'inherit' }} />} />
             <MenuItemAdmin linkUrl='admin/tags' linkText="Tags" Icon={<AppsIcon sx={{ color: 'inherit' }} />} />
             <MenuItemAdmin linkUrl='admin/tasks' linkText="Tasks" Icon={<AppsIcon sx={{ color: 'inherit' }} />} />
             <MenuItemAdmin linkUrl='admin/users' linkText="Users" Icon={<AppsIcon sx={{ color: 'inherit' }} />} />
             <MenuItemAdmin linkUrl='admin/results' linkText="Results" Icon={<AppsIcon sx={{ color: 'inherit' }} />} />
             <MenuItemAdmin linkUrl='admin/events' linkText="Events" Icon={<AppsIcon sx={{ color: 'inherit' }} />} />
+            <MenuItemAdmin linkUrl='admin/category-tags' linkText="Category Tag" Icon={<AppsIcon sx={{ color: 'inherit' }} />} />
          </Stack>
          <Box>
             <Routes>
@@ -36,6 +38,7 @@ export const AdminPage = () => {
                <Route path='users/*' element={<Users />} />
                <Route path='results/*' element={<Results />} />
                <Route path='events/*' element={<DataEvents />} />
+               <Route path='category-tags/*' element={<CategoryTags />} />
             </Routes>
          </Box>
       </Box >

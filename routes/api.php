@@ -79,6 +79,7 @@ Route::group([
         Route::get('/categories', 'IndexController')->name('admin.category.index');
         Route::post('/categories', "StoreController")->name('admin.category.store');
         Route::post('/categories/{category}', "UpdateController")->name('admin.category.update');
+        // Route::post('/categories/{category}/{tag}', "UpdateController")->name('admin.category.tag.update');
         Route::delete('/categories/{category}', "DeleteController")->name('admin.category.delete');
     });
 
@@ -107,6 +108,11 @@ Route::group([
         Route::post('/events', "StoreController")->name('admin.event.store');
         Route::patch('/events/{event}', "UpdateController")->name('admin.event.update');
         Route::delete('/events/{event}', "DeleteController")->name('admin.event.delete');
+    });
+    Route::group(['namespace' => 'CategoryTag'], function () {
+        Route::get('/category-tags', "IndexController")->name('admin.category-tags.index');
+        Route::post('/category-tags/{categoryTag}', "UpdateController")->name('admin.category-tags.update');
+        Route::delete('/category-tags/{categoryTag}', "DeleteController")->name('admin.category-tags.delete');
     });
     // Route::get('/users','IndexController')->name('admin.index');
     // Route::get('/users','IndexController')->name('admin.index');

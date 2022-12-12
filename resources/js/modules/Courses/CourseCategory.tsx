@@ -6,11 +6,10 @@ import styles from './style.module.scss'
 import { useDispatch, useSelector } from "react-redux"
 import { getCategories, getIsDarkMode, getLikedCategories } from "../../redux/appSelector"
 import { ButtonNavigate } from "../common/ButtonNavigate"
-import React, { useDeferredValue, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Switch from '@mui/material/Switch'
-import { CategoryRecordType, CategoryType, getCategoriesInit } from "../../redux/catReducer"
-import { AppDispatch } from "../../redux/store"
+import { CategoryType, getCategoriesInit } from "../../redux/catReducer"
 import { detectCategory } from "../utils/detectCategory"
 import { FormDataMeUpdateType, updateMe } from "../../redux/appReducer"
 
@@ -50,7 +49,6 @@ const BodyCourseCategory: React.FC<BodyCourseCategory> = ({ toggleShowingTasks }
       setisCategoryAdded(sendMe.likedCategories.includes(currCategory.id))
       dispatch(updateMe(sendMe as FormDataMeUpdateType));
    }
-   console.log(isCategoryAdded)
    return (
       <>
          <ButtonNavigate fn={toggleShowingTasks} title="Показати завдання по темам" subtitle="Усі завдання по певних теиах" />

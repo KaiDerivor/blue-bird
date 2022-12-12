@@ -15,15 +15,16 @@ return new class extends Migration
     {
         Schema::create('category_tags', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('category_id')->nullable();
-            $table->unsignedBigInteger('tag_id')->nullable();
+            $table->unsignedBigInteger('categoryId')->nullable();
+            $table->unsignedBigInteger('tagId')->nullable();
 
-            $table->index('category_id','category_tag_category_idx');
-            $table->index('tag_id','category_tag_tag_idx');
+            $table->index('categoryId','category_tag_categoryIdx');
+            $table->index('tagId','category_tag_tagIdx');
 
-            $table->foreign('category_id','category_tag_category_fk')->on('categories')->references('id');
-            $table->foreign('tag_id','category_tag_tag_fk')->on('tags')->references('id');
+            $table->foreign('categoryId','category_tag_category_fk')->on('categories')->references('id');
+            $table->foreign('tagId','category_tag_tag_fk')->on('tags')->references('id');
             $table->timestamps();
+            // $table->
         });
     }
 

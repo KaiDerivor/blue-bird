@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -9,22 +9,11 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { CategoryRecordType } from '../../redux/catReducer';
 import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
 import { TagRecordType } from '../../redux/tagReducer';
 import { ButtonAddItem } from './ButtonAddItem';
 import { Formik, Field, Form } from 'formik';
 //@ts-ignore
 import styles from './style.module.scss'
-import { URL_STORAGE } from '../../redux/appReducer';
-import Box from '@mui/material/Box'
-import IconButton from '@mui/material/IconButton';
-import PhotoCamera from '@mui/icons-material/PhotoCamera';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography'
 import { ButtonSubmit } from '../Auth/ButtonSubmit';
 import { DialogFormTags } from './DialogFormTags';
 import { DialogFormCategories } from './DialogFormCategories';

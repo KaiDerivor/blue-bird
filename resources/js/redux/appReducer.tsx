@@ -26,7 +26,7 @@ const initialState = {
    likedTasks: [] as Array<number>,
    likedCategories: [] as Array<number>,
    appTheme: localStorage.appTheme ? localStorage.appTheme : 'RED',
-   chart:JSON.stringify({})
+   chart: JSON.stringify({})
 }
 type StateType = typeof initialState;
 const appReducer = (state = initialState, action: ActionsTypes): StateType => {
@@ -155,16 +155,19 @@ export const setData = (): ThunksTypes => {
 
          if (typeof res === 'string') {
             dispatch(appActions.setErrorText(res))
+            return Promise.reject();
          }
+         console.log(res)
       }).then(() => {
-         api.meInfo()?.then(res => {
+         if (localStorage.access_token)
+            api.meInfo()?.then(res => {
 
-            if (typeof res === 'string') {
-               dispatch(appActions.setErrorText(res))
-            } else {
-               dispatch(appActions.init(res))
-            }
-         })
+               if (typeof res === 'string') {
+                  dispatch(appActions.setErrorText(res))
+               } else {
+                  dispatch(appActions.init(res))
+               }
+            })
       })
    }
 }

@@ -6,7 +6,7 @@ import Button from '@mui/material/Button'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getCategories, getTest } from '../../redux/appSelector'
-import { CategoryRecordType, getCategoriesInit } from '../../redux/catReducer'
+import { CategoryRecordType, CategoryType, getCategoriesInit } from '../../redux/catReducer'
 import { AppDispatch } from '../../redux/store'
 import { detectCategory } from '../utils/detectCategory'
 import { getTestInit, lettersOfAnswers, TaskRecordType, TaskType } from '../../redux/taskReducer'
@@ -30,7 +30,7 @@ export const CourseItem = () => {
    const params = useParams();
    const dispatch: AppDispatch = useDispatch()
 
-   const categories: Array<CategoryRecordType> = useSelector(getCategories)
+   const categories: Array<CategoryType> = useSelector(getCategories)
    const test: Array<TaskType> = useSelector(getTest)
 
    const [currCategory, setCurrCategory] = useState(detectCategory(categories, params))
@@ -47,9 +47,42 @@ export const CourseItem = () => {
       "21": "741",
       "25": '2,30'
    })
-
+   const [time, setTime] = useState(new Date().getTime()-1000*60*60-60000)
    const [isEndTest, setIsEndTest] = useState(false) //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
    const [isOpenSolution, setIsOpenSolution] = useState(true)
+
+
+   useEffect(() => {
+      return () => {
+         if (categories.length <= 0) {
+            //@ts-ignore
+            dispatch(getCategoriesInit())
+         }
+      };
+   }, [])
+   useEffect(() => {
+      if (categories.length > 0)
+         setCurrCategory(detectCategory(categories, params))
+   }, [categories])
+
+   useEffect(() => {
+      if (currCategory.id !== 0) {
+         currCategory.tags?.map(tag => {
+            if (typeof tag === 'number') {
+               return;
+            }
+            if (tag.textUrl === params.id) {
+               //@ts-ignore
+               dispatch(getTestInit(currCategory.id, tag.id))
+               setCurrTag(tag)
+            }
+         })
+      }
+   }, [currCategory])
+
+   useEffect(() => {
+      setIsOpenSolution(false)
+   }, [taskNumber])
 
    const allTasksNumbers = () => {
       let numbers: Array<number> = [];
@@ -95,37 +128,6 @@ export const CourseItem = () => {
          }
       }
    }
-   useEffect(() => {
-      return () => {
-         if (categories.length <= 0) {
-            //@ts-ignore
-            dispatch(getCategoriesInit())
-         }
-      };
-   }, [])
-   useEffect(() => {
-      if (categories.length > 0)
-         setCurrCategory(detectCategory(categories, params))
-   }, [categories])
-
-   useEffect(() => {
-      if (currCategory.id !== 0) {
-         currCategory.tags?.map(tag => {
-            if (typeof tag === 'number') {
-               return;
-            }
-            if (tag.textUrl === params.id) {
-               //@ts-ignore
-               dispatch(getTestInit(currCategory.id, tag.id))
-               setCurrTag(tag)
-            }
-         })
-      }
-   }, [currCategory])
-
-   useEffect(() => {
-      setIsOpenSolution(false)
-   }, [taskNumber])
    const clickNumberTaskHandler = (value: HTMLButtonElement) => {
       const numberTask = value.getAttribute('data-number-task');
       if (numberTask) {
@@ -173,9 +175,18 @@ export const CourseItem = () => {
       }
 
    }
-
+   const startTestAgainHandler = () => {
+      setUserAnswers({})
+      setIsEndTest(false)
+      setTime(new Date().getTime()-1000*60*60-60000)
+   }
    if (isEndTest) {
-      return <ResultOfTest test={test} userAnswers={userAnswers} currTag={currTag} currCategory={currCategory} />
+      return <ResultOfTest
+         test={test} time={time}
+         userAnswers={userAnswers}
+         currTag={currTag}
+         currCategory={currCategory}
+         startTestAgainHandler={startTestAgainHandler} />
    }
    return (
 
@@ -193,7 +204,7 @@ export const CourseItem = () => {
             <ButtonTask title='Наступне завдання' fn={nextTaskHandler} />
             <ButtonTask title='  Завершити тест' fn={() => setIsEndTest(true)} />
          </Box>
-            <ButtonsActionSecond setIsOpenSolution={setIsOpenSolution} isOpenSolution={isOpenSolution} currTask={currTask} />
+         <ButtonsActionSecond setIsOpenSolution={setIsOpenSolution} isOpenSolution={isOpenSolution} currTask={currTask} />
       </Box>
    )
 

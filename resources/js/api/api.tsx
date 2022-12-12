@@ -1,5 +1,5 @@
 import axios from "axios";
-import { CategoryRecordType } from "../redux/catReducer";
+import { CategoryRecordType, CategoryTagRecordType, CategoryTagType } from "../redux/catReducer";
 import { TagRecordType } from "../redux/tagReducer";
 import { ResultRecordType, TaskRecordType } from "../redux/taskReducer";
 import { UserRecordType } from "../redux/userReducer";
@@ -43,9 +43,12 @@ instance.interceptors.response.use(
     return config;
   },
   (error) => {
-    // console.log(error)
-    // debugger
-    if (error.response.data.message === "Unauthenticated.") {
+    if (error.response.data.message === 'The token has been blacklisted') {
+      localStorage.removeItem('access_token');
+      // return Promise.reject(error);
+      return;
+    }
+    if (error.response.status === 401) {
       if (localStorage.access_token) {
 
         instance.post("auth/refresh", {}, {
@@ -525,6 +528,50 @@ export const api = {
   },
   deleteEvent: function (id: number | string) {
     return instance.delete(`admin/events/${id}`).then(res => {
+      return res.data.data;
+    }).catch(err => {
+      if (err.response) {
+        return err.response.statusText
+      } else if (err.request) {
+        return 'Bad network. Try again later'
+      } else {
+        return 'Try again later'
+      }
+    });
+  },
+  //cat tag
+  getCategoryTags: function (categoryId:string,tagId:string) {
+    return instance.get(`admin/category-tags?categoryId=${categoryId}&tagId=${tagId}`).then(res => {
+      return res.data.data;
+    }).catch(err => {
+      if (err.response) {
+        return err.response.statusText
+      } else if (err.request) {
+        return 'Bad network. Try again later'
+      } else {
+        return 'Try again later'
+      }
+    });
+  },
+  updateCategoryTag: function (id: number, categoryTag: CategoryTagRecordType) {
+    return instance.post(`admin/category-tags/${id}`, { ...categoryTag }, {
+      headers: {
+        'content-type': 'multipart/form-data' // do not forget this 
+      }
+    }).then(res => {
+      return res.data.data;
+    }).catch(err => {
+      if (err.response) {
+        return err.response.statusText
+      } else if (err.request) {
+        return 'Bad network. Try again later'
+      } else {
+        return 'Try again later'
+      }
+    });
+  },
+  deleteCategoryTag: function (id: number) {
+    return instance.delete(`admin/category-tags/${id}`).then(res => {
       return res.data.data;
     }).catch(err => {
       if (err.response) {

@@ -3,9 +3,11 @@
 namespace App\Http\Resources\Category;
 
 use App\Http\Resources\Tag\TagResource;
+use App\Models\Category;
+use App\Models\Tag;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CategoryResource extends JsonResource
+class CategoryTagResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,12 +18,12 @@ class CategoryResource extends JsonResource
     public function toArray($request)
     {
         return [
-            "title" => $this->title,
             'id' => $this->id,
-            'tags' => TagResource::collection($this->tags),
-            'description' => $this->description,
-            'img' => $this->img,
-            'textUrl' => $this->textUrl
+            'category' => new CategoryTagCategoryResource(Category::find($this->category_id)),
+            'tag' => new TagResource(Tag::find($this->tag_id)),
+            'maxTime' => $this->maxTime,
+            'table200img' => $this->table200img,
+            'table12img' => $this->table12img
         ];
     }
 }

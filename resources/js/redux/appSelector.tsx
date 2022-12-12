@@ -57,3 +57,6 @@ export const getAppTheme = (state: AppStateType) => {
 export const getChapterInfo = (state: AppStateType) => {
    return JSON.parse(state.app.chart)
 }
+export const getCategoryTagList = (state: AppStateType) => {
+   return state.category.listCategoryTags;
+}
