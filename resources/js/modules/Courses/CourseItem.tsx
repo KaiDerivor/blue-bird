@@ -6,10 +6,10 @@ import Button from '@mui/material/Button'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getCategories, getTest } from '../../redux/appSelector'
-import { CategoryRecordType, CategoryType, getCategoriesInit } from '../../redux/catReducer'
+import { CategoryRecordType, CategoryType, getCategoriesInit, getCategoryTagsInit } from '../../redux/catReducer'
 import { AppDispatch } from '../../redux/store'
 import { detectCategory } from '../utils/detectCategory'
-import { getTestInit, lettersOfAnswers, TaskRecordType, TaskType } from '../../redux/taskReducer'
+import { getResultTableInit, getTestInit, lettersOfAnswers, TaskRecordType, TaskType } from '../../redux/taskReducer'
 import { URL_STORAGE } from '../../redux/appReducer'
 import { AnswerField } from './AnswerField'
 import { Collapse, Typography } from '@mui/material'
@@ -28,7 +28,7 @@ const buttonsAction = {
 export const CourseItem = () => {
 
    const params = useParams();
-   const dispatch: AppDispatch = useDispatch()
+   const dispatch: any = useDispatch()
 
    const categories: Array<CategoryType> = useSelector(getCategories)
    const test: Array<TaskType> = useSelector(getTest)
@@ -37,17 +37,8 @@ export const CourseItem = () => {
    const [currTag, setCurrTag] = useState({} as TagRecordType)
    const [currTask, setCurrTask] = useState<TaskType>({} as TaskType)
    const [taskNumber, setTaskNumber] = useState(1)
-   const [userAnswers, setUserAnswers] = useState({
-      "1": "А",
-      "2": "Г",
-      "6": "ВАДА",
-      "11": "БГВБ",
-      "13": "13.44",
-      "15": "234",
-      "21": "741",
-      "25": '2,30'
-   })
-   const [time, setTime] = useState(new Date().getTime()-1000*60*60-60000)
+   const [userAnswers, setUserAnswers] = useState({ 1: 'А', 2: 'Г', 3: 'В', 4: 'А', 5: 'В', 6: 'Д', 7: 'Г', 8: 'Б', 9: 'Д', 10: 'А', 11: 'Б', 12: 'Г', 13: 'А', 14: 'Г', 15: 'Д', 16: 'Б', 17: 'Д', 18: 'Б', 19: 'Б', 20: 'Г', 21: 'ВБД', 22: 'БВД', 23: 'ГБД', 24: 'АВБ', 25: '2,30', 26: '1,2', 27: '33,1', 28: '34', 29: '2', 30: '2', 31: '3', 32: '4' })
+   const [time, setTime] = useState(new Date().getTime() - 1000 * 60 * 60 - 60000)
    const [isEndTest, setIsEndTest] = useState(false) //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
    const [isOpenSolution, setIsOpenSolution] = useState(true)
 
@@ -83,7 +74,13 @@ export const CourseItem = () => {
    useEffect(() => {
       setIsOpenSolution(false)
    }, [taskNumber])
+   useEffect(() => {
+      if (currCategory.id !== undefined && currTag.id !== undefined) {
+         dispatch(getResultTableInit(`${currCategory.id}`, `${currTag.id}`))
+         dispatch(getCategoryTagsInit(`${currCategory.id}`, `${currTag.id}`))
+      }
 
+   }, [currCategory, currTag])
    const allTasksNumbers = () => {
       let numbers: Array<number> = [];
       for (const key in test) {
@@ -178,7 +175,7 @@ export const CourseItem = () => {
    const startTestAgainHandler = () => {
       setUserAnswers({})
       setIsEndTest(false)
-      setTime(new Date().getTime()-1000*60*60-60000)
+      setTime(new Date().getTime() - 1000 * 60 * 60 - 60000)
    }
    if (isEndTest) {
       return <ResultOfTest

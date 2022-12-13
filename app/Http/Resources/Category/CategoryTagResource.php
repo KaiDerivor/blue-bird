@@ -19,11 +19,13 @@ class CategoryTagResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'category' => new CategoryTagCategoryResource(Category::find($this->category_id)),
-            'tag' => new TagResource(Tag::find($this->tag_id)),
+            'category' => new CategoryTagCategoryResource(Category::find($this->categoryId)),
+            'tag' => new TagResource(Tag::find($this->tagId)),
             'maxTime' => $this->maxTime,
             'table200img' => $this->table200img,
-            'table12img' => $this->table12img
+            'table12img' => $this->table12img,
+            'maxPoints'=>$this->maxPoints,
+            'someInfo'=>$this->someInfo
         ];
     }
 }

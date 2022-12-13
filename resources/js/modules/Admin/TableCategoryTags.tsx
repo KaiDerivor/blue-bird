@@ -174,7 +174,7 @@ export const ResultDialog: React.FC<FormDialogType> = ({
    item,
    handleConfirm
 }) => {
-
+console.log(item)
    const [table200img, setTable200img] = useState<FileType>({} as FileType)
    const [table12img, setTable12img] = useState<FileType>({} as FileType)
    const handleConfirmForm = (formItem: CategoryTagRecordType = {} as CategoryTagRecordType) => {
@@ -215,6 +215,8 @@ export const ResultDialog: React.FC<FormDialogType> = ({
                   <Formik
                      initialValues={{
                         maxTime: item?.maxTime ? item.maxTime : '',
+                        maxPoints: item?.maxPoints ? item.maxPoints : '',
+                        someInfo: item?.someInfo ? item.someInfo : '',
                      }}
                      onSubmit={(values) => {
                         const formData = {
@@ -280,8 +282,16 @@ export const ResultDialog: React.FC<FormDialogType> = ({
                            </Stack>
                         </Box>
                         <Box className={styles.wrapperField}>
-                           <Field type="number" maxValue='300' rows='10' name="maxTime" className={styles.inputField}
-                              placeholder="" autoComplete='' />
+                           <Field type="number" name="maxTime" className={styles.inputField}
+                              placeholder="maxTime" autoComplete='' />
+                        </Box>
+                        <Box className={styles.wrapperField}>
+                           <Field type="number" name="maxPoints" className={styles.inputField}
+                              placeholder="maxPoints" autoComplete='' />
+                        </Box>
+                        <Box className={styles.wrapperField}>
+                           <Field as="textarea" rows='10' name="someInfo" className={styles.inputField}
+                              placeholder="someInfo" autoComplete='' />
                         </Box>
 
                         <ButtonSubmit text='Відправити' />

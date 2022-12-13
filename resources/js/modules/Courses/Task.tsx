@@ -64,7 +64,7 @@ export const TaskComponent: React.FC<TaskComponentType> = ({
       <Box sx={{}}>
         {
           taskAnswers && taskAnswers.map((answerVariant, index) => {
-            return <Typography variant="body1" color="inherit">
+            return <Typography key={index} variant="body1" color="inherit">
               {lettersOfAnswers[index]} {answerVariant}
             </Typography>
           })

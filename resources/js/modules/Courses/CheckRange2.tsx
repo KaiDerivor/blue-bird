@@ -6,9 +6,11 @@ import Box from '@mui/material/Box'
 import styles from './style.module.scss'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
+
 export const CheckRange2: React.FC<AnswerComponentType> = ({ handleChange, userAnswers, task, isAsAnswer }) => {
    const [fieldAnswer1, setFieldAnswer1] = useState('')
    const [fieldAnswer2, setFieldAnswer2] = useState('')
+
    const rightAnswers = task.answer.split(',')
    if (isAsAnswer) {
       userAnswers[task.number_of_task] = userAnswers[task.number_of_task] || ',,';
@@ -33,19 +35,22 @@ export const CheckRange2: React.FC<AnswerComponentType> = ({ handleChange, userA
    }, [fieldAnswer1, fieldAnswer2])
 
    const defineColor = (count: number) => {
-      return rightAnswers[count] === userAnswers[task.number_of_task].split(',')[count]
-         ? 'success'
-         : userAnswers[task.number_of_task].split('')[count] !== rightAnswers[count]
-            ? 'error'
-            : undefined
+      if (rightAnswers[count] === userAnswers[task.number_of_task].split(',')[count]) {
+         return 'success'
+
+      } else {
+         if (userAnswers[task.number_of_task].split('')[count] !== rightAnswers[count]) {
+            return 'error'
+         }
+      }
 
    }
    const color1 = isAsAnswer ? defineColor(0) : undefined;
    const color2 = isAsAnswer ? defineColor(1) : undefined;
-
+   let userPoint=+(color1 === 'success') + +(color2 === 'success')
    return (
       <Box >
-         <Box className={styles.rangeWrapper} sx={{ color: 'fpage.main' }}>
+         <Box className={styles.rangeWrapper} sx={{ color: 'fpage.main', mb: 3 }}>
             <Stack direction='column' spacing={2}>
                <Stack direction='row' sx={{ alignItems: 'flex-end' }} spacing={1}>
 
@@ -109,7 +114,16 @@ export const CheckRange2: React.FC<AnswerComponentType> = ({ handleChange, userA
                </Stack>
             </Stack>
          </Box>
-      
+         {isAsAnswer &&
+            <>
+               <Box>
+                  <Typography variant="subtitle1" color="inherit">
+                     Кількість балів: <strong>{userPoint}</strong>
+                  </Typography>
+               </Box>
+
+            </>
+         }
       </Box>
    )
 }

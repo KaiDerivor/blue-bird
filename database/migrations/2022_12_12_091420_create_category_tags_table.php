@@ -18,11 +18,14 @@ return new class extends Migration
             $table->unsignedBigInteger('categoryId')->nullable();
             $table->unsignedBigInteger('tagId')->nullable();
 
-            $table->index('categoryId','category_tag_categoryIdx');
-            $table->index('tagId','category_tag_tagIdx');
+            $table->index('categoryId', 'category_tag_categoryIdx');
+            $table->index('tagId', 'category_tag_tagIdx');
 
-            $table->foreign('categoryId','category_tag_category_fk')->on('categories')->references('id');
-            $table->foreign('tagId','category_tag_tag_fk')->on('tags')->references('id');
+            $table->foreign('categoryId', 'category_tag_category_fk')->on('categories')->references('id');
+            $table->foreign('tagId', 'category_tag_tag_fk')->on('tags')->references('id');
+            $table->string('table200img')->nullable();
+            $table->string('table12img')->nullable();
+            $table->string('maxTime')->nullable();
             $table->timestamps();
             // $table->
         });

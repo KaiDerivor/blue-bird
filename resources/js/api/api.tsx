@@ -43,11 +43,7 @@ instance.interceptors.response.use(
     return config;
   },
   (error) => {
-    if (error.response.data.message === 'The token has been blacklisted') {
-      localStorage.removeItem('access_token');
-      // return Promise.reject(error);
-      return;
-    }
+  
     if (error.response.status === 401) {
       if (localStorage.access_token) {
 

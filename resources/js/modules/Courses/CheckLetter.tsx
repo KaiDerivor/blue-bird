@@ -103,41 +103,6 @@ export const CheckLetter: React.FC<AnswerComponentType> = ({ task, handleChange,
                refK.current.checked = true
          }
       }
-
-
-      // if (userAnswers[task.number_of_task] === 'А') {
-      //    if (isAsAnswer) {
-      //       userAnswers[task.number_of_task] === task.answer ? refA.current.classList.add(styles.radioField__correct) : refA.current.classList.add(styles.radioField__error)
-      //    } else {
-      //       refA.current.checked = true
-      //    }
-      // } else if (userAnswers[task.number_of_task] === 'Б') {
-      //    if (isAsAnswer) {
-      //       userAnswers === task.answer ? refA.current.classList.add(styles.radioField__correct) : refA.current.classList.add(styles.radioField__error)
-      //    } else {
-      //       refB.current.checked = true
-      //    }
-      // } else if (userAnswers[task.number_of_task] === 'В') {
-      //    if (isAsAnswer) {
-      //       userAnswers === task.answer ? refA.current.classList.add(styles.radioField__correct) : refA.current.classList.add(styles.radioField__error)
-      //    } else {
-      //       refC.current.checked = true
-      //    }
-      // } else if (userAnswers[task.number_of_task] === 'Г') {
-      //    if (isAsAnswer) {
-      //       userAnswers === task.answer ? refA.current.classList.add(styles.radioField__correct) : refA.current.classList.add(styles.radioField__error)
-      //    } else {
-      //       refD.current.checked = true
-      //    }
-      // } else if (userAnswers[task.number_of_task] === 'Д') {
-      //    if (isAsAnswer) {
-      //       userAnswers === task.answer ? refA.current.classList.add(styles.radioField__correct) : refA.current.classList.add(styles.radioField__error)
-      //    } else {
-      //       refE.current.checked = true
-      //    }
-      // } else {
-      //    refK.current.checked = true
-      // }
    }, [task.number_of_task])
 
    return (

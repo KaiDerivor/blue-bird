@@ -14,10 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::table('category_tags', function (Blueprint $table) {
-            $table->string('table200img')->nullable();
-            $table->string('table12img')->nullable();
-            $table->string('maxTime')->nullable();
-
+            $table->integer('maxPoints')->nullable();
+            $table->text('someInfo')->nullable();
         });
     }
 
@@ -29,9 +27,8 @@ return new class extends Migration
     public function down()
     {
         Schema::table('category_tags', function (Blueprint $table) {
-            $table->dropColumn('table200img');
-            $table->dropColumn('table12img');
-            $table->dropColumn('maxTime');
+            $table->dropColumn('maxPoints');
+            $table->dropColumn('someInfo');
         });
     }
 };

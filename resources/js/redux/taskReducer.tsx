@@ -8,8 +8,8 @@ export const lettersOfAnswers = ['А', 'Б', 'В', 'Г', 'Д'];
 
 
 const INIT_TASKS = 'task/INIT_TASKS'
-const SET_ERROR_MESSAGE = 'SET_ERROR_MESSAGE'
-const ERASE_ERROR = 'ERASE_ERROR'
+const SET_ERROR_MESSAGE = 'app/SET_ERROR_MESSAGE'
+const ERASE_ERROR = 'app/ERASE_ERROR'
 const UPDATE_TASK = 'task/UPDATE_TASK'
 const INIT_TEST = 'task/INIT_TEST'
 const SET_FILTER = 'task/SET_FILTER'
@@ -21,13 +21,14 @@ export type ResultTableType = {
    id: number,
    category: string
    tag: string
-   value: JSON
+   value: string
+
 }
 export type ResultRecordType = {
    id?: number,
    category?: string
    tag?: string
-   value?: JSON | string
+   value?: string
 }
 export type TaskRecordType = {
    id?: number
@@ -117,20 +118,13 @@ const taskReducer = (state = initialState, action: ActionsTypes): StateType => {
          }
       }
       case SET_RESULT_TABLE: {
-         if (Array.isArray(action.result)) {
-            return {
-               ...state,
-               results: action.result
-            }
-         } else {
-
-            return {
-               ...state,
-               result: action.result
-            }
+         return {
+            ...state,
+            results: action.result
          }
       }
       case UPDATE_RESULTS_TABLE: {
+         debugger
          let isSetted = false;
          for (let i = 0; i < state.results.length; i++) {
             if (state.results[i].id === action.result.id) {
@@ -162,7 +156,7 @@ export const taskActions = {
    updateTask: (task: TaskType) => { return { type: UPDATE_TASK, task } as const },
    setTest: (list: Array<TaskType>) => { return { type: INIT_TEST, list } as const },
    setFilter: (categoryId: string, tagId: string) => { return { type: SET_FILTER, categoryId, tagId } as const },
-   setResultTable: (result: ResultTableType | Array<ResultTableType>) => { return { type: SET_RESULT_TABLE, result } as const },
+   setResultTable: (result: Array<ResultTableType>) => { return { type: SET_RESULT_TABLE, result } as const },
    updateResultTable: (result: ResultTableType) => { return { type: UPDATE_RESULTS_TABLE, result } as const }
 }
 

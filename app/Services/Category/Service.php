@@ -50,17 +50,16 @@ class Service extends Path2File
          if (File::exists($image_path)) {
             File::delete($image_path);
          }
-         $dataUpdate['table200img'] = Storage::disk('public')->put('/img-category-tags', $data['table200img']);
+         $data['table200img'] = Storage::disk('public')->put('/img-category-tags', $data['table200img']);
       }
       if (isset($data['table12img'])) {
          $image_path  = $this->makePath($data['table12img']);
          if (File::exists($image_path)) {
             File::delete($image_path);
          }
-         $dataUpdate['table12img'] = Storage::disk('public')->put('/img-category-tags', $data['table12img']);
+         $data['table12img'] = Storage::disk('public')->put('/img-category-tags', $data['table12img']);
       }
-      $dataUpdate['maxTime'] = $data['maxTime'] ?? '';
-      $categoryTag->update($dataUpdate);
+      $categoryTag->update($data);
       return new CategoryTagResource($categoryTag);
    }
 }

@@ -1,9 +1,10 @@
-import React, { createRef, useEffect } from 'react'
+import React, { createRef, useEffect, useState } from 'react'
 import { AnswerComponentType } from './AnswerField'
 import Box from '@mui/material/Box'
 //@ts-ignore
 import styles from './style.module.scss'
 import { lettersOfAnswers } from '../../redux/taskReducer'
+import Typography from '@mui/material/Typography'
 
 export const CheckLetters: React.FC<AnswerComponentType> = ({ handleChange, userAnswers, task, isAsAnswer = false }) => {
    const radioButtonsRange = {
@@ -13,8 +14,9 @@ export const CheckLetters: React.FC<AnswerComponentType> = ({ handleChange, user
       a4: [createRef(), createRef(), createRef(), createRef(), createRef(), createRef()],
    };
 
+   const [userPoint, setUserPoint] = useState(0)
    const maxCountOfRows = task.task_type === 'letters' ? 4 : 3;
-   const rightAnswers = task.answer.split(',')
+   const rightAnswers = task.answer.split('')
    useEffect(() => {
       // debugger
       const rangeAlredyAnswered = userAnswers[task.number_of_task] ? userAnswers[task.number_of_task] : ',,,,'
@@ -25,7 +27,10 @@ export const CheckLetters: React.FC<AnswerComponentType> = ({ handleChange, user
 
                if (range[i] === lettersOfAnswers[index]) {
                   if (isAsAnswer) {
-                     rightAnswers[i] === range[i] ? element.current.classList.add(styles.radioField__correct) : element.current.classList.add(styles.radioField__error)
+                     rightAnswers[i] === range[i]
+                        ? element.current.classList.add(styles.radioField__correct)
+                        : element.current.classList.add(styles.radioField__error)
+                     setUserPoint(userPoint + +(rightAnswers[i] === range[i]))
                   } else {
                      element.current.checked = true;
                   }
@@ -54,7 +59,8 @@ export const CheckLetters: React.FC<AnswerComponentType> = ({ handleChange, user
    const checkAnswer = (answer, numberRow) => {
       const rangeAlredyAnswered = userAnswers[task.number_of_task]
       numberRow--;
-      let maskRange = [',', ',', ',', ','];
+      let maskRange = [',', ',', ','];
+      task.task_type === 'letters'&&maskRange.push(',')
       if (rangeAlredyAnswered) {
          maskRange = rangeAlredyAnswered.split('')
       }
@@ -100,8 +106,8 @@ export const CheckLetters: React.FC<AnswerComponentType> = ({ handleChange, user
    }
 
    return (
-      <>
-         <Box>
+      <Box>
+         <Box sx={{mb:3}}>
             <table className={styles.answerTable}>
                <tbody>
                   <tr>
@@ -121,6 +127,16 @@ export const CheckLetters: React.FC<AnswerComponentType> = ({ handleChange, user
             <div>
             </div>
          </Box >
-      </>
+         {isAsAnswer &&
+            <>
+               <Box>
+                  <Typography variant="subtitle1" color="inherit">
+                     Кількість балів: <strong>{userPoint}</strong>
+                  </Typography>
+               </Box>
+
+            </>
+         }
+      </Box>
    )
 }

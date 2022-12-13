@@ -4,6 +4,7 @@ import TextField from '@mui/material/TextField'
 import Box from '@mui/material/Box'
 //@ts-ignore
 import styles from './style.module.scss'
+import Typography from '@mui/material/Typography'
 
 export const CheckRange3: React.FC<AnswerComponentType> = ({ handleChange, userAnswers, task, isAsAnswer }) => {
    const [fieldAnswer1, setFieldAnswer1] = useState('')
@@ -70,7 +71,9 @@ export const CheckRange3: React.FC<AnswerComponentType> = ({ handleChange, userA
    const color1 = isAsAnswer ? defineColor(0) : undefined;
    const color2 = isAsAnswer ? defineColor(1) : undefined;
    const color3 = isAsAnswer ? defineColor(2) : undefined;
+   const userPoint = +(color1 === 'success') + +(color2 === 'success') + +(color3 === 'success')
    return (
+
       <Box >
          <Box className={styles.rangeWrapper}>
             <TextField
@@ -158,6 +161,16 @@ export const CheckRange3: React.FC<AnswerComponentType> = ({ handleChange, userA
 
             />
          </Box>}
+         {isAsAnswer &&
+            <>
+               <Box>
+                  <Typography variant="subtitle1" color="inherit">
+                     Кількість балів: <strong>{userPoint}</strong>
+                  </Typography>
+               </Box>
+
+            </>
+         }
       </Box>
    )
 }

@@ -26,7 +26,9 @@ class CategoryTagRequest extends FormRequest
         return [
             'maxTime' => 'string',
             'table200img' => 'file',
-            'table12img' => 'file'
+            'table12img' => 'file',
+            'someInfo' => '',
+            'maxPoints' => 'integer'
         ];
     }
 }

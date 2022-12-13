@@ -35,16 +35,21 @@ export type CategoryTagType = {
    table12img: string
    tag: TagRecordType
    category: CategoryType
+   maxPoints: number
+   someInfo: number
 }
 export type CategoryTagRecordType = {
    maxTime?: number | string
    table200img?: any
    table12img?: any
+   maxPoints?: number
+   someInfo?: number
 }
 const initialState = {
    listCats: [] as Array<CategoryType>,
    errorText: '',
-   listCategoryTags: [] as Array<CategoryTagType>
+   listCategoryTags: [] as Array<CategoryTagType>,
+   categoryTag: {} as CategoryTagType
 }
 type StateType = typeof initialState;
 const catReducer = (state = initialState, action: ActionsTypes): StateType => {
@@ -91,7 +96,7 @@ const catReducer = (state = initialState, action: ActionsTypes): StateType => {
       case INIT_CATEGORY_TAGS: {
          return {
             ...state,
-            listCategoryTags: action.categoryTags
+            listCategoryTags: [...action.categoryTags]
          }
       }
       case UPDATE_CATEGORY_TAGS: {
