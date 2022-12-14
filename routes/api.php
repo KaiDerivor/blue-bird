@@ -36,30 +36,39 @@ Route::group(['namespace' => 'App\Http\Controllers\User', 'prefix' => 'auth'], f
     Route::patch('me', 'UpdateController');
     Route::get('info', "IndexController");
 });
-// Route::get('/test',function(){
-//     return response(['OK']);
-// });
-Route::group(['middleware' => 'jwt.auth', 'prefix' => 'auth'], function () {
-    // Route::group(['namespace' => 'App\Http\Controllers\Dream', 'prefix' => 'dreams'], function () {
-    //     Route::post('/', 'StoreController');
-    //     Route::post('/update', 'UpdateController');
-    //     Route::post('/delete', 'DeleteController');
-    //     Route::post('/finish', 'DeleteController');
-    // });
 
-    // Route::group(['namespace' => 'App\Http\Controllers\Cite', 'prefix' => 'cite'], function () {
-    //     Route::get('/', 'IndexController');
-    //     Route::post('/create', 'StoreController');
-    //     Route::post('/update/{cite}', 'UpdateController');
-    //     Route::post('/delete/{cite}', 'DeleteController');
-    // });
-    // Route::group(['namespace' => 'App\Http\Controllers\Daily', 'prefix' => 'daily'], function () {
-    //     Route::post('/', 'StoreController');
-    // });
+Route::group([
+    'namespace' => 'App\Http\Controllers\Admin',
+    'prefix' => 'admin',
+], function () {
+
+    Route::group(['namespace' => 'Task'], function () {
+        Route::get('/tasks', 'IndexController')->name('admin.task.index');
+        Route::get('/tasks/{category}/{tag}', 'IndexParamsController')->name('admin.task.params.index');
+    });
+
+    Route::group(['namespace' => 'Category'], function () {
+        Route::get('/categories', 'IndexController')->name('admin.category.index');
+    });
+
+    Route::group(['namespace' => 'Tag'], function () {
+        Route::get('/tags', 'IndexController')->name('admin.tag.index');
+    });
+
+    Route::group(['namespace' => 'User'], function () {
+        Route::get('/users', 'IndexController')->name('admin.user.index');
+    });
+
+    Route::group(['namespace' => 'Result'], function () {
+        Route::get('/results', "IndexController")->name('admin.result.index');
+    });
+    Route::group(['namespace' => 'Event'], function () {
+        Route::get('/events', "IndexController")->name('admin.event.index');
+    });
+    Route::group(['namespace' => 'CategoryTag'], function () {
+        Route::get('/category-tags', "IndexController")->name('admin.category-tags.index');
+    });
 });
-
-
-
 
 Route::group([
     'namespace' => 'App\Http\Controllers\Admin',
@@ -68,53 +77,40 @@ Route::group([
 ], function () {
 
     Route::group(['namespace' => 'Task'], function () {
-        Route::get('/tasks', 'IndexController')->name('admin.task.index');
-        Route::get('/tasks/{category}/{tag}', 'IndexParamsController')->name('admin.task.params.index');
         Route::post('/tasks', "StoreController")->name('admin.task.store');
         Route::post('/tasks/{task}', "UpdateController")->name('admin.task.update');
         Route::delete('/tasks/{task}', "DeleteController")->name('admin.task.delete');
     });
 
     Route::group(['namespace' => 'Category'], function () {
-        Route::get('/categories', 'IndexController')->name('admin.category.index');
         Route::post('/categories', "StoreController")->name('admin.category.store');
         Route::post('/categories/{category}', "UpdateController")->name('admin.category.update');
-        // Route::post('/categories/{category}/{tag}', "UpdateController")->name('admin.category.tag.update');
         Route::delete('/categories/{category}', "DeleteController")->name('admin.category.delete');
     });
 
     Route::group(['namespace' => 'Tag'], function () {
-        Route::get('/tags', 'IndexController')->name('admin.tag.index');
         Route::post('/tags', "StoreController")->name('admin.tag.store');
         Route::post('/tags/{tag}', "UpdateController")->name('admin.tag.update');
         Route::delete('/tags/{tag}', "DeleteController")->name('admin.tag.delete');
     });
 
     Route::group(['namespace' => 'User'], function () {
-        Route::get('/users', 'IndexController')->name('admin.user.index');
-
         Route::patch('/users/{user}', "UpdateController")->name('admin.user.update');
         Route::delete('/users/{user}', "DeleteController")->name('admin.user.delete');
     });
 
     Route::group(['namespace' => 'Result'], function () {
-        Route::get('/results', "IndexController")->name('admin.result.index');
         Route::post('/results', "StoreController")->name('admin.result.store');
         Route::patch('/results/{result}', "UpdateController")->name('admin.result.update');
         Route::delete('/results/{result}', "DeleteController")->name('admin.result.delete');
     });
     Route::group(['namespace' => 'Event'], function () {
-        Route::get('/events', "IndexController")->name('admin.event.index');
         Route::post('/events', "StoreController")->name('admin.event.store');
         Route::patch('/events/{event}', "UpdateController")->name('admin.event.update');
         Route::delete('/events/{event}', "DeleteController")->name('admin.event.delete');
     });
     Route::group(['namespace' => 'CategoryTag'], function () {
-        Route::get('/category-tags', "IndexController")->name('admin.category-tags.index');
         Route::post('/category-tags/{categoryTag}', "UpdateController")->name('admin.category-tags.update');
         Route::delete('/category-tags/{categoryTag}', "DeleteController")->name('admin.category-tags.delete');
     });
-    // Route::get('/users','IndexController')->name('admin.index');
-    // Route::get('/users','IndexController')->name('admin.index');
-
 });

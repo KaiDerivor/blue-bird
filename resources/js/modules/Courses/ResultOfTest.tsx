@@ -122,10 +122,7 @@ export const ResultOfTest: React.FC<ResultOfTestType> = ({ currCategory, test, u
       }
       return 0
    }
-   // console.log(resultTable)
-   // if (resultTable?.id) {
-   //    console.log(resultTable)
-   // }
+
    return (
       <>
          <Box ref={dummy} />
