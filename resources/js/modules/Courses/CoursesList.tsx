@@ -12,13 +12,13 @@ import { URL_STORAGE } from "../../redux/appReducer"
 
 export const CoursesList = () => {
 
-   const dispatch: AppDispatch = useDispatch();
+   const dispatch: any = useDispatch();
 
    const categories = useSelector(getCategories)
 
    useEffect(() => {
       return () => {
-         if (categories) { //@ts-ignore
+         if (!(categories.length > 1)) {
             dispatch(getCategoriesInit())
          }
       };

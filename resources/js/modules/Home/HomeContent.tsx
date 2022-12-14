@@ -1,6 +1,7 @@
+import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
-import { useEffect, useState } from 'react'
 import { HomeContentSection } from './HomeContentSection'
+//@ts-ignore
 import styles from './style.module.scss'
 import Fade from '@mui/material/Fade';
 
@@ -27,6 +28,7 @@ export const HomeContent: React.FC<HomeContentType> = ({ blocks }) => {
          const coorsBlock1 = blocks[0].current.getBoundingClientRect().top;
          const coordBlock2 = blocks[1].current.getBoundingClientRect().top;
          const coordBlock3 = blocks[2].current.getBoundingClientRect().top;
+         
          const triggerStart = window.innerHeight * 1.25;
          scrollBlock3 = coordBlock3;
          if (coordBlock3 < triggerStart) {
@@ -47,14 +49,14 @@ export const HomeContent: React.FC<HomeContentType> = ({ blocks }) => {
             <Box className={styles.homeContent__section} sx={{}}>
                <HomeContentSection title="Clarior es solito" buttonsTitle={buttonsTitle} buttonsSubtitle={buttonsSubtitle} isDivider refB={blocks[0]} imgUrl={'https://source.unsplash.com/random/?dark'} />
                <HomeContentSection title="Clarior es solito" buttonsTitle={buttonsTitle} buttonsSubtitle={buttonsSubtitle} isDivider refB={blocks[1]} imgUrl={'https://source.unsplash.com/random/?wood'} />
-               <HomeContentSection title="Clarior es solito" buttonsTitle={buttonsTitle} buttonsSubtitle={buttonsSubtitle}  refB={blocks[2]} imgUrl={'https://source.unsplash.com/random/?city'} />
+               <HomeContentSection title="Clarior es solito" buttonsTitle={buttonsTitle} buttonsSubtitle={buttonsSubtitle} refB={blocks[2]} imgUrl={'https://source.unsplash.com/random/?city'} />
             </Box>
             <Box
 
                sx={{
                   width: 'calc(50vw - 80px)',
                   position: 'relative',
-                  pb:4
+                  pb: 4
                }}
             >
                <Box sx={{

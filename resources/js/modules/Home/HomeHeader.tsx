@@ -1,9 +1,9 @@
+import React from 'react'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import { useRef } from 'react'
-import { useSelector } from 'react-redux'
 import { ButtonNavigate } from '../common/ButtonNavigate'
 import { WavesDivider } from '../common/WavesDivider'
+//@ts-ignore
 import styles from './style.module.scss'
 
 type HomeHeader = {
@@ -11,7 +11,7 @@ type HomeHeader = {
    block2: any
 }
 export const HomeHeader: React.FC<HomeHeader> = ({ block1, block2 }) => {
-   
+
    return (
       <>
 

@@ -151,7 +151,7 @@ export const registerThunk = (formData: FormDataRegType): ThunksTypes => {
 
 export const setData = (): ThunksTypes => {
    return async (dispatch) => {
-      api.me().then(res => {
+      api.meInfo().then(res => {
          if (typeof res === 'string') {
             dispatch(appActions.setErrorText(errorStringHandler(res)))
          

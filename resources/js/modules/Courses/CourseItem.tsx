@@ -6,13 +6,9 @@ import Button from '@mui/material/Button'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getCategories, getTest } from '../../redux/appSelector'
-import { CategoryRecordType, CategoryType, getCategoriesInit, getCategoryTagsInit } from '../../redux/catReducer'
-import { AppDispatch } from '../../redux/store'
+import { CategoryType, getCategoriesInit, getCategoryTagsInit } from '../../redux/catReducer'
 import { detectCategory } from '../utils/detectCategory'
 import { getResultTableInit, getTestInit, lettersOfAnswers, TaskRecordType, TaskType } from '../../redux/taskReducer'
-import { URL_STORAGE } from '../../redux/appReducer'
-import { AnswerField } from './AnswerField'
-import { Collapse, Typography } from '@mui/material'
 import { ResultOfTest } from './ResultOfTest'
 //@ts-ignore
 import styles from './style.module.scss'
@@ -25,7 +21,7 @@ const buttonsAction = {
    backgroundColor: 'bgmode.main', color: 'fpage.main', borderColor: 'bgmode.main'
 }
 
-export const CourseItem = () => {
+export const CourseItem = React.memo(() => {
 
    const params = useParams();
    const dispatch: any = useDispatch()
@@ -204,7 +200,5 @@ export const CourseItem = () => {
          <ButtonsActionSecond setIsOpenSolution={setIsOpenSolution} isOpenSolution={isOpenSolution} currTask={currTask} />
       </Box>
    )
-
-
-}
+})
 

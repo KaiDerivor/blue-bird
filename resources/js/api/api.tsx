@@ -44,7 +44,6 @@ instance.interceptors.response.use(
     return config;
   },
   (error) => {
-    debugger
     if (error.response.status === 401) {
       if (localStorage.access_token) {
         return instance.post("auth/refresh", {}, {
@@ -59,7 +58,7 @@ instance.interceptors.response.use(
             return instance.request(error.config);
           });
       }
-    } 
+    }
     // else if (error.response.data.message === 'The token has been blacklisted') {
     //   localStorage.removeItem('access_token')
     //   return Promise.reject(error)

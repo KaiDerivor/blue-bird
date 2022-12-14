@@ -16,7 +16,7 @@ import { FormLog } from '../Auth/FormLog';
 import { Navigate } from 'react-router-dom';
 import { Preference } from './Preference';
 
-export const Profile = () => {
+export const Profile = React.memo(() => {
    const isInit = useSelector(getIsInit)
    if (!isInit) {
       return (
@@ -41,4 +41,4 @@ export const Profile = () => {
          </Fade>
       </Container>
    )
-}
+})

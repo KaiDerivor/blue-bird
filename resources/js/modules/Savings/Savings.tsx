@@ -1,3 +1,4 @@
+import React from 'react'
 import { CommonHeader } from "../common/CommonHeader"
 import { Container } from "@mui/system"
 import Box from "@mui/material/Box"
@@ -5,7 +6,7 @@ import { Footer } from "../Footer/Footer"
 import Fade from '@mui/material/Fade'
 import { SavingsItems } from "./SavingsItems"
 
-export const Savings = () => {
+export const Savings = React.memo(() => {
    return (
       <>
          <Fade in={true} timeout={500} style={{ transitionDelay: '500ms' }}>
@@ -23,4 +24,4 @@ export const Savings = () => {
          </Fade>
       </>
    )
-}
+})

@@ -13,7 +13,7 @@ import { CourseItem } from './CourseItem'
 import { CourseItemHeader } from "../common/CourseItemHeader"
 import Fade from '@mui/material/Fade'
 
-export const Courses = () => {
+export const Courses =React.memo(() => {
    let isId = true;
    const params = useParams()['*']?.split('/');
    if (params) {
@@ -45,4 +45,4 @@ export const Courses = () => {
 
       </>
    )
-}
+})
