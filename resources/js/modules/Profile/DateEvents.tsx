@@ -7,7 +7,7 @@ import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getLikedCategories, getListEvents } from '../../redux/appSelector'
 import { AppDispatch } from '../../redux/store'
-import { getEventsInit } from '../../redux/eventReducer'
+import { getEventsInit, UPDATE } from '../../redux/eventReducer'
 
 
 type ButtonInform = {
@@ -23,7 +23,7 @@ export const ButtonInform: React.FC<ButtonInform> = ({ title, subtitle }) => {
    )
 }
 
-export const DateEvents = () => {
+export const DateEvents = React.memo(() => {
    const dispatch: any = useDispatch()
    const [isOpenDataEvents, setIsOpenDataEvents] = useState(false)
    const events = useSelector(getListEvents)
@@ -39,9 +39,11 @@ export const DateEvents = () => {
    const renderEvents = () => {
       let elementButtons: Array<JSX.Element> = []
       let elementButtonsHidden: Array<JSX.Element> = []
+
       let isUpdateSetted = false;
+
       for (const event of events) {
-         if (event.eventType === 'update') {
+         if (event.eventType === UPDATE) {
             if (isUpdateSetted) continue;
             isUpdateSetted = true;
             elementButtons.push(<ButtonInform key={event.id} title={event.title} subtitle={event.description} />)
@@ -61,12 +63,14 @@ export const DateEvents = () => {
                {elementButtonsHidden}
             </Collapse>
             {elementButtonsHidden.length > 0 &&
-               <Typography variant="body1" color="inherit" sx={{ textAlign: 'end' }}>
-                  <Button variant="text"
-                     sx={{ color: 'fpage.light' }}
-                     onClick={() => setIsOpenDataEvents(prev => !prev)}
-                  >See {isOpenDataEvents ? 'less' : 'all'}</Button>
-               </Typography>
+               <Box sx={{ pb: 2 }}>
+                  <Typography variant="body1" color="inherit" sx={{ textAlign: 'end' }}>
+                     <Button variant="text"
+                        sx={{ color: 'fpage.light' }}
+                        onClick={() => setIsOpenDataEvents(prev => !prev)}
+                     >See {isOpenDataEvents ? 'less' : 'all'}</Button>
+                  </Typography>
+               </Box>
             }
          </>
       )
@@ -81,4 +85,4 @@ export const DateEvents = () => {
          </Box>
       </Box>
    )
-}
+})

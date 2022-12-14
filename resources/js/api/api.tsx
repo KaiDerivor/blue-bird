@@ -6,8 +6,6 @@ import { ResultRecordType, TaskRecordType } from "../redux/taskReducer";
 import { UserRecordType } from "../redux/userReducer";
 import { FormDataLogType, FormDataMeUpdateType } from './../redux/appReducer'
 
-const isConnected = false;
-
 const url = `http://127.0.0.1:8000/api/`;
 const instance = axios.create({
   baseURL: url,
@@ -21,16 +19,16 @@ const instanceTask = axios.create({
   baseURL: url,
   headers: {
     "Content-Type": "application/json",
-    Accept: "application/json",
+    // Accept: "application/json",
 
   },
 });
 instance.interceptors.request.use(
   (config) => {
-    if (localStorage.access_token) {
-      //@ts-ignore
-      config.headers.authorization = `Bearer ${localStorage.access_token}`;
-    }
+    // if (localStorage.access_token) {
+    //   //@ts-ignore
+    //   config.headers.authorization = `Bearer ${localStorage.access_token}`;
+    // }
     return config;
   },
   (error) => {
@@ -44,14 +42,14 @@ instance.interceptors.response.use(
     return config;
   },
   (error) => {
-    if (error.response.status === 401) {
+    debugger
+    if (error?.response?.status === 401) {
       if (localStorage.access_token) {
-        return instance.post("auth/refresh", {}, {
+        instance.post("auth/refresh", {}, {
           headers: {
             authorization: `Bearer ${localStorage.access_token}`,
           }
-        })
-          .then((response) => {
+        }).then((response) => {
 
             localStorage.access_token = response.data.access_token;
             error.config.headers.authorization = `Bearer ${localStorage.access_token}`;
@@ -59,11 +57,11 @@ instance.interceptors.response.use(
           });
       }
     }
-    // else if (error.response.data.message === 'The token has been blacklisted') {
-    //   localStorage.removeItem('access_token')
-    //   return Promise.reject(error)
-    // }
-    return;
+    else if (error?.response?.data.message === 'The token has been blacklisted') {
+      localStorage.removeItem('access_token')
+      return Promise.reject(error)
+    }
+    return error;
     return Promise.reject(error);
   }
 );
@@ -121,7 +119,7 @@ export const api = {
   },
   meInfo: function () {
     return instance.get("auth/info").then((response) => {
-      console.log(response)
+
       return response.data.data
     }).catch(err => {
       console.log(err)

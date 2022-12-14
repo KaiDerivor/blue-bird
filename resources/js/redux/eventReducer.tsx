@@ -5,10 +5,15 @@ import { api } from "../api/api";
 import { appActions } from "./appReducer";
 import { AppStateType, InferActionsTypes } from "./store";
 
+
 const INIT_EVENTS = 'event/INIT_EVENTS'
-const SET_ERROR_MESSAGE = 'SET_ERROR_MESSAGE'
-const ERASE_ERROR = 'ERASE_ERROR'
+const SET_ERROR_MESSAGE = 'app/SET_ERROR_MESSAGE'
+const ERASE_ERROR = 'app/ERASE_ERROR'
 const UPDATE_EVENT = 'event/UPDATE_EVENT'
+
+export const UPDATE = 'update'
+export const ZNO = 'zno'
+
 export type EventRecordType = {
    id: number,
    title: string,
