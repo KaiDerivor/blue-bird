@@ -40,9 +40,11 @@ function App() {
   }, [appTheme])
 
   useEffect(() => {
-    if (isInit) {
-      //@ts-ignore
-      dispatch(setData())
+    return () => {
+      if (isInit&&!isSetData) {
+        //@ts-ignore
+        dispatch(setData())
+      }
     }
   }, [])
 

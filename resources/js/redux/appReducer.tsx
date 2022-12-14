@@ -2,6 +2,7 @@ import { Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
 import { StringDecoder } from "string_decoder";
 import { api } from "../api/api";
+import { errorStringHandler } from "../modules/utils/errorStringHandler";
 import { AppStateType, InferActionsTypes } from "./store";
 
 export const URL_STORAGE = '/storage/'
@@ -111,9 +112,9 @@ export const loginThunk = (formData: FormDataLogType): ThunksTypes => {
    return async (dispatch) => {
       api.login(formData)?.then(res => {
          if (typeof res === 'string') {
-            dispatch(appActions.setErrorText(res))
+            dispatch(appActions.setErrorText(errorStringHandler(res)))
          } else {
-            console.log(res)
+          
             api.me().then(res => {
                dispatch(appActions.init(res))
             })
@@ -125,7 +126,7 @@ export const logoutThunk = (): ThunksTypes => {
    return async (dispatch) => {
       api.logout()?.then(res => {
          if (typeof res === 'string') {
-            dispatch(appActions.setErrorText(res))
+            dispatch(appActions.setErrorText(errorStringHandler(res)))
 
          } else {
             dispatch(appActions.logout())
@@ -138,10 +139,9 @@ export const registerThunk = (formData: FormDataRegType): ThunksTypes => {
    return async (dispatch) => {
       api.register(formData)?.then(res => {
          if (typeof res === 'string') {
-            dispatch(appActions.setErrorText(res))
+            dispatch(appActions.setErrorText(errorStringHandler(res)))
          } else {
             api.me().then(res => {
-
                dispatch(appActions.init(res))
             })
          }
@@ -152,30 +152,31 @@ export const registerThunk = (formData: FormDataRegType): ThunksTypes => {
 export const setData = (): ThunksTypes => {
    return async (dispatch) => {
       api.me().then(res => {
-
          if (typeof res === 'string') {
-            dispatch(appActions.setErrorText(res))
-            return Promise.reject();
+            dispatch(appActions.setErrorText(errorStringHandler(res)))
+         
+         } else {
+            dispatch(appActions.init(res))
          }
-         console.log(res)
-      }).then(() => {
-         if (localStorage.access_token)
-            api.meInfo()?.then(res => {
-
-               if (typeof res === 'string') {
-                  dispatch(appActions.setErrorText(res))
-               } else {
-                  dispatch(appActions.init(res))
-               }
-            })
       })
+      // .then(() => {
+      //    if (localStorage.access_token)
+      //       api.meInfo()?.then(res => {
+
+      //          if (typeof res === 'string') {
+      //             dispatch(appActions.setErrorText(errorStringHandler(res)))
+      //          } else {
+      //             dispatch(appActions.init(res))
+      //          }
+      //       })
+      // })
    }
 }
 export const updateMe = (me: FormDataMeUpdateType): ThunksTypes => {
    return async (dispatch) => {
       api.meUpdate(me)?.then(res => {
          if (typeof res === 'string') {
-            dispatch(appActions.setErrorText(res))
+            dispatch(appActions.setErrorText(errorStringHandler(res)))
          } else {
             dispatch(appActions.init(res))
          }

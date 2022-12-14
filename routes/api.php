@@ -36,7 +36,10 @@ Route::group(['namespace' => 'App\Http\Controllers\User', 'prefix' => 'auth'], f
     Route::patch('me', 'UpdateController');
     Route::get('info', "IndexController");
 });
+Route::group(['namespace' => 'App\Http\Controllers\User', 'prefix' => 'auth', 'middleware' => ['auth']], function () {
 
+    Route::get('info', "IndexController");
+});
 Route::group([
     'namespace' => 'App\Http\Controllers\Admin',
     'prefix' => 'admin',

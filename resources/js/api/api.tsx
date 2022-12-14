@@ -1,4 +1,5 @@
 import axios from "axios";
+import { axiosErrorHandler } from "../modules/utils/axiosErrorHandler";
 import { CategoryRecordType, CategoryTagRecordType, CategoryTagType } from "../redux/catReducer";
 import { TagRecordType } from "../redux/tagReducer";
 import { ResultRecordType, TaskRecordType } from "../redux/taskReducer";
@@ -43,24 +44,27 @@ instance.interceptors.response.use(
     return config;
   },
   (error) => {
-  
+    debugger
     if (error.response.status === 401) {
       if (localStorage.access_token) {
-
-        instance.post("auth/refresh", {}, {
+        return instance.post("auth/refresh", {}, {
           headers: {
             authorization: `Bearer ${localStorage.access_token}`,
           }
         })
           .then((response) => {
+
             localStorage.access_token = response.data.access_token;
             error.config.headers.authorization = `Bearer ${localStorage.access_token}`;
             return instance.request(error.config);
           });
       }
-
-      return;
-    }
+    } 
+    // else if (error.response.data.message === 'The token has been blacklisted') {
+    //   localStorage.removeItem('access_token')
+    //   return Promise.reject(error)
+    // }
+    return;
     return Promise.reject(error);
   }
 );
@@ -113,26 +117,16 @@ export const api = {
     return instance.post("auth/me").then((response) => {
       return response.data
     }).catch(err => {
-      if (err.response) {
-        return err.response.statusText
-      } else if (err.request) {
-        return 'Bad network. Try again later'
-      } else {
-        return 'Try again later'
-      }
+      return axiosErrorHandler(err)
     });
   },
   meInfo: function () {
     return instance.get("auth/info").then((response) => {
+      console.log(response)
       return response.data.data
     }).catch(err => {
-      if (err.response) {
-        return err.response.statusText
-      } else if (err.request) {
-        return 'Bad network. Try again later'
-      } else {
-        return 'Try again later'
-      }
+      console.log(err)
+      return axiosErrorHandler(err)
     });
   },
   meUpdate: function (data: FormDataMeUpdateType) {
@@ -536,7 +530,7 @@ export const api = {
     });
   },
   //cat tag
-  getCategoryTags: function (categoryId:string,tagId:string) {
+  getCategoryTags: function (categoryId: string, tagId: string) {
     return instance.get(`admin/category-tags?categoryId=${categoryId}&tagId=${tagId}`).then(res => {
       return res.data.data;
     }).catch(err => {
