@@ -10,7 +10,7 @@ type HomeHeader = {
    block1: any
    block2: any
 }
-export const HomeHeader: React.FC<HomeHeader> = ({ block1, block2 }) => {
+export const HomeHeader: React.FC<HomeHeader> = React.memo(({ block1, block2 }) => {
 
    return (
       <>
@@ -38,4 +38,4 @@ export const HomeHeader: React.FC<HomeHeader> = ({ block1, block2 }) => {
          </Box>
       </>
    )
-}
+})

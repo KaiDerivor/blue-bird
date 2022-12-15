@@ -1,4 +1,4 @@
-import React from "react"
+import React, { Suspense } from "react"
 import { CommonHeader } from "../common/CommonHeader"
 import Typography from '@mui/material/Typography'
 import { Container } from "@mui/system"
@@ -6,14 +6,27 @@ import { Footer } from "../Footer/Footer"
 import Box from "@mui/material/Box"
 //@ts-ignore
 import styles from './style.module.scss'
-import { CoursesList } from "./CoursesList"
 import { Route, Routes, useParams } from "react-router-dom"
-import { CourseCategory } from "./CourseCategory"
-import { CourseItem } from './CourseItem'
 import { CourseItemHeader } from "../common/CourseItemHeader"
 import Fade from '@mui/material/Fade'
+import { Loader } from "../common/Loader"
 
-export const Courses =React.memo(() => {
+const CourseCategory = React.lazy(() => {
+   return Promise.all([import("./CourseCategory"),
+   new Promise(resolve => setTimeout(resolve, 800))
+   ]).then(([CourseCategory]) => CourseCategory)
+})
+const CoursesList = React.lazy(() => {
+   return Promise.all([import("./CoursesList"),
+   new Promise(resolve => setTimeout(resolve, 800))
+   ]).then(([CoursesList]) => CoursesList)
+})
+const CourseItem = React.lazy(() => {
+   return Promise.all([import('./CourseItem'),
+   new Promise(resolve => setTimeout(resolve, 800))
+   ]).then(([CourseItem]) => CourseItem)
+})
+const Courses = React.memo(() => {
    let isId = true;
    const params = useParams()['*']?.split('/');
    if (params) {
@@ -30,12 +43,23 @@ export const Courses =React.memo(() => {
                   : ''
                }
                <Container maxWidth="xl">
-
                   <Box>
                      <Routes>
-                        <Route path="/" element={<CoursesList />} />
-                        <Route path="/:category" element={<CourseCategory />} />
-                        <Route path="/:category/:id" element={<CourseItem />} />
+                        <Route path="/" element={
+                           <Suspense fallback={<Loader />}>
+                              <CoursesList />
+                           </Suspense>
+                        } />
+                        <Route path="/:category" element={
+                           <Suspense fallback={<Loader />}>
+                              <CourseCategory />
+                           </Suspense>
+                        } />
+                        <Route path="/:category/:id" element={
+                           <Suspense fallback={<Loader />}>
+                              <CourseItem />
+                           </Suspense>
+                        } />
                      </Routes>
                   </Box>
                </Container>
@@ -46,3 +70,4 @@ export const Courses =React.memo(() => {
       </>
    )
 })
+export default Courses

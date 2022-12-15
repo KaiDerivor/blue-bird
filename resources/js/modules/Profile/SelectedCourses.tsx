@@ -10,7 +10,7 @@ import { getCategories, getLikedCategories } from '../../redux/appSelector'
 import { getCategoriesInit } from '../../redux/catReducer'
 
 
-export const SelectedCourses = () => {
+export const SelectedCourses = React.memo(() => {
    const dispatch: any = useDispatch()
 
    const likedCategories = useSelector(getLikedCategories)
@@ -43,4 +43,4 @@ export const SelectedCourses = () => {
          }
       </>
    )
-}
+})

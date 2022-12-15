@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Box from '@mui/material/Box'
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -9,7 +9,6 @@ import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import { AppDispatch } from '../../redux/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { getResultTableInit, getTasksInit } from '../../redux/taskReducer';
 import { getTaskFilter } from '../../redux/appSelector';
 
 
@@ -19,7 +18,7 @@ type SearchBarTaskType = {
    fnSearch: (arg1: string, arg2: string) => void
 }
 
-export const SearchBarCategoryTag: React.FC<SearchBarTaskType> = ({ categories, tags, fnSearch }) => {
+export const SearchBarCategoryTag: React.FC<SearchBarTaskType> =React.memo(({ categories, tags, fnSearch }) => {
    const dispatch: AppDispatch = useDispatch();
    const [categoryFilter, tagFilter] = useSelector(getTaskFilter)
    const [categoryField, setCategoryField] = useState(categoryFilter)
@@ -79,4 +78,4 @@ export const SearchBarCategoryTag: React.FC<SearchBarTaskType> = ({ categories, 
       </Box>
 
    )
-}
+})

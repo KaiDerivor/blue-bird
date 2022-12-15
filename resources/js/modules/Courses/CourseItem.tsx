@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getCategories, getTest } from '../../redux/appSelector'
 import { CategoryType, getCategoriesInit, getCategoryTagsInit } from '../../redux/catReducer'
 import { detectCategory } from '../utils/detectCategory'
-import { getResultTableInit, getTestInit, lettersOfAnswers, TaskRecordType, TaskType } from '../../redux/taskReducer'
+import { getResultTableInit, getTestInit, TaskType } from '../../redux/taskReducer'
 import { ResultOfTest } from './ResultOfTest'
 //@ts-ignore
 import styles from './style.module.scss'
@@ -17,11 +17,7 @@ import { TaskComponent } from './Task'
 import { ButtonsActionSecond } from './ButtonsActionSecond'
 import { ButtonTask } from './ButtonTask'
 
-const buttonsAction = {
-   backgroundColor: 'bgmode.main', color: 'fpage.main', borderColor: 'bgmode.main'
-}
-
-export const CourseItem = React.memo(() => {
+const CourseItem = React.memo(() => {
 
    const params = useParams();
    const dispatch: any = useDispatch()
@@ -169,6 +165,7 @@ export const CourseItem = React.memo(() => {
 
    }
    const startTestAgainHandler = () => {
+      //@ts-ignore
       setUserAnswers({})
       setIsEndTest(false)
       setTime(new Date().getTime() - 1000 * 60 * 60 - 60000)
@@ -202,3 +199,4 @@ export const CourseItem = React.memo(() => {
    )
 })
 
+export default CourseItem

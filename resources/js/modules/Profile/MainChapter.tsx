@@ -95,7 +95,7 @@ type DataChapterType = {
    tension?: number
 }
 
-export const MainChapter: React.FC = () => {
+export const MainChapter: React.FC = React.memo(() => {
 
    const dispatch: any = useDispatch()
    const chapter = useSelector(getChapterInfo)
@@ -131,7 +131,7 @@ export const MainChapter: React.FC = () => {
    }
    const defineLabels4Chapter = () => {
       let labels = [] as Array<string>
-      for (let i = new Date().getMonth()+1; i < labelsMonth.length; i++) {
+      for (let i = new Date().getMonth() + 1; i < labelsMonth.length; i++) {
          labels.push(labelsMonth[i])
          if (labels.length === 12) {
             return labels
@@ -166,4 +166,4 @@ export const MainChapter: React.FC = () => {
          </Box>
       </Box>
    );
-}
+})

@@ -15,20 +15,13 @@ const instance = axios.create({
     // 'content-type': 'multipart/form-data' // do not forget this 
   },
 });
-const instanceTask = axios.create({
-  baseURL: url,
-  headers: {
-    "Content-Type": "application/json",
-    // Accept: "application/json",
-
-  },
-});
+const apiR = axios.create();
 instance.interceptors.request.use(
   (config) => {
-    // if (localStorage.access_token) {
-    //   //@ts-ignore
-    //   config.headers.authorization = `Bearer ${localStorage.access_token}`;
-    // }
+    if (localStorage.access_token) {
+      //@ts-ignore
+      config.headers.authorization = `Bearer ${localStorage.getItem('access_token')}`;
+    }
     return config;
   },
   (error) => {
@@ -42,26 +35,25 @@ instance.interceptors.response.use(
     return config;
   },
   (error) => {
-    debugger
     if (error?.response?.status === 401) {
-      if (localStorage.access_token) {
+      if (localStorage.getItem('access_token')) {
         instance.post("auth/refresh", {}, {
           headers: {
-            authorization: `Bearer ${localStorage.access_token}`,
+            'authorization': `Bearer ${localStorage.getItem('access_token')}`,
           }
         }).then((response) => {
 
-            localStorage.access_token = response.data.access_token;
-            error.config.headers.authorization = `Bearer ${localStorage.access_token}`;
-            return instance.request(error.config);
-          });
+          localStorage.setItem('access_token', response.data.access_token)
+          error.config.headers.authorization = `Bearer ${response.data.access_token}`;
+          return instance.request(error.config);
+        });
+        return
       }
     }
     else if (error?.response?.data.message === 'The token has been blacklisted') {
       localStorage.removeItem('access_token')
       return Promise.reject(error)
     }
-    return error;
     return Promise.reject(error);
   }
 );
@@ -112,7 +104,7 @@ export const api = {
 
   me: function () {
     return instance.post("auth/me").then((response) => {
-      return response.data
+      return response.data.data
     }).catch(err => {
       return axiosErrorHandler(err)
     });

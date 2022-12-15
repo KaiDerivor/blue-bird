@@ -13,7 +13,7 @@ import { getUsersInit } from '../../redux/userReducer';
 
 
 
-export const SearchBarUser: React.FC = () => {
+export const SearchBarUser: React.FC =React.memo( () => {
    const dispatch: AppDispatch = useDispatch();
    const [nameField, setNameField] = useState('')
    const [emailField, setEmailField] = useState('')
@@ -59,4 +59,4 @@ export const SearchBarUser: React.FC = () => {
       </Box>
 
    )
-}
+})

@@ -10,13 +10,20 @@ const ERASE_ERROR = 'ERASE_ERROR'
 const UPDATE_TAG = 'cat/UPDATE_TAG'
 export type TagRecordType = {
    id?: number,
-   title: string,
+   title?: string,
    description?: string
    img?: string
+   textUrl?: string
+}
+export type TagType = {
+   id: number,
+   title: string,
+   description: string
+   img: string
    textUrl: string
 }
 const initialState = {
-   listTags: [] as Array<TagRecordType>,
+   listTags: [] as Array<TagType>,
    errorText: ''
 }
 type StateType = typeof initialState;
@@ -70,10 +77,10 @@ export type DispatchType = Dispatch<ActionsTypes>;
 
 
 export const tagActions = {
-   init: (list: Array<TagRecordType>) => { return { type: INIT_TAGS, list } as const },
+   init: (list: Array<TagType>) => { return { type: INIT_TAGS, list } as const },
    setErrorText: (err: string) => { return { type: SET_ERROR_MESSAGE, errorText: err } as const },
    eraseError: () => { return { type: ERASE_ERROR } as const },
-   updateTag: (tag: TagRecordType) => { return { type: UPDATE_TAG, tag } as const }
+   updateTag: (tag: TagType) => { return { type: UPDATE_TAG, tag } as const }
 }
 
 export type ThunksTypes = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>
@@ -137,7 +144,6 @@ export const deleteTag = (id: number): ThunksTypes => {
       })
    }
 }
-
 
 export default tagReducer;
 

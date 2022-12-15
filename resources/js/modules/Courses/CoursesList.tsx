@@ -3,14 +3,13 @@ import Box from "@mui/material/Box"
 import styles from './style.module.scss'
 import { ItemGrid } from "../common/ItemGrid"
 import React, { useEffect } from "react"
-import { AppDispatch } from "../../redux/store"
 import { useDispatch, useSelector } from "react-redux"
 import { getCategories } from "../../redux/appSelector"
 import { getCategoriesInit } from "../../redux/catReducer"
 import { URL_STORAGE } from "../../redux/appReducer"
 
 
-export const CoursesList = () => {
+const CoursesList = React.memo(() => {
 
    const dispatch: any = useDispatch();
 
@@ -33,4 +32,5 @@ export const CoursesList = () => {
 
       </Box>
    )
-}
+})
+export default CoursesList

@@ -96,19 +96,16 @@ const BodyCourseCategory: React.FC<BodyCourseCategory> = ({ toggleShowingTasks }
    )
 }
 
-const BodyCourseTasks: React.FC<BodyCourseCategory> = ({ toggleShowingTasks }) => {
+const BodyCourseTasks: React.FC<BodyCourseCategory> = React.memo(({ toggleShowingTasks }) => {
    return (
       <>
          <ButtonNavigate fn={toggleShowingTasks} title="Показати завдання за роками" subtitle="Усі завдання за роками" />
          <Box>ijgdfpiogjd</Box>
       </>
    )
-}
+})
 
-
-export const CourseCategory = () => {
-   const category = useParams().category
-
+const CourseCategory = React.memo(() => {
    const [isShowTaskByCategory, setIsShowTaskByCategory] = useState(false)
 
 
@@ -122,4 +119,5 @@ export const CourseCategory = () => {
             : <BodyCourseCategory toggleShowingTasks={toggleShowingTasks} />}
       </>
    )
-}
+})
+export default CourseCategory

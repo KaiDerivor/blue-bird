@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import './App.css';
 import { getAppTheme, getIsDarkMode, getIsInit, getIsSetData, getUserRole } from './redux/appSelector';
 import { useDispatch, useSelector } from 'react-redux'
@@ -7,20 +7,66 @@ import { SideBarLargeScreen } from './modules/common/SideBarLargeScreen';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Route, Routes, useParams } from 'react-router-dom';
-import { Home } from './modules/Home/Home';
-import { Profile } from './modules/Profile/Profile';
-import { Savings } from './modules/Savings/Savings'
-import { Courses } from './modules/Courses/Courses';
+
 import { ThemeProvider } from "@mui/material";
-import { darkTheme, lightTheme, themeVariants } from './theme';
-import { FormLog } from './modules/Auth/FormLog';
-import { FormReg } from './modules/Auth/FormReg';
+import { themeVariants } from './theme';
+
 import { AlertBox } from './modules/common/AlertBox';
 import { AppDispatch } from './redux/store';
 import { setData } from './redux/appReducer';
+import { Loader } from './modules/common/Loader';
 
-import { AdminPage } from './modules/Admin/AdminPage';
 
+
+const Profile = React.lazy(() => {
+  return Promise.all([
+    import('./modules/Profile/Profile'),
+    new Promise(resolve => setTimeout(resolve, 800))
+  ])
+    .then(([Profile]) => Profile);
+})
+const Home = React.lazy(() => {
+  return Promise.all([
+    import('./modules/Home/Home'),
+    new Promise(resolve => setTimeout(resolve, 800))
+  ])
+    .then(([Home]) => Home);
+})
+const Savings = React.lazy(() => {
+  return Promise.all([
+    import('./modules/Savings/Savings'),
+    new Promise(resolve => setTimeout(resolve, 800))
+  ])
+    .then(([Savings]) => Savings);
+})
+const Courses = React.lazy(() => {
+  return Promise.all([
+    import('./modules/Courses/Courses'),
+    new Promise(resolve => setTimeout(resolve, 800))
+  ])
+    .then(([Courses]) => Courses);
+})
+const FormLog = React.lazy(() => {
+  return Promise.all([
+    import('./modules/Auth/FormLog'),
+    new Promise(resolve => setTimeout(resolve, 800))
+  ])
+    .then(([FormLog]) => FormLog);
+})
+const FormReg = React.lazy(() => {
+  return Promise.all([
+    import('./modules/Auth/FormReg'),
+    new Promise(resolve => setTimeout(resolve, 800))
+  ])
+    .then(([FormReg]) => FormReg);
+})
+const AdminPage = React.lazy(() => {
+  return Promise.all([
+    import('./modules/Admin/AdminPage'),
+    new Promise(resolve => setTimeout(resolve, 800))
+  ])
+    .then(([AdminPage]) => AdminPage);
+})
 const drawerWidth = 60;
 
 function App() {
@@ -41,7 +87,7 @@ function App() {
 
   useEffect(() => {
     return () => {
-      if (isInit&&!isSetData) {
+      if (isInit && !isSetData) {
         //@ts-ignore
         dispatch(setData())
       }
@@ -70,24 +116,53 @@ function App() {
             <CssBaseline />
             <Box
               component="main"
+              position={'relative'}
               sx={{ flexGrow: 1, bgcolor: 'background.default', p: 1 }}
             >
               <AlertBox />
 
-              <Box>
+              {/* <Loader /> */}
+              <Box sx={{}}>
                 <Routes>
-                  <Route path='/' element={<Home />} />
-                  <Route path='/profile' element={<Profile />} />
-                  <Route path='/savings' element={<Savings />} />
-                  <Route path='/courses/*' element={<Courses />} />
-                  <Route path='/login' element={<FormLog />} />
-                  <Route path='/register' element={<FormReg />} />
+                  <Route path='/' element={
+                    <Suspense fallback={<Loader />}>
+                      <Home />
+                    </Suspense>
+                  } />
+                  <Route path='/profile' element={
+                    <Suspense fallback={<Loader />}>
+                      <Profile />
+                    </Suspense>
+                  } />
+                  <Route path='/savings' element={
+                    <Suspense fallback={<Loader />}>
+                      <Savings />
+                    </Suspense>
+                  } />
+                  <Route path='/courses/*' element={
+                    <Suspense fallback={<Loader />}>
+                      <Courses />
+                    </Suspense>
+                  } />
+                  <Route path='/login' element={
+                    <Suspense fallback={<Loader />}>
+                      <FormLog />
+                    </Suspense>
+                  } />
+                  <Route path='/register' element={
+                    <Suspense fallback={<Loader />}>
+                      <FormReg />
+                    </Suspense>
+                  } />
                   {userRole === 'admin' && (<>
-                    <Route path='/admin/*' element={<AdminPage />} />
-
+                    <Route path='/admin/*' element={
+                      <Suspense fallback={<Loader />}>
+                        <AdminPage />
+                      </Suspense>
+                    } />
                   </>
                   )}
-                  <Route path='/*' element={<Home />} />
+                  <Route path='/*' element={<div>404</div>} />
                 </Routes>
               </Box>
             </Box >

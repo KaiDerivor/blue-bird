@@ -18,7 +18,7 @@ type SearchBarTaskType = {
    tags: Array<CategoryRecordType>
 }
 
-export const SearchBarTask: React.FC<SearchBarTaskType> = ({ categories, tags }) => {
+export const SearchBarTask: React.FC<SearchBarTaskType> = React.memo(({ categories, tags }) => {
    const dispatch: AppDispatch = useDispatch();
    const [categoryFilter, tagFilter] = useSelector(getTaskFilter)
    const [categoryField, setCategoryField] = useState(categoryFilter)
@@ -85,4 +85,4 @@ export const SearchBarTask: React.FC<SearchBarTaskType> = ({ categories, tags })
       </Box>
 
    )
-}
+})

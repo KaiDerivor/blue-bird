@@ -5,7 +5,7 @@ import { HomeContent } from './HomeContent';
 import { HomeHeader } from './HomeHeader'
 import Fade from '@mui/material/Fade'
 
-export const Home = React.memo(() => {
+const Home = React.memo(() => {
    const block1 = useRef(null);
    const block2 = useRef(null);
    const block3 = useRef(null);
@@ -22,3 +22,5 @@ export const Home = React.memo(() => {
       </Container >
    )
 })
+
+export default Home

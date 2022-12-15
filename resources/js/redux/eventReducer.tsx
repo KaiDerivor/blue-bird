@@ -15,16 +15,25 @@ export const UPDATE = 'update'
 export const ZNO = 'zno'
 
 export type EventRecordType = {
-   id: number,
-   title: string,
+   id?: number,
+   title?: string,
    description?: string
    eventType?: string
    time?: string,
    categoryId?: number
-
 }
+
+export type EventType = {
+   id: number,
+   title: string,
+   description: string
+   eventType: string
+   time: string,
+   categoryId: number
+}
+
 const initialState = {
-   listEvents: [] as Array<EventRecordType>,
+   listEvents: [] as Array<EventType>,
    errorText: ''
 }
 type StateType = typeof initialState;
@@ -78,10 +87,10 @@ export type DispatchType = Dispatch<ActionsTypes>;
 
 
 export const tagActions = {
-   init: (list: Array<EventRecordType>) => { return { type: INIT_EVENTS, list } as const },
+   init: (list: Array<EventType>) => { return { type: INIT_EVENTS, list } as const },
    setErrorText: (err: string) => { return { type: SET_ERROR_MESSAGE, errorText: err } as const },
    eraseError: () => { return { type: ERASE_ERROR } as const },
-   updateTag: (tag: EventRecordType) => { return { type: UPDATE_EVENT, tag } as const }
+   updateTag: (tag: EventType) => { return { type: UPDATE_EVENT, tag } as const }
 }
 
 export type ThunksTypes = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>
@@ -97,11 +106,11 @@ export const getEventsInit = (): ThunksTypes => {
       })
    }
 }
-export const createEvent = (tag: EventRecordType): ThunksTypes => {
+export const createEvent = (event: EventRecordType): ThunksTypes => {
    return async (dispatch) => {
 
 
-      api.createEvent(tag)?.then(res => {
+      api.createEvent(event)?.then(res => {
          if (res) {
             if (typeof res === 'string') {
                dispatch(appActions.setErrorText(res))
@@ -113,9 +122,9 @@ export const createEvent = (tag: EventRecordType): ThunksTypes => {
       })
    }
 }
-export const updateEvent = (id: number, tag: EventRecordType): ThunksTypes => {
+export const updateEvent = (id: number, event: EventRecordType): ThunksTypes => {
    return async (dispatch) => {
-      api.updateEvent(id, tag)?.then(res => {
+      api.updateEvent(id, event)?.then(res => {
          if (typeof res === 'string') {
             dispatch(appActions.setErrorText(res))
          } else {

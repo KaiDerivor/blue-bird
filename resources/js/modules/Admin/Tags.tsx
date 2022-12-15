@@ -4,8 +4,7 @@ import { getTags } from '../../redux/appSelector'
 import { createTag, deleteTag, getTagsInit, TagRecordType, updateTag } from '../../redux/tagReducer'
 import { TableSimpleItem } from './TableSimpleItem'
 
-export const Tags = () => {
-
+const Tags = React.memo(() => {
    const dispatch: any = useDispatch();
    const tasgs = useSelector(getTags)
    const [switchHandler, setSwitchHandler] = useState('save')
@@ -16,7 +15,7 @@ export const Tags = () => {
             dispatch(getTagsInit())
       }
    }, [])
-   const handleConfirm = (tagId = 0, tag: TagRecordType = { title: '', textUrl: '' }) => {
+   const handleConfirm = (tagId = 0, tag = {} as TagRecordType) => {
       switch (switchHandler) {
          case 'save': {
             dispatch(createTag(tag))
@@ -40,4 +39,6 @@ export const Tags = () => {
    return (
       <TableSimpleItem list={tasgs} handleConfirm={handleConfirm} setSwitchHandler={setSwitchHandler} typeDialog='TAG' />
    )
-}
+})
+
+export default Tags

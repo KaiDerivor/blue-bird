@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getCategories, getListEvents } from '../../redux/appSelector'
-import { CategoryRecordType, createCategory, deleteCategory, getCategoriesInit, updateCategory } from '../../redux/catReducer'
-import { AppDispatch } from '../../redux/store'
+import { getCategoriesInit } from '../../redux/catReducer'
 import { TableSimpleItem } from './TableSimpleItem'
-import Box from '@mui/material/Box'
 import { createEvent, deleteEvent, EventRecordType, getEventsInit, updateEvent } from '../../redux/eventReducer'
 
-export const DataEvents = () => {
+const DataEvents = React.memo(() => {
 
    const dispatch: any = useDispatch();
    const events = useSelector(getListEvents)
@@ -46,4 +44,6 @@ export const DataEvents = () => {
    return (
       <TableSimpleItem list={events} handleConfirm={handleConfirm} setSwitchHandler={setSwitchHandler} typeDialog="EVENT" />
    )
-}
+})
+
+export default DataEvents

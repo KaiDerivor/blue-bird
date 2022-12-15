@@ -16,7 +16,7 @@ type HomeContentSectionType = {
    isDivider?: boolean,
    imgUrl: string
 }
-export const HomeContentSection: React.FC<HomeContentSectionType> = ({ title, text = '', refB, buttonsTitle, buttonsSubtitle, isDivider, imgUrl }) => {
+export const HomeContentSection: React.FC<HomeContentSectionType> = React.memo(({ title, text = '', refB, buttonsTitle, buttonsSubtitle, isDivider, imgUrl }) => {
    return (
       <>
          <img className={styles.imgHeader_section} src={imgUrl} />
@@ -42,4 +42,4 @@ export const HomeContentSection: React.FC<HomeContentSectionType> = ({ title, te
       </>
 
    )
-}
+})

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -7,14 +7,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { CategoryRecordType, CategoryTagRecordType, CategoryTagType } from '../../redux/catReducer';
+import { CategoryTagRecordType, CategoryTagType } from '../../redux/catReducer';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import { TagRecordType } from '../../redux/tagReducer';
 import { ButtonAddItem } from './ButtonAddItem';
 import { Formik, Field, Form } from 'formik';
 //@ts-ignore
@@ -22,8 +17,6 @@ import styles from './style.module.scss'
 import { ButtonSubmit } from '../Auth/ButtonSubmit';
 import { DialogFormTags } from './DialogFormTags';
 import { DialogFormCategories } from './DialogFormCategories';
-import { ResultRecordType, ResultTableType } from '../../redux/taskReducer';
-import { detectItem } from '../utils/detectCategory';
 import { getCategories, getTags } from '../../redux/appSelector';
 import { useSelector } from 'react-redux';
 import AppBar from '@mui/material/AppBar';
@@ -31,14 +24,8 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
-import Slide from '@mui/material/Slide';
-import { TransitionProps } from '@mui/material/transitions';
-import { useDispatch } from 'react-redux';
 import Box from '@mui/material/Box'
-import { TaskForm } from './TaskForm';
-import { TaskRecordType } from '../../redux/taskReducer';
 import { SearchBarCategoryTag } from './SearchBarCategoryTag';
-import { getRandomValues } from 'crypto';
 import Stack from '@mui/material/Stack'
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import { URL_STORAGE } from '../../redux/appReducer';
@@ -174,10 +161,10 @@ export const ResultDialog: React.FC<FormDialogType> = ({
    item,
    handleConfirm
 }) => {
-console.log(item)
+   console.log(item)
    const [table200img, setTable200img] = useState<FileType>({} as FileType)
    const [table12img, setTable12img] = useState<FileType>({} as FileType)
-   const handleConfirmForm = (formItem: CategoryTagRecordType = {} as CategoryTagRecordType) => {
+   const handleConfirmForm = (formItem = {} as CategoryTagRecordType) => {
       handleConfirm(itemId, formItem)
       setOpenDialog(false);
    };
@@ -215,7 +202,7 @@ console.log(item)
                   <Formik
                      initialValues={{
                         maxTime: item?.maxTime ? item.maxTime : '',
-                        maxPoints: item?.maxPoints ? item.maxPoints : '',
+                        maxPoints: item?.maxPoints ? item.maxPoints : 0,
                         someInfo: item?.someInfo ? item.someInfo : '',
                      }}
                      onSubmit={(values) => {
@@ -223,7 +210,7 @@ console.log(item)
                            ...values,
                            table200img,
                            table12img
-                        }
+                        } as CategoryTagRecordType
                         console.log(formData)
                         handleConfirmForm(formData)
                      }}

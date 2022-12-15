@@ -1,34 +1,94 @@
 $index:calc(1vh + 1vw);
 
 .header {
-   min-height: 85vh;
-   display: flex;
-   align-items: start;
-   justify-content: center;
-   padding: 56px;
-   border-radius: 24px;
-   flex-direction: column;
+    min-height: 85vh;
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    padding: 56px;
+    border-radius: 24px;
+    flex-direction: column;
 
-   &__wrapper {
-      max-width: 80%;
-   }
+    &__wrapper {
+        max-width: 80%;
+    }
 }
 
 .cardGridItem {
-   border-radius: 16px !important;
-   border-bottom-left-radius: 24px !important;
-   border-bottom-right-radius: 24px !important;
-   min-height: 200px;
-   transition: all 0.2s !important;
-   height: 100%;
- 
+    border-radius: 16px !important;
+    border-bottom-left-radius: 24px !important;
+    border-bottom-right-radius: 24px !important;
+    min-height: 200px;
+    transition: all 0.2s !important;
+    height: 100%;
+
 }
-.alertBox{
-   position: fixed;
-   top:20px;
-   right: 10px;
-   width: 300px;
+
+.alertBox {
+    position: fixed;
+    top: 20px;
+    right: 10px;
+    width: 300px;
 }
+
+.loaderWrapper {
+    position: fixed;
+    width: 100%;
+    max-height: 100vh;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+
+    &::after {
+        content: '';
+        position: absolute;
+        width: 120%;
+        height: 120%;
+    }
+
+    &__loader {
+        width: 84px;
+        height: 84px;
+        position: relative;
+
+        &:before,
+        &:after {
+            content: "";
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 84px;
+            height: 84px;
+            border-radius: 50%;
+            background: #0099ff;
+            animation: push 1s infinite linear alternate;
+        }
+
+        &:after {
+            top: auto;
+            bottom: 0;
+            left: 0;
+            background: #fdd8aa;
+            animation-direction: alternate-reverse;
+        }
+
+        @keyframes push {
+            0% {
+                width: 14px;
+                height: 14px;
+            }
+
+            100% {
+                width: 84px;
+                height: 84px;
+            }
+        }
+
+    }
+}
+
 /***************************
 ****************************
 **********Adaptive**********
@@ -36,48 +96,48 @@ $index:calc(1vh + 1vw);
 ***************************/
 
 @media (max-width: 1210px) {
-   .header {
-      min-height: 480px;
+    .header {
+        min-height: 480px;
 
-      &__header {
-         max-width: auto;
+        &__header {
+            max-width: auto;
 
-      }
-   }
+        }
+    }
 }
 
 @media (max-width: 992px) {
-   .header {
-      &__title {
-         font-size: calc($index * 5) !important;
-         padding-bottom: 0.4em;
-      }
-   }
+    .header {
+        &__title {
+            font-size: calc($index * 5) !important;
+            padding-bottom: 0.4em;
+        }
+    }
 }
 
 @media (max-width: 768px) {
-   .header {
-      padding: 26px;
-      min-height: 380px;
+    .header {
+        padding: 26px;
+        min-height: 380px;
 
 
-   }
+    }
 }
 
 @media (max-width: 576px) {
-   .header {
-      padding: 36px 26px;
-      min-height: auto;
+    .header {
+        padding: 36px 26px;
+        min-height: auto;
 
-      &__title {
-         font-size: calc($index * 5) !important;
-         padding-bottom: 0.4em;
-      }
+        &__title {
+            font-size: calc($index * 5) !important;
+            padding-bottom: 0.4em;
+        }
 
-      &__subtitle {
-         font-size: 18px !important;
-      }
-   }
+        &__subtitle {
+            font-size: 18px !important;
+        }
+    }
 }
 
 @media (max-width: 375px) {}

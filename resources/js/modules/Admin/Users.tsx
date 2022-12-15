@@ -5,7 +5,7 @@ import { AppDispatch } from '../../redux/store'
 import { deleteuser, getUsersInit, updateUser, UserRecordType } from '../../redux/userReducer'
 import { TableUsers } from './TableUsers'
 
-export const Users = () => {
+const Users = React.memo(() => {
 
    const dispatch: AppDispatch = useDispatch();
    const users = useSelector(getUsers)
@@ -17,9 +17,9 @@ export const Users = () => {
             dispatch(getUsersInit())
       }
    }, [])
-   const handleConfirm = (userId = '' as string | number, user:UserRecordType = {}) => {
+   const handleConfirm = (userId = '' as string | number, user: UserRecordType = {}) => {
       switch (switchHandler) {
-      
+
          case 'update': {
             //@ts-ignore
             dispatch(updateUser(userId, user))
@@ -40,4 +40,6 @@ export const Users = () => {
    return (
       <TableUsers list={users} handleConfirm={handleConfirm} setSwitchHandler={setSwitchHandler} />
    )
-}
+})
+
+export default Users

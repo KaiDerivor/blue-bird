@@ -12,8 +12,8 @@ import { AppDispatch } from '../../redux/store';
 import { Navigate } from 'react-router-dom';
 import { FormDataRegType, registerThunk } from '../../redux/appReducer';
 
-export const FormReg = () => {
-   const dispatch: AppDispatch = useDispatch();
+const FormReg = () => {
+   const dispatch: any = useDispatch();
 
    const errorText = useSelector(getErrorText)
    const isInit = useSelector(getIsInit)
@@ -94,4 +94,5 @@ export const FormReg = () => {
       </Fade>
    )
 }
+export default FormReg
 

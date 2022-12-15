@@ -3,7 +3,6 @@ import Container from '@mui/material/Container'
 import Box from '@mui/material/Box'
 //@ts-ignore
 import styles from './style.module.scss'
-
 import { DateEvents } from './DateEvents';
 import { MainChapter } from './MainChapter';
 import { Greetings } from './Greetings';
@@ -14,7 +13,7 @@ import { getIsInit } from '../../redux/appSelector';
 import { Navigate } from 'react-router-dom';
 import { Preference } from './Preference';
 
-export const Profile = React.memo(() => {
+const Profile = React.memo(() => {
    const isInit = useSelector(getIsInit)
    if (!isInit) {
       return (
@@ -40,3 +39,5 @@ export const Profile = React.memo(() => {
       </Container>
    )
 })
+
+export default Profile

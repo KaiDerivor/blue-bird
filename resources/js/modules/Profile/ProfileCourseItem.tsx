@@ -18,7 +18,7 @@ type ItemGridType = {
    navLink?: string
    stateItem?: string
 }
-export const ProfileCourseItem: React.FC<ItemGridType> = ({ title, text = '', isEmpty, navLink, stateItem }) => {
+export const ProfileCourseItem: React.FC<ItemGridType> = React.memo(({ title, text = '', isEmpty, navLink, stateItem }) => {
    if (isEmpty) {
       return (
 
@@ -63,4 +63,4 @@ export const ProfileCourseItem: React.FC<ItemGridType> = ({ title, text = '', is
    } else {
       return renderCard();
    }
-}
+})

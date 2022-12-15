@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Http\Resources\User\UserResource;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -39,7 +41,7 @@ class AuthController extends Controller
      */
     public function me()
     {
-        return response()->json(auth()->user());
+        return new UserResource(auth()->user());
     }
 
     /**

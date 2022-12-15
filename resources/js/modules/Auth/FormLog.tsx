@@ -10,10 +10,10 @@ import { loginThunk } from '../../redux/appReducer';
 import { AppDispatch } from '../../redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { FormDataLogType } from '../../redux/appReducer'
-import { getErrorText, getIsInit, getIsSetData } from '../../redux/appSelector';
+import { getErrorText, getIsSetData } from '../../redux/appSelector';
 import { Navigate } from 'react-router-dom';
 
-export const FormLog = () => {
+const FormLog = () => {
    const dispatch: AppDispatch = useDispatch();
 
    const errorText = useSelector(getErrorText)
@@ -35,7 +35,7 @@ export const FormLog = () => {
 
    return (
       <>
-      {isRedirect&&<Navigate to='/profile' />}
+         {isRedirect && <Navigate to='/profile' />}
          <Fade in={true} timeout={500} style={{ transitionDelay: '500ms' }}>
             <div>
                <FormLoyauts title='Увійти' text='Не маєте аккаунта?' link='/register' textLink='Зареєструватись' >
@@ -87,3 +87,5 @@ export const FormLog = () => {
 
    );
 }
+
+export default FormLog

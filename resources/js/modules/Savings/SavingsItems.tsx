@@ -1,5 +1,5 @@
+import React from 'react'
 import { SectionSavCategory } from "./SectionSavCategory"
-
 
 const stateList = {
    title: 'Збережені записи',
@@ -39,7 +39,7 @@ const stateList = {
    ]
 }
 
-export const SavingsItems = () => {
+export const SavingsItems =React.memo( () => {
    return (
       <>
          <SectionSavCategory title="Збережені записи" subtitle='Збережені записи' listSavings={stateList.listSavings} />
@@ -47,4 +47,4 @@ export const SavingsItems = () => {
          <SectionSavCategory title="Збережені параграфи" subtitle='Збережені параграфи' listSavings={stateList.listSavings} />
       </>
    )
-}
+})

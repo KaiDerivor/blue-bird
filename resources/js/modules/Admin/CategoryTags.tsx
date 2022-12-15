@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getCategories, getCategoryTagList, getResultTables, getTags } from '../../redux/appSelector'
-import { CategoryRecordType, CategoryTagRecordType, CategoryTagType, deleteCategoryTag, getCategoriesInit, getCategoryTagsInit, updateCategoryTag } from '../../redux/catReducer'
+import { getCategories, getCategoryTagList, getTags } from '../../redux/appSelector'
+import { CategoryTagRecordType, deleteCategoryTag, getCategoriesInit, getCategoryTagsInit, updateCategoryTag } from '../../redux/catReducer'
 import { getTagsInit } from '../../redux/tagReducer'
-import { createResultTable, deleteResultTable, getResultTableInit, ResultRecordType, ResultTableType, updateResultTable } from '../../redux/taskReducer'
 import { TableCategoryTag } from './TableCategoryTags'
-import { TableResults } from './TableResults'
 
-export const CategoryTags = () => {
+const CategoryTags = React.memo(() => {
 
    const dispatch: any = useDispatch();
    const categoryTags = useSelector(getCategoryTagList)
@@ -58,4 +56,5 @@ export const CategoryTags = () => {
          fnSearch={searchFilter}
       />
    )
-}
+})
+export default CategoryTags

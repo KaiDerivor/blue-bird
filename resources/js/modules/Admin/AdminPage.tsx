@@ -1,27 +1,59 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import Box from '@mui/material/Box'
 import AppsIcon from '@mui/icons-material/Apps';
-import { MenuItem } from '../common/SideBarLargeScreen';
-import ListItem from '@mui/material/ListItem'
-import ListItemButton from '@mui/material/ListItemButton'
-import ListItemIcon from '@mui/material/ListItemIcon'
-import ListItemText from '@mui/material/ListItemText'
 import Typography from '@mui/material/Typography'
 import { NavLink, Route, Routes } from 'react-router-dom';
 import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
-import { Categories } from './Categories';
-import { Tags } from './Tags';
-import { Tasks } from './Tasks';
-import { Users } from './Users';
-import { Results } from './Results';
-import { DataEvents } from './DataEvents';
-import { CategoryTags } from './CategoryTags';
+import { Loader } from '../common/Loader';
 
-export const AdminPage = () => {
+const Categories = React.lazy(() => {
+   return Promise.all([
+      import('./Categories'),
+      new Promise(resolve => setTimeout(resolve, 800))
+   ]).then(([Categories]) => Categories)
+})
+const Tags = React.lazy(() => {
+   return Promise.all([
+      import('./Tags'),
+      new Promise(resolve => setTimeout(resolve, 800))
+   ]).then(([Tags]) => Tags)
+})
+const Tasks = React.lazy(() => {
+   return Promise.all([
+      import('./Tasks'),
+      new Promise(resolve => setTimeout(resolve, 800))
+   ]).then(([Tasks]) => Tasks)
+})
+const Users = React.lazy(() => {
+   return Promise.all([
+      import('./Users'),
+      new Promise(resolve => setTimeout(resolve, 800))
+   ]).then(([Users]) => Users)
+})
+const Results = React.lazy(() => {
+   return Promise.all([
+      import('./Results'),
+      new Promise(resolve => setTimeout(resolve, 800))
+   ]).then(([Results]) => Results)
+})
+const DataEvents = React.lazy(() => {
+   return Promise.all([
+      import('./DataEvents'),
+      new Promise(resolve => setTimeout(resolve, 800))
+   ]).then(([DataEvents]) => DataEvents)
+})
+const CategoryTags = React.lazy(() => {
+   return Promise.all([
+      import('./CategoryTags'),
+      new Promise(resolve => setTimeout(resolve, 800))
+   ]).then(([CategoryTags]) => CategoryTags)
+})
+
+const AdminPage = () => {
    return (
       <Box sx={{ color: 'fpage.main' }}>
-         <Stack direction='row' sx={{ gap: 2,flexWrap:'wrap' }}>
+         <Stack direction='row' sx={{ gap: 2, flexWrap: 'wrap' }}>
             <MenuItemAdmin linkUrl='admin/categories' linkText="Categories" Icon={<AppsIcon sx={{ color: 'inherit' }} />} />
             <MenuItemAdmin linkUrl='admin/tags' linkText="Tags" Icon={<AppsIcon sx={{ color: 'inherit' }} />} />
             <MenuItemAdmin linkUrl='admin/tasks' linkText="Tasks" Icon={<AppsIcon sx={{ color: 'inherit' }} />} />
@@ -32,13 +64,41 @@ export const AdminPage = () => {
          </Stack>
          <Box>
             <Routes>
-               <Route path='categories/*' element={<Categories />} />
-               <Route path='tags/*' element={<Tags />} />
-               <Route path='tasks/*' element={<Tasks />} />
-               <Route path='users/*' element={<Users />} />
-               <Route path='results/*' element={<Results />} />
-               <Route path='events/*' element={<DataEvents />} />
-               <Route path='category-tags/*' element={<CategoryTags />} />
+               <Route path='categories/*' element={
+                  <Suspense fallback={<Loader />}>
+                     <Categories />
+                  </Suspense>
+               }/>
+               <Route path='tags/*' element={
+                  <Suspense fallback={<Loader />}>
+                     <Tags />
+                  </Suspense>
+               }/>
+               <Route path='tasks/*' element={
+                  <Suspense fallback={<Loader />}>
+                     <Tasks />
+                  </Suspense>
+               }/>
+               <Route path='users/*' element={
+                  <Suspense fallback={<Loader />}>
+                     <Users />
+                  </Suspense>
+               }/>
+               <Route path='results/*' element={
+                  <Suspense fallback={<Loader />}>
+                     <Results />
+                  </Suspense>
+               }/>
+               <Route path='events/*' element={
+                  <Suspense fallback={<Loader />}>
+                     <DataEvents />
+                  </Suspense>
+               }/>
+               <Route path='category-tags/*' element={
+                  <Suspense fallback={<Loader />}>
+                     <CategoryTags />
+                  </Suspense>
+               }/>
             </Routes>
          </Box>
       </Box >
@@ -62,3 +122,4 @@ const MenuItemAdmin: React.FC<MenuItemAdmin> = ({ linkUrl, linkText, Icon }) => 
       </Button >
    )
 }
+export default AdminPage

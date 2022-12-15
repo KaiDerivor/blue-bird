@@ -6,7 +6,7 @@ import { getTagsInit } from '../../redux/tagReducer'
 import { createResultTable, deleteResultTable, getResultTableInit, ResultRecordType, ResultTableType, updateResultTable } from '../../redux/taskReducer'
 import { TableResults } from './TableResults'
 
-export const Results = () => {
+const Results = React.memo(() => {
 
    const dispatch: any = useDispatch();
    const results: Array<ResultTableType> = useSelector(getResultTables)
@@ -58,4 +58,6 @@ export const Results = () => {
          searchFilter={searchFilter}
       />
    )
-}
+})
+
+export default Results

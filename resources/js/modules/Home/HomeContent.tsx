@@ -9,7 +9,7 @@ type HomeContentType = {
    blocks: Array<any>
 }
 
-export const HomeContent: React.FC<HomeContentType> = ({ blocks }) => {
+export const HomeContent: React.FC<HomeContentType> = React.memo(({ blocks }) => {
    const [scrolled, setScrolled] = useState(0)
    const [fadeNumberImg, setFadeNumberImg] = useState(0)
    let scrollBlock3 = 0;
@@ -28,7 +28,7 @@ export const HomeContent: React.FC<HomeContentType> = ({ blocks }) => {
          const coorsBlock1 = blocks[0].current.getBoundingClientRect().top;
          const coordBlock2 = blocks[1].current.getBoundingClientRect().top;
          const coordBlock3 = blocks[2].current.getBoundingClientRect().top;
-         
+
          const triggerStart = window.innerHeight * 1.25;
          scrollBlock3 = coordBlock3;
          if (coordBlock3 < triggerStart) {
@@ -93,4 +93,4 @@ export const HomeContent: React.FC<HomeContentType> = ({ blocks }) => {
          </Box>
       </>
    )
-}
+})

@@ -14,10 +14,10 @@ const UPDATE_CATEGORY_TAGS = 'cat/UPDATE_CATEGORY_TAGS'
 
 export type CategoryRecordType = {
    id?: number,
-   title: string,
+   title?: string,
    description?: string
    img?: any,
-   textUrl: string,
+   textUrl?: string,
    tags?: Array<TagRecordType>
 }
 export type CategoryType = {
@@ -39,11 +39,11 @@ export type CategoryTagType = {
    someInfo: number
 }
 export type CategoryTagRecordType = {
-   maxTime?: number | string
+   maxTime?: number 
    table200img?: any
    table12img?: any
    maxPoints?: number
-   someInfo?: number
+   someInfo?: string
 }
 const initialState = {
    listCats: [] as Array<CategoryType>,

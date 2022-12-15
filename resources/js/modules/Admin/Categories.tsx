@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getCategories } from '../../redux/appSelector'
 import { CategoryRecordType, createCategory, deleteCategory, getCategoriesInit, updateCategory } from '../../redux/catReducer'
-import { AppDispatch } from '../../redux/store'
 import { TableSimpleItem } from './TableSimpleItem'
 
-export const Categories = () => {
+const Categories =React.memo( () => {
 
    const dispatch: any = useDispatch();
    const categories = useSelector(getCategories)
@@ -17,7 +16,7 @@ export const Categories = () => {
             dispatch(getCategoriesInit())
       }
    }, [])
-   const handleConfirm = (categoryId = 0, category: CategoryRecordType = { title: '', textUrl: '' }) => {
+   const handleConfirm = (categoryId = 0, category = {} as CategoryRecordType) => {
       switch (switchHandler) {
          case 'save': {
             dispatch(createCategory(category))
@@ -41,4 +40,5 @@ export const Categories = () => {
    return (
       <TableSimpleItem list={categories} handleConfirm={handleConfirm} setSwitchHandler={setSwitchHandler} typeDialog="CATEGORY" />
    )
-}
+})
+export default Categories

@@ -7,7 +7,7 @@ import { getTasksInit } from '../../redux/taskReducer'
 import { TableTask } from './TableTask'
 import { createTask, deleteTask, TaskRecordType, updateTask } from '../../redux/taskReducer';
 
-export const Tasks = () => {
+const Tasks = React.memo(() => {
 
    const dispatch: any = useDispatch();
    const tasks = useSelector(getTasks)
@@ -50,7 +50,7 @@ export const Tasks = () => {
       <TableTask list={tasks} categories={categories} tags={tags} handleConfirm={handleConfirm} setSwitchHandler={setSwitchHandler} />
 
    )
-}
+})
 
-
+export default Tasks
 

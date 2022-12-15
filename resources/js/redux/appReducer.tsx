@@ -117,7 +117,7 @@ export const loginThunk = (formData: FormDataLogType): ThunksTypes => {
             dispatch(appActions.setErrorText(errorStringHandler(res)))
          } else {
 
-            api.meInfo().then(res => {
+            api.me().then(res => {
                dispatch(appActions.init(res))
             })
          }
@@ -150,7 +150,7 @@ export const registerThunk = (formData: FormDataRegType): ThunksTypes => {
 
 export const setData = (): ThunksTypes => {
    return async (dispatch) => {
-      api.meInfo().then(res => {
+      api.me().then(res => {
          if (!localStorage?.access_token) {
             dispatch(appActions.canselInit())
             dispatch(appActions.setErrorText('Authorize please'))

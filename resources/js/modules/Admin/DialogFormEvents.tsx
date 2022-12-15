@@ -10,11 +10,7 @@ import { TagRecordType } from '../../redux/tagReducer';
 import { Formik, Field, Form } from 'formik';
 //@ts-ignore
 import styles from './style.module.scss'
-import { URL_STORAGE } from '../../redux/appReducer';
 import Box from '@mui/material/Box'
-import IconButton from '@mui/material/IconButton';
-import PhotoCamera from '@mui/icons-material/PhotoCamera';
-import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography'
 import { ButtonSubmit } from '../Auth/ButtonSubmit';
 import { EventRecordType } from '../../redux/eventReducer';

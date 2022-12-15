@@ -7,7 +7,7 @@ type ButtonAddItemType = {
    setOpenDialog: (arg1: boolean) => void
    setItem?: (arg1: any) => void
 }
-export const ButtonAddItem: React.FC<ButtonAddItemType> = ({ setSwitchHandler, setOpenDialog, setItem }) => {
+export const ButtonAddItem: React.FC<ButtonAddItemType> = React.memo(({ setSwitchHandler, setOpenDialog, setItem }) => {
 
    return (
       <Button variant="outlined"
@@ -22,4 +22,4 @@ export const ButtonAddItem: React.FC<ButtonAddItemType> = ({ setSwitchHandler, s
          Add Item
       </Button>
    )
-}
+})

@@ -6,7 +6,7 @@ import { Footer } from "../Footer/Footer"
 import Fade from '@mui/material/Fade'
 import { SavingsItems } from "./SavingsItems"
 
-export const Savings = React.memo(() => {
+const Savings = React.memo(() => {
    return (
       <>
          <Fade in={true} timeout={500} style={{ transitionDelay: '500ms' }}>
@@ -25,3 +25,4 @@ export const Savings = React.memo(() => {
       </>
    )
 })
+export default Savings

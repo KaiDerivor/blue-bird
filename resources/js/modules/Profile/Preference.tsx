@@ -10,7 +10,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import { getAppTheme } from '../../redux/appSelector'
 
-export const Preference = () => {
+export const Preference = React.memo(() => {
 
    const dispatch: any = useDispatch();
    const appTheme = useSelector(getAppTheme)
@@ -51,4 +51,4 @@ export const Preference = () => {
          </Box>
       </Box>
    )
-}
+})

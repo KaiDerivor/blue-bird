@@ -1,6 +1,8 @@
+import React from 'react'
 import Container from "@mui/material/Container"
 import Box from '@mui/material/Box'
 import AgricultureIcon from '@mui/icons-material/Agriculture';
+//@ts-ignore
 import styles from './styles.module.scss'
 import Typography from '@mui/material/Typography'
 import List from '@mui/material/List';
@@ -14,7 +16,7 @@ import { getIsDarkMode } from "../../redux/appSelector";
 import { WavesDividerFullWidth } from "../common/WavesDividerFullWidth";
 
 
-export const Footer = () => {
+export const Footer = React.memo(() => {
    const isDarkMode = useSelector(getIsDarkMode);
    return (
       <>
@@ -64,4 +66,4 @@ export const Footer = () => {
       </>
 
    )
-}
+})

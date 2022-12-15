@@ -1,5 +1,7 @@
+import React from 'react'
 import Box from '@mui/material/Box'
 import { ItemGrid } from '../common/ItemGrid'
+//@ts-ignore
 import styles from './style.module.scss'
 import Typography from '@mui/material/Typography'
 
@@ -27,17 +29,17 @@ type SectionSavCategoryType = {
    listSavings: Array<ListItemSaveType>
 }
 
-export const SectionSavCategory: React.FC<SectionSavCategoryType> = ({ title, subtitle, listSavings }) => {
+export const SectionSavCategory: React.FC<SectionSavCategoryType> = React.memo(({ title, subtitle, listSavings }) => {
    const showAllItems = () => {
       let ret = [] as Array<JSX.Element>;
-      listSavings.map((item: ListItemSaveType,index:number) => {
+      listSavings.map((item: ListItemSaveType, index: number) => {
          ret.push(<ItemGrid key={index} text={item.subtitle} title={item.title} navLink={`/${item.category}/${item.id}`} imgUrl={item.imgUrl} />)
       })
       return ret;
    }
    return (
       <>
-         <Box sx={{pb:3}}>
+         <Box sx={{ pb: 3 }}>
 
             <Box sx={styleBoxTitle}>
                <Typography variant="h3" className={styles.listSavings_title} color="fpage.main">{title}</Typography>
@@ -52,4 +54,4 @@ export const SectionSavCategory: React.FC<SectionSavCategoryType> = ({ title, su
          </Box>
       </>
    )
-}
+})

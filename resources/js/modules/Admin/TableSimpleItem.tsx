@@ -7,14 +7,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { CategoryRecordType } from '../../redux/catReducer';
+import { CategoryRecordType, CategoryType } from '../../redux/catReducer';
 import Button from '@mui/material/Button';
 import { TagRecordType } from '../../redux/tagReducer';
 import { ButtonAddItem } from './ButtonAddItem';
-import { Formik, Field, Form } from 'formik';
-//@ts-ignore
-import styles from './style.module.scss'
-import { ButtonSubmit } from '../Auth/ButtonSubmit';
 import { DialogFormTags } from './DialogFormTags';
 import { DialogFormCategories } from './DialogFormCategories';
 import { DialogFormEvents } from './DialogFormEvents';
@@ -71,12 +67,12 @@ const dilaogForms = {
    }
 }
 type TableItemsType = {
-   list: Array<CategoryRecordType | TagRecordType | EventRecordType>
+   list: Array<CategoryType | TagRecordType | EventRecordType>
    setSwitchHandler: (arg1: string) => void
    handleConfirm: (id?: number, field?: CategoryRecordType | TagRecordType | EventRecordType) => void
    typeDialog: string
 }
-export const TableSimpleItem: React.FC<TableItemsType> = ({ list, setSwitchHandler, handleConfirm, typeDialog }) => {
+export const TableSimpleItem: React.FC<TableItemsType> = React.memo(({ list, setSwitchHandler, handleConfirm, typeDialog }) => {
 
    const [openDilaog, setOpenDialog] = useState(false)
    const [itemId, setItemId] = useState<number | undefined>(0)
@@ -147,4 +143,4 @@ export const TableSimpleItem: React.FC<TableItemsType> = ({ list, setSwitchHandl
          {renderDialogForm()}
       </>
    );
-}
+})

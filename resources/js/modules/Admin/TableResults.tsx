@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -10,10 +10,6 @@ import Paper from '@mui/material/Paper';
 import { CategoryRecordType } from '../../redux/catReducer';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
 import { TagRecordType } from '../../redux/tagReducer';
 import { ButtonAddItem } from './ButtonAddItem';
 import { Formik, Field, Form } from 'formik';
@@ -31,12 +27,7 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
-import Slide from '@mui/material/Slide';
-import { TransitionProps } from '@mui/material/transitions';
-import { useDispatch } from 'react-redux';
 import Box from '@mui/material/Box'
-import { TaskForm } from './TaskForm';
-import { TaskRecordType } from '../../redux/taskReducer';
 import { SearchBarCategoryTag } from './SearchBarCategoryTag';
 
 const default200 = '{\n"0": "100", \n"1": "100", \n"2": "100", \n"3": "100", \n"4": "100", \n"5": "100", \n"6": "100", \n"7": "100", \n"8": "100", \n"9": "100", \n"10": "100", \n"11": "100", \n"12": "100", \n"13": "100", \n"14": "100", \n"15": "100", \n"16": "100", \n"17": "100", \n"18": "100", \n"19": "100", \n"20": "100", \n"21": "100", \n"22": "100", \n"23": "100", \n"24": "100", \n"25": "100", \n"26": "100", \n"27": "100", \n"28": "100", \n"29": "100", \n"30": "100", \n"31": "100", \n"32": "100", \n"33": "100", \n"34": "100", \n"35": "100", \n"36": "100", \n"37": "100", \n"38": "100", \n"39": "100", \n"40": "100", \n"41": "100", \n"42": "100", \n"43": "100", \n"44": "100", \n"45": "100", \n"46": "100", \n"47": "100", \n"48": "100", \n"49": "100", \n"50": "100", \n"51": "100", \n"52": "100", \n"53": "100", \n"54": "100", \n"55": "100", \n"56": "100", \n"57": "100", \n"58": "100", \n"59": "100", \n"60": "100", \n"61": "100", \n"62": "100"\n}'

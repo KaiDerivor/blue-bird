@@ -34,12 +34,17 @@ Route::group(['namespace' => 'App\Http\Controllers\User', 'prefix' => 'auth'], f
 
     Route::post('register', 'StoreController');
     Route::patch('me', 'UpdateController');
-    Route::get('info', "IndexController");
+    // Route::get('info', "IndexController");
 });
-Route::group(['namespace' => 'App\Http\Controllers\User', 'prefix' => 'auth', 'middleware' => ['auth']], function () {
+Route::group(['namespace' => 'App\Http\Controllers\User', 'prefix' => 'auth', 'middleware' => ['jwt.auth', 'auth']], function () {
     Route::patch('/users/{user}', "UpdateController")->name('admin.user.update');
+    // Route::get('info', "IndexController");
+});
+
+Route::group(['namespace' => 'App\Http\Controllers\User', 'prefix' => 'auth', 'middleware' => ['api','auth']], function () {
     Route::get('info', "IndexController");
 });
+
 Route::group([
     'namespace' => 'App\Http\Controllers\Admin',
     'prefix' => 'admin',

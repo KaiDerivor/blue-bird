@@ -6,7 +6,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { getTagsInit, TagRecordType } from '../../redux/tagReducer';
+import { getTagsInit } from '../../redux/tagReducer';
 import { Formik, Field, Form } from 'formik';
 //@ts-ignore
 import styles from './style.module.scss'
@@ -20,7 +20,6 @@ import { ButtonSubmit } from '../Auth/ButtonSubmit';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTags } from '../../redux/appSelector';
 import { AppDispatch } from '../../redux/store';
-import { getTasksInit } from '../../redux/taskReducer';
 
 type DialogFormCategoryType = {
    openDilaog: boolean
