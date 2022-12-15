@@ -79,7 +79,8 @@ const appReducer = (state = initialState, action: ActionsTypes): StateType => {
       case LOGOUT: {
          return {
             ...state,
-            isInit: false
+            isInit: false,
+            isSetData:false
          }
       }
       case SET_THEME: {

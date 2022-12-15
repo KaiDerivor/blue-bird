@@ -14,7 +14,6 @@ import FolderSharedIcon from '@mui/icons-material/FolderShared';
 import ClassIcon from '@mui/icons-material/Class';
 import AppsIcon from '@mui/icons-material/Apps';
 import LightModeIcon from '@mui/icons-material/LightMode';
-import { Button } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import { useState } from 'react';
@@ -35,16 +34,16 @@ export const MenuItem: React.FC<MenuItemType> = ({ linkUrl, linkText, Icon }) =>
    const themeMod = useSelector(getIsDarkMode);
    return (
       <ListItem disablePadding>
-         <ListItemButton className={styles.listMenu__item}>
-            <NavLink to={`/${linkUrl}`} className={`${styles.link} ${themeMod ? styles.dark : styles.light}`}>
+         <NavLink to={`/${linkUrl}`} className={`${styles.link} ${themeMod ? styles.dark : styles.light}`}>
+            <ListItemButton className={styles.listMenu__item}>
                <ListItemIcon className={styles.listMenu__itemIcon}>
                   {Icon}
                </ListItemIcon>
                <ListItemText primary={
                   <Typography variant="caption" color="info" noWrap>{linkText}</Typography>
                } />
-            </NavLink>
-         </ListItemButton>
+            </ListItemButton>
+         </NavLink>
       </ListItem>
    )
 }
@@ -82,14 +81,14 @@ export const SideBarLargeScreen: React.FC<SideBarType> = ({ toggleThemeMod }) =>
          variant="permanent"
          anchor="left"
       >
-         <List className={styles.listMenu} dense sx={{ flexGrow: 1, mt: 2 }}>
+         <List className={styles.listMenu}  sx={{ flexGrow: 1, }}>
             <MenuItem linkUrl='' linkText="Головна" Icon={<HubIcon sx={{ color: 'fmenu.main' }} />} />
             <MenuItem linkUrl='profile' linkText="Профіль" Icon={<FolderSharedIcon sx={{ color: 'fmenu.main' }} />} />
             <MenuItem linkUrl='savings' linkText="Збережені" Icon={<ClassIcon sx={{ color: 'fmenu.main' }} />} />
             <MenuItem linkUrl='courses' linkText="Курси" Icon={<AppsIcon sx={{ color: 'fmenu.main' }} />} />
             {userRole === 'admin' && <>
                <MenuItem linkUrl='admin' linkText="Admin" Icon={<AppsIcon sx={{ color: 'fmenu.main' }} />} />
-             
+
 
             </>}
          </List>

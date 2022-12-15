@@ -1,98 +1,102 @@
 .listMenu {
-   overflow: hidden;
-   display: flex;
-   flex-direction: column;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
 
-   &__item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-   }
+    &__item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
 
-   .link {
-      text-decoration: none;
+    .link {
+        text-decoration: none;
+        width: 100%;
+        padding: 5px 0;
 
-      &.light {
-         color: #757575;
-      }
+        &.light {
+            color: #757575;
+        }
 
-      &.dark {
-         color: #fff;
-      }
-   }
+        &.dark {
+            color: #fff;
+        }
+    }
 
-   &__itemIcon {
-      // background-color: red;
-      margin: 0 auto;
-      width: 100%;
-      justify-content: center;
-      min-width: auto !important;
-   }
+    &__itemIcon {
+        // background-color: red;
+        margin: 0 auto;
+        width: 100%;
+        justify-content: center;
+        min-width: auto !important;
+    }
 
 }
 
 .switcher {
-   border-radius: 50% !important;
-   aspect-ratio: 1/1 !important;
-   border: 2px solid rgb(128, 128, 128) !important;
-   display: flex;
-   flex-direction: column;
-   overflow: hidden !important;
-   gap: 10px;
-   position: relative !important;
-   display: block !important;
-   transition: all 0.5s;
+    border-radius: 50% !important;
+    aspect-ratio: 1/1 !important;
+    border: 2px solid rgb(128, 128, 128) !important;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden !important;
+    gap: 10px;
+    position: relative !important;
+    display: block !important;
+    transition: all 0.5s;
 
-   &_lightMode {
-      .darkIncon {
-         transform: translate(-50%, 100px) !important;
-      }
+    &_lightMode {
+        .darkIncon {
+            transform: translate(-50%, 100px) !important;
+        }
 
-      .lightIcon {
-         transform: translate(-50%, -50%) !important;
-      }
-   }
+        .lightIcon {
+            transform: translate(-50%, -50%) !important;
+        }
+    }
 
-   .darkIncon,
-   .lightIcon {
-      position: absolute !important;
-      left: 50%;
-      top: 50%;
+    .darkIncon,
+    .lightIcon {
+        position: absolute !important;
+        left: 50%;
+        top: 50%;
 
-      transition: all 0.5s;
-   }
+        transition: all 0.5s;
+    }
 
-   .darkIncon {
-      transform: translate(-50%, -50%);
-   }
+    .darkIncon {
+        transform: translate(-50%, -50%);
+    }
 
-   .lightIcon {
-      transform: translate(-50%, 100px);
-   }
+    .lightIcon {
+        transform: translate(-50%, 100px);
+    }
 
 }
 
 .buttonNavigate {
-   display: block;
-   width: 100%;
+    display: block;
+    width: 100%;
 
-   &.hoverEffect {
-      cursor: pointer;
-      &:hover {
-         background-color: rgba(148, 148, 148, 0.589);
-         transition: all 0.2s;
-      }
+    &.hoverEffect {
+        cursor: pointer;
 
-   }
-   .icon{
-      position: absolute;
-      height: 100%;
-      right: 25px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      top:50%;
-      transform:translateY(-50%);
-   }
+        &:hover {
+            background-color: rgba(148, 148, 148, 0.589);
+            transition: all 0.2s;
+        }
+
+    }
+
+    .icon {
+        position: absolute;
+        height: 100%;
+        right: 25px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        top: 50%;
+        transform: translateY(-50%);
+    }
 }
