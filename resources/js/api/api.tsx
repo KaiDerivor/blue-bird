@@ -15,7 +15,7 @@ const instance = axios.create({
     // 'content-type': 'multipart/form-data' // do not forget this 
   },
 });
-const apiR = axios.create();
+
 instance.interceptors.request.use(
   (config) => {
     if (localStorage.access_token) {
@@ -37,7 +37,7 @@ instance.interceptors.response.use(
   (error) => {
     if (error?.response?.status === 401) {
       if (localStorage.getItem('access_token')) {
-        instance.post("auth/refresh", {}, {
+       return instance.post("auth/refresh", {}, {
           headers: {
             'authorization': `Bearer ${localStorage.getItem('access_token')}`,
           }
@@ -47,7 +47,6 @@ instance.interceptors.response.use(
           error.config.headers.authorization = `Bearer ${response.data.access_token}`;
           return instance.request(error.config);
         });
-        return
       }
     }
     else if (error?.response?.data.message === 'The token has been blacklisted') {

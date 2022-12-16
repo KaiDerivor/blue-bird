@@ -29,7 +29,7 @@ export const HomeContent: React.FC<HomeContentType> = React.memo(({ blocks }) =>
          const coordBlock2 = blocks[1].current.getBoundingClientRect().top;
          const coordBlock3 = blocks[2].current.getBoundingClientRect().top;
 
-         const triggerStart = window.innerHeight * 1.25;
+         const triggerStart = window.innerHeight * 1.18;
          scrollBlock3 = coordBlock3;
          if (coordBlock3 < triggerStart) {
             fadeNumberImg !== 2 && setFadeNumberImg(2)

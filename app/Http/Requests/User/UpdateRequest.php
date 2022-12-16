@@ -31,7 +31,8 @@ class UpdateRequest extends FormRequest
             'likedTasks.*' => 'numeric',
             'likedCategories' => 'array|max:5',
             'likedCategories.*' => 'numeric',
-            'chart' => 'json'
+            'chart' => 'json',
+            'password'=>'string'
         ];
     }
 }

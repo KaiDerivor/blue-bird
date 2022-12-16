@@ -188,8 +188,9 @@ export type FormDataRegType = {
    password_confirmation: string
 }
 export type FormDataMeUpdateType = {
-   name?: StringDecoder
+   name?: string
    email?: string
+   password?:string
    likedTasks?: Array<number>
    chart?: JSON
 }

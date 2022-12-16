@@ -27,11 +27,10 @@ const FormLog = () => {
    }, [errorText])
 
    useEffect(() => {
-      console.log(isSetData)
       if (isSetData) {
          setIsRedirect(true)
       }
-   }, [isSubmiting])
+   }, [isSubmiting, isSetData])
 
    return (
       <>

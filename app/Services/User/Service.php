@@ -4,19 +4,18 @@ namespace App\Services\User;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class Service
 {
    public function update($data)
    {
       $user = User::find(auth()->user()->id);
-      // $chart = (array) json_decode($data['chart']);
       $chart = (array) json_decode($user->chart);
-      // $chart=$user->chart;
-      // dd($chart);
-      // dd(array_key_exists(1,$chart));
       $likedCategories = [];
-
+      if (isset($data['password'])) {
+         $data['passsword'] = Hash::make($data['passsword']);
+      }
       if (isset($data['likedTasks'])) {
          $likedTasks = $data['likedTasks'];
 
@@ -36,7 +35,7 @@ class Service
                $chart[$value] = [];
             }
          }
-       
+
          $data['chart'] = json_encode($chart);
          unset($data['likedCategories']);
          $user->categories()->sync($likedCategories);

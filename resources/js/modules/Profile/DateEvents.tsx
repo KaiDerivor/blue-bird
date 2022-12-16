@@ -48,7 +48,7 @@ export const DateEvents = React.memo(() => {
             isUpdateSetted = true;
             elementButtons.push(<ButtonInform key={event.id} title={event.title} subtitle={event.description} />)
          } else {
-            likedCategories.includes(event.id)
+            likedCategories.includes(event.categoryId)
                ? elementButtons.push(<ButtonInform key={event.id} title={event.title} subtitle={event.description} />)
                : elementButtonsHidden.push(<ButtonInform key={event.id} title={event.title} subtitle={event.description} />)
          }

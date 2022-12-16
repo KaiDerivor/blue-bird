@@ -117,7 +117,7 @@ function App() {
             <Box
               component="main"
               position={'relative'}
-              sx={{ flexGrow: 1, bgcolor: 'background.default', p: 1 }}
+              sx={{ flexGrow: 1, bgcolor: 'background.default' }}
             >
               <AlertBox />
 

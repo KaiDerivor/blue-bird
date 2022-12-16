@@ -1,4 +1,5 @@
-$index:calc(1vh + 1vw);
+@import './../../app.global.module.scss'
+;
 
 .wrapperMain,
 .wrapperSide {
@@ -11,7 +12,6 @@ $index:calc(1vh + 1vw);
 }
 
 .wrapperSide {
-    padding: 25px 15px;
     width: 35%;
 }
 
@@ -52,6 +52,41 @@ $index:calc(1vh + 1vw);
 
 }
 
+.formWrapper {
+    font-size: 0.9em;
+
+    &__box {
+        display: flex;
+        justify-self: center;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        padding-bottom: 15px;
+        gap: 0.6em;
+    }
+
+    &__field {
+        border-radius: $border-radius-secondary2;
+        padding: 5px;
+        border: 2px solid;
+    }
+}
+
+.titleButton {
+    text-transform: none !important;
+    width: 100% !important;
+    padding-left: 0;
+    padding-top: 5px;
+    padding-bottom: 10px;
+    line-height: 1;
+}
+.alignLeft{
+    display: block;
+    margin-left: auto;
+    text-align: right;
+    color: inherit;
+
+}
+
 /***************************
 ****************************
 **********Adaptive**********
@@ -80,11 +115,31 @@ $index:calc(1vh + 1vw);
         min-height: auto;
     }
 
+    .formWrapper {
+        &__box {
+            flex-wrap: nowrap;
+        }
+
+        &__fieldWrapper {
+            width: 100%;
+        }
+
+        &__field {
+            width: 100%;
+        }
+    }
 }
 
 @media (max-width: 768px) {
     .listSelected {
         grid-template-columns: repeat(1, 1fr);
+    }
+
+    .formWrapper {
+        &__box {
+            flex-wrap: wrap;
+        }
+
     }
 }
 

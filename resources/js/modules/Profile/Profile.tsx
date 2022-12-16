@@ -21,16 +21,16 @@ const Profile = React.memo(() => {
       )
    }
    return (
-      <Container maxWidth="xl" >
+      <Container maxWidth="xl" sx={{pb:3}} >
          <Fade in={true} timeout={500} style={{ transitionDelay: '500ms' }}>
-            <Box sx={{ display: 'flex' }} className={styles.profileWrapper}>
+            <Box sx={{ display: 'flex', gap: 3 }} className={styles.profileWrapper}>
                <Box className={styles.wrapperMain} sx={{ pr: 2 }}>
                   <Greetings />
                   <MainChapter />
                   <SelectedCourses />
                   {/* <NotFinished /> */}
                </Box>
-               <Box className={styles.wrapperSide}>
+               <Box className={styles.wrapperSide} sx={{mt:2}}>
                   <DateEvents />
                   <Preference />
                </Box>
