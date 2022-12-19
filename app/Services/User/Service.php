@@ -10,6 +10,9 @@ class Service
 {
    public function update($data)
    {
+      if (auth()->user() == null) {
+         abort(401);
+      }
       $user = User::find(auth()->user()->id);
       $chart = (array) json_decode($user->chart);
       $likedCategories = [];
@@ -24,19 +27,6 @@ class Service
       }
       if (isset($data['likedCategories'])) {
          $likedCategories = $data['likedCategories'];
-         $chartKeys = array_keys($chart);
-         foreach ($chartKeys as $key) {
-            if (!in_array($key, $likedCategories)) {
-               unset($chart[$key]);
-            }
-         }
-         foreach ($likedCategories as  $value) {
-            if (!in_array($value, array_values($chartKeys))) {
-               $chart[$value] = [];
-            }
-         }
-
-         $data['chart'] = json_encode($chart);
          unset($data['likedCategories']);
          $user->categories()->sync($likedCategories);
       }

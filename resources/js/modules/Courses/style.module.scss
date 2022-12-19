@@ -1,3 +1,5 @@
+@import './../../app.global.module.scss';
+
 $index:calc(1vh + 1vw);
 
 .listSavings {
@@ -77,15 +79,23 @@ $index:calc(1vh + 1vw);
         }
 
         &__error+span.marker {
+
+            // &__dark,
+            // &__light {
             border-color: rgb(255, 0, 0);
 
             &::after,
             &::before {
                 background-color: rgb(255, 0, 0);
             }
+
+            // }
         }
 
         &__correct+span.marker {
+
+            // &__dark,
+            // &__light {
             border-color: rgb(0, 255, 0);
 
             &::after,
@@ -93,31 +103,54 @@ $index:calc(1vh + 1vw);
                 background-color: rgb(0, 255, 0);
 
             }
+
+            // }
         }
 
         &:checked+span.marker {
-            border-color: #fff;
 
-            &::after,
-            &::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                width: 3px;
-                height: 200%;
-                background-color: #fff;
-                transform-origin: top;
+            &__dark,
+            &__light {
+
+                &::after,
+                &::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    width: 3px;
+                    height: 200%;
+                    background-color: rgb(0, 0, 0);
+                    transform-origin: top;
+                }
+
+                &::after {
+                    transform: rotate(-45deg) translateY(-3%);
+                    left: 0;
+                }
+
+                &::before {
+
+                    right: 0;
+                    transform: rotate(45deg) translateY(-3%);
+                }
             }
 
-            &::after {
-                transform: rotate(-45deg) translateY(-3%);
-                left: 0;
+            &__light {
+                border-color: rgb(0, 0, 0);
+
+                &::after,
+                &::before {
+                    background-color: rgb(0, 0, 0);
+                }
             }
 
-            &::before {
+            &__dark {
+                border-color: #fff;
 
-                right: 0;
-                transform: rotate(45deg) translateY(-3%);
+                &::after,
+                &::before {
+                    background-color: #fff;
+                }
             }
         }
     }
@@ -175,7 +208,6 @@ $index:calc(1vh + 1vw);
         display: none;
     }
 
-    /* Hide scrollbar for IE, Edge and Firefox */
     & {
         -ms-overflow-style: none;
         /* IE and Edge */
@@ -184,10 +216,53 @@ $index:calc(1vh + 1vw);
     }
 
 }
-.markNumberTask{
-    // width: fit-content;
-    padding: 4px 10px ;
+
+.markNumberTask {
+    padding: 4px 10px;
 }
+
+.wrapperButtons {
+
+    .button2Task {
+        max-width: 60px;
+        min-width: auto !important;
+    }
+}
+
+.navigationTest {
+    --height-from-top: 10px;
+    display: flex;
+    border-radius: $border-radius-primary;
+    z-index: 1;
+    position: sticky;
+    top: var(--height-from-top);
+    transition: all 10.6s !important;
+    margin: 0 auto;
+
+    &._stick {
+        height: 50px;
+        width: 90%;
+        transition: all 0.6s;
+        animation: apeareFromTop 0.6s;
+    }
+
+    &__link {
+        display: block;
+        width: 100%;
+    }
+
+    &__button {
+        display: inline-flex;
+        width: 100%;
+        height: 100%;
+        text-transform: none !important;
+        padding: 20px 0;
+        border-radius: $border-radius-primary;
+        border: 1px solid transparent;
+
+    }
+}
+
 /***************************
 ****************************
 **********Adaptive**********
@@ -223,7 +298,7 @@ $index:calc(1vh + 1vw);
     }
 }
 
-@media (max-width: 576px) {
+@media (max-width: 600px) {
     .listSavings {
         display: grid;
         grid-template-columns: repeat(1, 1fr);
@@ -241,6 +316,90 @@ $index:calc(1vh + 1vw);
             height: 35px;
         }
     }
+
+    .wrapperButtons {
+
+        &__blurSideLigth,
+        &__blurSideDark {
+            position: relative;
+
+            &::after,
+            &::before {
+                content: '';
+                top: 0;
+                position: absolute;
+                height: 100%;
+                width: 50px;
+                z-index: 1;
+            }
+
+            &::after {
+                // background: rgb(102, 102, 102);
+
+                right: 0;
+            }
+
+            &::before {
+                // background: rgb(102, 102, 102);
+                left: 0;
+            }
+        }
+
+        &__blurSideLight {
+            &::after {
+                background: rgb(255, 255, 255);
+                background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.58) 100%);
+            }
+
+            &::before {
+                background: rgb(255, 255, 255);
+                background: linear-gradient(90deg, rgba(255, 255, 255, 0.58) 0%, rgba(255, 255, 255, 0) 100%);
+            }
+        }
+
+        &__blurSideDark {
+
+            &::after {
+                background: rgb(102, 102, 102);
+                background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(102, 102, 102, 0.58) 100%);
+            }
+
+            &::before {
+                background: rgb(102, 102, 102);
+                background: linear-gradient(90deg, rgba(102, 102, 102, 0.58) 0%, rgba(102, 102, 102, 0) 100%);
+            }
+        }
+
+        &__range {
+            flex-wrap: nowrap;
+            display: flex;
+            overflow-y: scroll;
+            position: relative;
+            scroll-behavior: smooth;
+            padding: 0 40px;
+        }
+
+        .button2Task {
+            max-width: 40px;
+            min-width: auto !important;
+        }
+    }
 }
 
 @media (max-width: 375px) {}
+
+
+@keyframes apeareFromTop {
+    from {
+        top: -50px;
+        width: 100%;
+        height: 70px;
+
+    }
+
+    to {
+        top: var(--height-from-top);
+        width: 90%;
+        height: 50px;
+    }
+}

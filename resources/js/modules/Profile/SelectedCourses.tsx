@@ -35,7 +35,7 @@ export const SelectedCourses = React.memo(() => {
       <>
          {likedCategories.length > 0 &&
             <Box sx={{ mb: 4 }}>
-               <Typography variant="h3" color="fpage.main" sx={{ pb: 3 }}>Збережені курси</Typography>
+               <Typography variant="h4" color="fpage.main" sx={{ pb: 3 }}>Збережені курси</Typography>
                <Box className={styles.listSelected}>
                   {renderSavingsCategories()}
                </Box>

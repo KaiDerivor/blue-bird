@@ -4,8 +4,9 @@ import Box from '@mui/material/Box'
 //@ts-ignore
 import styles from './style.module.scss'
 import Typography from '@mui/material/Typography'
-import { Button } from '@mui/material'
-import { ButtonTask } from './ButtonTask'
+import { lettersOfAnswers } from '../../redux/taskReducer'
+import { useSelector } from 'react-redux'
+import { getIsDarkMode } from '../../redux/appSelector'
 
 export const CheckLetter: React.FC<AnswerComponentType> = ({ task, handleChange, userAnswers, isAsAnswer = false }) => {
    const refA = createRef<HTMLInputElement>()
@@ -14,6 +15,8 @@ export const CheckLetter: React.FC<AnswerComponentType> = ({ task, handleChange,
    const refD = createRef<HTMLInputElement>()
    const refE = createRef<HTMLInputElement>()
    const refK = createRef<HTMLInputElement>()
+
+   const isDarkMode = useSelector(getIsDarkMode)
 
    const isCorrect = userAnswers[task.number_of_task] === task.answer
 
@@ -117,6 +120,7 @@ export const CheckLetter: React.FC<AnswerComponentType> = ({ task, handleChange,
                   {task.task_type === 'letter4' || task.task_type === 'letter5' && <th>Д</th>}
                </tr>
                   <tr>
+
                      <td>
                         <label className={styles.wrapperRadio}>
                            <input ref={refA} type="radio" value="А"
@@ -124,7 +128,7 @@ export const CheckLetter: React.FC<AnswerComponentType> = ({ task, handleChange,
                               onChange={(el) => handleChange(el.target.value)}
                               name={`${task.number_of_task}`}
                               className={styles.radioField} />
-                           <span className={styles.marker}></span>
+                           <span className={`${styles.marker} ${isDarkMode ? styles.marker__dark : styles.marker__light}`}></span>
                         </label>
                      </td>
                      <td>
@@ -133,7 +137,7 @@ export const CheckLetter: React.FC<AnswerComponentType> = ({ task, handleChange,
                               onChange={(el) => handleChange(el.target.value)}
                               disabled={isAsAnswer}
                               name={`${task.number_of_task}`} className={styles.radioField} />
-                           <span className={styles.marker}></span>
+                           <span className={`${styles.marker} ${isDarkMode ? styles.marker__dark : styles.marker__light}`}></span>
                         </label>
                      </td>
                      <td>
@@ -142,7 +146,7 @@ export const CheckLetter: React.FC<AnswerComponentType> = ({ task, handleChange,
                               disabled={isAsAnswer}
                               onChange={(el) => handleChange(el.target.value)}
                               name={`${task.number_of_task}`} className={styles.radioField} />
-                           <span className={styles.marker}></span>
+                           <span className={`${styles.marker} ${isDarkMode ? styles.marker__dark : styles.marker__light}`}></span>
                         </label>
                      </td>
                      <td>
@@ -151,7 +155,7 @@ export const CheckLetter: React.FC<AnswerComponentType> = ({ task, handleChange,
                               disabled={isAsAnswer}
                               onChange={(el) => handleChange(el.target.value)}
                               name={`${task.number_of_task}`} className={styles.radioField} />
-                           <span className={styles.marker}></span>
+                           <span className={`${styles.marker} ${isDarkMode ? styles.marker__dark : styles.marker__light}`}></span>
                         </label>
                      </td>
                      {task.task_type === 'letter4' || task.task_type === 'letter5' &&
@@ -161,7 +165,7 @@ export const CheckLetter: React.FC<AnswerComponentType> = ({ task, handleChange,
                                  disabled={isAsAnswer}
                                  onChange={(el) => handleChange(el.target.value)}
                                  name={`${task.number_of_task}`} className={styles.radioField} />
-                              <span className={styles.marker}></span>
+                              <span className={`${styles.marker} ${isDarkMode ? styles.marker__dark : styles.marker__light}`}></span>
                            </label>
                         </td>
                      }
@@ -171,7 +175,7 @@ export const CheckLetter: React.FC<AnswerComponentType> = ({ task, handleChange,
             </table>
             <Box sx={{ mb: 3 }}>
                <input ref={refK} type="radio" value="K" hidden
-                  onChange={(el) => handleChange(el.target.value)} name={`${task.number_of_task}`} className={styles.radioField} /><span className={styles.marker}></span>
+                  onChange={(el) => handleChange(el.target.value)} name={`${task.number_of_task}`} className={styles.radioField} />
             </Box>
             {isAsAnswer &&
                <>
@@ -180,7 +184,7 @@ export const CheckLetter: React.FC<AnswerComponentType> = ({ task, handleChange,
                         Кількість балів: <strong>{isCorrect ? '1' : '0'}</strong>
                      </Typography>
                   </Box>
-                
+
                </>
             }
          </Box >

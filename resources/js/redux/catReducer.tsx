@@ -3,7 +3,7 @@ import { ThunkAction } from "redux-thunk";
 import { api } from "../api/api";
 import { appActions } from "./appReducer";
 import store, { AppStateType, InferActionsTypes } from "./store";
-import { TagRecordType } from "./tagReducer";
+import { TagRecordType, TagType } from "./tagReducer";
 
 const INIT = 'cat/INIT'
 const SET_ERROR_MESSAGE = 'app/SET_ERROR_MESSAGE'
@@ -26,7 +26,7 @@ export type CategoryType = {
    description?: string
    img?: any,
    textUrl: string,
-   tags?: Array<TagRecordType>
+   tags: TagType[]
 }
 export type CategoryTagType = {
    id: number

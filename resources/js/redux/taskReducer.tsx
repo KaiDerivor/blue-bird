@@ -124,7 +124,6 @@ const taskReducer = (state = initialState, action: ActionsTypes): StateType => {
          }
       }
       case UPDATE_RESULTS_TABLE: {
-         debugger
          let isSetted = false;
          for (let i = 0; i < state.results.length; i++) {
             if (state.results[i].id === action.result.id) {

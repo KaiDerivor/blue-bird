@@ -173,10 +173,6 @@ export const ResultDialog: React.FC<FormDialogType> = ({
    const handleCloseForm = () => {
       setOpenDialog(false);
    };
-   // if (isDeleteConfirm) {
-   //    return <DialogConfirm handleClose={handleCloseForm} handleConfirm={handleConfirmForm} openDilaog={openDilaog} />
-   // }
-   // const rende
    return (
       <div>
 
@@ -221,6 +217,7 @@ export const ResultDialog: React.FC<FormDialogType> = ({
                               value12: { ...JSON.parse(values.value12) }
                            })
                         }
+                        console.log(formData)
                         handleConfirmForm(formData)
                      }}
                   >

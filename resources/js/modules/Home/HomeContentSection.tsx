@@ -27,7 +27,7 @@ export const HomeContentSection: React.FC<HomeContentSectionType> = React.memo((
             {text !== '' && <Typography variant="body1" color="inherit">{text}</Typography>}
             <div ref={refB}></div>
 
-            <Box sx={{ pl: 1 }}>
+            <Box >
                {buttonsTitle.map((title, index) => {
                   return <ButtonNavigate key={index} title={title} subtitle={buttonsSubtitle[index]} icon={<AddRoadIcon />} />
                })}

@@ -192,6 +192,6 @@ export type FormDataMeUpdateType = {
    email?: string
    password?:string
    likedTasks?: Array<number>
-   chart?: JSON
+   chart?: string
 }
 export type AppThemesType = 'RED' | 'GREEN' | 'YELLOW' | 'PURPLE';

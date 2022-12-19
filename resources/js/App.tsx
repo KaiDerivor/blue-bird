@@ -122,7 +122,7 @@ function App() {
               <AlertBox />
 
               {/* <Loader /> */}
-              <Box sx={{}}>
+              <Box sx={{pr:1,pl:1,pt:1}}>
                 <Routes>
                   <Route path='/' element={
                     <Suspense fallback={<Loader />}>

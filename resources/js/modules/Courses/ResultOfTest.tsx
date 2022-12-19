@@ -2,18 +2,20 @@ import React, { createRef, useEffect, useRef, useState } from 'react';
 import Box from '@mui/material/Box'
 import Fade from '@mui/material/Fade'
 import { getResultTableInit, TaskType } from '../../redux/taskReducer';
-import { AnswerField } from './AnswerField';
-import { URL_STORAGE } from '../../redux/appReducer';
+//@ts-ignore
+import styles from './style.module.scss'
 import { CategoryRecordType, getCategoryTagsInit } from '../../redux/catReducer';
 import { TagRecordType } from '../../redux/tagReducer';
-import { AppDispatch } from '../../redux/store';
 import { useDispatch, useSelector } from "react-redux"
 import { getCategoryTagList, getResultTables, getTableOfResult } from '../../redux/appSelector';
 import Typography from '@mui/material/Typography'
 import { TaskComponent } from './Task';
 import { Button } from '@mui/material';
-import { tab } from '@testing-library/user-event/dist/types/setup/directApi';
 import { defineTaskPoint } from '../utils/defineTaskPoint';
+import ListAltIcon from '@mui/icons-material/ListAlt';
+import { NavLink } from 'react-router-dom';
+import LowPriorityIcon from '@mui/icons-material/LowPriority';
+import FeaturedPlayListIcon from '@mui/icons-material/FeaturedPlayList';
 
 type ResultOfTestType = {
    currCategory: CategoryRecordType
@@ -31,17 +33,12 @@ export const ResultOfTest: React.FC<ResultOfTestType> = ({ currCategory, test, u
    const [maxPointTest, setMaxPoint] = useState(0)
    const [userPoint, setUserPoint] = useState(0)
 
-
    useEffect(() => {
       return () => {
          if (currCategory.id !== undefined && currTag.id !== undefined) {
-
-            //@ts-ignore
-            // dispatch(getResultTableInit(`${currCategory.id}`, `${currTag.id}`))
             dispatch(getCategoryTagsInit(`${currCategory.id}`, `${currTag.id}`))
          }
       }
-
    }, [currCategory, currTag])
 
    useEffect(() => {
@@ -133,15 +130,74 @@ export const ResultOfTest: React.FC<ResultOfTestType> = ({ currCategory, test, u
                   <Typography variant="subtitle1" color="inherit">  Ваш рейтинговий бал: <strong>{defineRating()} </strong>з 200 можливих.</Typography>
                   <Typography variant="subtitle1" color="inherit"> Витрачено часу: <strong>{getWastedTime()}</strong> з {categoryTagInfo?.maxTime && categoryTagInfo.maxTime} запропонованих</Typography>
                </Box>
-               <Box>
-                  Усі завдання з цього предмета
-                  <Button variant='outlined' onClick={() => { startTestAgainHandler() }} >Again?</Button>
-               </Box>
-               <Box>
+               <NavigationTest startTestAgainHandler={startTestAgainHandler} />
+               <Box sx={{pt:3}}>
                   {displayAllTasks()}
                </Box>
             </Box>
          </Fade>
       </>
    )
+}
+
+type NavigationTestType = {
+   startTestAgainHandler: () => void
+}
+export const NavigationTest: React.FC<NavigationTestType> = ({ startTestAgainHandler }) => {
+
+   const refNav = useRef<HTMLDivElement>(null)
+   useEffect(() => {
+      const handleScroll = () => {
+         if (refNav.current && refNav.current.getBoundingClientRect().top <20) {
+            refNav.current.classList.add(styles._stick)
+         } else if (refNav.current) {
+            refNav.current.classList.remove(styles._stick)
+         }
+      }
+      window.addEventListener('scroll', handleScroll)
+      return () => {
+         window.removeEventListener('scroll', handleScroll)
+      }
+   }, [])
+   return <Box ref={refNav} className={`${styles.navigationTest}`} data-is-sticky='false'
+      sx={{
+         backgroundColor: 'bgmode.light',
+         borderRadius: 3,
+         color: 'fpage.light'
+      }}>
+      <ButtonNavigation linkUrl='/' Icon={<ListAltIcon />} linkText={
+         <Typography variant="h6" color="inherit">Усі <strong>завдання</strong> з цього предмета</Typography>
+      } />
+      <ButtonNavigation linkUrl='/' Icon={<LowPriorityIcon />} linkText={
+         <Typography variant="h6" color="inherit">Пройти тест ще раз</Typography>
+      } />
+      <ButtonNavigation linkUrl='/' Icon={<FeaturedPlayListIcon />} linkText={
+         <Typography variant="h6" color="inherit">Усі <strong>завдання</strong> з цього предмета</Typography>
+      } />
+   </Box >
+}
+type ButtonNavigationType = {
+   linkText: JSX.Element
+   linkUrl: string
+   Icon: JSX.Element
+   fn?: () => void
+}
+const ButtonNavigation: React.FC<ButtonNavigationType> = ({ linkText, linkUrl, Icon, fn }) => {
+   return <NavLink className={styles.navigationTest__link} style={{ color: 'inherit' }} to={linkUrl}>
+      <Button className={styles.navigationTest__button} variant="outlined"
+         sx={{
+            color: 'inherit',
+            '&:hover': {
+               backgroundColor: 'bgmode.dark',
+               borderColor: 'fpage.light'
+            }
+         }}
+         startIcon={Icon}
+         onClick={() => { if (fn) fn() }}
+      >
+         <Typography variant="h6" color="inherit">
+            {linkText}
+         </Typography>
+      </Button>
+   </NavLink>
 }

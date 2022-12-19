@@ -19,7 +19,7 @@ type TaskComponentType = {
   setUserAnswers?: (value: any) => void
   userAnswers: Object
   isAsAnswer?: boolean
-  
+
 }
 export const TaskComponent: React.FC<TaskComponentType> = ({
   task, currCategory,
@@ -37,7 +37,7 @@ export const TaskComponent: React.FC<TaskComponentType> = ({
     taskQuestion = taskQA.taskQuestion
   }
   return (
-    <Box sx={{ color: 'fpage.main', pt: 4 }} key={task.id}>
+    <Box sx={{ color: 'fpage.main' }} key={task.id}>
       <Box sx={{ mb: 3 }}>
         <Divider textAlign="right">
           <Typography variant="subtitle1" color="inherit" className={styles.markNumberTask}
@@ -63,10 +63,11 @@ export const TaskComponent: React.FC<TaskComponentType> = ({
       }
       <Box sx={{}}>
         {
-          taskAnswers && taskAnswers.map((answerVariant, index) => {
-            return <Typography key={index} variant="body1" color="inherit">
-              {lettersOfAnswers[index]} {answerVariant}
-            </Typography>
+          taskAnswers.length > 0 && taskAnswers.map((answerVariant, index) => {
+            if (answerVariant)
+              return <Typography key={index} variant="body1" color="inherit">
+                {lettersOfAnswers[index]} {answerVariant}
+              </Typography>
           })
         }
       </Box>

@@ -80,11 +80,23 @@ const labelsMonth = ['Січень', 'Лютий', 'Березень', 'Квіт
 const dataOptionsColor = [
    {
       borderColor: 'rgb(255, 99, 132)',
-      backgroundColor: 'rgba(255, 99, 132, 0.5)',
+      backgroundColor: 'rgba(255, 99, 132, 0.5)'
    },
    {
-      borderColor: 'rgb(53, 162, 235)',
-      backgroundColor: 'rgba(53, 162, 235, 0.5)',
+      borderColor: 'rgb(130, 255, 99)',
+      backgroundColor: 'rgba(130, 255, 99, 0.5)'
+   },
+   {
+      borderColor: 'rgb(99, 245, 255)',
+      backgroundColor: 'rgba(99, 245, 255, 0.5)'
+   },
+   {
+      borderColor: 'rgb(255, 242, 53)',
+      backgroundColor: 'rgba(255, 242, 53, 0.5)'
+   },
+   {
+      borderColor: 'rgb(250, 51, 240)',
+      backgroundColor: 'rgba(250, 51, 240, 0.5)'
    }
 ]
 type DataChapterType = {
@@ -117,12 +129,13 @@ export const MainChapter: React.FC = React.memo(() => {
       });
       return vars
    }
-   let t = {}
+
    for (const key in chapter) {
       if (Object.prototype.hasOwnProperty.call(chapter, key)) {
+
          const element = chapter[key];
-         const recorded = mapFromObject(element)
-         // t[detectItem(key, categories)] = valuesFromObject({ ...initDataChart, ...recorded })
+         if(!element.isShow||element?.chart===undefined) continue;
+         const recorded = mapFromObject(element.chart)
          dataChapter.push({
             label: detectItem(key, categories),
             data: valuesFromObject({ ...initDataChart, ...recorded })
@@ -151,7 +164,7 @@ export const MainChapter: React.FC = React.memo(() => {
       }
       return dataOptions
    }
-   // console.log(setDataToChart())
+
    return (
       <Box sx={{ pb: 6 }}>
          <Box className={styles.wrapperChart}

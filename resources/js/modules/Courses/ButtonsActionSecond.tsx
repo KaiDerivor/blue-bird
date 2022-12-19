@@ -48,16 +48,15 @@ export const ButtonsActionSecond: React.FC<SolutionType> = ({ setIsOpenSolution,
    return (
       <>
          <Box sx={{ pt: 2, mb: 3, display: 'flex', justifyContent: 'space-between' }}>
+            <ButtonTask title='До збереженого'
+               Icon={Icon}
+               fn={() => saveTask(currTask.id)} />
             {currTask.content &&
                <ButtonTask title='Дивитися пояснення'
                   fn={() => {//@ts-ignore
                      setIsOpenSolution((prev) => !prev)
                   }} />
             }
-            <ButtonTask title='До збереженого'
-               Icon={Icon}
-               fn={() => saveTask(currTask.id)} />
-
          </Box>
          <Box >
             <Collapse in={isOpenSolution}>
