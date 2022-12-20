@@ -80,7 +80,7 @@ const appReducer = (state = initialState, action: ActionsTypes): StateType => {
          return {
             ...state,
             isInit: false,
-            isSetData:false
+            isSetData: false
          }
       }
       case SET_THEME: {
@@ -163,14 +163,14 @@ export const setData = (): ThunksTypes => {
       })
    }
 }
-export const updateMe = (me: FormDataMeUpdateType): ThunksTypes => {
+export const updateMe = (me: FormDataMeUpdateType, isShowMessage = false): ThunksTypes => {
    return async (dispatch) => {
       api.meUpdate(me)?.then(res => {
-         if(typeof res === 'string'){
+         if (typeof res === 'string') {
             dispatch(appActions.setErrorText(errorStringHandler(res)))
             return;
          }
-         dispatch(appActions.setErrorText(errorStringHandler('Updated')))   
+         isShowMessage && dispatch(appActions.setErrorText(errorStringHandler('Updated')))
          dispatch(appActions.init(res))
       })
    }
@@ -190,7 +190,7 @@ export type FormDataRegType = {
 export type FormDataMeUpdateType = {
    name?: string
    email?: string
-   password?:string
+   password?: string
    likedTasks?: Array<number>
    chart?: string
 }

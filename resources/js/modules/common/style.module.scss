@@ -89,6 +89,27 @@ $index:calc(1vh + 1vw);
     }
 }
 
+.scrollToTopElement {
+    position: fixed;
+    right: 20px;
+    bottom: -80px;
+    z-index: 1;
+
+    &_active {
+        animation: appearFromBottom 0.6s;
+        bottom: 20px;
+    }
+
+    &__button {
+        width: 70px;
+        height: 70px;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        background-color: red;
+        z-index: 1;
+    }
+}
+
 /***************************
 ****************************
 **********Adaptive**********

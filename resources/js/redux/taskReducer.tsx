@@ -5,7 +5,7 @@ import { appActions } from "./appReducer";
 import store, { AppStateType, InferActionsTypes } from "./store";
 
 export const lettersOfAnswers = ['А', 'Б', 'В', 'Г', 'Д'];
-
+export const WORST_RESULT = 'не склав'
 
 const INIT_TASKS = 'task/INIT_TASKS'
 const SET_ERROR_MESSAGE = 'app/SET_ERROR_MESSAGE'

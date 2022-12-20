@@ -12,7 +12,7 @@ import { getResultTableInit, getTestInit, TaskType } from '../../redux/taskReduc
 import { NavigationTest, ResultOfTest } from './ResultOfTest'
 //@ts-ignore
 import styles from './style.module.scss'
-import { TagRecordType } from '../../redux/tagReducer'
+import { TagRecordType, TagType } from '../../redux/tagReducer'
 import { TaskComponent } from './Task'
 import { ButtonsActionSecond } from './ButtonsActionSecond'
 import { ButtonTask } from './ButtonTask'
@@ -21,6 +21,7 @@ const CourseItem = React.memo(() => {
 
    const params = useParams();
    const dispatch: any = useDispatch()
+   const scrollAnchor = useRef<HTMLDivElement>();
 
    let rangeRef = useRef(null);
    const categories: Array<CategoryType> = useSelector(getCategories)
@@ -28,16 +29,17 @@ const CourseItem = React.memo(() => {
    const isDarkMode = useSelector(getIsDarkMode)
 
    const [currCategory, setCurrCategory] = useState(detectCategory(categories, params))
-   const [currTag, setCurrTag] = useState({} as TagRecordType)
+   const [currTag, setCurrTag] = useState({} as TagType)
    const [currTask, setCurrTask] = useState<TaskType>({} as TaskType)
    const [taskNumber, setTaskNumber] = useState(1)
-   // const [userAnswers, setUserAnswers] = useState({})
-   const [userAnswers, setUserAnswers] = useState({ 1: 'Д', 2: 'Г', 3: 'А', 4: 'Д', 5: 'А', 6: 'В', 7: 'Г', 8: 'Б', 9: 'Д', 10: 'А', 11: 'Б', 12: 'Г', 13: 'А', 14: 'Г', 15: 'Д', 16: 'Б', 17: 'Д', 18: 'Б', 19: 'Б', 20: 'Г', 21: 'ВБД', 22: 'БВД', 23: 'ГБД', 24: 'АВБ', 25: '2,30', 26: '1,2', 27: '33,1', 28: '34', 29: '2', 30: '2', 31: '3', 32: '4' })
+   const [userAnswers, setUserAnswers] = useState({})
+   // const [userAnswers, setUserAnswers] = useState({ 1: 'Д', 2: 'Г', 3: 'А', 4: 'Д', 5: 'А', 6: 'В', 7: 'Б', 8: 'Г', 9: 'Д', 10: 'Б', 11: 'Б', 12: 'Г', 13: 'А', 14: 'Г', 15: 'Д', 16: 'Б', 17: 'Д', 18: 'Б', 19: 'Б', 20: 'Г', 21: 'ВБД', 22: 'БВД', 23: 'ГБД', 24: 'АВБ', 25: '2,30', 26: '1,2', 27: '33,1', 28: '34', 29: '2', 30: '2', 31: '3', 32: '4' })
    const [time, setTime] = useState(new Date().getTime() - 1000 * 60 * 60 - 60000)
    const [isEndTest, setIsEndTest] = useState(false) //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
    const [isOpenSolution, setIsOpenSolution] = useState(true)
 
    useEffect(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: "smooth" })
       return () => {
          if (categories.length <= 0) {
             //@ts-ignore
@@ -68,6 +70,7 @@ const CourseItem = React.memo(() => {
    useEffect(() => {
       setIsOpenSolution(false)
    }, [taskNumber])
+
    useEffect(() => {
       if (currCategory.id !== undefined && currTag.id !== undefined) {
          dispatch(getResultTableInit(`${currCategory.id}`, `${currTag.id}`))
@@ -188,6 +191,7 @@ const CourseItem = React.memo(() => {
    return (
 
       <Box>
+         <Box ref={scrollAnchor} id='scrollAnchor' />
          <CourseItemHeader title={`${currCategory.title}`} subtitle={`${currCategory.description}`} />
          <Box className={`${styles.wrapperButtons} ${isDarkMode ? styles.wrapperButtons__blurSideDark : styles.wrapperButtons__blurSideLight}`} >
             <Box ref={rangeRef} className={styles.wrapperButtons__range} sx={{ mb: 3 }}>

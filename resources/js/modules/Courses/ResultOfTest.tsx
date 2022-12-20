@@ -1,13 +1,13 @@
-import React, { createRef, useEffect, useRef, useState } from 'react';
+import React, { createRef, Ref, useEffect, useRef, useState } from 'react';
 import Box from '@mui/material/Box'
 import Fade from '@mui/material/Fade'
-import { getResultTableInit, TaskType } from '../../redux/taskReducer';
+import { getResultTableInit, TaskType, WORST_RESULT } from '../../redux/taskReducer';
 //@ts-ignore
 import styles from './style.module.scss'
-import { CategoryRecordType, getCategoryTagsInit } from '../../redux/catReducer';
-import { TagRecordType } from '../../redux/tagReducer';
+import { CategoryRecordType, CategoryType, getCategoryTagsInit } from '../../redux/catReducer';
+import { TagRecordType, TagType } from '../../redux/tagReducer';
 import { useDispatch, useSelector } from "react-redux"
-import { getCategoryTagList, getResultTables, getTableOfResult } from '../../redux/appSelector';
+import { getCategoryTagList, getChapterInfo, getResultTables, getTableOfResult } from '../../redux/appSelector';
 import Typography from '@mui/material/Typography'
 import { TaskComponent } from './Task';
 import { Button } from '@mui/material';
@@ -16,10 +16,16 @@ import ListAltIcon from '@mui/icons-material/ListAlt';
 import { NavLink } from 'react-router-dom';
 import LowPriorityIcon from '@mui/icons-material/LowPriority';
 import FeaturedPlayListIcon from '@mui/icons-material/FeaturedPlayList';
+import { updateMe } from '../../redux/appReducer';
+import { Scroll2Top } from '../common/Scroll2Top';
+
+type ChartPairType = {
+   [arg1: string]: number
+}
 
 type ResultOfTestType = {
-   currCategory: CategoryRecordType
-   currTag: TagRecordType
+   currCategory: CategoryType
+   currTag: TagType
    test: Array<TaskType>
    userAnswers: any
    startTestAgainHandler: () => void
@@ -27,9 +33,10 @@ type ResultOfTestType = {
 }
 export const ResultOfTest: React.FC<ResultOfTestType> = ({ currCategory, test, userAnswers, currTag, startTestAgainHandler, time }) => {
    const dispatch: any = useDispatch()
-   const dummy = useRef();
+
    const resultTable = useSelector(getResultTables)[0]
    const categoryTagInfo = useSelector(getCategoryTagList)[0]
+   const chart = useSelector(getChapterInfo)
    const [maxPointTest, setMaxPoint] = useState(0)
    const [userPoint, setUserPoint] = useState(0)
 
@@ -42,9 +49,9 @@ export const ResultOfTest: React.FC<ResultOfTestType> = ({ currCategory, test, u
    }, [currCategory, currTag])
 
    useEffect(() => {
-      if (dummy.current)//@ts-ignore
-         dummy.current.scrollIntoView({ behavior: 'smooth' });
+      window.scrollTo({ top: 0, left: 0, behavior: "smooth" })
    }, [])
+
    const displayAllTasks = () => {
       let tasks = [] as Array<JSX.Element>
       for (const task of test) {
@@ -113,16 +120,44 @@ export const ResultOfTest: React.FC<ResultOfTestType> = ({ currCategory, test, u
    const defineRating = () => {
       if (resultTable?.id) {
          const tables = JSON.parse(resultTable.value)
-         if (userPoint) {
+         if (userPoint >= 0) {
             return tables.value200[userPoint]
          }
       }
       return 0
    }
 
+   useEffect(() => {
+      return () => {
+         const currMonth = new Date().getMonth()
+         const defRating = defineRating()
+         const userRatingResult = defRating === WORST_RESULT ? 100 : defRating
+         let isSetData = false
+         let chartPairUpd = {}
+         for (const chartPair of chart[currCategory.id].chart) {
+            if (Object.keys(chartPair)[0] === `${currMonth}`) {
+               chartPairUpd = { [currMonth]: Math.round((chartPair[currMonth] + userRatingResult) / 2) }
+               isSetData = true
+            }
+         }
+         if (!isSetData) {
+            chartPairUpd = { [currMonth]: userRatingResult }
+         }
+         let sendMe = {
+            chart: JSON.stringify({
+               ...chart,
+               [currCategory.id]: {
+                  ...chart[currCategory.id],
+                  chart: [...chart[currCategory.id].chart.filter((chartPair: ChartPairType) => Object.keys(chartPair)[0] != `${currMonth}`), chartPairUpd]
+               }
+            })
+         }
+         dispatch(updateMe(sendMe,false))
+      }
+   }, [])
    return (
-      <>
-         <Box ref={dummy} />
+      <Box sx={{ position: 'relative' }}>
+         <Scroll2Top />
          <Fade in={true}>
             <Box >
                <Box sx={{ mb: 5, p: 3, backgroundColor: 'bgmode.main', color: 'fpage.main' }}>
@@ -131,12 +166,12 @@ export const ResultOfTest: React.FC<ResultOfTestType> = ({ currCategory, test, u
                   <Typography variant="subtitle1" color="inherit"> Витрачено часу: <strong>{getWastedTime()}</strong> з {categoryTagInfo?.maxTime && categoryTagInfo.maxTime} запропонованих</Typography>
                </Box>
                <NavigationTest startTestAgainHandler={startTestAgainHandler} />
-               <Box sx={{pt:3}}>
+               <Box sx={{ pt: 3 }}>
                   {displayAllTasks()}
                </Box>
             </Box>
          </Fade>
-      </>
+      </Box>
    )
 }
 
@@ -148,7 +183,7 @@ export const NavigationTest: React.FC<NavigationTestType> = ({ startTestAgainHan
    const refNav = useRef<HTMLDivElement>(null)
    useEffect(() => {
       const handleScroll = () => {
-         if (refNav.current && refNav.current.getBoundingClientRect().top <20) {
+         if (refNav.current && refNav.current.getBoundingClientRect().top < 20) {
             refNav.current.classList.add(styles._stick)
          } else if (refNav.current) {
             refNav.current.classList.remove(styles._stick)
@@ -159,22 +194,23 @@ export const NavigationTest: React.FC<NavigationTestType> = ({ startTestAgainHan
          window.removeEventListener('scroll', handleScroll)
       }
    }, [])
-   return <Box ref={refNav} className={`${styles.navigationTest}`} data-is-sticky='false'
+   return <Box ref={refNav} className={`${styles.navigationTest}`}
       sx={{
          backgroundColor: 'bgmode.light',
          borderRadius: 3,
          color: 'fpage.light'
       }}>
       <ButtonNavigation linkUrl='/' Icon={<ListAltIcon />} linkText={
-         <Typography variant="h6" color="inherit">Усі <strong>завдання</strong> з цього предмета</Typography>
+         <div >Усі <strong>завдання</strong> з цього предмета</div>
       } />
       <ButtonNavigation linkUrl='/' Icon={<LowPriorityIcon />} linkText={
-         <Typography variant="h6" color="inherit">Пройти тест ще раз</Typography>
+         <div >Пройти тест ще раз</div>
       } />
       <ButtonNavigation linkUrl='/' Icon={<FeaturedPlayListIcon />} linkText={
-         <Typography variant="h6" color="inherit">Усі <strong>завдання</strong> з цього предмета</Typography>
+         <div >Усі <strong>завдання</strong> з цього предмета</div>
       } />
    </Box >
+
 }
 type ButtonNavigationType = {
    linkText: JSX.Element

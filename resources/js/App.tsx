@@ -93,7 +93,9 @@ function App() {
       }
     }
   }, [])
-
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
+  }, [useParams()])
 
   const toggleThemeMod = () => {
     const toggleMode = themeMode === 'Light' ? 'Dark' : 'Light'
@@ -122,7 +124,7 @@ function App() {
               <AlertBox />
 
               {/* <Loader /> */}
-              <Box sx={{pr:1,pl:1,pt:1}}>
+              <Box sx={{ pr: 1, pl: 1, pt: 1 }}>
                 <Routes>
                   <Route path='/' element={
                     <Suspense fallback={<Loader />}>
