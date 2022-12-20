@@ -9,18 +9,18 @@ import { getCategoriesInit } from "../../redux/catReducer"
 import { URL_STORAGE } from "../../redux/appReducer"
 
 
-const CoursesList = React.memo(() => {
+const CoursesList:React.FC = React.memo(() => {
 
    const dispatch: any = useDispatch();
 
    const categories = useSelector(getCategories)
 
    useEffect(() => {
-      return () => {
-         if (!(categories.length > 1)) {
-            dispatch(getCategoriesInit())
-         }
-      };
+         return () => {
+            if (categories.length < 1) {
+               dispatch(getCategoriesInit())
+            }
+         };
    }, [])
    return (
       <Box className={styles.listSavings}>

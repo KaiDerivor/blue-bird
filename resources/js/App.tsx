@@ -1,6 +1,6 @@
 import React, { Suspense, useEffect, useState } from 'react'
 import './App.css';
-import { getAppTheme, getIsDarkMode, getIsInit, getIsSetData, getUserRole } from './redux/appSelector';
+import { getAppTheme, getIsDarkMode, getIsFetching, getIsInit, getIsSetData, getUserRole } from './redux/appSelector';
 import { useDispatch, useSelector } from 'react-redux'
 import { TopBar } from './modules/common/TopBar';
 import { SideBarLargeScreen } from './modules/common/SideBarLargeScreen';
@@ -78,6 +78,8 @@ function App() {
   const userRole = useSelector(getUserRole)
   const isInit = useSelector(getIsInit)
   const appTheme = useSelector(getAppTheme)
+  const isFetching = useSelector(getIsFetching)
+
   const [themeMode, setTheme] = useState(isDarkMode ? 'Dark' : 'Light')
   const [currTheme, setCurrTheme] = useState(themeVariants['config' + themeMode + appTheme])
 
@@ -123,8 +125,8 @@ function App() {
             >
               <AlertBox />
 
-              {/* <Loader /> */}
-              <Box sx={{ pr: 1, pl: 1, pt: 1 }}>
+              {isFetching && <Loader />}
+              <Box sx={{ pr: 1, pl: 1, pt: 1 ,filter:isFetching?'blur(10px)':''}}>
                 <Routes>
                   <Route path='/' element={
                     <Suspense fallback={<Loader />}>

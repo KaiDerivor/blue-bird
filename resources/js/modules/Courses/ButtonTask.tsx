@@ -8,12 +8,13 @@ type ButtonTaskType = {
    fn: () => void
    title: string
    Icon?: JSX.Element
+   isDisable?: boolean
 }
-export const ButtonTask: React.FC<ButtonTaskType> = ({ fn, title, Icon=(<></>) }) => {
+export const ButtonTask: React.FC<ButtonTaskType> = ({ fn, title, Icon = (<></>), isDisable = false }) => {
    return (
       <Button variant="outlined"
          endIcon={Icon}
-
+         disabled={isDisable}
          sx={buttonsAction}
          onClick={fn}
       >

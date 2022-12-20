@@ -5,9 +5,12 @@ import { appActions } from "./appReducer";
 import { AppStateType, InferActionsTypes } from "./store";
 
 const INIT_USERS = 'user/INIT_USERS'
-const SET_ERROR_MESSAGE = 'SET_ERROR_MESSAGE'
-const ERASE_ERROR = 'ERASE_ERROR'
+const SET_ERROR_MESSAGE = 'app/SET_ERROR_MESSAGE'
+const ERASE_ERROR = 'app/ERASE_ERROR'
 const UPDATE_USER = 'user/UPDATE_USER'
+const ON_TOGGLE_FETCHING = 'user/ON_TOGGLE_FETCHING'
+const OFF_TOGGLE_FETCHING = 'user/OFF_TOGGLE_FETCHING'
+
 export type UserRecordType = {
    name?: string
    id?: string | number
@@ -15,6 +18,7 @@ export type UserRecordType = {
    role?: string
 }
 const initialState = {
+   isFetching: false,
    listUsers: [] as Array<UserRecordType>,
    errorText: ''
 }
@@ -25,7 +29,7 @@ const userReducer = (state = initialState, action: ActionsTypes): StateType => {
       case INIT_USERS: {
          return {
             ...state,
-            listUsers: action.list
+            listUsers: action.list,
          }
       }
       case SET_ERROR_MESSAGE: {
@@ -61,6 +65,18 @@ const userReducer = (state = initialState, action: ActionsTypes): StateType => {
             listUsers: [...state.listUsers]
          }
       }
+      case ON_TOGGLE_FETCHING: {
+         return {
+            ...state,
+            isFetching: true
+         }
+      }
+      case OFF_TOGGLE_FETCHING: {
+         return {
+            ...state,
+            isFetching: false
+         }
+      }
       default: return state;
    }
 }
@@ -73,19 +89,24 @@ export const userActions = {
    init: (list: Array<UserRecordType>) => { return { type: INIT_USERS, list } as const },
    setErrorText: (err: string) => { return { type: SET_ERROR_MESSAGE, errorText: err } as const },
    eraseError: () => { return { type: ERASE_ERROR } as const },
-   updateUser: (user: UserRecordType) => { return { type: UPDATE_USER, user } as const }
+   updateUser: (user: UserRecordType) => { return { type: UPDATE_USER, user } as const },
+   toggleFetchingOn: () => { return { type: ON_TOGGLE_FETCHING } as const },
+   toggleFetchingOff: () => { return { type: OFF_TOGGLE_FETCHING } as const },
 }
 
 export type ThunksTypes = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>
 
 export const getUsersInit = (name = '', email = '', role = ''): ThunksTypes => {
    return async (dispatch) => {
+      dispatch(userActions.toggleFetchingOff())
       api.getUsers(name, email, role)?.then(res => {
          if (typeof res === 'string' || res === undefined) {
             dispatch(userActions.setErrorText(res))
          } else {
             dispatch(userActions.init(res))
          }
+      }).finally(() => {
+         dispatch(userActions.toggleFetchingOff())
       })
    }
 }
@@ -105,6 +126,7 @@ export const getUsersInit = (name = '', email = '', role = ''): ThunksTypes => {
 // }
 export const updateUser = (id: number | string, user: UserRecordType): ThunksTypes => {
    return async (dispatch) => {
+      dispatch(userActions.toggleFetchingOff())
       api.updateUser(id, user)?.then(res => {
          if (typeof res === 'string') {
             dispatch(appActions.setErrorText(res))
@@ -112,15 +134,15 @@ export const updateUser = (id: number | string, user: UserRecordType): ThunksTyp
             dispatch(appActions.setErrorText('Updated'))
             dispatch(userActions.updateUser(res))
          }
-
+      }).finally(() => {
+         dispatch(userActions.toggleFetchingOff())
       })
    }
 }
 export const deleteuser = (id: number | string): ThunksTypes => {
    return async (dispatch) => {
+      dispatch(userActions.toggleFetchingOn())
       api.deleteUser(id)?.then(res => {
-
-
          if (typeof res === 'string') {
             dispatch(appActions.setErrorText(res))
          } else {
@@ -128,6 +150,8 @@ export const deleteuser = (id: number | string): ThunksTypes => {
             dispatch(userActions.init(res))
          }
 
+      }).finally(() => {
+         dispatch(userActions.toggleFetchingOff())
       })
    }
 }

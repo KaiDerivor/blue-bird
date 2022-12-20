@@ -11,6 +11,9 @@ const ERASE_ERROR = 'app/ERASE_ERROR'
 const UPDATE_CATEGORIES = 'cat/UPDATE_CATEGORIES'
 const INIT_CATEGORY_TAGS = 'cat/INIT_CATEGORY_TAGS'
 const UPDATE_CATEGORY_TAGS = 'cat/UPDATE_CATEGORY_TAGS'
+const ON_TOGGLE_FETCHING = 'cat/ON_TOGGLE_FETCHING'
+const OFF_TOGGLE_FETCHING = 'cat/OFF_TOGGLE_FETCHING'
+
 
 export type CategoryRecordType = {
    id?: number,
@@ -46,6 +49,7 @@ export type CategoryTagRecordType = {
    someInfo?: string
 }
 const initialState = {
+   isFetching:false,
    listCats: [] as Array<CategoryType>,
    errorText: '',
    listCategoryTags: [] as Array<CategoryTagType>,
@@ -116,6 +120,18 @@ const catReducer = (state = initialState, action: ActionsTypes): StateType => {
             listCategoryTags: [...state.listCategoryTags]
          }
       }
+      case ON_TOGGLE_FETCHING: {
+         return {
+            ...state,
+            isFetching: true
+         }
+      }
+      case OFF_TOGGLE_FETCHING: {
+         return {
+            ...state,
+            isFetching: false
+         }
+      }
       default: return state;
    }
 }
@@ -130,25 +146,30 @@ export const catActions = {
    eraseError: () => { return { type: ERASE_ERROR } as const },
    updateCategory: (category: CategoryType) => { return { type: UPDATE_CATEGORIES, category } as const },
    initCategoryTags: (categoryTags: Array<CategoryTagType>) => { return { type: INIT_CATEGORY_TAGS, categoryTags } as const },
-   updateCategoryTag: (categoryTag: CategoryTagType) => { return { type: UPDATE_CATEGORY_TAGS, categoryTag } as const }
-
+   updateCategoryTag: (categoryTag: CategoryTagType) => { return { type: UPDATE_CATEGORY_TAGS, categoryTag } as const },
+   toggleFetchingOn: () => { return { type: ON_TOGGLE_FETCHING } as const },
+   toggleFetchingOff: () => { return { type: OFF_TOGGLE_FETCHING } as const },
 }
 
 export type ThunksTypes = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>
 
 export const getCategoriesInit = (): ThunksTypes => {
    return async (dispatch) => {
+      dispatch(catActions.toggleFetchingOn())
       api.getCategories()?.then(res => {
          if (typeof res === 'string') {
             dispatch(appActions.setErrorText(res))
          } else {
             dispatch(catActions.init(res))
          }
+      }).finally(()=>{
+         dispatch(catActions.toggleFetchingOff())
       })
    }
 }
 export const createCategory = (category: CategoryRecordType): ThunksTypes => {
    return async (dispatch) => {
+      dispatch(catActions.toggleFetchingOn())
       api.createCategory(category)?.then(res => {
          if (res) {
             if (typeof res === 'string') {
@@ -158,6 +179,8 @@ export const createCategory = (category: CategoryRecordType): ThunksTypes => {
                dispatch(catActions.updateCategory(res))
             }
          }
+      }).finally(()=>{
+         dispatch(catActions.toggleFetchingOff())
       })
    }
 }
@@ -166,6 +189,7 @@ export const updateCategory = (id: number, category: CategoryRecordType): Thunks
       if (!category?.img?.name) {
          delete category.img
       }
+      dispatch(catActions.toggleFetchingOn())
       api.updateCategory(id, category)?.then(res => {
 
          if (typeof res === 'string') {
@@ -175,11 +199,14 @@ export const updateCategory = (id: number, category: CategoryRecordType): Thunks
             dispatch(catActions.updateCategory(res))
          }
 
+      }).finally(()=>{
+         dispatch(catActions.toggleFetchingOff())
       })
    }
 }
 export const deleteCategory = (id: number): ThunksTypes => {
    return async (dispatch) => {
+      dispatch(catActions.toggleFetchingOn())
       api.deleteCategory(id)?.then(res => {
 
 
@@ -190,11 +217,14 @@ export const deleteCategory = (id: number): ThunksTypes => {
             dispatch(catActions.init(res))
          }
 
+      }).finally(()=>{
+         dispatch(catActions.toggleFetchingOff())
       })
    }
 }
 export const getCategoryTagsInit = (categoryId = '', tagId = ''): ThunksTypes => {
    return async (dispatch) => {
+      dispatch(catActions.toggleFetchingOn())
       api.getCategoryTags(categoryId, tagId)?.then(res => {
 
 
@@ -203,11 +233,14 @@ export const getCategoryTagsInit = (categoryId = '', tagId = ''): ThunksTypes =>
          } else {
             dispatch(catActions.initCategoryTags(res))
          }
+      }).finally(()=>{
+         dispatch(catActions.toggleFetchingOff())
       })
    }
 }
 export const updateCategoryTag = (id: number, categoryTag: CategoryTagRecordType): ThunksTypes => {
    return async (dispatch) => {
+      dispatch(catActions.toggleFetchingOn())
       api.updateCategoryTag(id, categoryTag)?.then(res => {
          console.log(res)
          if (typeof res === 'string') {
@@ -216,11 +249,14 @@ export const updateCategoryTag = (id: number, categoryTag: CategoryTagRecordType
             dispatch(appActions.setErrorText('Updated'))
             dispatch(catActions.updateCategoryTag(res))
          }
+      }).finally(()=>{
+         dispatch(catActions.toggleFetchingOff())
       })
    }
 }
 export const deleteCategoryTag = (id: number): ThunksTypes => {
    return async (dispatch) => {
+      dispatch(catActions.toggleFetchingOn())
       api.deleteCategoryTag(id)?.then(res => {
 
          if (typeof res === 'string') {
@@ -229,6 +265,8 @@ export const deleteCategoryTag = (id: number): ThunksTypes => {
             dispatch(appActions.setErrorText('Deleted'))
             dispatch(catActions.initCategoryTags(res))
          }
+      }).finally(()=>{
+         dispatch(catActions.toggleFetchingOff())
       })
    }
 }

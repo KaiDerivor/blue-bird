@@ -4,7 +4,7 @@ import Box from "@mui/material/Box"
 //@ts-ignore
 import styles from './style.module.scss'
 import { useDispatch, useSelector } from "react-redux"
-import { getCategories, getChapterInfo, getIsDarkMode, getLikedCategories } from "../../redux/appSelector"
+import { getCategories, getChapterInfo, getIsDarkMode, getIsSetData, getLikedCategories } from "../../redux/appSelector"
 import { ButtonNavigate } from "../common/ButtonNavigate"
 import React, { useEffect, useState } from 'react'
 import FormControlLabel from '@mui/material/FormControlLabel'
@@ -24,19 +24,19 @@ const BodyCourseCategory: React.FC<BodyCourseCategory> = ({ toggleShowingTasks }
 
    const likedCategories = useSelector(getLikedCategories)
    const chart = useSelector(getChapterInfo)
-   const isDarkMode = useSelector(getIsDarkMode)
+   const isUserInit = useSelector(getIsSetData)
    const categories: Array<CategoryType> = useSelector(getCategories)
    const currCategory = detectCategory(categories, params);
    const [isCategoryAdded, setisCategoryAdded] = useState(likedCategories.includes(currCategory.id))
+
    const [isCategoryChapterShow, setisCategoryChapterShow] = useState(() => {
       return chart.hasOwnProperty(currCategory.id) && chart[currCategory.id].isShow
    })
 
-
    useEffect(() => {
       return () => {
-         //@ts-ignore
-         dispatch(getCategoriesInit())
+         if (categories.length < 1)
+            dispatch(getCategoriesInit())
       };
    }, [])
    useEffect(() => {
@@ -107,7 +107,7 @@ const BodyCourseCategory: React.FC<BodyCourseCategory> = ({ toggleShowingTasks }
                      control={
                         <Switch color="warning"
                            onChange={(el) => configAddToProfileHandler(el.target.checked)}
-                           checked={isCategoryAdded} />
+                           checked={isCategoryAdded} disabled={!isUserInit} />
                      }
                      label="Добавити до профілю"
                      labelPlacement="start"
@@ -116,7 +116,7 @@ const BodyCourseCategory: React.FC<BodyCourseCategory> = ({ toggleShowingTasks }
                      value="start"
                      control={<Switch color="warning"
                         onChange={(el) => { configAddToChart(el.target.checked) }}
-                        checked={isCategoryChapterShow} />
+                        checked={isCategoryChapterShow} disabled={!isUserInit} />
                      }
                      label="Показувати на графіку"
                      labelPlacement="start"

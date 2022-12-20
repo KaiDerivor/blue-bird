@@ -3,6 +3,9 @@ import { AppStateType } from "./store";
 export const getIsInit = (state: AppStateType) => {
    return state.app.isInit;
 }
+export const getIsFetching = (state: AppStateType) => {
+   return state.app.isFetching || state.category.isFetching || state.event.isFetching || state.task.isFetching || state.user.isFetching
+}
 export const getIsDarkMode = (state: AppStateType) => {
    return state.app.isDarkMode;
 }

@@ -8,10 +8,10 @@ import { WavesDivider } from '../common/WavesDivider'
 import styles from './style.module.scss'
 
 type CommonHeaderType = {
-   title: string
-   subtitle: string
+   title?: string
+   subtitle?: string
 }
-export const CourseItemHeader: React.FC<CommonHeaderType> = ({ title, subtitle }) => {
+export const CourseItemHeader: React.FC<CommonHeaderType> = ({ title='Предмет', subtitle='' }) => {
 
    return (
       <>

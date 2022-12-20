@@ -9,7 +9,8 @@ export const URL_STORAGE = '/storage/'
 
 
 const TOGGLE_THEME_MODE = 'app/TOGGLE_THEME_MODE'
-const TOGGLE_FETCHING = 'app/TOGGLE_FETCHING'
+const ON_TOGGLE_FETCHING = 'app/ON_TOGGLE_FETCHING'
+const OFF_TOGGLE_FETCHING = 'app/OFF_TOGGLE_FETCHING'
 const INIT = 'app/INIT'
 const CANSEL_INIT = 'CANSEL_INIT'
 const SET_ERROR_MESSAGE = 'app/SET_ERROR_MESSAGE'
@@ -28,7 +29,7 @@ const initialState = {
    likedTasks: [] as Array<number>,
    likedCategories: [] as Array<number>,
    appTheme: localStorage.appTheme ? localStorage.appTheme : 'RED',
-   chart: JSON.stringify({})
+   chart: JSON.stringify({}),
 }
 type StateType = typeof initialState;
 const appReducer = (state = initialState, action: ActionsTypes): StateType => {
@@ -54,10 +55,16 @@ const appReducer = (state = initialState, action: ActionsTypes): StateType => {
             isDarkMode: !state.isDarkMode
          }
       }
-      case TOGGLE_FETCHING: {
+      case ON_TOGGLE_FETCHING: {
          return {
             ...state,
-            isFetching: !state.isFetching
+            isFetching: true
+         }
+      }
+      case OFF_TOGGLE_FETCHING: {
+         return {
+            ...state,
+            isFetching: false
          }
       }
       case SET_ERROR_MESSAGE: {
@@ -100,13 +107,14 @@ export type DispatchType = Dispatch<ActionsTypes>;
 
 export const appActions = {
    toggleThemeMod: () => { return { type: TOGGLE_THEME_MODE } as const },
-   toggleFetching: () => { return { type: TOGGLE_FETCHING } as const },
+   toggleFetchingOn: () => { return { type: ON_TOGGLE_FETCHING } as const },
+   toggleFetchingOff: () => { return { type: OFF_TOGGLE_FETCHING } as const },
    init: (data: any) => { return { type: INIT, data } as const },
    canselInit: () => { return { type: CANSEL_INIT } as const },
    setErrorText: (err: string) => { return { type: SET_ERROR_MESSAGE, errorText: err } as const },
    eraseError: () => { return { type: ERASE_ERROR } as const },
    logout: () => { return { type: LOGOUT } as const },
-   setTheme: (appTheme: AppThemesType) => { return { type: SET_THEME, appTheme } as const }
+   setTheme: (appTheme: AppThemesType) => { return { type: SET_THEME, appTheme } as const },
 }
 
 export type ThunksTypes = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>

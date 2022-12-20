@@ -16,6 +16,9 @@ const SET_FILTER = 'task/SET_FILTER'
 const SET_RESULT_TABLE = 'task/SET_RESULT_TABLE'
 const UPDATE_RESULTS_TABLE = 'task/UPDATE_RESULTS_TABLE'
 
+const ON_TOGGLE_FETCHING = 'task/ON_TOGGLE_FETCHING'
+const OFF_TOGGLE_FETCHING = 'task/OFF_TOGGLE_FETCHING'
+
 export const TASK_IMAGE_FOLDER = 'img-tasks/'
 export type ResultTableType = {
    id: number,
@@ -53,6 +56,7 @@ export type TaskType = {
    test_qa?: any
 }
 const initialState = {
+   isFetching:false,
    listTasks: [] as Array<TaskType>,
    test: [] as Array<TaskType>,
    errorText: '',
@@ -140,6 +144,18 @@ const taskReducer = (state = initialState, action: ActionsTypes): StateType => {
             results: [...state.results]
          }
       }
+      case ON_TOGGLE_FETCHING: {
+         return {
+            ...state,
+            isFetching: true
+         }
+      }
+      case OFF_TOGGLE_FETCHING: {
+         return {
+            ...state,
+            isFetching: false
+         }
+      }
       default: return state;
    }
 }
@@ -156,13 +172,16 @@ export const taskActions = {
    setTest: (list: Array<TaskType>) => { return { type: INIT_TEST, list } as const },
    setFilter: (categoryId: string, tagId: string) => { return { type: SET_FILTER, categoryId, tagId } as const },
    setResultTable: (result: Array<ResultTableType>) => { return { type: SET_RESULT_TABLE, result } as const },
-   updateResultTable: (result: ResultTableType) => { return { type: UPDATE_RESULTS_TABLE, result } as const }
+   updateResultTable: (result: ResultTableType) => { return { type: UPDATE_RESULTS_TABLE, result } as const },
+   toggleFetchingOn: () => { return { type: ON_TOGGLE_FETCHING } as const },
+   toggleFetchingOff: () => { return { type: OFF_TOGGLE_FETCHING } as const },
 }
 
 export type ThunksTypes = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>
 
 export const getTasksInit = (categoryId: string = '', tagId: string = ''): ThunksTypes => {
    return async (dispatch) => {
+      dispatch(taskActions.toggleFetchingOn())
       api.getTasks(categoryId, tagId)?.then(res => {
          if (typeof res === 'string') {
             dispatch(appActions.setErrorText(res))
@@ -175,20 +194,27 @@ export const getTasksInit = (categoryId: string = '', tagId: string = ''): Thunk
             }
             dispatch(taskActions.init(res))
          }
+      }).finally(()=>{
+         dispatch(taskActions.toggleFetchingOff())
       })
    }
 }
 export const getTestInit = (categoryId: number, tagId: number): ThunksTypes => {
    return async (dispatch) => {
+      dispatch(taskActions.toggleFetchingOn())
       api.getTest(categoryId, tagId)?.then(res => {
          if (res) {
             if (typeof res === 'string') {
                dispatch(appActions.setErrorText(res))
             } else {
                dispatch(taskActions.setTest(res))
+
+
             }
          }
-      });
+      }).finally(()=>{
+         dispatch(taskActions.toggleFetchingOff())
+      })
    }
 
 }
@@ -196,6 +222,7 @@ export const getTestInit = (categoryId: number, tagId: number): ThunksTypes => {
 export const createTask = (task: TaskRecordType): ThunksTypes => {
    return async (dispatch) => {
 
+      dispatch(taskActions.toggleFetchingOn())
       api.createTask(task)
          ?.then(res => {
             if (res) {
@@ -206,12 +233,16 @@ export const createTask = (task: TaskRecordType): ThunksTypes => {
                   dispatch(taskActions.updateTask(res))
                }
             }
+            dispatch(taskActions.toggleFetchingOff())
+         }).finally(()=>{
+            dispatch(taskActions.toggleFetchingOff())
          })
    }
 }
 export const updateTask = (id: number | string | undefined, task: TaskRecordType): ThunksTypes => {
 
    return async (dispatch) => {
+      dispatch(taskActions.toggleFetchingOn())
       if (task.task === null)
          delete task.task
       if (id === undefined) {
@@ -225,11 +256,14 @@ export const updateTask = (id: number | string | undefined, task: TaskRecordType
             dispatch(taskActions.updateTask(res))
          }
 
+      }).finally(()=>{
+         dispatch(taskActions.toggleFetchingOff())
       })
    }
 }
 export const deleteTask = (id: number | string): ThunksTypes => {
    return async (dispatch) => {
+      dispatch(taskActions.toggleFetchingOn())
       api.deleteTask(id)?.then(res => {
          if (typeof res === 'string') {
             dispatch(appActions.setErrorText(res))
@@ -238,12 +272,15 @@ export const deleteTask = (id: number | string): ThunksTypes => {
             dispatch(taskActions.init(res))
          }
 
+      }).finally(()=>{
+         dispatch(taskActions.toggleFetchingOff())
       })
    }
 }
 
 export const getResultTableInit = (categoryId = '', tagId = ''): ThunksTypes => {
    return async (dispatch) => {
+      dispatch(taskActions.toggleFetchingOn())
       api.getResult(categoryId, tagId)?.then(res => {
          if (typeof res === 'string') {
             dispatch(appActions.setErrorText(res))
@@ -251,39 +288,51 @@ export const getResultTableInit = (categoryId = '', tagId = ''): ThunksTypes => 
             dispatch(taskActions.setResultTable(res))
          }
 
+      }).finally(()=>{
+         dispatch(taskActions.toggleFetchingOff())
       })
    }
 }
 export const createResultTable = (result: ResultRecordType): ThunksTypes => {
    return async (dispatch) => {
+      dispatch(taskActions.toggleFetchingOn())
       api.createResult(result)?.then(res => {
          if (typeof res === 'string') {
             dispatch(appActions.setErrorText(res))
          } else {
             dispatch(taskActions.updateResultTable(res))
          }
+      }).finally(()=>{
+         dispatch(taskActions.toggleFetchingOff())
       })
    }
 }
 export const updateResultTable = (id: number, result: ResultRecordType): ThunksTypes => {
    return async (dispatch) => {
+      dispatch(taskActions.toggleFetchingOn())
       api.updateResult(id, result)?.then(res => {
          if (typeof res === 'string') {
             dispatch(appActions.setErrorText(res))
          } else {
             dispatch(taskActions.updateResultTable(res))
          }
+      }).finally(()=>{
+         dispatch(taskActions.toggleFetchingOff())
       })
    }
 }
 export const deleteResultTable = (id: number): ThunksTypes => {
    return async (dispatch) => {
+      dispatch(taskActions.toggleFetchingOn())
+
       api.deleteResult(id)?.then(res => {
          if (typeof res === 'string') {
             dispatch(appActions.setErrorText(res))
          } else {
             dispatch(taskActions.setResultTable(res))
          }
+      }).finally(()=>{
+         dispatch(taskActions.toggleFetchingOff())
       })
    }
 }

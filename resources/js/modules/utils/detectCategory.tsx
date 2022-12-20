@@ -1,7 +1,7 @@
 import { CategoryRecordType, CategoryType } from "../../redux/catReducer"
-import { TagRecordType } from "../../redux/tagReducer";
+import { TagRecordType, TagType } from "../../redux/tagReducer";
 
-export const detectItem = (id: string | undefined, list: Array<CategoryRecordType | TagRecordType>) => {
+export const detectItem = (id: string | undefined, list: Array<CategoryRecordType | TagType>) => {
    let item = list.filter(el => `${el.id}` === `${id}`);
    if (item[0]?.title) {
       return item[0].title;
@@ -19,5 +19,15 @@ export const detectCategory = (categories: Array<CategoryType>, params) => {
          }
       }
    }
-   return { title: '', tags: [], description: '',id:0,textUrl:'' }
+   return {} as CategoryType
+}
+export const detectTag= (tags: Array<TagType>, params) => {
+   if (tags.length > 0) {
+      for (const tag of tags) {
+         if (tag.textUrl === params.tag) {
+            return tag
+         }
+      }
+   }
+   return {} as TagType
 }

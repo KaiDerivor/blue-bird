@@ -5,9 +5,12 @@ import { appActions } from "./appReducer";
 import { AppStateType, InferActionsTypes } from "./store";
 
 const INIT_TAGS = 'cat/INIT_TAGS'
-const SET_ERROR_MESSAGE = 'SET_ERROR_MESSAGE'
-const ERASE_ERROR = 'ERASE_ERROR'
+const SET_ERROR_MESSAGE = 'app/SET_ERROR_MESSAGE'
+const ERASE_ERROR = 'app/ERASE_ERROR'
 const UPDATE_TAG = 'cat/UPDATE_TAG'
+const ON_TOGGLE_FETCHING = 'tag/ON_TOGGLE_FETCHING'
+const OFF_TOGGLE_FETCHING = 'tag/OFF_TOGGLE_FETCHING'
+
 export type TagRecordType = {
    id?: number,
    title?: string,
@@ -23,6 +26,7 @@ export type TagType = {
    textUrl: string
 }
 const initialState = {
+   isFetching: false,
    listTags: [] as Array<TagType>,
    errorText: ''
 }
@@ -68,6 +72,18 @@ const tagReducer = (state = initialState, action: ActionsTypes): StateType => {
             listTags: [...state.listTags]
          }
       }
+      case ON_TOGGLE_FETCHING: {
+         return {
+            ...state,
+            isFetching: true
+         }
+      }
+      case OFF_TOGGLE_FETCHING: {
+         return {
+            ...state,
+            isFetching: false
+         }
+      }
       default: return state;
    }
 }
@@ -80,26 +96,30 @@ export const tagActions = {
    init: (list: Array<TagType>) => { return { type: INIT_TAGS, list } as const },
    setErrorText: (err: string) => { return { type: SET_ERROR_MESSAGE, errorText: err } as const },
    eraseError: () => { return { type: ERASE_ERROR } as const },
-   updateTag: (tag: TagType) => { return { type: UPDATE_TAG, tag } as const }
+   updateTag: (tag: TagType) => { return { type: UPDATE_TAG, tag } as const },
+   toggleFetchingOn: () => { return { type: ON_TOGGLE_FETCHING } as const },
+   toggleFetchingOff: () => { return { type: OFF_TOGGLE_FETCHING } as const },
 }
 
 export type ThunksTypes = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>
 
 export const getTagsInit = (): ThunksTypes => {
    return async (dispatch) => {
+      dispatch(tagActions.toggleFetchingOn())
       api.getTags()?.then(res => {
          if (typeof res === 'string' || res === undefined) {
             dispatch(tagActions.setErrorText(res))
          } else {
             dispatch(tagActions.init(res))
          }
+      }).finally(()=>{
+         dispatch(tagActions.toggleFetchingOff())
       })
    }
 }
 export const createTag = (tag: TagRecordType): ThunksTypes => {
    return async (dispatch) => {
-
-
+      dispatch(tagActions.toggleFetchingOn())
       api.createTag(tag)?.then(res => {
          if (res) {
             if (typeof res === 'string') {
@@ -109,11 +129,14 @@ export const createTag = (tag: TagRecordType): ThunksTypes => {
                dispatch(tagActions.updateTag(res))
             }
          }
+      }).finally(()=>{
+         dispatch(tagActions.toggleFetchingOff())
       })
    }
 }
 export const updateTag = (id: number, tag: TagRecordType): ThunksTypes => {
    return async (dispatch) => {
+      dispatch(tagActions.toggleFetchingOn())
       //@ts-ignore
       if (!tag.img.name) {
          delete tag.img
@@ -126,11 +149,14 @@ export const updateTag = (id: number, tag: TagRecordType): ThunksTypes => {
             dispatch(tagActions.updateTag(res))
          }
 
+      }).finally(()=>{
+         dispatch(tagActions.toggleFetchingOff())
       })
    }
 }
 export const deleteTag = (id: number): ThunksTypes => {
    return async (dispatch) => {
+      dispatch(tagActions.toggleFetchingOn())
       api.deleteTag(id)?.then(res => {
 
 
@@ -141,6 +167,8 @@ export const deleteTag = (id: number): ThunksTypes => {
             dispatch(tagActions.init(res))
          }
 
+      }).finally(()=>{
+         dispatch(tagActions.toggleFetchingOff())
       })
    }
 }

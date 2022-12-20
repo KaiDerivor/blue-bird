@@ -7,7 +7,7 @@ import styles from './style.module.scss'
 import { CategoryRecordType, CategoryType, getCategoryTagsInit } from '../../redux/catReducer';
 import { TagRecordType, TagType } from '../../redux/tagReducer';
 import { useDispatch, useSelector } from "react-redux"
-import { getCategoryTagList, getChapterInfo, getResultTables, getTableOfResult } from '../../redux/appSelector';
+import { getCategoryTagList, getChapterInfo, getIsSetData, getResultTables, getTableOfResult } from '../../redux/appSelector';
 import Typography from '@mui/material/Typography'
 import { TaskComponent } from './Task';
 import { Button } from '@mui/material';
@@ -16,7 +16,7 @@ import ListAltIcon from '@mui/icons-material/ListAlt';
 import { NavLink } from 'react-router-dom';
 import LowPriorityIcon from '@mui/icons-material/LowPriority';
 import FeaturedPlayListIcon from '@mui/icons-material/FeaturedPlayList';
-import { updateMe } from '../../redux/appReducer';
+import { appActions, updateMe } from '../../redux/appReducer';
 import { Scroll2Top } from '../common/Scroll2Top';
 
 type ChartPairType = {
@@ -33,7 +33,7 @@ type ResultOfTestType = {
 }
 export const ResultOfTest: React.FC<ResultOfTestType> = ({ currCategory, test, userAnswers, currTag, startTestAgainHandler, time }) => {
    const dispatch: any = useDispatch()
-
+   const isInitUser = useSelector(getIsSetData)
    const resultTable = useSelector(getResultTables)[0]
    const categoryTagInfo = useSelector(getCategoryTagList)[0]
    const chart = useSelector(getChapterInfo)
@@ -50,6 +50,14 @@ export const ResultOfTest: React.FC<ResultOfTestType> = ({ currCategory, test, u
 
    useEffect(() => {
       window.scrollTo({ top: 0, left: 0, behavior: "smooth" })
+
+      dispatch(appActions.toggleFetchingOn());
+      const timerId = setTimeout(() => { dispatch(appActions.toggleFetchingOff()) }, 1000)
+
+      return () => {
+         clearTimeout(timerId)
+      }
+
    }, [])
 
    const displayAllTasks = () => {
@@ -129,30 +137,34 @@ export const ResultOfTest: React.FC<ResultOfTestType> = ({ currCategory, test, u
 
    useEffect(() => {
       return () => {
-         const currMonth = new Date().getMonth()
-         const defRating = defineRating()
-         const userRatingResult = defRating === WORST_RESULT ? 100 : defRating
-         let isSetData = false
-         let chartPairUpd = {}
-         for (const chartPair of chart[currCategory.id].chart) {
-            if (Object.keys(chartPair)[0] === `${currMonth}`) {
-               chartPairUpd = { [currMonth]: Math.round((chartPair[currMonth] + userRatingResult) / 2) }
-               isSetData = true
-            }
-         }
-         if (!isSetData) {
-            chartPairUpd = { [currMonth]: userRatingResult }
-         }
-         let sendMe = {
-            chart: JSON.stringify({
-               ...chart,
-               [currCategory.id]: {
-                  ...chart[currCategory.id],
-                  chart: [...chart[currCategory.id].chart.filter((chartPair: ChartPairType) => Object.keys(chartPair)[0] != `${currMonth}`), chartPairUpd]
+         if (isInitUser) {
+            const currMonth = new Date().getMonth()
+            const defRating = defineRating()
+            const userRatingResult = defRating === WORST_RESULT ? 100 : defRating
+            let isSetData = false
+            let chartPairUpd = {}
+            for (const chartPair of chart[currCategory.id].chart) {
+               if (Object.keys(chartPair)[0] === `${currMonth}`) {
+                  chartPairUpd = { [currMonth]: Math.round((chartPair[currMonth] + userRatingResult) / 2) }
+                  isSetData = true
                }
-            })
+            }
+            if (!isSetData) {
+               chartPairUpd = { [currMonth]: userRatingResult }
+            }
+            let sendMe = {
+               chart: JSON.stringify({
+                  ...chart,
+                  [currCategory.id]: {
+                     ...chart[currCategory.id],
+                     chart: [...chart[currCategory.id].chart.filter((chartPair: ChartPairType) => Object.keys(chartPair)[0] != `${currMonth}`), chartPairUpd]
+                  }
+               })
+            }
+            dispatch(updateMe(sendMe, false))
+         } else {
+            dispatch(appActions.setErrorText('Результат не збережено, для цього потрібно увійти'))
          }
-         dispatch(updateMe(sendMe,false))
       }
    }, [])
    return (

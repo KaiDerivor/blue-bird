@@ -7,9 +7,10 @@ import { ButtonTask } from './ButtonTask'
 import { AppDispatch } from '../../redux/store'
 import { useDispatch, useSelector } from 'react-redux'
 import { FormDataMeUpdateType, updateMe } from '../../redux/appReducer'
-import { getLikedTasks } from '../../redux/appSelector'
+import { getIsSetData, getLikedTasks } from '../../redux/appSelector'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import FavoriteIcon from '@mui/icons-material/Favorite'
+import { useSelect } from '@mui/base'
 
 const buttonsActionStyle = {
    backgroundColor: 'bgmode.main',
@@ -28,7 +29,7 @@ export const ButtonsActionSecond: React.FC<SolutionType> = ({ setIsOpenSolution,
    const dispatch: any = useDispatch()
    const likedTasks = useSelector(getLikedTasks)
    const Icon = likedTasks.includes(currTask.id) ? <FavoriteIcon /> : <FavoriteBorderIcon />
-
+   const isUserInit = useSelector(getIsSetData)
    const saveTask = (idLiked: number) => {
       let isSetted = false;
 
@@ -50,7 +51,9 @@ export const ButtonsActionSecond: React.FC<SolutionType> = ({ setIsOpenSolution,
          <Box sx={{ pt: 2, mb: 3, display: 'flex', justifyContent: 'space-between' }}>
             <ButtonTask title='До збереженого'
                Icon={Icon}
-               fn={() => saveTask(currTask.id)} />
+               fn={() => saveTask(currTask.id)}
+               isDisable={!isUserInit}
+            />
             {currTask.content &&
                <ButtonTask title='Дивитися пояснення'
                   fn={() => {//@ts-ignore

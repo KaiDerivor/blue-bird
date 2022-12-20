@@ -1,4 +1,4 @@
-import React, { Suspense } from "react"
+import React, { Suspense, useEffect } from "react"
 import { CommonHeader } from "../common/CommonHeader"
 import { Container } from "@mui/system"
 import { Footer } from "../Footer/Footer"
@@ -30,6 +30,10 @@ const Courses = React.memo(() => {
    if (params) {
       isId = params.length > 1
    }
+   useEffect(() => {
+      window.scrollBy({ top: 0, left: 0, behavior: 'smooth' })
+   }, [useParams()])
+
    return (
       <>
          <Fade in={true} timeout={500} style={{ transitionDelay: '500ms' }}>
@@ -43,11 +47,7 @@ const Courses = React.memo(() => {
                <Container maxWidth="xl">
                   <Box>
                      <Routes>
-                        <Route path="/" element={
-                           <Suspense fallback={<Loader />}>
-                              <CoursesList />
-                           </Suspense>
-                        } />
+
                         <Route path="/:category" element={
                            <Suspense fallback={<Loader />}>
                               <CourseCategory />
@@ -56,6 +56,11 @@ const Courses = React.memo(() => {
                         <Route path="/:category/:id" element={
                            <Suspense fallback={<Loader />}>
                               <CourseItem />
+                           </Suspense>
+                        } />
+                        <Route path="/" element={
+                           <Suspense fallback={<Loader />}>
+                              <CoursesList />
                            </Suspense>
                         } />
                      </Routes>
