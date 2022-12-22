@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import { lettersOfAnswers, TaskType } from '../../redux/taskReducer'
+import { lettersOfAnswers, TaskSavedType, TaskType } from '../../redux/taskReducer'
 import { URL_STORAGE } from '../../redux/appReducer'
 import { AnswerField } from './AnswerField'
 import { CategoryRecordType } from '../../redux/catReducer'
@@ -57,8 +57,9 @@ export const TaskComponent: React.FC<TaskComponentType> = ({
         <Typography variant="body1" color="inherit">{taskQuestion}</Typography>
       </Box>
       {task.task &&
-        <Box sx={{ pb: 3 }}>
-          <img src={`${URL_STORAGE}${task.task}`} alt={`${currCategory.textUrl}-${currTag.textUrl}-${task.number_of_task}`} />
+        <Box sx={{ pb: 3,minHeight:'200px' }}>
+          {/* {task.task || <Box sx={{ height: '400px' }} />} */}
+          <img src={`${URL_STORAGE}${task.task}`} alt={`${currCategory.textUrl}-${currTag.textUrl}-${task.number_of_task}`} loading="eager" />
         </Box>
       }
       <Box sx={{}}>

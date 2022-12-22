@@ -19,4 +19,7 @@ class Category extends Model
     {
         return $this->belongsToMany(Tag::class,'category_tags','categoryId','tagId');
     }
+    public function themes(){
+        return $this->belongsToMany(Theme::class,'category_themes','category_id','theme_id');
+    }
 }

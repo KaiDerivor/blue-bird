@@ -67,6 +67,13 @@ const AdminPage = React.lazy(() => {
   ])
     .then(([AdminPage]) => AdminPage);
 })
+const TaskOne = React.lazy(() => {
+  return Promise.all([
+    import('./modules/common/TaskOne'),
+    new Promise(resolve => setTimeout(resolve, 800))
+  ])
+    .then(([TaskOne]) => TaskOne);
+})
 const drawerWidth = 60;
 
 function App() {
@@ -126,7 +133,7 @@ function App() {
               <AlertBox />
 
               {isFetching && <Loader />}
-              <Box sx={{ pr: 1, pl: 1, pt: 1 ,filter:isFetching?'blur(10px)':''}}>
+              <Box sx={{ pr: 1, pl: 1, pt: 1, filter: isFetching ? 'blur(10px)' : '' }}>
                 <Routes>
                   <Route path='/' element={
                     <Suspense fallback={<Loader />}>
@@ -156,6 +163,11 @@ function App() {
                   <Route path='/register' element={
                     <Suspense fallback={<Loader />}>
                       <FormReg />
+                    </Suspense>
+                  } />
+                  <Route path='/task/:id' element={
+                    <Suspense fallback={<Loader />}>
+                      <TaskOne />
                     </Suspense>
                   } />
                   {userRole === 'admin' && (<>

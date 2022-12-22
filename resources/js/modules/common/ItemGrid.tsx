@@ -16,8 +16,10 @@ type ItemGridType = {
    imgUrl?: string
    isEmpty?: boolean
    navLink?: string
+   content?: string
+   numberOfTask?: string
 }
-export const ItemGrid: React.FC<ItemGridType> = ({ title, text = '', isEmpty, navLink, imgUrl }) => {
+export const ItemGrid: React.FC<ItemGridType> = ({ title, text = '', isEmpty, navLink, imgUrl, content = '', numberOfTask = '' }) => {
    if (isEmpty) {
       return (
          <Card sx={{ backgroundColor: 'bgmode.main', '&:hover': { backgroundColor: 'bgmode.dark' } }} className={styles.cardGridItem}>
@@ -33,19 +35,25 @@ export const ItemGrid: React.FC<ItemGridType> = ({ title, text = '', isEmpty, na
       return (
          <Card sx={{ backgroundColor: 'bgmode.main', transition: 'all 0.5s', '&:hover': { backgroundColor: 'bgmode.dark', '.MuiCardMedia-root ': { transform: 'scale(1.3)', transition: 'all 0.6s' } } }} className={styles.cardGridItem}>
             <Box sx={{ overflow: 'hidden' }}>
-               <CardMedia
+               {imgUrl && <CardMedia
                   component="img"
                   height="180"
                   image={imgUrl}
-                  alt="green iguana"
-               />
+                  alt={navLink}
+               />}
             </Box>
             <CardContent>
                <Typography gutterBottom variant="h5" component="div" color="fpage.dark">
                   {title}
                </Typography>
-               <Typography variant="body2" color="text.secondary">
+               <Typography variant="body1" color="text.secondary">
                   {text}
+               </Typography>
+               <Typography variant="body1" color="text.secondary">
+                  {numberOfTask ? `Номер завдання: ${numberOfTask}` : ''}
+               </Typography>
+               <Typography variant="body2" color="text.secondary">
+                  {content}
                </Typography>
             </CardContent>
 

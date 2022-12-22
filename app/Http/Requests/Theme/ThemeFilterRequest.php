@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Task;
+namespace App\Http\Requests\Theme;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class FilterRequest extends FormRequest
+class ThemeFilterRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,13 +24,7 @@ class FilterRequest extends FormRequest
     public function rules()
     {
         return [
-            'ids' => '',
-            'ids[]' => 'integer',
-            'tag_id' => '',
-            'category_id' => '',
-
-            'page' => '',
-            'per_page' => ''
+            'categoryId'=>'integer'
         ];
     }
 }

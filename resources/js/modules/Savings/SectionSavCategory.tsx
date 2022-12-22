@@ -4,6 +4,7 @@ import { ItemGrid } from '../common/ItemGrid'
 //@ts-ignore
 import styles from './style.module.scss'
 import Typography from '@mui/material/Typography'
+import { ListItemSaveType } from './SavingsItems'
 
 
 const styleBoxTitle = {
@@ -16,13 +17,7 @@ const styleBoxTitle = {
       pt: 5
    },
 }
-type ListItemSaveType = {
-   title: string
-   subtitle: string
-   category: string
-   id: string
-   imgUrl: string
-}
+
 type SectionSavCategoryType = {
    title: string
    subtitle: string,
@@ -32,9 +27,14 @@ type SectionSavCategoryType = {
 export const SectionSavCategory: React.FC<SectionSavCategoryType> = React.memo(({ title, subtitle, listSavings }) => {
    const showAllItems = () => {
       let ret = [] as Array<JSX.Element>;
-      listSavings.map((item: ListItemSaveType, index: number) => {
-         ret.push(<ItemGrid key={index} text={item.subtitle} title={item.title} navLink={`/${item.category}/${item.id}`} imgUrl={item.imgUrl} />)
-      })
+
+      if (listSavings.length > 0)
+         listSavings.map((item: ListItemSaveType, index: number) => {
+            ret.push(<ItemGrid key={index}
+               text={item.subtitle} title={item.title}
+               content={item.content} navLink={`/task/${item.taskId}`}
+               numberOfTask={item.numberOfTask} imgUrl={item.imgUrl} />)
+         })
       return ret;
    }
    return (
@@ -47,8 +47,9 @@ export const SectionSavCategory: React.FC<SectionSavCategoryType> = React.memo((
             </Box>
             <Box className={styles.listSavings}>
                {showAllItems()}
-               <ItemGrid text={''} title={''} isEmpty />
-               <ItemGrid text={''} title={''} isEmpty />
+               {listSavings.length === 0 &&
+                  < ItemGrid text={''} title={''} isEmpty />
+               }
 
             </Box>
          </Box>

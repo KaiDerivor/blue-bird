@@ -1,50 +1,53 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { URL_STORAGE } from '../../redux/appReducer'
+import { getLikedTasks, getSavedTasks } from '../../redux/appSelector'
+import { initSavedTasks } from '../../redux/taskReducer'
 import { SectionSavCategory } from "./SectionSavCategory"
 
-const stateList = {
-   title: 'Збережені записи',
-   subtitle: 'Збережені записи',
-   listSavings: [
-      {
-         title: 'Lizard',
-         subtitle: 'Lizards are a widespread group of squamate reptiles, with over 6,000\nspecies, ranging across all continents except Antarctica',
-         category: 'courses',
-         id: 'lizard',
-         imgUrl: 'https://source.unsplash.com/random/?physic'
-      },
-      {
-         title: 'turles',
-         subtitle: 'With over 6,000\nspecies, ranging across all continents except Antarctica',
-         category: 'courses',
-         id: 'turles',
-         imgUrl: 'https://source.unsplash.com/random/?history'
 
-      },
-      {
-         title: 'Lorem',
-         subtitle: 'Lorem ipsum dolor sit amet consectetur adipicing elit',
-         category: 'courses',
-         id: 'lorem',
-         imgUrl: 'https://source.unsplash.com/random/?matematic'
-
-      },
-      {
-         title: 'Nebula',
-         subtitle: 'Clarior est solito post maxima nebula',
-         category: 'courses',
-         id: 'nebula',
-         // imgUrl: 'https://source.unsplash.com/random/?ukraine,landscape'
-         imgUrl: 'https://source.unsplash.com/random/?viburnum,ukrainian'
-      },
-   ]
+export type ListItemSaveType = {
+   title: string
+   subtitle: string
+   category: string
+   id: string
+   imgUrl: string
+   content: string
+   taskId: number
+   numberOfTask: string
 }
-
-export const SavingsItems =React.memo( () => {
+export const SavingsItems = React.memo(() => {
+   const dispatch: any = useDispatch()
+   const likedTasks = useSelector(getLikedTasks)
+   const taskSavings = useSelector(getSavedTasks)
+   const [savedTasks, setSavedTasks] = useState([] as Array<ListItemSaveType>)
+   useEffect(() => {
+      console.log(savedTasks)
+      return () => {
+         likedTasks.length > 0 && savedTasks.length === 0 && dispatch(initSavedTasks(likedTasks))
+      };
+   }, [])
+   useEffect(() => {
+      if (taskSavings.length > 0 && savedTasks.length === 0) {
+         let initSavedTasks = [] as Array<ListItemSaveType>
+         for (const it of taskSavings) {
+            initSavedTasks.push({
+               title: `Категорія: ${it.category.title.toLocaleLowerCase()}`,
+               subtitle: `${it.tag.title}`,
+               category: it.category.textUrl,
+               id: it.tag.textUrl,
+               content: JSON.parse(it.test_qa)?.question ? JSON.parse(it.test_qa)?.question : '',
+               imgUrl: it?.task ? `${URL_STORAGE}${it.task}` : '',
+               taskId: it.id,
+               numberOfTask: `${it.numberOfTask}`
+            })
+         }
+         setSavedTasks(initSavedTasks)
+      }
+   }, [taskSavings])
    return (
       <>
-         <SectionSavCategory title="Збережені записи" subtitle='Збережені записи' listSavings={stateList.listSavings} />
-         <SectionSavCategory title="Збережені завдання" subtitle='Збережені завдання' listSavings={stateList.listSavings} />
-         <SectionSavCategory title="Збережені параграфи" subtitle='Збережені параграфи' listSavings={stateList.listSavings} />
+         <SectionSavCategory title="Збережені завдання" subtitle='Збережені завдання' listSavings={savedTasks} />
       </>
    )
 })

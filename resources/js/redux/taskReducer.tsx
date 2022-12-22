@@ -2,7 +2,9 @@ import { Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
 import { api } from "../api/api";
 import { appActions } from "./appReducer";
+import { CategoryType } from "./catReducer";
 import store, { AppStateType, InferActionsTypes } from "./store";
+import { TagType } from "./tagReducer";
 
 export const lettersOfAnswers = ['А', 'Б', 'В', 'Г', 'Д'];
 export const WORST_RESULT = 'не склав'
@@ -15,6 +17,7 @@ const INIT_TEST = 'task/INIT_TEST'
 const SET_FILTER = 'task/SET_FILTER'
 const SET_RESULT_TABLE = 'task/SET_RESULT_TABLE'
 const UPDATE_RESULTS_TABLE = 'task/UPDATE_RESULTS_TABLE'
+const INIT_SAVED_TASKS = 'task/INIT_SAVED_INIT_SAVED_TASKS'
 
 const ON_TOGGLE_FETCHING = 'task/ON_TOGGLE_FETCHING'
 const OFF_TOGGLE_FETCHING = 'task/OFF_TOGGLE_FETCHING'
@@ -55,15 +58,27 @@ export type TaskType = {
    task_type: string
    test_qa?: any
 }
+export type TaskSavedType = {
+   id: number
+   task?: any
+   answer: string
+   content?: string
+   category: CategoryType
+   tag: TagType
+   numberOfTask: number
+   task_type: string
+   test_qa?: any
+}
 const initialState = {
-   isFetching:false,
+   isFetching: false,
    listTasks: [] as Array<TaskType>,
    test: [] as Array<TaskType>,
    errorText: '',
    filterCategory: localStorage.categoryId ? localStorage.categoryId : '',
    filterTag: localStorage.tagId ? localStorage.tagId : '',
    result: {} as ResultTableType,
-   results: [] as Array<ResultTableType>
+   results: [] as Array<ResultTableType>,
+   savedTasks: [] as Array<TaskSavedType>
 }
 type StateType = typeof initialState;
 const taskReducer = (state = initialState, action: ActionsTypes): StateType => {
@@ -156,6 +171,12 @@ const taskReducer = (state = initialState, action: ActionsTypes): StateType => {
             isFetching: false
          }
       }
+      case INIT_SAVED_TASKS: {
+         return {
+            ...state,
+            savedTasks: action.savedTasks
+         }
+      }
       default: return state;
    }
 }
@@ -175,6 +196,7 @@ export const taskActions = {
    updateResultTable: (result: ResultTableType) => { return { type: UPDATE_RESULTS_TABLE, result } as const },
    toggleFetchingOn: () => { return { type: ON_TOGGLE_FETCHING } as const },
    toggleFetchingOff: () => { return { type: OFF_TOGGLE_FETCHING } as const },
+   initSavedTasks: (savedTasks: Array<TaskSavedType>) => { return { type: INIT_SAVED_TASKS, savedTasks } as const },
 }
 
 export type ThunksTypes = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>
@@ -194,7 +216,7 @@ export const getTasksInit = (categoryId: string = '', tagId: string = ''): Thunk
             }
             dispatch(taskActions.init(res))
          }
-      }).finally(()=>{
+      }).finally(() => {
          dispatch(taskActions.toggleFetchingOff())
       })
    }
@@ -212,7 +234,7 @@ export const getTestInit = (categoryId: number, tagId: number): ThunksTypes => {
 
             }
          }
-      }).finally(()=>{
+      }).finally(() => {
          dispatch(taskActions.toggleFetchingOff())
       })
    }
@@ -234,7 +256,7 @@ export const createTask = (task: TaskRecordType): ThunksTypes => {
                }
             }
             dispatch(taskActions.toggleFetchingOff())
-         }).finally(()=>{
+         }).finally(() => {
             dispatch(taskActions.toggleFetchingOff())
          })
    }
@@ -256,7 +278,7 @@ export const updateTask = (id: number | string | undefined, task: TaskRecordType
             dispatch(taskActions.updateTask(res))
          }
 
-      }).finally(()=>{
+      }).finally(() => {
          dispatch(taskActions.toggleFetchingOff())
       })
    }
@@ -272,7 +294,7 @@ export const deleteTask = (id: number | string): ThunksTypes => {
             dispatch(taskActions.init(res))
          }
 
-      }).finally(()=>{
+      }).finally(() => {
          dispatch(taskActions.toggleFetchingOff())
       })
    }
@@ -288,7 +310,7 @@ export const getResultTableInit = (categoryId = '', tagId = ''): ThunksTypes => 
             dispatch(taskActions.setResultTable(res))
          }
 
-      }).finally(()=>{
+      }).finally(() => {
          dispatch(taskActions.toggleFetchingOff())
       })
    }
@@ -302,7 +324,7 @@ export const createResultTable = (result: ResultRecordType): ThunksTypes => {
          } else {
             dispatch(taskActions.updateResultTable(res))
          }
-      }).finally(()=>{
+      }).finally(() => {
          dispatch(taskActions.toggleFetchingOff())
       })
    }
@@ -316,7 +338,7 @@ export const updateResultTable = (id: number, result: ResultRecordType): ThunksT
          } else {
             dispatch(taskActions.updateResultTable(res))
          }
-      }).finally(()=>{
+      }).finally(() => {
          dispatch(taskActions.toggleFetchingOff())
       })
    }
@@ -331,7 +353,17 @@ export const deleteResultTable = (id: number): ThunksTypes => {
          } else {
             dispatch(taskActions.setResultTable(res))
          }
-      }).finally(()=>{
+      }).finally(() => {
+         dispatch(taskActions.toggleFetchingOff())
+      })
+   }
+}
+export const initSavedTasks = (listTaksIds: Array<number>): ThunksTypes => {
+   return async (dispatch) => {
+      dispatch(taskActions.toggleFetchingOn())
+      api.getTasks('', '', listTaksIds)?.then(res => {
+         dispatch(taskActions.initSavedTasks(res))
+      }).finally(() => {
          dispatch(taskActions.toggleFetchingOff())
       })
    }

@@ -15,15 +15,17 @@ class TaskResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'=>$this->id,
-            'task'=>$this->task,
-            'answer'=>$this->answer,
-            'content'=>$this->content,
-            'category_id'=>$this->category_id,
-            'tag_id'=>$this->tag_id,
-            'task_type'=>$this->task_type,
-            'number_of_task'=>$this->number_of_task,
-            'test_qa'=>$this->test_qa
+            'id' => $this->id,
+            'task' => $this->task,
+            'answer' => $this->answer,
+            'content' => $this->content,
+            'category_id' => $this->category_id,
+            'tag_id' => $this->tag_id,
+            'task_type' => $this->task_type,
+            'number_of_task' => $this->number_of_task,
+            'test_qa' => $this->test_qa,
+            'rule_id' => $this->rule_id,
+            'theme_id' => $this->theme_id
         ];
     }
 }

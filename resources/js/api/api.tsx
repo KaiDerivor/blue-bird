@@ -37,7 +37,7 @@ instance.interceptors.response.use(
   (error) => {
     if (error?.response?.status === 401) {
       if (localStorage.getItem('access_token')) {
-       return instance.post("auth/refresh", {}, {
+        return instance.post("auth/refresh", {}, {
           headers: {
             'authorization': `Bearer ${localStorage.getItem('access_token')}`,
           }
@@ -264,8 +264,8 @@ export const api = {
   },
 
   //task
-  getTasks: function (category_id: string, tag_id: string) {
-    return instance.get(`admin/tasks?category_id=${category_id}&tag_id=${tag_id}`).then(res => {
+  getTasks: function (category_id = '', tag_id = '', listSaved = [] as Array<number>) {
+    return instance.get(`admin/tasks?category_id=${category_id}&tag_id=${tag_id}${listSaved.length>0 && `&ids=${listSaved}`}`).then(res => {
       return res.data.data;
     }).catch(err => {
       if (err.response) {

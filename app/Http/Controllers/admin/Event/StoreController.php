@@ -18,7 +18,7 @@ class StoreController extends BaseController
         if($msg instanceof Event){
             return new EventResource($msg);
         }else{
-            return response(['data'=>'$msg']);
+            return response(['data'=>$msg]);
         }
     }
 }

@@ -63,3 +63,6 @@ export const getChapterInfo = (state: AppStateType) => {
 export const getCategoryTagList = (state: AppStateType) => {
    return state.category.listCategoryTags;
 }
+export const getSavedTasks=(state:AppStateType)=>{
+   return state.task.savedTasks
+}

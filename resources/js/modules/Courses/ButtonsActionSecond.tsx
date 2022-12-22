@@ -1,28 +1,20 @@
 import React from 'react'
-import { TaskType } from '../../redux/taskReducer'
+import { TaskSavedType, TaskType } from '../../redux/taskReducer'
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 import Collapse from '@mui/material/Collapse'
 import { ButtonTask } from './ButtonTask'
-import { AppDispatch } from '../../redux/store'
 import { useDispatch, useSelector } from 'react-redux'
-import { FormDataMeUpdateType, updateMe } from '../../redux/appReducer'
+import { updateMe } from '../../redux/appReducer'
 import { getIsSetData, getLikedTasks } from '../../redux/appSelector'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import FavoriteIcon from '@mui/icons-material/Favorite'
-import { useSelect } from '@mui/base'
-
-const buttonsActionStyle = {
-   backgroundColor: 'bgmode.main',
-   color: 'fpage.main',
-   borderColor: 'bgmode.main',
-   lineHeight: '2'
-}
+import Typography from '@mui/material/Typography'
 
 type SolutionType = {
    setIsOpenSolution: (arg1: boolean) => void
    isOpenSolution: boolean
-   currTask: TaskType
+   currTask: TaskType | TaskSavedType
    isAsAnswer?: boolean
 }
 export const ButtonsActionSecond: React.FC<SolutionType> = ({ setIsOpenSolution, isOpenSolution, currTask, isAsAnswer = false }) => {
@@ -57,12 +49,13 @@ export const ButtonsActionSecond: React.FC<SolutionType> = ({ setIsOpenSolution,
             {currTask.content &&
                <ButtonTask title='Дивитися пояснення'
                   fn={() => {//@ts-ignore
-                     setIsOpenSolution((prev) => !prev)
+                     setIsOpenSolution((prev:boolean) => !prev)
                   }} />
             }
          </Box>
          <Box >
             <Collapse in={isOpenSolution}>
+               <Typography variant="h5" color="inherit">Розв'язок</Typography>
                {currTask.content}
             </Collapse>
          </Box>

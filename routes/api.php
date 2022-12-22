@@ -41,7 +41,7 @@ Route::group(['namespace' => 'App\Http\Controllers\User', 'prefix' => 'auth', 'm
     // Route::get('info', "IndexController");
 });
 
-Route::group(['namespace' => 'App\Http\Controllers\User', 'prefix' => 'auth', 'middleware' => ['api','auth']], function () {
+Route::group(['namespace' => 'App\Http\Controllers\User', 'prefix' => 'auth', 'middleware' => ['api', 'auth']], function () {
     Route::get('info', "IndexController");
 });
 
@@ -75,6 +75,12 @@ Route::group([
     });
     Route::group(['namespace' => 'CategoryTag'], function () {
         Route::get('/category-tags', "IndexController")->name('admin.category-tags.index');
+    });
+    Route::group(['namespace' => 'Theme'], function () {
+        Route::get('/themes', "IndexController")->name('admin.theme.index');
+    });
+    Route::group(['namespace' => 'Rule'], function () {
+        Route::get('/rules', "IndexController")->name('admin.rule.index');
     });
 });
 
@@ -120,5 +126,15 @@ Route::group([
     Route::group(['namespace' => 'CategoryTag'], function () {
         Route::post('/category-tags/{categoryTag}', "UpdateController")->name('admin.category-tags.update');
         Route::delete('/category-tags/{categoryTag}', "DeleteController")->name('admin.category-tags.delete');
+    });
+    Route::group(['namespace' => 'Theme'], function () {
+        Route::post('/themes', "StoreController")->name('admin.themes.store');
+        Route::patch('/themes/{theme}', "UpdateController")->name('admin.theme.update');
+        Route::delete('/themes/{theme}', "DeleteController")->name('admin.theme.delete');
+    });
+    Route::group(['namespace' => 'Rule'], function () {
+        Route::post('/rules', "StoreController")->name('admin.rules.store');
+        Route::patch('/rules/{rule}', "UpdateController")->name('admin.rule.update');
+        Route::delete('/rules/{rule}', "DeleteController")->name('admin.rule.delete');
     });
 });
