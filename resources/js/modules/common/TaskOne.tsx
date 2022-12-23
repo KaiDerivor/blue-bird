@@ -31,8 +31,11 @@ const TaskOne = () => {
    const [isOpenSolution, setIsOpenSolution] = useState(false)
 
    useEffect(() => {
-      savedTasks.length === 0 && likedTasks.length > 0 &&
-         !currTask?.id || likedTasks.length != savedTasks.length && dispatch(initSavedTasks(likedTasks))
+
+      if (savedTasks.length === 0
+         && likedTasks.length > 0
+         && !currTask?.id
+         || likedTasks.length != savedTasks.length) dispatch(initSavedTasks(likedTasks))
    }, [likedTasks])
 
    let taskAnswers = [] as Array<string>
@@ -55,8 +58,6 @@ const TaskOne = () => {
       }
 
    }, [savedTasks])
-
-   console.log(currTask)
    return (
       <Box>
          <Box sx={{ pr: 3, pl: 3, color: 'fpage.light' }}>

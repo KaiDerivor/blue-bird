@@ -49,7 +49,18 @@ const CategoryTags = React.lazy(() => {
       new Promise(resolve => setTimeout(resolve, 800))
    ]).then(([CategoryTags]) => CategoryTags)
 })
-
+const Rules = React.lazy(() => {
+   return Promise.all([
+      import('./Rules'),
+      new Promise(resolve => setTimeout(resolve, 800))
+   ]).then(([Rules]) => Rules)
+})
+const Themes = React.lazy(() => {
+   return Promise.all([
+      import('./Themes'),
+      new Promise(resolve => setTimeout(resolve, 800))
+   ]).then(([Themes]) => Themes)
+})
 const AdminPage = () => {
    return (
       <Box sx={{ color: 'fpage.main' }}>
@@ -61,6 +72,8 @@ const AdminPage = () => {
             <MenuItemAdmin linkUrl='admin/results' linkText="Results" Icon={<AppsIcon sx={{ color: 'inherit' }} />} />
             <MenuItemAdmin linkUrl='admin/events' linkText="Events" Icon={<AppsIcon sx={{ color: 'inherit' }} />} />
             <MenuItemAdmin linkUrl='admin/category-tags' linkText="Category Tag" Icon={<AppsIcon sx={{ color: 'inherit' }} />} />
+            <MenuItemAdmin linkUrl='admin/rules' linkText="Rules" Icon={<AppsIcon sx={{ color: 'inherit' }} />} />
+            <MenuItemAdmin linkUrl='admin/themes' linkText="Themes" Icon={<AppsIcon sx={{ color: 'inherit' }} />} />
          </Stack>
          <Box>
             <Routes>
@@ -68,37 +81,47 @@ const AdminPage = () => {
                   <Suspense fallback={<Loader />}>
                      <Categories />
                   </Suspense>
-               }/>
+               } />
                <Route path='tags/*' element={
                   <Suspense fallback={<Loader />}>
                      <Tags />
                   </Suspense>
-               }/>
+               } />
                <Route path='tasks/*' element={
                   <Suspense fallback={<Loader />}>
                      <Tasks />
                   </Suspense>
-               }/>
+               } />
                <Route path='users/*' element={
                   <Suspense fallback={<Loader />}>
                      <Users />
                   </Suspense>
-               }/>
+               } />
                <Route path='results/*' element={
                   <Suspense fallback={<Loader />}>
                      <Results />
                   </Suspense>
-               }/>
+               } />
                <Route path='events/*' element={
                   <Suspense fallback={<Loader />}>
                      <DataEvents />
                   </Suspense>
-               }/>
+               } />
                <Route path='category-tags/*' element={
                   <Suspense fallback={<Loader />}>
                      <CategoryTags />
                   </Suspense>
-               }/>
+               } />
+               <Route path='rules/*' element={
+                  <Suspense fallback={<Loader />}>
+                     <Rules />
+                  </Suspense>
+               } />
+               <Route path='themes/*' element={
+                  <Suspense fallback={<Loader />}>
+                     <Themes />
+                  </Suspense>
+               } />
             </Routes>
          </Box>
       </Box >

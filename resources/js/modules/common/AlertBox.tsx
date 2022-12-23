@@ -19,7 +19,7 @@ export const AlertBox = () => {
 
    const errorText = useSelector(getErrorText)
    useEffect(() => {
-      if (errorText.length > 1) {
+      if (errorText && errorText.length > 1) {
          setOpen(true)
          setTimeout(() => {
             dispatch(appActions.eraseError())

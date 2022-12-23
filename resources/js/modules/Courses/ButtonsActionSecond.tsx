@@ -11,6 +11,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import Typography from '@mui/material/Typography'
 
+
 type SolutionType = {
    setIsOpenSolution: (arg1: boolean) => void
    isOpenSolution: boolean
@@ -46,17 +47,30 @@ export const ButtonsActionSecond: React.FC<SolutionType> = ({ setIsOpenSolution,
                fn={() => saveTask(currTask.id)}
                isDisable={!isUserInit}
             />
-            {currTask.content &&
-               <ButtonTask title='Дивитися пояснення'
+            {(currTask.content || currTask?.rule?.id) &&
+               < ButtonTask title='Дивитися пояснення'
                   fn={() => {//@ts-ignore
-                     setIsOpenSolution((prev:boolean) => !prev)
+                     setIsOpenSolution((prev: boolean) => !prev)
                   }} />
             }
          </Box>
          <Box >
             <Collapse in={isOpenSolution}>
-               <Typography variant="h5" color="inherit">Розв'язок</Typography>
-               {currTask.content}
+               <Box sx={{backgroundColor:'bgmode.main',p:2,borderRadius:'24px'}}>
+                  {currTask?.rule?.title &&
+                     <Box>
+                        <Typography variant="h6" color="inherit">{currTask.rule.title}</Typography>
+                        <Typography variant="body1" color="inherit">{currTask.rule.description}</Typography>
+                     </Box>
+                  }
+                  {
+                     currTask?.content &&
+                     <Box>
+                        <Typography variant="h6" color="inherit">Розв'язок</Typography>
+                        <Typography variant="body1" color="inherit">{currTask.content}</Typography>
+                     </Box>
+                  }
+               </Box>
             </Collapse>
          </Box>
       </>

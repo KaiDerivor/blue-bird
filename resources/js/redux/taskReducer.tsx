@@ -3,8 +3,10 @@ import { ThunkAction } from "redux-thunk";
 import { api } from "../api/api";
 import { appActions } from "./appReducer";
 import { CategoryType } from "./catReducer";
+import { RuleType } from "./ruleReducer";
 import store, { AppStateType, InferActionsTypes } from "./store";
 import { TagType } from "./tagReducer";
+import { ThemeType } from "./themeReducer";
 
 export const lettersOfAnswers = ['А', 'Б', 'В', 'Г', 'Д'];
 export const WORST_RESULT = 'не склав'
@@ -46,6 +48,11 @@ export type TaskRecordType = {
    number_of_task?: number
    task_type?: string
    test_qa?: any
+   rule_id?: number
+   theme_id?: number
+
+   rule?: { id?: number }
+   theme?: { id?: number }
 }
 export type TaskType = {
    id: number
@@ -57,6 +64,8 @@ export type TaskType = {
    number_of_task: number
    task_type: string
    test_qa?: any
+   rule: RuleType
+   theme: ThemeType
 }
 export type TaskSavedType = {
    id: number
@@ -68,6 +77,8 @@ export type TaskSavedType = {
    numberOfTask: number
    task_type: string
    test_qa?: any
+   rule: RuleType
+   theme: ThemeType
 }
 const initialState = {
    isFetching: false,
@@ -221,10 +232,12 @@ export const getTasksInit = (categoryId: string = '', tagId: string = ''): Thunk
       })
    }
 }
-export const getTestInit = (categoryId: number, tagId: number): ThunksTypes => {
+export const getTestInit = (categoryId: number | string, tagId: number | string, themeId?: number | string): ThunksTypes => {
    return async (dispatch) => {
+      if (tagId && themeId) return;
+
       dispatch(taskActions.toggleFetchingOn())
-      api.getTest(categoryId, tagId)?.then(res => {
+      api.getTest(categoryId, tagId, themeId)?.then(res => {
          if (res) {
             if (typeof res === 'string') {
                dispatch(appActions.setErrorText(res))

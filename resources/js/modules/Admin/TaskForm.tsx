@@ -4,7 +4,7 @@ import styles from './style.module.scss';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import Box from '@mui/material/Box'
 import { useDispatch, useSelector } from 'react-redux';
-import { getCategories, getErrorText, getTags, getTaskFilter } from '../../redux/appSelector';
+import { getCategories, getErrorText, getRulesList, getTags, getTaskFilter, getThemesList } from '../../redux/appSelector';
 import { AppDispatch } from '../../redux/store';
 import { ButtonSubmit } from '../Auth/ButtonSubmit';
 import Button from '@mui/material/Button';
@@ -14,20 +14,40 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography'
 import { TaskRecordType } from '../../redux/taskReducer';
 import { URL_STORAGE } from '../../redux/appReducer';
+import { getRulesInit } from '../../redux/ruleReducer';
+import { getThemesInit } from '../../redux/themeReducer';
 
 type TaskFormType = {
    handleConfirm: (arg1: TaskRecordType) => void
    task: TaskRecordType
 }
 export const TaskForm: React.FC<TaskFormType> = ({ handleConfirm, task }) => {
-   const dispatch: AppDispatch = useDispatch();
+   const dispatch: any = useDispatch();
 
    const errorText = useSelector(getErrorText)
    const categories = useSelector(getCategories)
    const tagsList = useSelector(getTags)
-
+   const rules = useSelector(getRulesList)
+   const themes = useSelector(getThemesList)
    let [filterTag, filterCategory] = useSelector(getTaskFilter)
    const [isSubmiting, setIsSubmiting] = useState(false)
+   const [currCategoryId, setCurrCategoryId] = useState<string | null>(() => {
+      if (task?.category_id) {
+         return task.category_id
+      } else {
+         return null
+      }
+   })
+
+   useEffect(() => {
+      return () => {
+         if (currCategoryId) {
+            dispatch(getRulesInit(`${currCategoryId}`))
+            dispatch(getThemesInit(`${currCategoryId}`))
+         }
+      };
+   }, [currCategoryId])
+
    const [number_of_task, setNumberTask] = useState(() => {
       if (task?.number_of_task) {
          return task.number_of_task
@@ -35,6 +55,7 @@ export const TaskForm: React.FC<TaskFormType> = ({ handleConfirm, task }) => {
          return 1;
       }
    })
+
    const [taskImg, setTaskImg] = useState<any>(null)
    const [error, setError] = useState('')
    useEffect(() => {
@@ -60,7 +81,10 @@ export const TaskForm: React.FC<TaskFormType> = ({ handleConfirm, task }) => {
                tag_id: task?.tag_id ? task.tag_id : `${filterTag}`,
                task_type: task?.task_type ? task.task_type : 'letter5',
                taskAnswers: task?.test_qa ? JSON.parse(task.test_qa).taskAnswers.join('##') : '',
-               taskQuestion: task?.test_qa ? JSON.parse(task.test_qa).taskQuestion : ''
+               taskQuestion: task?.test_qa ? JSON.parse(task.test_qa).taskQuestion : '',
+               theme_id: task?.theme ? task.theme.id : '',
+               rule_id: task?.rule ? task.rule.id : '',
+
             }}
             onSubmit={(values) => {
                //@ts-ignore
@@ -90,6 +114,8 @@ export const TaskForm: React.FC<TaskFormType> = ({ handleConfirm, task }) => {
                })
                delete formData.taskQuestion
                delete formData.taskAnswers
+
+               // console.log(formData)
                handleConfirm(formData)
             }}
          >
@@ -145,9 +171,10 @@ export const TaskForm: React.FC<TaskFormType> = ({ handleConfirm, task }) => {
                      <ErrorMessage name="content" component="div" />
                   </Box>
                </Box>
+
                <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', width: '100%', gap: '20px' }}>
                   <Box className={styles.wrapperField}>
-                     <Field as="select" name="category_id" className={styles.inputField}>
+                     <Field as="select" name="category_id" className={styles.inputField} onChange={(el) => setCurrCategoryId(el.target.value)}>
                         {categories && categories.map(cat => {
                            return (<option key={cat.id} value={cat.id}>{cat.title}</option>)
                         })}
@@ -176,6 +203,27 @@ export const TaskForm: React.FC<TaskFormType> = ({ handleConfirm, task }) => {
                      <ErrorMessage name="task_type" component="div" />
                   </Box>
                </Box>
+
+               <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', width: '100%', gap: '20px' }}>
+                  <Box className={styles.wrapperField}>
+                     <Field as="select" name="theme_id" className={styles.inputField}>
+                        {themes && themes.map(theme => {
+                           return (<option key={theme.id} value={theme.id}>{theme.title}</option>)
+                        })}
+                     </Field>
+                  </Box>
+                  <Box className={styles.wrapperField}>
+                     <Field as="select" name="rule_id" className={styles.inputField}>
+                        {rules && rules.map(rule => {
+                           return (<option key={rule.id} value={rule.id}>{rule.title}</option>)
+                        })}
+
+                     </Field>
+                  </Box>
+
+               </Box>
+
+
                <Box className={styles.wrapperField}>
                   <Field type="number" name="number_of_task" className={styles.inputField}
                      value={number_of_task}

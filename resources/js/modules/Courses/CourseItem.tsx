@@ -5,9 +5,9 @@ import { CourseItemHeader } from '../common/CourseItemHeader'
 import Button from '@mui/material/Button'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getCategories, getCategoryTagList, getIsDarkMode, getResultTables, getTags, getTest } from '../../redux/appSelector'
+import { getCategories, getCategoryTagList, getIsDarkMode, getResultTables, getTags, getTest, getThemesList } from '../../redux/appSelector'
 import { catActions, CategoryType, getCategoriesInit, getCategoryTagsInit } from '../../redux/catReducer'
-import { detectCategory, detectTag } from '../utils/detectCategory'
+import { detectCategory, detectTag, detectTheme } from '../utils/detectCategory'
 import { getResultTableInit, getTestInit, taskActions, TaskType } from '../../redux/taskReducer'
 import { ResultOfTest } from './ResultOfTest'
 //@ts-ignore
@@ -17,6 +17,7 @@ import { TaskComponent } from './Task'
 import { ButtonsActionSecond } from './ButtonsActionSecond'
 import { ButtonTask } from './ButtonTask'
 import { appActions } from '../../redux/appReducer'
+import { getThemesInit } from '../../redux/themeReducer'
 
 const CourseItem = React.memo(() => {
 
@@ -29,6 +30,7 @@ const CourseItem = React.memo(() => {
    const tags = useSelector(getTags)
    const test: Array<TaskType> = useSelector(getTest)
    const isDarkMode = useSelector(getIsDarkMode)
+   const themes = useSelector(getThemesList)
 
    const [currCategory, setCurrCategory] = useState(detectCategory(categories, params))
    const [currTag, setCurrTag] = useState(detectTag(tags, { tag: params.id }))
@@ -83,9 +85,17 @@ const CourseItem = React.memo(() => {
 
    useEffect(() => {
       if (currCategory?.id && currTag?.id && test.length < 1) {
-         dispatch(getTestInit(currCategory.id, detectTag(tags, { tag: params.id }).id))
+
+         dispatch(getTestInit(currCategory.id, detectTag(tags, { tag: params.id }).id,''))
+      } else if (themes.length === 0 && currCategory?.id) {
+         dispatch(getThemesInit(`${currCategory.id}`))
+      } else if(currCategory?.id) {
+         console.log(themes)
+         dispatch(getTestInit(currCategory.id,'', detectTheme(themes, params.id).id))
       }
-   }, [currCategory?.id && currTag?.id])
+   }, [currCategory?.id && currTag?.id, themes, currCategory?.id])
+
+
 
    useEffect(() => {
       setIsOpenSolution(false)

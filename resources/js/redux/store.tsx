@@ -3,8 +3,10 @@ import thunkMiddleware from 'redux-thunk'
 import appReducer, { ActionsTypes, ThunksTypes } from "./appReducer";
 import catReducer from "./catReducer";
 import eventReducer from "./eventReducer";
+import ruleReducer from "./ruleReducer";
 import tagReducer from "./tagReducer";
 import taskReducer from "./taskReducer";
+import themeReducer from "./themeReducer";
 import userReducer from "./userReducer";
 
 let rootReducer = combineReducers({
@@ -13,7 +15,9 @@ let rootReducer = combineReducers({
    tag:tagReducer,
    task:taskReducer,
    user:userReducer,
-   event:eventReducer
+   event:eventReducer,
+   rule:ruleReducer,
+   theme:themeReducer
 });
 
 // @ts-ignore

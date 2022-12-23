@@ -26,7 +26,7 @@ class RuleRequest extends FormRequest
         return [
             'title'=>'required|string',
             'description'=>'string',
-            'category_id'=>''
+            'category_id'=>'',
         ];
     }
 }

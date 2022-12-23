@@ -24,7 +24,7 @@ class ThemeFilterRequest extends FormRequest
     public function rules()
     {
         return [
-            'categoryId'=>'integer'
+            'category_id'=>'integer'
         ];
     }
 }

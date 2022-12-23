@@ -15,6 +15,10 @@ import { DialogFormTags } from './DialogFormTags';
 import { DialogFormCategories } from './DialogFormCategories';
 import { DialogFormEvents } from './DialogFormEvents';
 import { EventRecordType } from '../../redux/eventReducer';
+import { ThemeRecordType, ThemeType } from '../../redux/themeReducer';
+import { RuleRecordType, RuleType } from '../../redux/ruleReducer';
+import { DialogFormTheme } from './DialogFormTheme';
+import { DialogFormRule } from './DialogFormRule';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
    [`&.${tableCellClasses.head}`]: {
@@ -64,12 +68,32 @@ const dilaogForms = {
          handleConfirm={handleConfirm}
          setItem={setItem}
       />
-   }
+   },
+   theme: (openDilaog, setOpenDialog, itemId, item, handleConfirm, setItem) => {
+      return <DialogFormTheme
+         openDilaog={openDilaog}
+         setOpenDialog={setOpenDialog}
+         itemId={itemId}
+         item={item}
+         handleConfirm={handleConfirm}
+         setItem={setItem}
+      />
+   },
+   rule: (openDilaog, setOpenDialog, itemId, item, handleConfirm, setItem) => {
+      return <DialogFormRule
+         openDilaog={openDilaog}
+         setOpenDialog={setOpenDialog}
+         itemId={itemId}
+         item={item}
+         handleConfirm={handleConfirm}
+         setItem={setItem}
+      />
+   },
 }
 type TableItemsType = {
-   list: Array<CategoryType | TagRecordType | EventRecordType>
+   list: Array<CategoryType | TagRecordType | EventRecordType | ThemeType | RuleType>
    setSwitchHandler: (arg1: string) => void
-   handleConfirm: (id?: number, field?: CategoryRecordType | TagRecordType | EventRecordType) => void
+   handleConfirm: (id?: number, field?: CategoryRecordType | TagRecordType | EventRecordType | ThemeRecordType | RuleRecordType) => void
    typeDialog: string
 }
 export const TableSimpleItem: React.FC<TableItemsType> = React.memo(({ list, setSwitchHandler, handleConfirm, typeDialog }) => {
@@ -87,6 +111,12 @@ export const TableSimpleItem: React.FC<TableItemsType> = React.memo(({ list, set
          }
          case 'EVENT': {
             return dilaogForms.event(openDilaog, setOpenDialog, itemId, item, handleConfirm, setItem)
+         }
+         case 'THEME': {
+            return dilaogForms.theme(openDilaog, setOpenDialog, itemId, item, handleConfirm, setItem)
+         }
+         case 'RULE': {
+            return dilaogForms.rule(openDilaog, setOpenDialog, itemId, item, handleConfirm, setItem)
          }
          default: return 'Type of dialog form not found';
       }

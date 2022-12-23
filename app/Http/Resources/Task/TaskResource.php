@@ -2,6 +2,10 @@
 
 namespace App\Http\Resources\Task;
 
+use App\Http\Resources\Rule\RuleResource;
+use App\Http\Resources\Theme\ThemeResource;
+use App\Models\Rule;
+use App\Models\Theme;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class TaskResource extends JsonResource
@@ -24,8 +28,8 @@ class TaskResource extends JsonResource
             'task_type' => $this->task_type,
             'number_of_task' => $this->number_of_task,
             'test_qa' => $this->test_qa,
-            'rule_id' => $this->rule_id,
-            'theme_id' => $this->theme_id
+            'rule' => new RuleResource(Rule::find($this->rule_id)),
+            'theme' => new ThemeResource(Theme::find($this->theme_id))
         ];
     }
 }

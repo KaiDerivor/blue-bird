@@ -1,8 +1,10 @@
 import axios from "axios";
 import { axiosErrorHandler } from "../modules/utils/axiosErrorHandler";
 import { CategoryRecordType, CategoryTagRecordType, CategoryTagType } from "../redux/catReducer";
+import { RuleRecordType, RuleType } from "../redux/ruleReducer";
 import { TagRecordType } from "../redux/tagReducer";
 import { ResultRecordType, TaskRecordType } from "../redux/taskReducer";
+import { ThemeRecordType, ThemeType } from "../redux/themeReducer";
 import { UserRecordType } from "../redux/userReducer";
 import { FormDataLogType, FormDataMeUpdateType } from './../redux/appReducer'
 
@@ -265,7 +267,7 @@ export const api = {
 
   //task
   getTasks: function (category_id = '', tag_id = '', listSaved = [] as Array<number>) {
-    return instance.get(`admin/tasks?category_id=${category_id}&tag_id=${tag_id}${listSaved.length>0 && `&ids=${listSaved}`}`).then(res => {
+    return instance.get(`admin/tasks?category_id=${category_id}&tag_id=${tag_id}${listSaved.length > 0 && `&ids=${listSaved}`}`).then(res => {
       return res.data.data;
     }).catch(err => {
       if (err.response) {
@@ -277,8 +279,9 @@ export const api = {
       }
     });
   },
-  getTest: function (category_id: number, tag_id: number) {
-    return instance.get(`admin/tasks/${category_id}/${tag_id}`).then(res => {
+  getTest: function (category_id: number | string, tag_id: number | string, theme_id?: number | string) {
+    return instance.get(`admin/tasks?category_id=${category_id}&tag_id=${tag_id}&theme_id=${theme_id}`).then(res => {
+      // return instance.get(`admin/tasks?category_id=${category_id}&tag_id=${tag_id}&${theme_id && `theme_id=${theme_id}`}`).then(res => {
       return res.data.data;
     }).catch(err => {
       if (err.response) {
@@ -550,6 +553,122 @@ export const api = {
   },
   deleteCategoryTag: function (id: number) {
     return instance.delete(`admin/category-tags/${id}`).then(res => {
+      return res.data.data;
+    }).catch(err => {
+      if (err.response) {
+        return err.response.statusText
+      } else if (err.request) {
+        return 'Bad network. Try again later'
+      } else {
+        return 'Try again later'
+      }
+    });
+  },
+  //rules
+  getRules: function (categoryId: string) {
+    return instance.get(`admin/rules${categoryId ? `?category_id=${categoryId}` : ''}`).then(res => {
+      return res.data.data;
+    }).catch(err => {
+      if (err.response) {
+        return err.response.statusText
+      } else if (err.request) {
+        return 'Bad network. Try again later'
+      } else {
+        return 'Try again later'
+      }
+    });
+
+  },
+  createRule: function (rule: RuleRecordType) {
+    return instance.post('admin/rules', { ...rule }).then(res => {
+      return res.data.data;
+    }).catch(err => {
+      if (err.response.data.message) {
+        return err.response.data.message
+      } else if (err.response) {
+        return err.response.statusText
+      } else if (err.request) {
+        return 'Bad network. Try again later'
+      } else {
+        return 'Try again later'
+      }
+    });
+  },
+  updateRule: function (id: number, rule: RuleRecordType) {
+    return instance.patch(`admin/rules/${id}`, { ...rule }).then(res => {
+      return res.data.data;
+    }).catch(err => {
+      if (err.response.data.message) {
+        return err.response.data.message
+      } else if (err.response) {
+        return err.response.statusText
+      } else if (err.request) {
+        return 'Bad network. Try again later'
+      } else {
+        return 'Try again later'
+      }
+    });
+  },
+  deleteRule: function (id: number) {
+    return instance.delete(`admin/rules/${id}`).then(res => {
+      return res.data.data;
+    }).catch(err => {
+      if (err.response) {
+        return err.response.statusText
+      } else if (err.request) {
+        return 'Bad network. Try again later'
+      } else {
+        return 'Try again later'
+      }
+    });
+  },
+  //themes
+  getThemes: function (categoryId: string) {
+    return instance.get(`admin/themes${categoryId ? `?category_id=${categoryId}` : ''}`).then(res => {
+      return res.data.data;
+    }).catch(err => {
+      if (err.response) {
+        return err.response.statusText
+      } else if (err.request) {
+        return 'Bad network. Try again later'
+      } else {
+        return 'Try again later'
+      }
+    });
+
+  },
+  createTheme: function (theme: ThemeRecordType) {
+    return instance.post('admin/themes', { ...theme }).then(res => {
+      return res.data.data;
+    }).catch(err => {
+      if (err.response.data.message) {
+        return err.response.data.message
+      } else if (err.response) {
+        return err.response.statusText
+      } else if (err.request) {
+        return 'Bad network. Try again later'
+      } else {
+        return 'Try again later'
+      }
+    });
+  },
+  updateTheme: function (id: number, theme: ThemeRecordType) {
+    return instance.patch(`admin/themes/${id}`, { ...theme }).then(res => {
+      return res.data.data;
+    }).catch(err => {
+      if (err.response.data.message) {
+        return err.response.data.message
+      } else if (err.response) {
+        return err.response.statusText
+      } else if (err.request) {
+        return 'Bad network. Try again later'
+      } else {
+        return 'Try again later'
+      }
+    });
+  },
+  deleteTheme: function (id: number) {
+    return instance.delete(`admin/themes/${id}`).then(res => {
       return res.data.data;
     }).catch(err => {
       if (err.response) {

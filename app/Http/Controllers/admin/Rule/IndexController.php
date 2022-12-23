@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Rule;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Admin\Rule\BaseController;
+use App\Http\Filters\SubFilterByCategory;
 use App\Http\Requests\Rule\RuleFilterRequest;
 use App\Http\Resources\Rule\RuleResource;
 use App\Models\Rule;
@@ -13,12 +14,14 @@ class IndexController extends BaseController
 {
     public function __invoke(RuleFilterRequest $request)
     {
-        $dataRequest=$request->validated();
+        $data = $request->validated();
+        $page = $data['page'] ?? 1;
+        $perPage = $data['per_page'] ?? 50;
 
-        $rules = isset($dataRequest['categoryId'])
-        ?Rule::where(['category_id'=>$dataRequest['categoryId']])->get()
-        :Rule::all();
+        $filter = app()->make(SubFilterByCategory::class, ['queryParams' => array_filter($data)]);
 
-        return RuleResource::collection($rules);
+        $filter = new SubFilterByCategory($data);
+        $rules = Rule::filter($filter)->paginate($perPage, ['*'], 'page', $page);
+        return  RuleResource::collection(($rules));
     }
 }

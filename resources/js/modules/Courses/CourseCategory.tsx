@@ -4,7 +4,7 @@ import Box from "@mui/material/Box"
 //@ts-ignore
 import styles from './style.module.scss'
 import { useDispatch, useSelector } from "react-redux"
-import { getCategories, getChapterInfo, getIsDarkMode, getIsSetData, getLikedCategories } from "../../redux/appSelector"
+import { getCategories, getChapterInfo, getIsDarkMode, getIsSetData, getLikedCategories, getThemesList } from "../../redux/appSelector"
 import { ButtonNavigate } from "../common/ButtonNavigate"
 import React, { useEffect, useState } from 'react'
 import FormControlLabel from '@mui/material/FormControlLabel'
@@ -12,33 +12,33 @@ import Switch from '@mui/material/Switch'
 import { CategoryType, getCategoriesInit } from "../../redux/catReducer"
 import { detectCategory } from "../utils/detectCategory"
 import { appActions, FormDataMeUpdateType, updateMe } from "../../redux/appReducer"
+import { getThemesInit, ThemeType } from "../../redux/themeReducer"
+import Paper from "@mui/material/Paper"
+
+
+
 
 type BodyCourseCategory = {
    toggleShowingTasks: () => void
+   currCategory: CategoryType
 }
 
-const BodyCourseCategory: React.FC<BodyCourseCategory> = ({ toggleShowingTasks }) => {
+const BodyCourseCategory: React.FC<BodyCourseCategory> = ({ toggleShowingTasks, currCategory }) => {
 
-   const params = useParams();
+
+
    const dispatch: any = useDispatch()
 
    const likedCategories = useSelector(getLikedCategories)
    const chart = useSelector(getChapterInfo)
    const isUserInit = useSelector(getIsSetData)
-   const categories: Array<CategoryType> = useSelector(getCategories)
-   const currCategory = detectCategory(categories, params);
    const [isCategoryAdded, setisCategoryAdded] = useState(likedCategories.includes(currCategory.id))
 
    const [isCategoryChapterShow, setisCategoryChapterShow] = useState(() => {
       return chart.hasOwnProperty(currCategory.id) && chart[currCategory.id].isShow
    })
 
-   useEffect(() => {
-      return () => {
-         if (categories.length < 1)
-            dispatch(getCategoriesInit())
-      };
-   }, [])
+
    useEffect(() => {
       setisCategoryAdded(likedCategories.includes(currCategory.id))
       setisCategoryChapterShow(() => (chart.hasOwnProperty(currCategory.id) && chart[currCategory.id].isShow))
@@ -79,7 +79,7 @@ const BodyCourseCategory: React.FC<BodyCourseCategory> = ({ toggleShowingTasks }
    return (
       <Box>
          <Box sx={{ pb: 3 }}>
-            <ButtonNavigate fn={toggleShowingTasks} title="Показати завдання по темам" subtitle="Усі завдання по певних теиах" />
+            <ButtonNavigate fn={toggleShowingTasks} title="Показати завдання по темам" subtitle="Усі завдання по певних темах" />
          </Box>
          <Box className={styles.wrapperCourse}>
             <Box className={styles.wrapperCourse__body}>
@@ -130,27 +130,75 @@ const BodyCourseCategory: React.FC<BodyCourseCategory> = ({ toggleShowingTasks }
    )
 }
 
-const BodyCourseTasks: React.FC<BodyCourseCategory> = React.memo(({ toggleShowingTasks }) => {
+const BodyCourseTasks: React.FC<BodyCourseCategory> = React.memo(({ toggleShowingTasks, currCategory }) => {
+
+   const dispatch: any = useDispatch()
+
+   const themes = useSelector(getThemesList)
+   useEffect(() => {
+      return () => {
+         if (currCategory?.id)
+            dispatch(getThemesInit(`${currCategory.id}`))
+      };
+   }, [currCategory])
+
+   const renderThemes = () => {
+      if (!(themes.length > 0)) return <div></div>
+
+      let ret = themes.map((theme: ThemeType) => {
+         return <NavLink to={theme.textUrl}>
+
+            <Paper className={styles.itemTheme}
+               sx={{ color: 'fpage.light', backgroundColor: 'bgmode.main', mb: 3 }}
+               elevation={2}
+            >
+               <Typography variant="h6" color="inherit">{theme.title}</Typography>
+               <Typography variant="body1" color="inherit">{theme.description}</Typography>
+            </Paper>
+         </NavLink>
+      })
+
+
+      return ret
+   }
+
    return (
       <Box>
-         <ButtonNavigate fn={toggleShowingTasks} title="Показати завдання за роками" subtitle="Усі завдання за роками" />
-         <Box>ijgdfpiogjd</Box>
+         <Box sx={{ pb: 3 }}>
+            <ButtonNavigate fn={toggleShowingTasks} title="Показати завдання за роками" subtitle="Усі завдання за роками" />
+         </Box>
+         <Box sx={{ pb: 2 }}>
+            <Typography variant="h4" sx={{ color: 'fpage.main' }}>Теми:</Typography>
+         </Box>
+         <Box>
+            {renderThemes()}
+         </Box>
       </Box>
    )
 })
 
 const CourseCategory = React.memo(() => {
+   const dispatch: any = useDispatch()
+   const params = useParams();
+
    const [isShowTaskByCategory, setIsShowTaskByCategory] = useState(false)
+   const categories: Array<CategoryType> = useSelector(getCategories)
+   const currCategory = detectCategory(categories, params);
 
-
+   useEffect(() => {
+      return () => {
+         if (categories.length < 1)
+            dispatch(getCategoriesInit())
+      };
+   }, [])
    const toggleShowingTasks = () => {
       setIsShowTaskByCategory(prev => !prev)
    }
    return (
       <>
          {isShowTaskByCategory
-            ? <BodyCourseTasks toggleShowingTasks={toggleShowingTasks} />
-            : <BodyCourseCategory toggleShowingTasks={toggleShowingTasks} />}
+            ? <BodyCourseTasks toggleShowingTasks={toggleShowingTasks} currCategory={currCategory} />
+            : <BodyCourseCategory toggleShowingTasks={toggleShowingTasks} currCategory={currCategory} />}
       </>
    )
 })

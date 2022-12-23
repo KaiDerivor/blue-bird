@@ -28,7 +28,8 @@ class FilterRequest extends FormRequest
             'ids[]' => 'integer',
             'tag_id' => '',
             'category_id' => '',
-
+            'theme_id'=>'',
+            
             'page' => '',
             'per_page' => ''
         ];
