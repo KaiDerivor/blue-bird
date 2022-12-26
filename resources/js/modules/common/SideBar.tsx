@@ -11,12 +11,18 @@ import HubIcon from '@mui/icons-material/Hub';
 import FolderSharedIcon from '@mui/icons-material/FolderShared';
 import ClassIcon from '@mui/icons-material/Class';
 import AppsIcon from '@mui/icons-material/Apps';
+import { NavLink } from 'react-router-dom';
+//@ts-ignore
+import styles from './stylesSB.module.scss'
+import { ToggleThemeMode } from './ToggleThemeButton';
+
 
 type SideBarType = {
    isOpenSideMenu: boolean
    setIsOpenSideMenu: (arg1: boolean) => void
+   toggleThemeMode: () => void
 }
-export const SideBar: React.FC<SideBarType> = ({ isOpenSideMenu, setIsOpenSideMenu }) => {
+export const SideBar: React.FC<SideBarType> = ({ isOpenSideMenu, setIsOpenSideMenu, toggleThemeMode }) => {
 
 
    return (
@@ -27,67 +33,80 @@ export const SideBar: React.FC<SideBarType> = ({ isOpenSideMenu, setIsOpenSideMe
             onClose={() => { setIsOpenSideMenu(false) }}
          >
             <Box
+            className='rowColumn'
                role="presentation"
-               sx={{ width: '250px' }}
+               sx={{ width: '250px',height:'100%' }}
                onClick={() => setIsOpenSideMenu(false)}
                onKeyDown={() => setIsOpenSideMenu(false)}
             >
-               <List>
+               <List sx={{flexGrow:1}}>
                   <ListItem disablePadding>
-                     <ListItemButton className={''}>
-                        <ListItemIcon className={''}>
-                           <HubIcon />
-                        </ListItemIcon>
-                        <ListItemText primary={
-                           <Typography variant="subtitle1" color="info" noWrap>Головна</Typography>
-                        } />
-                     </ListItemButton>
+                     <NavLink to='/' className={styles.sidebarLink}>
+                        <ListItemButton className={''} >
+                           <ListItemIcon className={''}>
+                              <HubIcon />
+                           </ListItemIcon>
+                           <ListItemText primary={
+                              <Typography variant="subtitle1" color="info" noWrap>Головна</Typography>
+                           } />
+                        </ListItemButton>
+                     </NavLink>
                   </ListItem>
 
                   <ListItem disablePadding>
-                     <ListItemButton className={''}>
-                        <ListItemIcon className={''}>
-                           <FolderSharedIcon />
-                        </ListItemIcon>
-                        <ListItemText primary={
-                           <Typography variant="subtitle1" color="info" noWrap>Профіль</Typography>
-                        } />
-                     </ListItemButton>
+                     <NavLink to="/profile" className={styles.sidebarLink}>
+                        <ListItemButton className={''}>
+                           <ListItemIcon className={''}>
+                              <FolderSharedIcon />
+                           </ListItemIcon>
+                           <ListItemText primary={
+                              <Typography variant="subtitle1" color="info" noWrap>Профіль</Typography>
+                           } />
+                        </ListItemButton>
+                     </NavLink>
                   </ListItem>
 
                   <ListItem disablePadding>
-                     <ListItemButton className={''}>
-                        <ListItemIcon className={''}>
-                           <ClassIcon />
-                        </ListItemIcon>
-                        <ListItemText primary={
-                           <Typography variant="subtitle1" color="info" noWrap>Збережені</Typography>
-                        } />
-                     </ListItemButton>
+                     <NavLink to="/savings" className={styles.sidebarLink}>
+                        <ListItemButton className={''}>
+                           <ListItemIcon className={''}>
+                              <ClassIcon />
+                           </ListItemIcon>
+                           <ListItemText primary={
+                              <Typography variant="subtitle1" color="info" noWrap>Збережені</Typography>
+                           } />
+                        </ListItemButton>
+                     </NavLink>
                   </ListItem>
 
                   <ListItem disablePadding>
-                     <ListItemButton className={''}>
-                        <ListItemIcon className={''}>
-                           <AppsIcon />
-                        </ListItemIcon>
-                        <ListItemText primary={
-                           <Typography variant="subtitle1" color="info" noWrap>Курси</Typography>
-                        } />
-                     </ListItemButton>
+                     <NavLink to="/courses" className={styles.sidebarLink}>
+                        <ListItemButton className={''}>
+                           <ListItemIcon className={''}>
+                              <AppsIcon />
+                           </ListItemIcon>
+                           <ListItemText primary={
+                              <Typography variant="subtitle1" color="info" noWrap>Предмети</Typography>
+                           } />
+                        </ListItemButton>
+                     </NavLink>
                   </ListItem>
                   <ListItem disablePadding>
-                     <ListItemButton className={''}>
-                        <ListItemIcon className={''}>
-                           <AppsIcon />
-                        </ListItemIcon>
-                        <ListItemText primary={
-                           <Typography variant="subtitle1" color="info" noWrap>Admin</Typography>
-                        } />
-                     </ListItemButton>
+                     <NavLink to="/admin" className={styles.sidebarLink}>
+                        <ListItemButton className={''}>
+                           <ListItemIcon className={''}>
+                              <AppsIcon />
+                           </ListItemIcon>
+                           <ListItemText primary={
+                              <Typography variant="subtitle1" color="info" noWrap>Admin</Typography>
+                           } />
+                        </ListItemButton>
+                     </NavLink>
                   </ListItem>
                </List>
-
+               <Box sx={{}}>
+                  <ToggleThemeMode toggleThemeMode={toggleThemeMode} />
+               </Box>
             </Box>
          </Drawer>
       </div >

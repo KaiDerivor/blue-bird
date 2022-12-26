@@ -106,7 +106,7 @@ function App() {
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
   }, [useParams()])
 
-  const toggleThemeMod = () => {
+  const toggleThemeMode = () => {
     const toggleMode = themeMode === 'Light' ? 'Dark' : 'Light'
     setTheme(toggleMode)
     setCurrTheme(themeVariants['config' + toggleMode + appTheme])
@@ -119,10 +119,10 @@ function App() {
         <div className="app">
           <Box className='app__wrapper'>
             <div className='topBar'>
-              <TopBar />
+              <TopBar toggleThemeMode={toggleThemeMode} />
             </div>
             <div className='SideBarLargeScreen'>
-              <SideBarLargeScreen toggleThemeMod={toggleThemeMod} />
+              <SideBarLargeScreen toggleThemeMode={toggleThemeMode} />
             </div>
             <CssBaseline />
             <Box

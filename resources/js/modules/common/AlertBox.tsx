@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
-import Alert from '@mui/material/Alert';
-import IconButton from '@mui/material/IconButton';
 import Collapse from '@mui/material/Collapse';
-import Button from '@mui/material/Button';
-import CloseIcon from '@mui/icons-material/Close';
 //@ts-ignore
 import styles from './style.module.scss'
 import { useDispatch, useSelector } from 'react-redux';
@@ -24,31 +20,16 @@ export const AlertBox = () => {
          setTimeout(() => {
             dispatch(appActions.eraseError())
             setOpen(false)
-         }, 2000)
+         }, 4000)
       }
    }, [errorText])
 
    return (
       <Box sx={{ zIndex: 1500 }} className={styles.alertBox}>
          <Collapse in={open}>
-            <Alert severity="info"
-               action={
-                  <IconButton
-                     aria-label="close"
-                     color="inherit"
-                     size="small"
-                     onClick={() => {
-                        setOpen(false);
-                        dispatch(appActions.eraseError())
-                     }}
-                  >
-                     <CloseIcon fontSize="inherit" />
-                  </IconButton>
-               }
-
-            >
+            <Box className={styles.alertBox__alert} sx={{ backgroundColor: 'bgmode.light', p: 2 }}>
                {errorText}
-            </Alert>
+            </Box>
          </Collapse>
       </Box>
    );

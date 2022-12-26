@@ -1,8 +1,9 @@
-
+import React from 'react'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { useSelector } from 'react-redux'
 import { getIsDarkMode } from '../../redux/appSelector'
+//@ts-ignore
 import styles from './stylesSB.module.scss'
 import Paper from '@mui/material/Paper'
 
@@ -14,8 +15,6 @@ type ButtonNavigateType = {
    fn?: () => void
 }
 export const ButtonNavigate: React.FC<ButtonNavigateType> = ({ title, subtitle, element, icon, fn }) => {
-   const isDarkMode = useSelector(getIsDarkMode)
-
 
    return (
 

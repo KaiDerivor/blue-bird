@@ -22,6 +22,7 @@ import { AppDispatch } from '../../redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { appActions } from '../../redux/appReducer';
 import { getIsDarkMode, getUserRole } from '../../redux/appSelector';
+import { ToggleThemeMode } from './ToggleThemeButton';
 
 const drawerWidth = 85;
 
@@ -49,9 +50,9 @@ export const MenuItem: React.FC<MenuItemType> = ({ linkUrl, linkText, Icon }) =>
 }
 
 type SideBarType = {
-   toggleThemeMod: () => void
+   toggleThemeMode: () => void
 }
-export const SideBarLargeScreen: React.FC<SideBarType> = ({ toggleThemeMod }) => {
+export const SideBarLargeScreen: React.FC<SideBarType> = ({ toggleThemeMode }) => {
    const dispatch: AppDispatch = useDispatch();
 
    const userRole = useSelector(getUserRole)
@@ -60,7 +61,7 @@ export const SideBarLargeScreen: React.FC<SideBarType> = ({ toggleThemeMod }) =>
    const toggleTheme = () => {
       setIsLightMode(prev => !prev)
       dispatch(appActions.toggleThemeMod())
-      toggleThemeMod();
+      toggleThemeMode();
    }
    return (<>
 
@@ -92,12 +93,13 @@ export const SideBarLargeScreen: React.FC<SideBarType> = ({ toggleThemeMod }) =>
 
             </>}
          </List>
-         <Box sx={{ margin: ' 15px auto' }}>
+         {/* <Box sx={{ margin: ' 15px auto' }}>
             <IconButton className={`${styles.switcher} ${isLightMode ? styles.switcher_lightMode : ''}`} sx={{ width: drawerWidth - 35 }} onClick={() => toggleTheme()}>
                <LightModeIcon className={styles.lightIcon} />
                <DarkModeOutlinedIcon className={styles.darkIncon} />
             </IconButton>
-         </Box>
+         </Box> */}
+         <ToggleThemeMode toggleThemeMode={toggleThemeMode} drawerWidth={drawerWidth} />
 
       </Drawer >
    </>

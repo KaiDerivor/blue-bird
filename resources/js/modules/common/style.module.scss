@@ -1,3 +1,4 @@
+@import './../../app.global.module.scss';
 $index:calc(1vh + 1vw);
 
 .header {
@@ -28,7 +29,12 @@ $index:calc(1vh + 1vw);
     position: fixed;
     top: 20px;
     right: 10px;
-    width: 300px;
+    width: 350px;
+    border-radius: $border-radius-primary;
+
+    &__alert {
+        border-radius: $border-radius-primary;
+    }
 }
 
 .loaderWrapper {
