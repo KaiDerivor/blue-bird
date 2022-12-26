@@ -30,8 +30,9 @@ type ResultOfTestType = {
    userAnswers: any
    startTestAgainHandler: () => void
    time: number
+   isAsThemeTest: boolean
 }
-export const ResultOfTest: React.FC<ResultOfTestType> = ({ currCategory, test, userAnswers, currTag, startTestAgainHandler, time }) => {
+export const ResultOfTest: React.FC<ResultOfTestType> = ({ currCategory, test, userAnswers, currTag, startTestAgainHandler, time, isAsThemeTest }) => {
    const dispatch: any = useDispatch()
    const isInitUser = useSelector(getIsSetData)
    const resultTable = useSelector(getResultTables)[0]
@@ -42,7 +43,7 @@ export const ResultOfTest: React.FC<ResultOfTestType> = ({ currCategory, test, u
 
    useEffect(() => {
       return () => {
-         if (currCategory.id !== undefined && currTag.id !== undefined) {
+         if (currCategory.id !== undefined && currTag.id !== undefined && !isAsThemeTest) {
             dispatch(getCategoryTagsInit(`${currCategory.id}`, `${currTag.id}`))
          }
       }
@@ -137,7 +138,7 @@ export const ResultOfTest: React.FC<ResultOfTestType> = ({ currCategory, test, u
 
    useEffect(() => {
       return () => {
-         if (isInitUser) {
+         if (isInitUser && !isAsThemeTest) {
             const currMonth = new Date().getMonth()
             const defRating = defineRating()
             const userRatingResult = defRating === WORST_RESULT ? 100 : defRating
@@ -162,7 +163,7 @@ export const ResultOfTest: React.FC<ResultOfTestType> = ({ currCategory, test, u
                })
             }
             dispatch(updateMe(sendMe, false))
-         } else {
+         } else if (!isAsThemeTest) {
             dispatch(appActions.setErrorText('Результат не збережено, для цього потрібно увійти'))
          }
       }
@@ -173,11 +174,11 @@ export const ResultOfTest: React.FC<ResultOfTestType> = ({ currCategory, test, u
          <Fade in={true}>
             <Box >
                <Box sx={{ mb: 5, p: 3, backgroundColor: 'bgmode.main', color: 'fpage.main' }}>
-                  <Typography variant="subtitle1" color="inherit"> Ваш тестовий бал: <strong>{userPoint}</strong> з {maxPointTest} можливих, або з {categoryTagInfo?.maxPoints ? categoryTagInfo?.maxPoints : ''} тестових</Typography>
-                  <Typography variant="subtitle1" color="inherit">  Ваш рейтинговий бал: <strong>{defineRating()} </strong>з 200 можливих.</Typography>
-                  <Typography variant="subtitle1" color="inherit"> Витрачено часу: <strong>{getWastedTime()}</strong> з {categoryTagInfo?.maxTime && categoryTagInfo.maxTime} запропонованих</Typography>
+                  <Typography variant="subtitle1" color="inherit" component='div' > Ваш тестовий бал: <strong>{userPoint}</strong> з {maxPointTest} можливих{isAsThemeTest || `, або з ${categoryTagInfo?.maxPoints ? categoryTagInfo?.maxPoints : ''} тестових`}</Typography>
+                  {isAsThemeTest || <Typography variant="subtitle1" color="inherit" component='div' >  Ваш рейтинговий бал: <strong>{defineRating()} </strong>з 200 можливих.</Typography>}
+                  <Typography variant="subtitle1" color="inherit" component='div' > Витрачено часу: <strong>{getWastedTime()}</strong> з {categoryTagInfo?.maxTime && categoryTagInfo.maxTime} запропонованих</Typography>
                </Box>
-               <NavigationTest startTestAgainHandler={startTestAgainHandler} />
+               <NavigationTest startTestAgainHandler={startTestAgainHandler} currCategoryUrl={currCategory.textUrl} />
                <Box sx={{ pt: 3 }}>
                   {displayAllTasks()}
                </Box>
@@ -189,10 +190,11 @@ export const ResultOfTest: React.FC<ResultOfTestType> = ({ currCategory, test, u
 
 type NavigationTestType = {
    startTestAgainHandler: () => void
+   currCategoryUrl: string
 }
-export const NavigationTest: React.FC<NavigationTestType> = ({ startTestAgainHandler }) => {
+export const NavigationTest: React.FC<NavigationTestType> = ({ startTestAgainHandler, currCategoryUrl }) => {
 
-   const refNav = useRef<HTMLDivElement>(null)
+   const refNav = useRef<HTMLDivElement>()
    useEffect(() => {
       const handleScroll = () => {
          if (refNav.current && refNav.current.getBoundingClientRect().top < 20) {
@@ -206,21 +208,24 @@ export const NavigationTest: React.FC<NavigationTestType> = ({ startTestAgainHan
          window.removeEventListener('scroll', handleScroll)
       }
    }, [])
-   return <Box ref={refNav} className={`${styles.navigationTest}`}
-      sx={{
-         backgroundColor: 'bgmode.light',
-         borderRadius: 3,
-         color: 'fpage.light'
-      }}>
-      <ButtonNavigation linkUrl='/' Icon={<ListAltIcon />} linkText={
-         <div >Усі <strong>завдання</strong> з цього предмета</div>
-      } />
-      <ButtonNavigation linkUrl='/' Icon={<LowPriorityIcon />} linkText={
-         <div >Пройти тест ще раз</div>
-      } />
-      <ButtonNavigation linkUrl='/' Icon={<FeaturedPlayListIcon />} linkText={
-         <div >Усі <strong>завдання</strong> з цього предмета</div>
-      } />
+   return <Box>
+      <Box ref={refNav} className={`${styles.navigationTest}`}
+         sx={{
+            backgroundColor: 'bgmode.light',
+            borderRadius: 3,
+            color: 'fpage.light'
+         }}>
+
+         <ButtonNavigation linkUrl={`/${currCategoryUrl}`} Icon={<ListAltIcon />} linkText={
+            <div >Усі <strong>тести</strong> з цього предмета</div>
+         } />
+         <ButtonNavigation linkUrl='' Icon={<LowPriorityIcon />} fn={startTestAgainHandler} linkText={
+            <div >Пройти тест ще раз</div>
+         } />
+         <ButtonNavigation linkUrl={`/${currCategoryUrl}/all`} Icon={<FeaturedPlayListIcon />} linkText={
+            <div >Усі <strong>завдання</strong> з цього предмета</div>
+         } />
+      </Box>
    </Box >
 
 }
@@ -243,7 +248,7 @@ const ButtonNavigation: React.FC<ButtonNavigationType> = ({ linkText, linkUrl, I
          startIcon={Icon}
          onClick={() => { if (fn) fn() }}
       >
-         <Typography variant="h6" color="inherit">
+         <Typography variant="h6" color="inherit" component='div'>
             {linkText}
          </Typography>
       </Button>

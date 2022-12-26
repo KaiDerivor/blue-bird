@@ -32,8 +32,8 @@ class RequestUpdate extends FormRequest
             'number_of_task' => '',
             'task_type' => 'required|string|in:letter4,letter5,range1,range2,range3,letters3,letters4,default',
             'test_qa' => 'json',
-            'rule_id' =>'integer',
-            'theme_id' =>'integer'
+            'rule_id' =>'',
+            'theme_id' =>''
         ];
     }
 }

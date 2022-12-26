@@ -34,6 +34,7 @@ export const detectTag = (tags: Array<TagType>, params) => {
 }
 
 export const detectTheme = (themes: Array<ThemeType>, textUrl) => {
+   if(textUrl==='all')return {id:''}
    if (themes.length > 0) {
       for (const theme of themes) {
          if (theme.textUrl === textUrl) {

@@ -11,6 +11,8 @@ class Task extends Model
     use HasFactory;
     use Filterable;
 
+    const ALL='all';
+
     protected $guarded = [];
     public function category()
     {

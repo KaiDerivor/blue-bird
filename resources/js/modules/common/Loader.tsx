@@ -10,6 +10,7 @@ export const Loader: React.FC = () => {
    return (
       <Box className={styles.loaderWrapper}>
          <Box className={styles.loaderWrapper__loader} sx={{
+            transform: window.innerWidth < 768 ? 'translate(-100 %, 0)' : '',
             '&:after': {
                backgroundColor: isDarkMode ? '#fff' : '#fdd8aa'
             }

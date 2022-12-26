@@ -14,6 +14,7 @@ import { detectCategory } from "../utils/detectCategory"
 import { appActions, FormDataMeUpdateType, updateMe } from "../../redux/appReducer"
 import { getThemesInit, ThemeType } from "../../redux/themeReducer"
 import Paper from "@mui/material/Paper"
+import { Button } from "@mui/material"
 
 
 
@@ -82,8 +83,11 @@ const BodyCourseCategory: React.FC<BodyCourseCategory> = ({ toggleShowingTasks, 
             <ButtonNavigate fn={toggleShowingTasks} title="Показати завдання по темам" subtitle="Усі завдання по певних темах" />
          </Box>
          <Box className={styles.wrapperCourse}>
-            <Box className={styles.wrapperCourse__body}>
-               <Typography variant="h3" color="fpage.main" sx={{ pb: 4 }}>{currCategory.title}</Typography>
+            <Box className={styles.wrapperCourse__body} sx={{ color: 'fpage.main' }}>
+               <Typography variant="h3" color="inherit" sx={{ pb: 2 }}>{currCategory.title}</Typography>
+               <Typography variant="h5" color="inherit" sx={{pb:2}}>
+                  <NavLink to={`all`} style={{color:'inherit'}}>Усі завдання </NavLink>
+               </Typography>
                <Box className={styles.boxSession} sx={{ mb: 5 }}>
                   <Box className={styles.boxSession__list}>
                      {currCategory.tags?.length

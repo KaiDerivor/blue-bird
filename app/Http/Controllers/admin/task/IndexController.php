@@ -28,6 +28,11 @@ class IndexController extends BaseController
 
         $filter = new SubFilter($data);
         $subjects = Task::filter($filter)->orderBy('number_of_task', 'asc')->paginate($perPage, ['*'], 'page', $page);
+        $subjects->map(function ($subject, $key) { 
+            $subject->number_of_task = $key + 1;
+            
+            return $subject;
+        });
         return  TaskResource::collection(($subjects));
     }
 }

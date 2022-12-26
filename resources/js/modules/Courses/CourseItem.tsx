@@ -1,4 +1,4 @@
-import React, { createRef, Ref, useEffect, useRef } from 'react'
+import React, {useEffect, useRef } from 'react'
 import Box from '@mui/material/Box'
 import { useParams } from 'react-router-dom'
 import { CourseItemHeader } from '../common/CourseItemHeader'
@@ -6,13 +6,13 @@ import Button from '@mui/material/Button'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getCategories, getCategoryTagList, getIsDarkMode, getResultTables, getTags, getTest, getThemesList } from '../../redux/appSelector'
-import { catActions, CategoryType, getCategoriesInit, getCategoryTagsInit } from '../../redux/catReducer'
+import {  CategoryType, getCategoriesInit } from '../../redux/catReducer'
 import { detectCategory, detectTag, detectTheme } from '../utils/detectCategory'
-import { getResultTableInit, getTestInit, taskActions, TaskType } from '../../redux/taskReducer'
+import { getTestInit, TaskType } from '../../redux/taskReducer'
 import { ResultOfTest } from './ResultOfTest'
 //@ts-ignore
 import styles from './style.module.scss'
-import { getTagsInit, tagActions } from '../../redux/tagReducer'
+import { getTagsInit } from '../../redux/tagReducer'
 import { TaskComponent } from './Task'
 import { ButtonsActionSecond } from './ButtonsActionSecond'
 import { ButtonTask } from './ButtonTask'
@@ -41,10 +41,7 @@ const CourseItem = React.memo(() => {
    const [time, setTime] = useState(new Date().getTime() - 1000 * 60 * 60 - 60000)
    const [isEndTest, setIsEndTest] = useState(false) //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
    const [isOpenSolution, setIsOpenSolution] = useState(true)
-
-   const resultTable = useSelector(getResultTables)[0]
-   const categoryTagInfo = useSelector(getCategoryTagList)[0]
-
+   const [isAsThemeTest, setisAsThemeTest] = useState(false)
    useEffect(() => {
       window.scrollTo({ top: 0, left: 0, behavior: "smooth" })
       dispatch(appActions.toggleFetchingOn())
@@ -83,25 +80,23 @@ const CourseItem = React.memo(() => {
       }
    }, [categories])
 
-   useEffect(() => {
+   useEffect(() => {       //init test
       if (currCategory?.id && currTag?.id && test.length < 1) {
 
          dispatch(getTestInit(currCategory.id, detectTag(tags, { tag: params.id }).id,''))
       } else if (themes.length === 0 && currCategory?.id) {
          dispatch(getThemesInit(`${currCategory.id}`))
       } else if(currCategory?.id) {
-         console.log(themes)
+         setisAsThemeTest(true)
          dispatch(getTestInit(currCategory.id,'', detectTheme(themes, params.id).id))
       }
    }, [currCategory?.id && currTag?.id, themes, currCategory?.id])
-
-
 
    useEffect(() => {
       setIsOpenSolution(false)
    }, [taskNumber])
 
-   const allTasksNumbers = () => {
+   const allTasksNumbers = () => { //get all numbers of test
       let numbers: Array<number> = [];
       for (const key in test) {
          if (Object.prototype.hasOwnProperty.call(test, key)) {
@@ -228,6 +223,7 @@ const CourseItem = React.memo(() => {
                userAnswers={userAnswers}
                currTag={currTag}
                currCategory={currCategory}
+               isAsThemeTest={isAsThemeTest}
                startTestAgainHandler={startTestAgainHandler} />
             : <Box>
                <Box sx={{ margin: '0 auto' }}>
