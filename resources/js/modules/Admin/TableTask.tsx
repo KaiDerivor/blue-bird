@@ -7,22 +7,13 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { CategoryRecordType, createCategory, deleteCategory, updateCategory } from '../../redux/catReducer';
+import { CategoryRecordType } from '../../redux/catReducer';
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import Box from '@mui/material/Box';
-import AddIcon from '@mui/icons-material/Add';
-import { useDispatch } from 'react-redux';
-import { Collapse } from '@mui/material';
 import { TaskRecordType } from '../../redux/taskReducer';
-import { TaskDialog } from './TaskDialog';
+import { TaskDialog } from './DialogFormTask';
 import { TagRecordType } from '../../redux/tagReducer';
 import { ButtonAddItem } from './ButtonAddItem';
-import { SearchBarTask } from './SearchBarTask';
+import { ACTION_OF_CRUD, DELETE, UPDATE } from '../../redux/appReducer';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
    [`&.${tableCellClasses.head}`]: {
@@ -48,11 +39,12 @@ type TableTaskType = {
    list: Array<TaskRecordType>
    categories: Array<CategoryRecordType>
    tags: Array<TagRecordType>
-   setSwitchHandler: (arg1: string) => void
+   setSwitchHandler: (arg1: ACTION_OF_CRUD) => void
    handleConfirm: (id?: number | string, field?: TaskRecordType) => void
+   switchHandler: ACTION_OF_CRUD
 }
-export const TableTask: React.FC<TableTaskType> = ({ list, categories, tags, setSwitchHandler, handleConfirm }) => {
-   
+export const TableTask: React.FC<TableTaskType> = ({ list, categories, tags, setSwitchHandler, handleConfirm, switchHandler }) => {
+
    const [openDilaog, setOpenDialog] = useState(false)
    const [task, setTask] = useState<TaskRecordType>({})
    const [idTask, setIdTask] = useState<number | string>('')
@@ -80,8 +72,7 @@ export const TableTask: React.FC<TableTaskType> = ({ list, categories, tags, set
    }
    return (
       <>
-         <ButtonAddItem setSwitchHandler={setSwitchHandler} setOpenDialog={setOpenDialog} setItem={setTask}/>
-         <SearchBarTask categories={categories} tags={tags} />
+         <ButtonAddItem setSwitchHandler={setSwitchHandler} setOpenDialog={setOpenDialog} setItem={setTask} />
          <TableContainer component={Paper}>
             <Table aria-label="customized table">
                <TableHead>
@@ -117,7 +108,7 @@ export const TableTask: React.FC<TableTaskType> = ({ list, categories, tags, set
 
                         <StyledTableCell align="right">
                            <Button onClick={() => {
-                              setSwitchHandler('update'); setTask(row);
+                              setSwitchHandler(UPDATE); setTask(row);
                               if (row.id) {
                                  setIdTask(row.id);
                               }
@@ -127,7 +118,7 @@ export const TableTask: React.FC<TableTaskType> = ({ list, categories, tags, set
                         </StyledTableCell>
                         <StyledTableCell align="right">
                            <Button onClick={() => {
-                              setSwitchHandler('delete');
+                              setSwitchHandler(DELETE);
                               if (row.id) {
                                  setIdTask(row.id);
                               }
@@ -150,6 +141,7 @@ export const TableTask: React.FC<TableTaskType> = ({ list, categories, tags, set
             idTask={idTask}
             handleConfirm={handleConfirm}
             isDeleteConfirm={isDeleteConfirm}
+            switchHandler={switchHandler}
          />
       </>
    );

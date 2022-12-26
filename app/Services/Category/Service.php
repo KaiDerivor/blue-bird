@@ -41,6 +41,7 @@ class Service extends Path2File
 
       $category = Category::firstOrCreate($category);
       $category->tags()->attach($tags);
+      return $category;
    }
    public function updateCategoryTags($categoryTag, $data)
    {

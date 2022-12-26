@@ -13,8 +13,8 @@ const UPDATE_EVENT = 'event/UPDATE_EVENT'
 const ON_TOGGLE_FETCHING = 'event/ON_TOGGLE_FETCHING'
 const OFF_TOGGLE_FETCHING = 'event/OFF_TOGGLE_FETCHING'
 
-export const UPDATE = 'update'
-export const ZNO = 'zno'
+export const EVENT_UPDATE = 'update'
+export const EVENT_ZNO = 'zno'
 
 export type EventRecordType = {
    id?: number,

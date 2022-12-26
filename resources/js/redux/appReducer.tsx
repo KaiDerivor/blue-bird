@@ -1,12 +1,14 @@
 import { Dispatch } from "redux"
 import { ThunkAction } from "redux-thunk"
-import { StringDecoder } from "string_decoder"
 import { api } from "../api/api"
 import { errorStringHandler } from "../modules/utils/errorStringHandler"
 import { AppStateType, InferActionsTypes } from "./store"
 
 export const URL_STORAGE = '/storage/'
-
+export const CREATE = 'CREATE'
+export const UPDATE = 'UPDATE'
+export const DELETE = 'DELETE'
+export type ACTION_OF_CRUD = typeof CREATE | typeof UPDATE | typeof DELETE
 
 const TOGGLE_THEME_MODE = 'app/TOGGLE_THEME_MODE'
 const ON_TOGGLE_FETCHING = 'app/ON_TOGGLE_FETCHING'

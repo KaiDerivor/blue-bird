@@ -6,7 +6,7 @@ import styles from './style.module.scss'
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 
 
-export const Scroll2Top: React.FC = () => {
+export const Scroll2Top: React.FC = React.memo(() => {
    const scrollToTopElement = useRef<HTMLDivElement>();
 
    useEffect(() => {
@@ -27,4 +27,4 @@ export const Scroll2Top: React.FC = () => {
          <ArrowCircleUpIcon sx={{ fontSize: '50px', color: 'fpage.main', backgroundColor: 'bgmode.light', borderRadius: '50%' }} />
       </Button>
    </Box >
-}
+})

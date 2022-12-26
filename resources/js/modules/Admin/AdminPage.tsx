@@ -9,58 +9,59 @@ import { Loader } from '../common/Loader';
 
 const Categories = React.lazy(() => {
    return Promise.all([
-      import('./Categories'),
+      import('./PageCategories'),
       new Promise(resolve => setTimeout(resolve, 800))
    ]).then(([Categories]) => Categories)
 })
 const Tags = React.lazy(() => {
    return Promise.all([
-      import('./Tags'),
+      import('./PageTags'),
       new Promise(resolve => setTimeout(resolve, 800))
    ]).then(([Tags]) => Tags)
 })
 const Tasks = React.lazy(() => {
    return Promise.all([
-      import('./Tasks'),
+      import('./PageTasks'),
       new Promise(resolve => setTimeout(resolve, 800))
    ]).then(([Tasks]) => Tasks)
 })
 const Users = React.lazy(() => {
    return Promise.all([
-      import('./Users'),
+      import('./PageUsers'),
       new Promise(resolve => setTimeout(resolve, 800))
    ]).then(([Users]) => Users)
 })
 const Results = React.lazy(() => {
    return Promise.all([
-      import('./Results'),
+      import('./PageResults'),
       new Promise(resolve => setTimeout(resolve, 800))
    ]).then(([Results]) => Results)
 })
 const DataEvents = React.lazy(() => {
    return Promise.all([
-      import('./DataEvents'),
+      import('./PageDataEvents'),
       new Promise(resolve => setTimeout(resolve, 800))
    ]).then(([DataEvents]) => DataEvents)
 })
 const CategoryTags = React.lazy(() => {
    return Promise.all([
-      import('./CategoryTags'),
+      import('./PageCategoryTags'),
       new Promise(resolve => setTimeout(resolve, 800))
    ]).then(([CategoryTags]) => CategoryTags)
 })
 const Rules = React.lazy(() => {
    return Promise.all([
-      import('./Rules'),
+      import('./PageRules'),
       new Promise(resolve => setTimeout(resolve, 800))
    ]).then(([Rules]) => Rules)
 })
 const Themes = React.lazy(() => {
    return Promise.all([
-      import('./Themes'),
+      import('./PageThemes'),
       new Promise(resolve => setTimeout(resolve, 800))
    ]).then(([Themes]) => Themes)
 })
+
 const AdminPage = () => {
    return (
       <Box sx={{ color: 'fpage.main' }}>

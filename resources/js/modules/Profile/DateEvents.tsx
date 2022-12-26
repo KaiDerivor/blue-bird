@@ -7,8 +7,7 @@ import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getLikedCategories, getListEvents } from '../../redux/appSelector'
 import { AppDispatch } from '../../redux/store'
-import { getEventsInit, UPDATE } from '../../redux/eventReducer'
-
+import { EVENT_UPDATE, EVENT_ZNO, getEventsInit } from '../../redux/eventReducer'
 
 type ButtonInform = {
    title: string
@@ -43,7 +42,7 @@ export const DateEvents = React.memo(() => {
       let isUpdateSetted = false;
 
       for (const event of events) {
-         if (event.eventType === UPDATE) {
+         if (event.eventType === EVENT_UPDATE) {
             if (isUpdateSetted) continue;
             isUpdateSetted = true;
             elementButtons.push(<ButtonInform key={event.id} title={event.title} subtitle={event.description} />)

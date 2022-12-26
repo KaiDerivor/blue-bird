@@ -4,12 +4,16 @@ import { api } from "../api/api";
 import { appActions } from "./appReducer";
 import { AppStateType, InferActionsTypes } from "./store";
 
+export const ROLE_ADMIN = 'admin'
+export const ROLE_USER = 'user'
+
 const INIT_USERS = 'user/INIT_USERS'
 const SET_ERROR_MESSAGE = 'app/SET_ERROR_MESSAGE'
 const ERASE_ERROR = 'app/ERASE_ERROR'
 const UPDATE_USER = 'user/UPDATE_USER'
 const ON_TOGGLE_FETCHING = 'user/ON_TOGGLE_FETCHING'
 const OFF_TOGGLE_FETCHING = 'user/OFF_TOGGLE_FETCHING'
+
 
 export type UserRecordType = {
    name?: string

@@ -12,11 +12,11 @@ const ON_TOGGLE_FETCHING = 'tag/ON_TOGGLE_FETCHING'
 const OFF_TOGGLE_FETCHING = 'tag/OFF_TOGGLE_FETCHING'
 
 export type TagRecordType = {
-   id?: number,
-   title?: string,
+   id?: number
+   title?: string
    description?: string
-   img?: string
    textUrl?: string
+   img?:any
 }
 export type TagType = {
    id: number,

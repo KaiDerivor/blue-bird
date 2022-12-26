@@ -5,7 +5,7 @@ import Box from '@mui/material/Box'
 import { useSelector } from 'react-redux'
 import { getIsDarkMode } from '../../redux/appSelector'
 
-export const Loader: React.FC = () => {
+export const Loader: React.FC = React.memo(() => {
    const isDarkMode = useSelector(getIsDarkMode)
    return (
       <Box className={styles.loaderWrapper}>
@@ -17,4 +17,4 @@ export const Loader: React.FC = () => {
          }} />
       </Box>
    )
-}
+})

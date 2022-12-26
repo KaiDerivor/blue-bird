@@ -1,7 +1,7 @@
 import React, {useEffect, useRef } from 'react'
 import Box from '@mui/material/Box'
 import { useParams } from 'react-router-dom'
-import { CourseItemHeader } from '../common/CourseItemHeader'
+import { CourseItemHeader } from './CourseItemHeader'
 import Button from '@mui/material/Button'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'

@@ -89,8 +89,6 @@ export const TaskForm: React.FC<TaskFormType> = ({ handleConfirm, task }) => {
             onSubmit={(values) => {
                //@ts-ignore
                let formData = { ...values, task: taskImg, number_of_task }
-
-
                if (!formData.answer) {
                   setError('Fill answer')
                   return;
@@ -115,8 +113,7 @@ export const TaskForm: React.FC<TaskFormType> = ({ handleConfirm, task }) => {
                delete formData.taskQuestion
                delete formData.taskAnswers
 
-               // console.log(formData)
-               handleConfirm(formData)
+               handleConfirm(formData as TaskRecordType)
             }}
          >
             <Form className={styles.forms}>
@@ -125,6 +122,8 @@ export const TaskForm: React.FC<TaskFormType> = ({ handleConfirm, task }) => {
                   {task?.task && <img src={`${URL_STORAGE}${task?.task}`} />}
                </Box>
                <Box className={styles.wrapperField}>
+                  <Typography variant="caption" color="inherit">Choose img</Typography>
+
                   <Stack direction="row" alignItems="center" spacing={2}>
                      <div>
 
@@ -150,10 +149,12 @@ export const TaskForm: React.FC<TaskFormType> = ({ handleConfirm, task }) => {
                   </Stack>
                </Box>
                <Box className={styles.wrapperField}>
+                  <Typography variant="caption" color="inherit">Task Question</Typography>
                   <Field as="textarea" rows='10' name="taskQuestion" className={styles.inputField}
                      placeholder="Task" autoComplete='' />
                </Box>
                <Box className={styles.wrapperField}>
+                  <Typography variant="caption" color="inherit">Task range answers, variants should be separeted by ## </Typography>
                   <Field as="textarea" rows='10' name="taskAnswers" className={styles.inputField}
                      placeholder="Separete by ##" autoComplete='' />
                </Box>
@@ -166,6 +167,7 @@ export const TaskForm: React.FC<TaskFormType> = ({ handleConfirm, task }) => {
                      <ErrorMessage name="answer" component="div" />
                   </Box>
                   <Box className={styles.wrapperField}>
+                     <Typography variant="caption" color="inherit">Solution</Typography>
                      <Field as="textarea" rows='10' name="content" className={styles.inputField}
                         placeholder="content" autoComplete='' />
                      <ErrorMessage name="content" component="div" />
@@ -174,6 +176,7 @@ export const TaskForm: React.FC<TaskFormType> = ({ handleConfirm, task }) => {
 
                <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', width: '100%', gap: '20px' }}>
                   <Box className={styles.wrapperField}>
+                  <Typography variant="caption" color="inherit">Choose category</Typography>
                      <Field as="select" name="category_id" className={styles.inputField} onChange={(el) => setCurrCategoryId(el.target.value)}>
                         {categories && categories.map(cat => {
                            return (<option key={cat.id} value={cat.id}>{cat.title}</option>)
@@ -181,6 +184,7 @@ export const TaskForm: React.FC<TaskFormType> = ({ handleConfirm, task }) => {
                      </Field>
                   </Box>
                   <Box className={styles.wrapperField}>
+                  <Typography variant="caption" color="inherit">Choose tag</Typography>
                      <Field as="select" name="tag_id" className={styles.inputField}>
                         {tagsList && tagsList.map(tag => {
                            return (<option key={tag.id} value={tag.id}>{tag.title}</option>)
@@ -190,6 +194,7 @@ export const TaskForm: React.FC<TaskFormType> = ({ handleConfirm, task }) => {
                      <ErrorMessage name="tag_id" component="div" />
                   </Box>
                   <Box className={styles.wrapperField}>
+                  <Typography variant="caption" color="inherit">Choose type of task</Typography>
                      <Field as="select" name="task_type" className={styles.inputField}>
                         <option value='letter4'>letter4</option>
                         <option value='letter5'>letter5</option>
@@ -206,6 +211,7 @@ export const TaskForm: React.FC<TaskFormType> = ({ handleConfirm, task }) => {
 
                <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', width: '100%', gap: '20px' }}>
                   <Box className={styles.wrapperField}>
+                  <Typography variant="caption" color="inherit">Choose theme</Typography>
                      <Field as="select" name="theme_id" className={styles.inputField}>
                         {themes && themes.map(theme => {
                            return (<option key={theme.id} value={theme.id}>{theme.title}</option>)
@@ -213,6 +219,8 @@ export const TaskForm: React.FC<TaskFormType> = ({ handleConfirm, task }) => {
                      </Field>
                   </Box>
                   <Box className={styles.wrapperField}>
+                  <Typography variant="caption" color="inherit">Choose rule</Typography>
+
                      <Field as="select" name="rule_id" className={styles.inputField}>
                         {rules && rules.map(rule => {
                            return (<option key={rule.id} value={rule.id}>{rule.title}</option>)
@@ -225,6 +233,8 @@ export const TaskForm: React.FC<TaskFormType> = ({ handleConfirm, task }) => {
 
 
                <Box className={styles.wrapperField}>
+               <Typography variant="caption" color="inherit">Input number of task</Typography>
+
                   <Field type="number" name="number_of_task" className={styles.inputField}
                      value={number_of_task}
                      placeholder='number_of_task' autoComplete='' onChange={(el) => {

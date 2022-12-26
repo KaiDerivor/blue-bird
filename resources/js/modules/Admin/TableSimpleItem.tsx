@@ -19,6 +19,12 @@ import { ThemeRecordType, ThemeType } from '../../redux/themeReducer';
 import { RuleRecordType, RuleType } from '../../redux/ruleReducer';
 import { DialogFormTheme } from './DialogFormTheme';
 import { DialogFormRule } from './DialogFormRule';
+import { ACTION_OF_CRUD, DELETE, UPDATE } from '../../redux/appReducer';
+import { TAG } from './PageTags';
+import { CATEGORY } from './PageCategories';
+import { EVENT } from './PageDataEvents';
+import { THEME } from './PageThemes';
+import { RULE } from './PageRules';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
    [`&.${tableCellClasses.head}`]: {
@@ -39,37 +45,41 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
       border: 0,
    },
 }));
+
 const dilaogForms = {
-   tag: (openDilaog, setOpenDialog, itemId, item, handleConfirm, setItem) => {
+   tag: (openDilaog: boolean, setOpenDialog: (arg1: boolean) => void, itemId: number, item: TagRecordType, handleConfirm: (id?: number, field?: TagRecordType) => void, setItem: (arg1: TagRecordType | undefined) => void, switchHandler: ACTION_OF_CRUD) => {
       return <DialogFormTags
          openDilaog={openDilaog}
          setOpenDialog={setOpenDialog}
          itemId={itemId}
          item={item}
          handleConfirm={handleConfirm}
+         switchHandler={switchHandler}
          setItem={setItem}
       />
    },
-   category: (openDilaog, setOpenDialog, itemId, item, handleConfirm, setItem) => {
+   category: (openDilaog: boolean, setOpenDialog: (arg1: boolean) => void, itemId: number, item: CategoryRecordType, handleConfirm: (id?: number, field?: CategoryRecordType) => void, setItem: (arg1: CategoryRecordType | undefined) => void, switchHandler: ACTION_OF_CRUD) => {
       return <DialogFormCategories
          openDilaog={openDilaog}
          setOpenDialog={setOpenDialog}
          itemId={itemId}
          item={item}
          handleConfirm={handleConfirm}
+         switchHandler={switchHandler}
          setItem={setItem}
       />
    },
-   event: (openDilaog, setOpenDialog, itemId, item, handleConfirm, setItem) => {
+   event: (openDilaog: boolean, setOpenDialog: (arg1: boolean) => void, itemId: number, item: EventRecordType, handleConfirm: (id?: number, field?: EventRecordType) => void, setItem: (arg1: EventRecordType | undefined) => void, switchHandler: ACTION_OF_CRUD) => {
       return <DialogFormEvents openDilaog={openDilaog}
          setOpenDialog={setOpenDialog}
          itemId={itemId}
          item={item}
          handleConfirm={handleConfirm}
          setItem={setItem}
+         switchHandler={switchHandler}
       />
    },
-   theme: (openDilaog, setOpenDialog, itemId, item, handleConfirm, setItem) => {
+   theme: (openDilaog: boolean, setOpenDialog: (arg1: boolean) => void, itemId: number, item: ThemeRecordType, handleConfirm: (id?: number, field?: ThemeRecordType) => void, setItem: (arg1: ThemeRecordType | undefined) => void, switchHandler: ACTION_OF_CRUD) => {
       return <DialogFormTheme
          openDilaog={openDilaog}
          setOpenDialog={setOpenDialog}
@@ -77,9 +87,10 @@ const dilaogForms = {
          item={item}
          handleConfirm={handleConfirm}
          setItem={setItem}
+         switchHandler={switchHandler}
       />
    },
-   rule: (openDilaog, setOpenDialog, itemId, item, handleConfirm, setItem) => {
+   rule: (openDilaog: boolean, setOpenDialog: (arg1: boolean) => void, itemId: number, item: RuleRecordType, handleConfirm: (id?: number, field?: RuleRecordType) => void, setItem: (arg1: RuleRecordType | undefined) => void, switchHandler: ACTION_OF_CRUD) => {
       return <DialogFormRule
          openDilaog={openDilaog}
          setOpenDialog={setOpenDialog}
@@ -87,36 +98,43 @@ const dilaogForms = {
          item={item}
          handleConfirm={handleConfirm}
          setItem={setItem}
+         switchHandler={switchHandler}
       />
    },
 }
+
+type allSimpleItemType = CategoryType | TagRecordType | EventRecordType | ThemeType | RuleType
+type allSimpleItemRecordType = CategoryRecordType | TagRecordType | EventRecordType | ThemeRecordType | RuleRecordType | undefined
+
+
 type TableItemsType = {
-   list: Array<CategoryType | TagRecordType | EventRecordType | ThemeType | RuleType>
-   setSwitchHandler: (arg1: string) => void
-   handleConfirm: (id?: number, field?: CategoryRecordType | TagRecordType | EventRecordType | ThemeRecordType | RuleRecordType) => void
+   list: Array<allSimpleItemType>
+   setSwitchHandler: (arg1: ACTION_OF_CRUD) => void
+   handleConfirm: (id?: number, field?: allSimpleItemRecordType) => void
    typeDialog: string
+   switchHandler: ACTION_OF_CRUD
 }
-export const TableSimpleItem: React.FC<TableItemsType> = React.memo(({ list, setSwitchHandler, handleConfirm, typeDialog }) => {
+export const TableSimpleItem: React.FC<TableItemsType> = React.memo(({ list, setSwitchHandler, handleConfirm, typeDialog, switchHandler }) => {
 
    const [openDilaog, setOpenDialog] = useState(false)
-   const [itemId, setItemId] = useState<number | undefined>(0)
-   const [item, setItem] = useState<CategoryRecordType | TagRecordType | EventRecordType | undefined>(undefined)
+   const [itemId, setItemId] = useState<number>(0)
+   const [item, setItem] = useState<allSimpleItemRecordType>(undefined)
    const renderDialogForm = () => {
       switch (typeDialog) {
-         case "TAG": {
-            return dilaogForms.tag(openDilaog, setOpenDialog, itemId, item, handleConfirm, setItem);
+         case TAG: {
+            return dilaogForms.tag(openDilaog, setOpenDialog, itemId, item as TagRecordType, handleConfirm, setItem, switchHandler)
          }
-         case 'CATEGORY': {
-            return dilaogForms.category(openDilaog, setOpenDialog, itemId, item, handleConfirm, setItem)
+         case CATEGORY: {
+            return dilaogForms.category(openDilaog, setOpenDialog, itemId, item as CategoryRecordType, handleConfirm, setItem, switchHandler)
          }
-         case 'EVENT': {
-            return dilaogForms.event(openDilaog, setOpenDialog, itemId, item, handleConfirm, setItem)
+         case EVENT: {
+            return dilaogForms.event(openDilaog, setOpenDialog, itemId, item as EventRecordType, handleConfirm, setItem, switchHandler)
          }
-         case 'THEME': {
-            return dilaogForms.theme(openDilaog, setOpenDialog, itemId, item, handleConfirm, setItem)
+         case THEME: {
+            return dilaogForms.theme(openDilaog, setOpenDialog, itemId, item as ThemeRecordType, handleConfirm, setItem, switchHandler)
          }
-         case 'RULE': {
-            return dilaogForms.rule(openDilaog, setOpenDialog, itemId, item, handleConfirm, setItem)
+         case RULE: {
+            return dilaogForms.rule(openDilaog, setOpenDialog, itemId, item as RuleRecordType, handleConfirm, setItem, switchHandler)
          }
          default: return 'Type of dialog form not found';
       }
@@ -155,12 +173,12 @@ export const TableSimpleItem: React.FC<TableItemsType> = React.memo(({ list, set
                               row?.textUrl && row.textUrl}
                         </StyledTableCell>
                         <StyledTableCell align="right">
-                           <Button onClick={() => { setSwitchHandler('update'); setItem(row); setItemId(row.id); setOpenDialog(true) }}>
+                           <Button onClick={() => { setSwitchHandler(UPDATE); setItem(row); setItemId(row.id as number); setOpenDialog(true) }}>
                               Update
                            </Button>
                         </StyledTableCell>
                         <StyledTableCell align="right">
-                           <Button onClick={() => { setSwitchHandler('delete'); setItem(undefined); setItemId(row.id); setOpenDialog(true) }}>
+                           <Button onClick={() => { setSwitchHandler(DELETE); setItem(undefined); setItemId(row.id as number); setOpenDialog(true) }}>
                               Delete
                            </Button>
                         </StyledTableCell>
