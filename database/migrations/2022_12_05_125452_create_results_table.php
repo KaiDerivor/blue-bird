@@ -16,14 +16,14 @@ return new class extends Migration
         Schema::create('results', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('categoryId')->nullable();
-            $table->unsignedBigInteger('tagId')->nullable();
+            $table->unsignedBigInteger('category_id')->nullable();
+            $table->unsignedBigInteger('tag_id')->nullable();
 
-            $table->index('categoryId', 'results_category_idx');
-            $table->index('tagId', 'results_tag_idx');
+            $table->index('category_id', 'results_category_idx');
+            $table->index('tag_id', 'results_tag_idx');
 
-            $table->foreign('categoryId', 'results_category_fk')->on('categories')->references('id');
-            $table->foreign('tagId', 'results_tag_fk')->on('tags')->references('id');
+            $table->foreign('category_id', 'results_category_fk')->on('categories')->references('id');
+            $table->foreign('tag_id', 'results_tag_fk')->on('tags')->references('id');
 
             $table->json('value')->nullable();
 

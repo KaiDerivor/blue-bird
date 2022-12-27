@@ -23,9 +23,13 @@ return new class extends Migration
 
             $table->foreign('categoryId', 'category_tag_category_fk')->on('categories')->references('id');
             $table->foreign('tagId', 'category_tag_tag_fk')->on('tags')->references('id');
+
             $table->string('table200img')->nullable();
             $table->string('table12img')->nullable();
             $table->string('maxTime')->nullable();
+            $table->integer('maxPoints')->nullable();
+            $table->text('someInfo')->nullable();
+
             $table->timestamps();
             // $table->
         });

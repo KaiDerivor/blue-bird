@@ -57,14 +57,14 @@ export const TaskComponent: React.FC<TaskComponentType> = ({
         <Typography variant="body1" color="inherit">{taskQuestion}</Typography>
       </Box>
       {task.task &&
-        <Box sx={{ pb: 3,minHeight:'200px' }}>
-          {/* {task.task || <Box sx={{ height: '400px' }} />} */}
-          <img src={`${URL_STORAGE}${task.task}`} alt={`${currCategory.textUrl}-${currTag.textUrl}-${task.number_of_task}`} loading="eager" />
+        <Box sx={{ pb: 3, minHeight: '200px' }}>
+          {/* <img src={`${URL_STORAGE}${task.task}`} alt={`${currCategory.textUrl}-${currTag.textUrl}-${task.number_of_task}`} loading="eager" /> */}
+          <img src={`${task.task}`} alt={`${currCategory.textUrl}-${currTag.textUrl}-${task.number_of_task}`} loading="eager" />
         </Box>
       }
       <Box sx={{}}>
         {
-          taskAnswers.length > 0 && taskAnswers.map((answerVariant, index) => {
+          taskAnswers?.length > 0 && taskAnswers.map((answerVariant, index) => {
             if (answerVariant)
               return <Typography key={index} variant="body1" color="inherit">
                 {lettersOfAnswers[index]} {answerVariant}

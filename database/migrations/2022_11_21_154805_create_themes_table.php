@@ -17,6 +17,13 @@ return new class extends Migration
             $table->id();
             $table->string('title')->nullable();
             $table->string('description')->nullable();
+            $table->string('text_url')->unique()->nullable();
+            $table->integer('number_of_theme')->nullable();
+
+            $table->unsignedBigInteger('category_id')->nullable();
+            $table->index('category_id','themes_category_idx');
+            $table->foreign('category_id','themes_category_fk')->on('categories')->references('id');
+
             $table->string('img')->nullable();
 
             $table->timestamps();

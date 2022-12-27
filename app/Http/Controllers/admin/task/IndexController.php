@@ -27,7 +27,7 @@ class IndexController extends BaseController
         $filter = app()->make(SubFilter::class, ['queryParams' => array_filter($data)]);
 
         $filter = new SubFilter($data);
-        $subjects = Task::filter($filter)->orderBy('number_of_task', 'asc')->paginate($perPage, ['*'], 'page', $page);
+        $subjects = Task::filter($filter)->paginate($perPage, ['*'], 'page', $page);
         $subjects->map(function ($subject, $key) { 
             $subject->number_of_task = $key + 1;
             

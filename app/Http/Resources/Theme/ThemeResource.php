@@ -20,8 +20,8 @@ class ThemeResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'description' => $this->description,
-            'numberOfTheme' => $this->numberOfTheme,
-            'textUrl' => $this->textUrl,
+            'numberOfTheme' => $this->number_of_theme,
+            'textUrl' => $this->text_url,
             // 'category' => new CategoryResource(Category::find($this->category_id))
             'categoryId'=>$this->category_id
         ];

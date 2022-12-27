@@ -15,6 +15,9 @@ import { NavLink } from 'react-router-dom';
 //@ts-ignore
 import styles from './stylesSB.module.scss'
 import { ToggleThemeMode } from './ToggleThemeButton';
+import { useSelector } from 'react-redux';
+import { getUserRole } from '../../redux/appSelector';
+import { ROLE_ADMIN } from '../../redux/userReducer';
 
 
 type SideBarType = {
@@ -23,7 +26,7 @@ type SideBarType = {
    toggleThemeMode: () => void
 }
 export const SideBar: React.FC<SideBarType> = ({ isOpenSideMenu, setIsOpenSideMenu, toggleThemeMode }) => {
-
+   const userRole = useSelector(getUserRole)
 
    return (
       <div>
@@ -33,13 +36,13 @@ export const SideBar: React.FC<SideBarType> = ({ isOpenSideMenu, setIsOpenSideMe
             onClose={() => { setIsOpenSideMenu(false) }}
          >
             <Box
-            className='rowColumn'
+               className='rowColumn'
                role="presentation"
-               sx={{ width: '250px',height:'100%' }}
+               sx={{ width: '250px', height: '100%' }}
                onClick={() => setIsOpenSideMenu(false)}
                onKeyDown={() => setIsOpenSideMenu(false)}
             >
-               <List sx={{flexGrow:1}}>
+               <List sx={{ flexGrow: 1 }}>
                   <ListItem disablePadding>
                      <NavLink to='/' className={styles.sidebarLink}>
                         <ListItemButton className={''} >
@@ -91,18 +94,20 @@ export const SideBar: React.FC<SideBarType> = ({ isOpenSideMenu, setIsOpenSideMe
                         </ListItemButton>
                      </NavLink>
                   </ListItem>
-                  <ListItem disablePadding>
-                     <NavLink to="/admin" className={styles.sidebarLink}>
-                        <ListItemButton className={''}>
-                           <ListItemIcon className={''}>
-                              <AppsIcon />
-                           </ListItemIcon>
-                           <ListItemText primary={
-                              <Typography variant="subtitle1" color="info" noWrap>Admin</Typography>
-                           } />
-                        </ListItemButton>
-                     </NavLink>
-                  </ListItem>
+                  {userRole === ROLE_ADMIN &&
+                     <ListItem disablePadding>
+                        <NavLink to="/admin" className={styles.sidebarLink}>
+                           <ListItemButton className={''}>
+                              <ListItemIcon className={''}>
+                                 <AppsIcon />
+                              </ListItemIcon>
+                              <ListItemText primary={
+                                 <Typography variant="subtitle1" color="info" noWrap>Admin</Typography>
+                              } />
+                           </ListItemButton>
+                        </NavLink>
+                     </ListItem>
+                  }
                </List>
                <Box sx={{}}>
                   <ToggleThemeMode toggleThemeMode={toggleThemeMode} />

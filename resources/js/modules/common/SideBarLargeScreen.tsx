@@ -1,5 +1,4 @@
 import React from 'react'
-import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
@@ -13,9 +12,6 @@ import HubIcon from '@mui/icons-material/Hub';
 import FolderSharedIcon from '@mui/icons-material/FolderShared';
 import ClassIcon from '@mui/icons-material/Class';
 import AppsIcon from '@mui/icons-material/Apps';
-import LightModeIcon from '@mui/icons-material/LightMode';
-import IconButton from '@mui/material/IconButton';
-import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { AppDispatch } from '../../redux/store';
@@ -23,6 +19,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { appActions } from '../../redux/appReducer';
 import { getIsDarkMode, getUserRole } from '../../redux/appSelector';
 import { ToggleThemeMode } from './ToggleThemeButton';
+import { ROLE_ADMIN } from '../../redux/userReducer';
 
 const drawerWidth = 85;
 
@@ -87,18 +84,10 @@ export const SideBarLargeScreen: React.FC<SideBarType> = ({ toggleThemeMode }) =
             <MenuItem linkUrl='profile' linkText="Профіль" Icon={<FolderSharedIcon sx={{ color: 'fmenu.main' }} />} />
             <MenuItem linkUrl='savings' linkText="Збережені" Icon={<ClassIcon sx={{ color: 'fmenu.main' }} />} />
             <MenuItem linkUrl='courses' linkText="Курси" Icon={<AppsIcon sx={{ color: 'fmenu.main' }} />} />
-            {userRole === 'admin' && <>
+            {userRole === ROLE_ADMIN && <>
                <MenuItem linkUrl='admin' linkText="Admin" Icon={<AppsIcon sx={{ color: 'fmenu.main' }} />} />
-
-
             </>}
          </List>
-         {/* <Box sx={{ margin: ' 15px auto' }}>
-            <IconButton className={`${styles.switcher} ${isLightMode ? styles.switcher_lightMode : ''}`} sx={{ width: drawerWidth - 35 }} onClick={() => toggleTheme()}>
-               <LightModeIcon className={styles.lightIcon} />
-               <DarkModeOutlinedIcon className={styles.darkIncon} />
-            </IconButton>
-         </Box> */}
          <ToggleThemeMode toggleThemeMode={toggleThemeMode} drawerWidth={drawerWidth} />
 
       </Drawer >

@@ -1,4 +1,4 @@
-import React, {useEffect, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import Box from '@mui/material/Box'
 import { useParams } from 'react-router-dom'
 import { CourseItemHeader } from './CourseItemHeader'
@@ -6,7 +6,7 @@ import Button from '@mui/material/Button'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getCategories, getCategoryTagList, getIsDarkMode, getResultTables, getTags, getTest, getThemesList } from '../../redux/appSelector'
-import {  CategoryType, getCategoriesInit } from '../../redux/catReducer'
+import { CategoryType, getCategoriesInit } from '../../redux/catReducer'
 import { detectCategory, detectTag, detectTheme } from '../utils/detectCategory'
 import { getTestInit, TaskType } from '../../redux/taskReducer'
 import { ResultOfTest } from './ResultOfTest'
@@ -38,10 +38,12 @@ const CourseItem = React.memo(() => {
    const [taskNumber, setTaskNumber] = useState(1)
    const [userAnswers, setUserAnswers] = useState({})
    // const [userAnswers, setUserAnswers] = useState({ 1: 'Д', 2: 'Г', 3: 'А', 4: 'Д', 5: 'А', 6: 'В', 7: 'Б', 8: 'Г', 9: 'Д', 10: 'Б', 11: 'Б', 12: 'Г', 13: 'А', 14: 'Г', 15: 'Д', 16: 'Б', 17: 'Д', 18: 'Б', 19: 'Б', 20: 'Г', 21: 'ВБД', 22: 'БВД', 23: 'ГБД', 24: 'АВБ', 25: '2,30', 26: '1,2', 27: '33,1', 28: '34', 29: '2', 30: '2', 31: '3', 32: '4' })
-   const [time, setTime] = useState(new Date().getTime() - 1000 * 60 * 60 - 60000)
+   const [time, setTime] = useState(new Date().getTime())
    const [isEndTest, setIsEndTest] = useState(false) //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
    const [isOpenSolution, setIsOpenSolution] = useState(true)
    const [isAsThemeTest, setisAsThemeTest] = useState(false)
+   const [isRequestTest, setisRequestTest] = useState(false)
+   const [isSendedRequestTest, setIsSendedRequest] = useState(false)
    useEffect(() => {
       window.scrollTo({ top: 0, left: 0, behavior: "smooth" })
       dispatch(appActions.toggleFetchingOn())
@@ -68,6 +70,7 @@ const CourseItem = React.memo(() => {
             }
          }
       }
+      setisRequestTest(true)
    }, [tags])
 
    useEffect(() => {
@@ -80,17 +83,21 @@ const CourseItem = React.memo(() => {
       }
    }, [categories])
 
-   useEffect(() => {       //init test
-      if (currCategory?.id && currTag?.id && test.length < 1) {
-
-         dispatch(getTestInit(currCategory.id, detectTag(tags, { tag: params.id }).id,''))
-      } else if (themes.length === 0 && currCategory?.id) {
-         dispatch(getThemesInit(`${currCategory.id}`))
-      } else if(currCategory?.id) {
-         setisAsThemeTest(true)
-         dispatch(getTestInit(currCategory.id,'', detectTheme(themes, params.id).id))
+   useEffect(() => {   //init test
+      // return () => {
+      debugger
+      if (isRequestTest && !isSendedRequestTest) {
+         if (currCategory?.id && currTag?.id) {
+            dispatch(getTestInit(currCategory.id, currTag.id, ''))
+         } else if (themes.length === 0 && currCategory?.id) {
+            dispatch(getThemesInit(`${currCategory.id}`))
+         } else if (currCategory?.id) {
+            dispatch(getTestInit(currCategory.id, '', detectTheme(themes, params.id).id))
+            setisAsThemeTest(true)
+         }
       }
-   }, [currCategory?.id && currTag?.id, themes, currCategory?.id])
+      // }
+   }, [isRequestTest, currTag?.id])
 
    useEffect(() => {
       setIsOpenSolution(false)

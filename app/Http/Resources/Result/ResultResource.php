@@ -16,8 +16,8 @@ class ResultResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'category' => $this->categoryId,
-            'tag' => $this->tagId,
+            'category' => $this->category_id,
+            'tag' => $this->tag_id,
             'value' => $this->value
         ];
     }

@@ -9,10 +9,10 @@ use Illuminate\Http\Request;
 
 class IndexParamsController extends Controller
 {
-    public function __invoke($category,$tag)
+    public function __invoke($category, $tag)
     {
-        $tasks=Task::where('category_id',$category)->where('tag_id',$tag)->orderBy('number_of_task','asc')->get();
-  
-        return TaskResource::collection($tasks);
+        // $tasks=Task::where('category_id',$category)->where('tag_id',$tag)->orderBy('number_of_task','asc')->get();
+        dd('ddd');
+        // return TaskResource::collection($tasks);
     }
 }

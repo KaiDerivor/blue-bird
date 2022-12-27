@@ -149,8 +149,8 @@ const BodyCourseTasks: React.FC<BodyCourseCategory> = React.memo(({ toggleShowin
    const renderThemes = () => {
       if (!(themes.length > 0)) return <div></div>
 
-      let ret = themes.map((theme: ThemeType) => {
-         return <NavLink to={theme.textUrl}>
+      let ret = themes.map((theme: ThemeType,index:number) => {
+         return <NavLink key={index} to={theme.textUrl}>
 
             <Paper className={styles.itemTheme}
                sx={{ color: 'fpage.light', backgroundColor: 'bgmode.main', mb: 3 }}

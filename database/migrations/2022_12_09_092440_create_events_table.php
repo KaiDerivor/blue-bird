@@ -17,11 +17,11 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('description')->nullable();
-            $table->string('eventType')->nullable();
+            $table->string('event_type')->nullable();
 
-            $table->unsignedBigInteger('categoryId')->nullable();
-            $table->index('categoryId', 'events_categoryIdx');
-            $table->foreign('categoryId', 'events_category_fk')->on('categories')->references('id');
+            $table->unsignedBigInteger('category_id')->nullable();
+            $table->index('category_id', 'events_category_idx');
+            $table->foreign('category_id', 'events_category_fk')->on('categories')->references('id');
 
             $table->string('time')->nullable();
             $table->timestamps();
