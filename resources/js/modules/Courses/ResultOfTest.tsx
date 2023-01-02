@@ -32,7 +32,7 @@ type ResultOfTestType = {
    time: number
    isAsThemeTest: boolean
 }
-export const ResultOfTest: React.FC<ResultOfTestType> = ({ currCategory, test, userAnswers, currTag, startTestAgainHandler, time, isAsThemeTest }) => {
+export const ResultOfTest: React.FC<ResultOfTestType> = React.memo(({ currCategory, test, userAnswers, currTag, startTestAgainHandler, time, isAsThemeTest }) => {
    const dispatch: any = useDispatch()
    const isInitUser = useSelector(getIsSetData)
    const resultTable = useSelector(getResultTables)[0]
@@ -138,7 +138,7 @@ export const ResultOfTest: React.FC<ResultOfTestType> = ({ currCategory, test, u
 
    useEffect(() => {
       return () => {
-         if (isInitUser && !isAsThemeTest) {
+         if (isInitUser && !isAsThemeTest && chart) {
             const currMonth = new Date().getMonth()
             const defRating = defineRating()
             const userRatingResult = defRating === WORST_RESULT ? 100 : defRating
@@ -186,7 +186,7 @@ export const ResultOfTest: React.FC<ResultOfTestType> = ({ currCategory, test, u
          </Fade>
       </Box>
    )
-}
+})
 
 type NavigationTestType = {
    startTestAgainHandler: () => void
@@ -227,7 +227,6 @@ export const NavigationTest: React.FC<NavigationTestType> = ({ startTestAgainHan
          } />
       </Box>
    </Box >
-
 }
 type ButtonNavigationType = {
    linkText: JSX.Element

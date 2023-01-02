@@ -36,13 +36,20 @@ const BodyCourseCategory: React.FC<BodyCourseCategory> = ({ toggleShowingTasks, 
    const [isCategoryAdded, setisCategoryAdded] = useState(likedCategories.includes(currCategory.id))
 
    const [isCategoryChapterShow, setisCategoryChapterShow] = useState(() => {
-      return chart.hasOwnProperty(currCategory.id) && chart[currCategory.id].isShow
+      if (currCategory.id) {
+         return chart.hasOwnProperty(currCategory.id) && chart[currCategory.id].isShow
+      }
+      else {
+         return false
+      }
    })
 
 
    useEffect(() => {
-      setisCategoryAdded(likedCategories.includes(currCategory.id))
-      setisCategoryChapterShow(() => (chart.hasOwnProperty(currCategory.id) && chart[currCategory.id].isShow))
+      if (currCategory.id) {
+         setisCategoryAdded(likedCategories.includes(currCategory.id))
+         setisCategoryChapterShow(() => (chart.hasOwnProperty(currCategory.id) && chart[currCategory.id].isShow))
+      }
    }, [chart, likedCategories])
    const getNumberOfDisplayedChapers = () => {
       let count = 0;
@@ -85,8 +92,8 @@ const BodyCourseCategory: React.FC<BodyCourseCategory> = ({ toggleShowingTasks, 
          <Box className={styles.wrapperCourse}>
             <Box className={styles.wrapperCourse__body} sx={{ color: 'fpage.main' }}>
                <Typography variant="h3" color="inherit" sx={{ pb: 2 }}>{currCategory.title}</Typography>
-               <Typography variant="h5" color="inherit" sx={{pb:2}}>
-                  <NavLink to={`all`} style={{color:'inherit'}}>Усі завдання </NavLink>
+               <Typography variant="h5" color="inherit" sx={{ pb: 2 }}>
+                  <NavLink to={`all`} style={{ color: 'inherit' }}>Усі завдання </NavLink>
                </Typography>
                <Box className={styles.boxSession} sx={{ mb: 5 }}>
                   <Box className={styles.boxSession__list}>
@@ -149,7 +156,7 @@ const BodyCourseTasks: React.FC<BodyCourseCategory> = React.memo(({ toggleShowin
    const renderThemes = () => {
       if (!(themes.length > 0)) return <div></div>
 
-      let ret = themes.map((theme: ThemeType,index:number) => {
+      let ret = themes.map((theme: ThemeType, index: number) => {
          return <NavLink key={index} to={theme.textUrl}>
 
             <Paper className={styles.itemTheme}

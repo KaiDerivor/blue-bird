@@ -37,7 +37,6 @@ const CourseItem = React.memo(() => {
    const [currTask, setCurrTask] = useState({} as TaskType)
    const [taskNumber, setTaskNumber] = useState(1)
    const [userAnswers, setUserAnswers] = useState({})
-   // const [userAnswers, setUserAnswers] = useState({ 1: 'Д', 2: 'Г', 3: 'А', 4: 'Д', 5: 'А', 6: 'В', 7: 'Б', 8: 'Г', 9: 'Д', 10: 'Б', 11: 'Б', 12: 'Г', 13: 'А', 14: 'Г', 15: 'Д', 16: 'Б', 17: 'Д', 18: 'Б', 19: 'Б', 20: 'Г', 21: 'ВБД', 22: 'БВД', 23: 'ГБД', 24: 'АВБ', 25: '2,30', 26: '1,2', 27: '33,1', 28: '34', 29: '2', 30: '2', 31: '3', 32: '4' })
    const [time, setTime] = useState(new Date().getTime())
    const [isEndTest, setIsEndTest] = useState(false) //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
    const [isOpenSolution, setIsOpenSolution] = useState(true)
@@ -84,8 +83,6 @@ const CourseItem = React.memo(() => {
    }, [categories])
 
    useEffect(() => {   //init test
-      // return () => {
-      debugger
       if (isRequestTest && !isSendedRequestTest) {
          if (currCategory?.id && currTag?.id) {
             dispatch(getTestInit(currCategory.id, currTag.id, ''))
@@ -96,7 +93,6 @@ const CourseItem = React.memo(() => {
             setisAsThemeTest(true)
          }
       }
-      // }
    }, [isRequestTest, currTag?.id])
 
    useEffect(() => {
