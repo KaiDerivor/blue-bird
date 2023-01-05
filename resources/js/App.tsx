@@ -95,11 +95,9 @@ function App() {
   }, [appTheme])
 
   useEffect(() => {
-    return () => {
-      if (isInit && !isSetData) {
-        //@ts-ignore
-        dispatch(setData())
-      }
+    if (isInit && !isSetData) {
+      //@ts-ignore
+      dispatch(setData())
     }
   }, [])
   useEffect(() => {

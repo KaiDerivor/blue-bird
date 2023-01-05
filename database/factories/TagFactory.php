@@ -18,7 +18,7 @@ class TagFactory extends Factory
     {
         return [
             'title'=>fake()->word(),
-            'text_url'=>fake()->word(),
+            'slug'=>fake()->word(),
             'description'=>fake()->sentence(),
         ];
     }

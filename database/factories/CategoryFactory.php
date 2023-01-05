@@ -18,7 +18,7 @@ class CategoryFactory extends Factory
     {
         return [
             'title' => fake()->word(),
-            'text_url' => fake()->unique()->word(),
+            'slug' => fake()->unique()->word(),
             'description' => fake()->sentence(),
             'img' => 'https://source.unsplash.com/random/?' . fake()->word(),
         ];

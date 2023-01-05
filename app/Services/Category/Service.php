@@ -8,6 +8,7 @@ use App\Models\CategoryTags;
 use App\Services\Path2File;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class Service extends Path2File
 {
@@ -27,7 +28,9 @@ class Service extends Path2File
          }
          $data['img'] = Storage::disk('public')->put('/img-categories', $data['img']);
       }
-
+      if (!isset($data['slug'])) {
+         $data['slug'] = Str::slug($data['title'], '-');
+      }
       $category->update($data);
       $category->fresh();
       return $category;
@@ -36,7 +39,9 @@ class Service extends Path2File
    {
       $tags = $category['tags'];
       unset($category['tags']);
-
+      if (!isset($category['slug'])) {
+         $category['slug'] = Str::slug($category['title'], '-');
+      }
       $category['img'] = Storage::disk('public')->put('/img-categories', $category['img']);
 
       $category = Category::firstOrCreate($category);

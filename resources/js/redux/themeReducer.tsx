@@ -16,7 +16,7 @@ const OFF_TOGGLE_FETCHING = 'theme/OFF_TOGGLE_FETCHING'
 export type ThemeRecordType = {
    title?: string
    description?: string
-   textUrl?: string
+   slug?: string
    categoryId?: number
    numberOfTheme?:number
 }
@@ -24,7 +24,7 @@ export type ThemeType = {
    id?: number,
    title: string,
    description: string
-   textUrl: string
+   slug: string
    categoryId: number
    numberOfTheme:number
 }

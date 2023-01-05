@@ -7,7 +7,7 @@ import { ResultRecordType, TaskRecordType } from "../redux/taskReducer";
 import { ThemeRecordType, ThemeType } from "../redux/themeReducer";
 import { UserRecordType } from "../redux/userReducer";
 import { FormDataLogType, FormDataMeUpdateType } from './../redux/appReducer'
-
+let count = 0;
 const url = `http://127.0.0.1:8000/api/`;
 const instance = axios.create({
   baseURL: url,
@@ -39,6 +39,7 @@ instance.interceptors.response.use(
   (error) => {
     if (error?.response?.status === 401) {
       if (localStorage.getItem('access_token')) {
+        if (count === 3) return Promise.reject(error)
         return instance.post("auth/refresh", {}, {
           headers: {
             'authorization': `Bearer ${localStorage.getItem('access_token')}`,
@@ -47,6 +48,7 @@ instance.interceptors.response.use(
 
           localStorage.setItem('access_token', response.data.access_token)
           error.config.headers.authorization = `Bearer ${response.data.access_token}`;
+          count++;
           return instance.request(error.config);
         });
       }
@@ -107,6 +109,7 @@ export const api = {
     return instance.post("auth/me").then((response) => {
       return response.data.data
     }).catch(err => {
+      localStorage.removeItem('access_token')
       return axiosErrorHandler(err)
     });
   },
@@ -115,7 +118,6 @@ export const api = {
 
       return response.data.data
     }).catch(err => {
-      console.log(err)
       return axiosErrorHandler(err)
     });
   },
@@ -267,7 +269,7 @@ export const api = {
 
   //task
   getTasks: function (category_id = '', tag_id = '', listSaved = [] as Array<number>) {
-    return instance.get(`tasks?category_id=${category_id}&tag_id=${tag_id}${listSaved.length > 0 && `&ids=${listSaved}`}`).then(res => {
+    return instance.get(`tasks?category_id=${category_id}&tag_id=${tag_id}${listSaved.length > 0 ? `&ids=${listSaved}`:''}`).then(res => {
       return res.data.data;
     }).catch(err => {
       if (err.response) {

@@ -28,7 +28,7 @@ class RequestUpdate extends FormRequest
             'img' => '',
             'description' => '',
             'tags' => '',
-            'textUrl' => 'string|required|max:20',
+            'slug' => 'nullable|string|max:20',
         ];
     }
 }

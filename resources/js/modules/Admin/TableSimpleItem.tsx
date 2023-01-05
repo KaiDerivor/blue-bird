@@ -149,7 +149,7 @@ export const TableSimpleItem: React.FC<TableItemsType> = React.memo(({ list, set
                      <StyledTableCell>#id</StyledTableCell>
                      <StyledTableCell align="right">Title</StyledTableCell>
                      <StyledTableCell align="right">Description</StyledTableCell>
-                     <StyledTableCell align="right">textUrl</StyledTableCell>
+                     <StyledTableCell align="right">slug</StyledTableCell>
 
                      <StyledTableCell align="right">Actions</StyledTableCell>
                      <StyledTableCell align="right"></StyledTableCell>
@@ -170,7 +170,7 @@ export const TableSimpleItem: React.FC<TableItemsType> = React.memo(({ list, set
                         </StyledTableCell>
                         <StyledTableCell align="right">
                            {//@ts-ignore
-                              row?.textUrl && row.textUrl}
+                              row?.slug && row.slug}
                         </StyledTableCell>
                         <StyledTableCell align="right">
                            <Button onClick={() => { setSwitchHandler(UPDATE); setItem(row); setItemId(row.id as number); setOpenDialog(true) }}>

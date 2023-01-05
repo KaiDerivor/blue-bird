@@ -21,8 +21,7 @@ class ThemeResource extends JsonResource
             'title' => $this->title,
             'description' => $this->description,
             'numberOfTheme' => $this->number_of_theme,
-            'textUrl' => $this->text_url,
-            // 'category' => new CategoryResource(Category::find($this->category_id))
+            'slug' => $this->slug,
             'categoryId'=>$this->category_id
         ];
     }

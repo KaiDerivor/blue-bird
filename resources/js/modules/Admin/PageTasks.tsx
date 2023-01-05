@@ -18,14 +18,12 @@ const Tasks = React.memo(() => {
    const [switchHandler, setSwitchHandler] = useState<ACTION_OF_CRUD>(CREATE)
 
    useEffect(() => {
-      return () => {
-         if (!tasks || tasks.length <= 0)
-            dispatch(getTasksInit())
-         if (!tags || tags.length <= 0)
-            dispatch(getTagsInit())
-         if (!categories || categories.length <= 0)
-            dispatch(getCategoriesInit())
-      }
+      if (!tasks || tasks.length <= 0)
+         dispatch(getTasksInit())
+      if (!tags || tags.length <= 0)
+         dispatch(getTagsInit())
+      if (!categories || categories.length <= 0)
+         dispatch(getCategoriesInit())
    }, [])
 
    const handleConfirm = (taskId = '' as string | number, field: TaskRecordType = {}) => {
@@ -48,11 +46,12 @@ const Tasks = React.memo(() => {
       }
    };
    const searchFilter = (categoryId = '', tagId = '') => {
+      debugger
       dispatch(getTasksInit(categoryId, tagId))
    }
    return (
       <>
-         <SearchBarCategoryTag categories={categories} tags={tags} fnSearch={searchFilter} />
+         {/* <SearchBarCategoryTag categories={categories} tags={tags} fnSearch={searchFilter} /> */}
          <TableTask list={tasks} categories={categories} tags={tags} handleConfirm={handleConfirm} setSwitchHandler={setSwitchHandler} switchHandler={switchHandler} />
       </>
 

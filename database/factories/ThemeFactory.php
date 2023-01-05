@@ -18,7 +18,7 @@ class ThemeFactory extends Factory
     {
         return [
             'title' => fake()->words(2,true),
-            'text_url' => fake()->unique()->word(),
+            'slug' => fake()->unique()->word(),
             'description' => fake()->sentence(),
             'number_of_theme' => fake()->numberBetween(1, 10),
             'category_id' => fake()->numberBetween(1, 10),
