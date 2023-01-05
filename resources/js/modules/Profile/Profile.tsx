@@ -14,17 +14,18 @@ import { Navigate } from 'react-router-dom';
 import { Preference } from './Preference';
 import { getCategoriesInit } from '../../redux/catReducer';
 
-const Profile = React.memo(() => {
+const Profile = () => {
    const isInit = useSelector(getIsInit)
    const categories = useSelector(getCategories)
    const dispatch: any = useDispatch()
 
    useEffect(() => {
-      return () => {
-         if (categories.length <= 0)
-            dispatch(getCategoriesInit())
-      };
+      if (categories.length <= 0) {
+         // isRequested = true
+         dispatch(getCategoriesInit())
+      }
    }, [])
+
    if (!isInit) {
       return (
          <Navigate to='/login' />
@@ -48,6 +49,6 @@ const Profile = React.memo(() => {
          </Fade>
       </Container>
    )
-})
+}
 
 export default Profile

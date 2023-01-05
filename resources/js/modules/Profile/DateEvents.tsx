@@ -29,10 +29,8 @@ export const DateEvents = React.memo(() => {
    const likedCategories = useSelector(getLikedCategories)
 
    useEffect(() => {
-      return () => {
-         if (events.length === 0)
-            dispatch(getEventsInit())
-      };
+      if (events.length === 0)
+         dispatch(getEventsInit())
    }, [])
 
    const renderEvents = () => {
@@ -56,7 +54,9 @@ export const DateEvents = React.memo(() => {
       return (
          <>
             <Box>
-               {elementButtons}
+               {elementButtons.length > 0
+                  ? elementButtons
+                  : elementButtonsHidden.pop()}
             </Box>
             <Collapse in={isOpenDataEvents}>
                {elementButtonsHidden}
@@ -74,14 +74,18 @@ export const DateEvents = React.memo(() => {
          </>
       )
    }
-
    return (
-      <Box sx={{ color: 'fpage.main' }}>
-         <Typography variant="h6" color="inherit" sx={{ pb: 2 }}>Події</Typography>
+      <>
+         {events.length > 0 &&
 
-         <Box >
-            {renderEvents()}
-         </Box>
-      </Box>
+            <Box sx={{ color: 'fpage.main' }}>
+               <Typography variant="h6" color="inherit" sx={{ pb: 2 }}>Події</Typography>
+
+               <Box >
+                  {renderEvents()}
+               </Box>
+            </Box>
+         }
+      </>
    )
 })
