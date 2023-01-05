@@ -5,22 +5,16 @@ import Box from '@mui/material/Box'
 import styles from './style.module.scss'
 import Typography from '@mui/material/Typography'
 import { ProfileCourseItem } from "./ProfileCourseItem"
-import { useDispatch, useSelector } from 'react-redux'
-import { getCategories, getLikedCategories } from '../../redux/appSelector'
-import { getCategoriesInit } from '../../redux/catReducer'
+import { useSelector } from 'react-redux'
+import { getLikedCategories } from '../../redux/appSelector'
+import { CategoryType } from '../../redux/catReducer'
 
-
-export const SelectedCourses = React.memo(() => {
-   const dispatch: any = useDispatch()
+type SelectedCoursesType = {
+   categories: CategoryType[]
+}
+export const SelectedCourses: React.FC<SelectedCoursesType> = React.memo(({ categories }) => {
 
    const likedCategories = useSelector(getLikedCategories)
-   const categories = useSelector(getCategories)
-   useEffect(() => {
-      return () => {
-         if (categories.length === 0)
-            dispatch(getCategoriesInit())
-      };
-   }, [])
    const renderSavingsCategories = () => {
       let categoryItems = [] as Array<JSX.Element>
       for (const category of categories) {

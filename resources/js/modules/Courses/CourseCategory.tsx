@@ -16,9 +16,6 @@ import { getThemesInit, ThemeType } from "../../redux/themeReducer"
 import Paper from "@mui/material/Paper"
 import { Button } from "@mui/material"
 
-
-
-
 type BodyCourseCategory = {
    toggleShowingTasks: () => void
    currCategory: CategoryType
@@ -36,7 +33,7 @@ const BodyCourseCategory: React.FC<BodyCourseCategory> = ({ toggleShowingTasks, 
    const [isCategoryAdded, setisCategoryAdded] = useState(likedCategories.includes(currCategory.id))
 
    const [isCategoryChapterShow, setisCategoryChapterShow] = useState(() => {
-      if (currCategory.id) {
+      if (currCategory.id && chart) {
          return chart.hasOwnProperty(currCategory.id) && chart[currCategory.id].isShow
       }
       else {

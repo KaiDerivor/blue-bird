@@ -2,7 +2,7 @@ import { CategoryRecordType, CategoryType } from "../../redux/catReducer"
 import { TagRecordType, TagType } from "../../redux/tagReducer";
 import { ThemeType } from "../../redux/themeReducer";
 
-export const detectItem = (id: string | undefined, list: Array<CategoryRecordType | TagType>) => {
+export const detectItem = (id: string | undefined, list: Array<CategoryType | TagType>) => {
    let item = list.filter(el => `${el.id}` === `${id}`);
    if (item[0]?.title) {
       return item[0].title;

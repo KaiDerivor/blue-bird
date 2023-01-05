@@ -29,25 +29,23 @@ Route::group([
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
-});
-Route::group(['namespace' => 'App\Http\Controllers\User', 'prefix' => 'auth'], function () {
 
-    Route::post('register', 'StoreController');
-    Route::patch('me', 'UpdateController');
-    // Route::get('info', "IndexController");
-});
-Route::group(['namespace' => 'App\Http\Controllers\User', 'prefix' => 'auth', 'middleware' => ['jwt.auth', 'auth']], function () {
-    Route::patch('/users/{user}', "UpdateController")->name('admin.user.update');
-    // Route::get('info', "IndexController");
+    Route::group(['namespace' => 'User'], function () {
+        Route::post('register', 'StoreController');
+        Route::patch('me', 'UpdateController');
+    });
+    Route::group(['namespace' => 'User', 'middleware' => ['jwt.auth', 'auth']], function () {
+        Route::patch('/users/{user}', "UpdateController")->name('admin.user.update');
+        Route::get('info', "IndexController");
+    });
+    // Route::group(['namespace' => 'User','middleware' => ['api', 'auth']], function () {
+    // });
 });
 
-Route::group(['namespace' => 'App\Http\Controllers\User', 'prefix' => 'auth', 'middleware' => ['api', 'auth']], function () {
-    Route::get('info', "IndexController");
-});
 
 Route::group([
     'namespace' => 'App\Http\Controllers\Admin',
-    'prefix' => 'admin',
+    'middleware' => 'api'
 ], function () {
 
     Route::group(['namespace' => 'Task'], function () {
@@ -86,7 +84,7 @@ Route::group([
 Route::group([
     'namespace' => 'App\Http\Controllers\Admin',
     'prefix' => 'admin',
-    'middleware' => ['auth', 'admin']
+    'middleware' => ['auth', 'admin', 'api']
 ], function () {
 
     Route::group(['namespace' => 'Task'], function () {
