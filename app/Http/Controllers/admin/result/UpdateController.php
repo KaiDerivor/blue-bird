@@ -13,7 +13,11 @@ class UpdateController extends BaseController
     public function __invoke(StoreRequest $request, Result $result)
     {
         $data = $request->validated();
-        $resultUpd = $this->service->update($result, $data);
-        return new ResultResource($resultUpd);
+        $response = $this->service->update($result, $data);
+        if ($response instanceof Result) {
+            return new ResultResource($response);
+        } else {
+            return response(['data' => $response]);
+        }
     }
 }

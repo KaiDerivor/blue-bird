@@ -15,7 +15,7 @@ export const detectItem = (id: string | undefined, list: Array<CategoryType | Ta
 export const detectCategory = (categories: Array<CategoryType>, params) => {
    if (categories.length > 0) {
       for (const category of categories) {
-         if (category.textUrl === params.category) {
+         if (category.slug === params.category) {
             return category
          }
       }
@@ -25,7 +25,7 @@ export const detectCategory = (categories: Array<CategoryType>, params) => {
 export const detectTag = (tags: Array<TagType>, params) => {
    if (tags.length > 0) {
       for (const tag of tags) {
-         if (tag.textUrl === params.tag) {
+         if (tag.slug === params.tag) {
             return tag
          }
       }
@@ -33,11 +33,11 @@ export const detectTag = (tags: Array<TagType>, params) => {
    return {} as TagType
 }
 
-export const detectTheme = (themes: Array<ThemeType>, textUrl) => {
-   if(textUrl==='all')return {id:''}
+export const detectTheme = (themes: Array<ThemeType>, slug) => {
+   if(slug==='all')return {id:''}
    if (themes.length > 0) {
       for (const theme of themes) {
-         if (theme.textUrl === textUrl) {
+         if (theme.slug === slug) {
             return theme
          }
       }

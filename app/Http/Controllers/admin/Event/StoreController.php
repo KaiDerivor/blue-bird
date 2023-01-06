@@ -14,11 +14,11 @@ class StoreController extends BaseController
     public function __invoke(StoreRequest $request)
     {
         $data=$request->validated();
-        $msg=$this->service->store($data);
-        if($msg instanceof Event){
-            return new EventResource($msg);
+        $response=$this->service->store($data);
+        if($response instanceof Event){
+            return new EventResource($response);
         }else{
-            return response(['data'=>$msg]);
+            return response(['data'=>$response]);
         }
     }
 }

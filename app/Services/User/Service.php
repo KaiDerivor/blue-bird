@@ -5,16 +5,19 @@ namespace App\Services\User;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class Service
 {
    public function update($data)
    {
-      if (auth()->user() == null) {
+      Log::info('Trying update user by ' . join(" ",$data));
+
+      if (auth()->user() === null) {
          abort(401);
       }
       $user = User::find(auth()->user()->id);
-      $chart = (array) json_decode($user->chart);
+      // $chart = json_decode($user->chart, true);
       $likedCategories = [];
       if (isset($data['password'])) {
          $data['passsword'] = Hash::make($data['passsword']);
@@ -36,6 +39,8 @@ class Service
    }
    public function store($data)
    {
+      Log::info('Trying create user by ' . join(" ",$data));
+
       User::create($data);
    }
 }

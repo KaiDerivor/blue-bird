@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\CategoryTags;
 use App\Services\Path2File;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -14,6 +15,7 @@ class Service extends Path2File
 {
    public function update($category, $data)
    {
+      Log::info('Trying update categoryTag by ' . join(" ",$data));
 
       if (isset($data['tags'])) {
 
@@ -37,6 +39,8 @@ class Service extends Path2File
    }
    public function store($category)
    {
+      Log::info('Trying create category by ' . join(" ",$category));
+
       $tags = $category['tags'];
       unset($category['tags']);
       if (!isset($category['slug'])) {
@@ -50,7 +54,7 @@ class Service extends Path2File
    }
    public function updateCategoryTags($categoryTag, $data)
    {
-      $dataUpdate = [];
+      Log::info('Trying update categoryTag by ' . join(" ",$data));
       if (isset($data['table200img'])) {
          $image_path  = $this->makePath($data['table200img']);
          if (File::exists($image_path)) {

@@ -11,7 +11,11 @@ class StoreController extends BaseController
     public function __invoke(RequestCreate $request)
     {
         $data = $request->validated();
-        $msg = $this->service->store($data);
-        return response(['data'=>$msg]);
+        $response = $this->service->store($data);
+        if ($response instanceof Tag) {
+            return new TagResource($response);
+        } else {
+            return response(['data' => $response]);
+        }
     }
 }

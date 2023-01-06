@@ -12,8 +12,11 @@ class StoreController extends BaseController
     {
         $data = $request->validated();
         
-        $msg = $this->service->store($data);
-        // return response([$msg['test_qa']]);
-        return new TaskResource($msg);
+        $response = $this->service->store($data);
+        if ($response instanceof Task) {
+            return new TaskResource($response);
+        } else {
+            return response(['data' => $response]);
+        }
     }
 }

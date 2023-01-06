@@ -50,7 +50,7 @@ Route::group([
 
     Route::group(['namespace' => 'Task'], function () {
         Route::get('/tasks', 'IndexController')->name('admin.task.index');
-        Route::get('/tasks/{category}/{tag}', 'IndexParamsController')->name('admin.task.params.index');
+        // Route::get('/tasks/{category}/{tag}', 'IndexParamsController')->name('admin.task.params.index');
     });
     Route::group(['namespace' => 'Category'], function () {
         Route::get('/categories', 'IndexController')->name('admin.category.index');

@@ -22,8 +22,6 @@ type BodyCourseCategory = {
 
 const BodyCourseCategory: React.FC<BodyCourseCategory> = ({ toggleShowingTasks, currCategory }) => {
 
-
-
    const dispatch: any = useDispatch()
 
    const likedCategories = useSelector(getLikedCategories)
@@ -191,7 +189,6 @@ const CourseCategory = React.memo(() => {
    const [isShowTaskByCategory, setIsShowTaskByCategory] = useState(false)
    const categories: Array<CategoryType> = useSelector(getCategories)
    const currCategory = detectCategory(categories, params);
-
    useEffect(() => {
       return () => {
          if (categories.length < 1)

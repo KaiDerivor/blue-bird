@@ -46,7 +46,6 @@ const Tasks = React.memo(() => {
       }
    };
    const searchFilter = (categoryId = '', tagId = '') => {
-      debugger
       dispatch(getTasksInit(categoryId, tagId))
    }
    return (
