@@ -42,10 +42,8 @@ export const ResultOfTest: React.FC<ResultOfTestType> = React.memo(({ currCatego
    const [userPoint, setUserPoint] = useState(0)
 
    useEffect(() => {
-      return () => {
-         if (currCategory.id !== undefined && currTag.id !== undefined && !isAsThemeTest) {
-            dispatch(getCategoryTagsInit(`${currCategory.id}`, `${currTag.id}`))
-         }
+      if (currCategory.id !== undefined && currTag.id !== undefined && !isAsThemeTest) {
+         dispatch(getCategoryTagsInit(`${currCategory.id}`, `${currTag.id}`))
       }
    }, [currCategory, currTag])
 

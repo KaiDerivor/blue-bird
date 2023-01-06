@@ -39,9 +39,7 @@ export const DialogFormCategories: React.FC<DialogFormCategoryType> = ({ openDil
    const [img, setImg] = useState({ name: '' })
 
    useEffect(() => {
-      return () => {
-         dispatch(getTagsInit())
-      };
+      dispatch(getTagsInit())
    }, [])
 
    const handleCloseForm = () => {
@@ -151,7 +149,7 @@ export const DialogFormCategories: React.FC<DialogFormCategoryType> = ({ openDil
             </DialogContent>
             <DialogActions>
                <Button onClick={handleCloseForm}>Cancel</Button>
-               {switchHandler === DELETE &&<Button onClick={() => handleConfirmForm()}>Confirm</Button>}
+               {switchHandler === DELETE && <Button onClick={() => handleConfirmForm()}>Confirm</Button>}
             </DialogActions>
          </Dialog>
       </div >

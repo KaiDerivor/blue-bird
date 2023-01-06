@@ -20,12 +20,10 @@ const Themes = React.memo(() => {
       dispatch(getThemesInit(categoryId))
    }
    useEffect(() => {
-      return () => {
-         if (!themes || themes.length <= 0)
-            dispatch(getThemesInit())
-         if (!categories || categories.length <= 0)
-            dispatch(getCategoriesInit())
-      }
+      if (!themes || themes.length <= 0)
+         dispatch(getThemesInit())
+      if (!categories || categories.length <= 0)
+         dispatch(getCategoriesInit())
    }, [])
    const handleConfirm = (eventId = 0, theme = {} as ThemeRecordType) => {
       switch (switchHandler) {

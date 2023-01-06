@@ -48,15 +48,14 @@ const CourseItem = React.memo(() => {
       dispatch(appActions.toggleFetchingOn())
       let idTime = setTimeout(() => { dispatch(appActions.toggleFetchingOff()) }, 1000)
 
+      if (categories.length <= 0) {
+         dispatch(getCategoriesInit())
+      }
+      if (tags.length <= 0) {
+         dispatch(getTagsInit())
+      }
       return () => {
          clearTimeout(idTime)
-
-         if (categories.length <= 0) {
-            dispatch(getCategoriesInit())
-         }
-         if (tags.length <= 0) {
-            dispatch(getTagsInit())
-         }
       };
 
    }, [])

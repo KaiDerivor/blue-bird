@@ -7,18 +7,16 @@ import { useDispatch, useSelector } from "react-redux"
 import { getCategories } from "../../redux/appSelector"
 import { getCategoriesInit } from "../../redux/catReducer"
 
-const CoursesList:React.FC = React.memo(() => {
+const CoursesList: React.FC = React.memo(() => {
 
    const dispatch: any = useDispatch();
 
    const categories = useSelector(getCategories)
 
    useEffect(() => {
-         return () => {
-            if (categories.length < 1) {
-               dispatch(getCategoriesInit())
-            }
-         };
+      if (categories.length < 1) {
+         dispatch(getCategoriesInit())
+      }
    }, [])
    return (
       <Box className={styles.listSavings}>

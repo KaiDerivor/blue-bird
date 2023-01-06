@@ -14,10 +14,8 @@ const Categories = React.memo(() => {
    const [switchHandler, setSwitchHandler] = useState<ACTION_OF_CRUD>(CREATE)
 
    useEffect(() => {
-      return () => {
-         if (!categories || categories.length <= 0)
-            dispatch(getCategoriesInit())
-      }
+      if (!categories || categories.length <= 0)
+         dispatch(getCategoriesInit())
    }, [])
    const handleConfirm = (categoryId = 0, category = {} as CategoryRecordType) => {
       switch (switchHandler) {

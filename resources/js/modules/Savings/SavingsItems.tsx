@@ -21,10 +21,7 @@ export const SavingsItems = React.memo(() => {
    const taskSavings = useSelector(getSavedTasks)
    const [savedTasks, setSavedTasks] = useState([] as Array<ListItemSaveType>)
    useEffect(() => {
-      console.log(savedTasks)
-      return () => {
-         likedTasks.length > 0 && savedTasks.length === 0 && dispatch(initSavedTasks(likedTasks))
-      };
+      likedTasks.length > 0 && savedTasks.length === 0 && dispatch(initSavedTasks(likedTasks))
    }, [])
    useEffect(() => {
       if (taskSavings.length > 0 && savedTasks.length === 0) {

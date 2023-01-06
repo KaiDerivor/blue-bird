@@ -13,10 +13,8 @@ type ToggleThemeModeType = {
    drawerWidth?: number
 }
 export const ToggleThemeMode: React.FC<ToggleThemeModeType> = ({ toggleThemeMode, drawerWidth }) => {
-   // const themeMod = useSelector(getIsDarkMode);
    const dispatch: any = useDispatch();
 
-   // const userRole = useSelector(getUserRole)
    const [isLightMode, setIsLightMode] = useState(false)
 
    const toggleTheme = () => {

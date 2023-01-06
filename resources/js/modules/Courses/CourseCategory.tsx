@@ -14,7 +14,6 @@ import { detectCategory } from "../utils/detectCategory"
 import { appActions, FormDataMeUpdateType, updateMe } from "../../redux/appReducer"
 import { getThemesInit, ThemeType } from "../../redux/themeReducer"
 import Paper from "@mui/material/Paper"
-import { Button } from "@mui/material"
 
 type BodyCourseCategory = {
    toggleShowingTasks: () => void

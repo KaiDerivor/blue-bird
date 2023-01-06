@@ -78,7 +78,7 @@ const drawerWidth = 60;
 
 function App() {
 
-  const dispatch: AppDispatch = useDispatch()
+  const dispatch: any = useDispatch()
 
   const isDarkMode = useSelector(getIsDarkMode);
   const isSetData = useSelector(getIsSetData)
@@ -96,7 +96,6 @@ function App() {
 
   useEffect(() => {
     if (isInit && !isSetData) {
-      //@ts-ignore
       dispatch(setData())
     }
   }, [])

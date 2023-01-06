@@ -19,12 +19,10 @@ const Rules = React.memo(() => {
       dispatch(getRulesInit(categoryId))
    }
    useEffect(() => {
-      return () => {
-         if (rules.length <= 0)
-            dispatch(getRulesInit())
-         if (categories.length === 0)
-            dispatch(getCategoriesInit())
-      }
+      if (rules.length <= 0)
+         dispatch(getRulesInit())
+      if (categories.length === 0)
+         dispatch(getCategoriesInit())
    }, [])
    const handleConfirm = (ruleId = 0, rule = {} as RuleRecordType) => {
       switch (switchHandler) {
