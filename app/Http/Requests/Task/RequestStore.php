@@ -24,16 +24,16 @@ class RequestStore extends FormRequest
     public function rules()
     {
         return [
-            'task'=>'nullable|file',
+            'img'=>'',
             'answer'=>'required|string',
             'content'=>'nullable|string',
-            'category_id'=>'required|exist:categories,id',
-            'tag_id'=>'nullable|integer|exist:tags,id',
+            'category_id'=>'required|exists:categories,id',
+            'tag_id'=>'nullable|integer|exists:tags,id',
             'number_of_task'=>'required',
             'task_type' => 'required|string|in:letter4,letter5,range1,range2,range3,letters4,letters3,default',
             'test_qa'=>'nullable|json',
-            'rule_id' =>'nullable|integer|exist:rules,id',
-            'theme_id' =>'nullable|integer|exist:themes,id',
+            'rule_id' =>'nullable|integer|exists:rules,id',
+            'theme_id' =>'nullable|integer|exists:themes,id',
         ];
     }
 

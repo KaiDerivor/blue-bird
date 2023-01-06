@@ -33,7 +33,7 @@ export const SavingsItems = React.memo(() => {
                category: it.category.slug,
                id: it.tag.slug,
                content: JSON.parse(it.test_qa)?.question ? JSON.parse(it.test_qa)?.question : '',
-               imgUrl: it?.task ? it.task : '',
+               imgUrl: it?.img ? it.img : '',
                taskId: it.id,
                numberOfTask: `${it.numberOfTask}`
             })

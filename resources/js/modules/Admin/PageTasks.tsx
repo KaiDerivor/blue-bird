@@ -51,7 +51,7 @@ const Tasks = React.memo(() => {
    }
    return (
       <>
-         {/* <SearchBarCategoryTag categories={categories} tags={tags} fnSearch={searchFilter} /> */}
+         <SearchBarCategoryTag categories={categories} tags={tags} fnSearch={searchFilter} />
          <TableTask list={tasks} categories={categories} tags={tags} handleConfirm={handleConfirm} setSwitchHandler={setSwitchHandler} switchHandler={switchHandler} />
       </>
 

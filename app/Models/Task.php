@@ -38,11 +38,11 @@ class Task extends Model
     }
     public function getImageAttribute()
     {
-        $isImageUrl = Str::of($this->task)->startsWith('http');
+        $isImageUrl = Str::of($this->img)->startsWith('http');
         if ($isImageUrl) {
-            return $this->task;
+            return $this->img;
         } else {
-            return asset('storage/' . $this->task);
+            return asset('storage/' . $this->img);
         }
     }
 }

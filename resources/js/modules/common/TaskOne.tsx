@@ -89,9 +89,9 @@ const TaskOne = () => {
                <Box sx={{ pb: 3 }}>
                   <Typography variant="body1" color="inherit">{taskQuestion}</Typography>
                </Box>
-               {currTask.task &&
+               {currTask.img &&
                   <Box sx={{ pb: 3 }}>
-                     <img src={currTask.task} alt={`saved-${currTask.numberOfTask}`} />
+                     <img src={currTask.img} alt={`saved-${currTask.numberOfTask}`} />
                   </Box>
                }
                <Box sx={{}}>

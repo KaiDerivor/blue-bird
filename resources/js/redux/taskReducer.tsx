@@ -40,14 +40,14 @@ export type ResultRecordType = {
 }
 export type TaskRecordType = {
    id?: number
-   task?: any
+   img?: any
    answer?: string
    content?: string
    category_id?: string
    tag_id?: string
    number_of_task?: number
    task_type?: string
-   test_qa?: any
+   test_qa?: string
    rule_id?: number
    theme_id?: number
 
@@ -56,20 +56,20 @@ export type TaskRecordType = {
 }
 export type TaskType = {
    id: number
-   task?: any
+   img?: string
    answer: string
    content?: string
    category_id: string
    tag_id: string
    number_of_task: number
    task_type: string
-   test_qa?: any
+   test_qa?: string
    rule: RuleType
    theme: ThemeType
 }
 export type TaskSavedType = {
    id: number
-   task?: any
+   img?: any
    answer: string
    content?: string
    category: CategoryType
@@ -278,8 +278,8 @@ export const updateTask = (id: number | string | undefined, task: TaskRecordType
 
    return async (dispatch) => {
       dispatch(taskActions.toggleFetchingOn())
-      if (task.task === null)
-         delete task.task
+      if (task.img === null)
+         delete task.img
       if (id === undefined) {
          dispatch(appActions.setErrorText('Error: id can\'t be undefined'))
          return;

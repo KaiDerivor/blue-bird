@@ -55,9 +55,9 @@ export const TaskComponent: React.FC<TaskComponentType> = ({
       <Box sx={{ pb: 3 }}>
         <Typography variant="body1" color="inherit">{taskQuestion}</Typography>
       </Box>
-      {task.task &&
+      {task.img &&
         <Box sx={{ pb: 3, minHeight: '200px' }}>
-          <img src={`${task.task}`} alt={`${currCategory.slug}-${currTag.slug}-${task.number_of_task}`} loading="eager" />
+          <img src={`${task.img}`} alt={`${currCategory.slug}-${currTag.slug}-${task.number_of_task}`} loading="eager" />
         </Box>
       }
       <Box sx={{}}>

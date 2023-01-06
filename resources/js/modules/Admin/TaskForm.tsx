@@ -62,10 +62,10 @@ export const TaskForm: React.FC<TaskFormType> = ({ handleConfirm, task }) => {
       }
    }, [errorText])
    if (!filterTag) {
-      filterTag = '0';
+      filterTag = '1';
    }
    if (!filterCategory) {
-      filterCategory = '0'
+      filterCategory = '1'
    }
    return (
       <div>
@@ -73,7 +73,7 @@ export const TaskForm: React.FC<TaskFormType> = ({ handleConfirm, task }) => {
             initialValues={{
                answer: task?.answer ? task.answer : '',
                content: task?.content ? task.content : '',
-               task: task?.task ? task.task : '',
+               img: task?.img ? task.img : '',
                number_of_task: task?.number_of_task ? task.number_of_task : '',
                category_id: task?.category_id ? task.category_id : `${filterCategory}`,
                tag_id: task?.tag_id ? task.tag_id : `${filterTag}`,
@@ -88,7 +88,7 @@ export const TaskForm: React.FC<TaskFormType> = ({ handleConfirm, task }) => {
             }}
             onSubmit={(values) => {
                //@ts-ignore
-               let formData = { ...values, task: taskImg, number_of_task }
+               let formData = { ...values, img: taskImg, number_of_task }
                if (!formData.answer) {
                   setError('Fill answer')
                   return;
@@ -119,7 +119,7 @@ export const TaskForm: React.FC<TaskFormType> = ({ handleConfirm, task }) => {
             <Form className={styles.forms}>
 
                <Box className={styles.wrapperField}>
-                  {task?.task && <img src={task?.task} />}
+                  {task?.img && <img src={task?.img} />}
                </Box>
                <Box className={styles.wrapperField}>
                   <Typography variant="caption" color="inherit">Choose img</Typography>

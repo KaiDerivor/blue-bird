@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
-            $table->string('task')->nullable();
+            $table->string('img')->nullable();
             $table->string('answer')->nullable();
             $table->text('content')->nullable();
-            $table->unsignedInteger('number_of_task')->change();
+            $table->unsignedInteger('number_of_task')->nullable();
             $table->string('task_type')->default('letter4');
             $table->json('test_qa')->nullable();
 

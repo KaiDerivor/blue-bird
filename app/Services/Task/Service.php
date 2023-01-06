@@ -14,12 +14,12 @@ class Service extends Path2File
    public function update($task, $data)
    {
 
-         if (isset($data['task'])) {
-            $image_path  = $this->makePath($task['task']);
+         if (isset($data['img'])) {
+            $image_path  = $this->makePath($task['img']);
             if (File::exists($image_path)) {
                File::delete($image_path);
             }
-            $data['task'] = Storage::disk('public')->put('/img-tasks', $data['task']);
+            $data['img'] = Storage::disk('public')->put('/img-tasks', $data['img']);
          }
       // return $task;
       if (strip_tags($data['content']) === 'NONE') {
@@ -42,8 +42,8 @@ class Service extends Path2File
  
       try {
          DB::beginTransaction();
-         if(isset($data['task']))
-         $data['task'] = Storage::disk('public')->put('/img-tasks', $data['task']);
+         if(isset($data['img']))
+         $data['img'] = Storage::disk('public')->put('/img-tasks', $data['img']);
 
          $data = Task::create($data);
 
