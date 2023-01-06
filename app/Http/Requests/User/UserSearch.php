@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\User;
 
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UserSearch extends FormRequest
@@ -23,13 +24,16 @@ class UserSearch extends FormRequest
      */
     public function rules()
     {
-        return [
-            'name'=>'max:50',
-            'email'=>'max:70',
-            'role'=>'in:admin,user,',
+        $admin = User::ROLE_ADMIN;
+        $user = User::ROLE_USER;
 
-            'page' => '',
-            'per_page' => ''
+        return [
+            'name' => 'nulable|string|max:50',
+            'email' => 'nullable|string|max:70',
+            'role' => "nullable|string|in:$admin,$user,",
+
+            'page' => 'nullable|integer',
+            'per_page' => 'nullable|integer'
         ];
     }
 }

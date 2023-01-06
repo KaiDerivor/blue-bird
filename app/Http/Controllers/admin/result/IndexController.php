@@ -19,8 +19,8 @@ class IndexController extends BaseController
 
         $filter = app()->make(ResultSubFilter::class, ['queryParams' => array_filter($data)]);
 
-        $filter = new ResultSubFilter ($data);
-        $subjects = Result::filter($filter)->paginate($perPage,['*'],'page',$page);
-        return  ResultResource::collection(($subjects));
+        $filter = new ResultSubFilter($data);
+        $subjects = Result::filter($filter)->get(); //->paginate($perPage,['*'],'page',$page);
+        return ResultResource::collection(($subjects));
     }
 }

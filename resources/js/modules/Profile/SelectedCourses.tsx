@@ -19,7 +19,7 @@ export const SelectedCourses: React.FC<SelectedCoursesType> = React.memo(({ cate
       let categoryItems = [] as Array<JSX.Element>
       for (const category of categories) {
          if (likedCategories.includes(category.id)) {
-            categoryItems.push(<ProfileCourseItem key={category.id} text={category.description} title={category.title} navLink={`/courses/${category.textUrl}`}
+            categoryItems.push(<ProfileCourseItem key={category.id} text={category.description} title={category.title} navLink={`/courses/${category.slug}`}
             />)
          }
       }

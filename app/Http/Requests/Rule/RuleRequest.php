@@ -24,9 +24,9 @@ class RuleRequest extends FormRequest
     public function rules()
     {
         return [
-            'title'=>'required|string"min:3|max:100',
+            'title'=>'required|string|min:3|max:100',
             'description'=>'required|string',
-            'category_id'=>'nullable|integer|exist:categories,id',
+            'category_id'=>'nullable|integer|exists:categories,id',
         ];
     }
 }

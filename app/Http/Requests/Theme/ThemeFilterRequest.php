@@ -24,7 +24,7 @@ class ThemeFilterRequest extends FormRequest
     public function rules()
     {
         return [
-            'category_id'=>'integer'
+            'category_id'=>'nullable|integer|exists:categories,id'
         ];
     }
 }

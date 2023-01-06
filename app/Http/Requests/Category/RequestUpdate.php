@@ -25,10 +25,11 @@ class RequestUpdate extends FormRequest
     {
         return [
             'title' => 'required|string|max:50|min:4',
-            'img' => '',
-            'description' => '',
-            'tags' => '',
-            'slug' => 'nullable|string|max:20',
+            'img' => 'file',
+            'description' => 'nullable|string',
+            'tags' => 'array',
+            'tags.*' => 'nullable|exists:tags,id',
+            'slug' => 'nullable|string|max:20'
         ];
     }
 }

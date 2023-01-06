@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\User;
 
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateRequest extends FormRequest
@@ -23,16 +24,19 @@ class UpdateRequest extends FormRequest
      */
     public function rules()
     {
+        $admin = User::ROLE_ADMIN;
+        $user = User::ROLE_USER;
+
         return [
-            'name' => 'string',
-            'email' => 'email',
-            'role' => 'string',
-            'likedTasks' => '',
-            'likedTasks.*' => 'numeric',
+            'name' => 'nullable|string',
+            'email' => 'nullable|email|unique:users',
+            'role' => "nullable|string|in:$admin,$user",
+            'likedTasks' => 'array',
+            'likedTasks.*' => 'nullable|numeric|exists:tasks,id',
             'likedCategories' => 'array|max:5',
-            'likedCategories.*' => 'numeric',
+            'likedCategories.*' => 'nullable|numeric|exists:categories,id',
             'chart' => 'json',
-            'password'=>'string'
+            'password' => 'string'
         ];
     }
 }

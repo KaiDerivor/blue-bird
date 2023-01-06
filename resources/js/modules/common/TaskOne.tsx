@@ -9,7 +9,6 @@ import { TaskComponent } from '../Courses/Task'
 import styles from './../Courses/style.module.scss'
 import Typography from '@mui/material/Typography'
 import Divider from '@mui/material/Divider'
-import { URL_STORAGE } from '../../redux/appReducer'
 import { ButtonsActionSecond } from '../Courses/ButtonsActionSecond'
 import { Button } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -93,7 +92,7 @@ const TaskOne = () => {
                </Box>
                {currTask.task &&
                   <Box sx={{ pb: 3 }}>
-                     <img src={`${URL_STORAGE}${currTask.task}`} alt={`saved-${currTask.numberOfTask}`} />
+                     <img src={currTask.task} alt={`saved-${currTask.numberOfTask}`} />
                   </Box>
                }
                <Box sx={{}}>

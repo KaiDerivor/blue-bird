@@ -24,11 +24,11 @@ class ThemeRequestStore extends FormRequest
     public function rules()
     {
         return [
-            'title'=>'required|string|min:3',
+            'title'=>'required|string|min:3|unique:themes',
             'description'=>'nullable|string',
-            'slug'=>'nullable|string',
+            'slug'=>'nullable|string|unique:themes',
             'numberOfTheme'=>'required|integer',
-            'category_id'=>'nullable|exist:categories,id'
+            'category_id'=>'nullable|exists:categories,id'
         ];
     }
 }

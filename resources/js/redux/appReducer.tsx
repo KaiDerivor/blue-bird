@@ -4,7 +4,6 @@ import { api } from "../api/api"
 import { errorStringHandler } from "../modules/utils/errorStringHandler"
 import { AppStateType, InferActionsTypes } from "./store"
 
-export const URL_STORAGE = '/storage/'
 export const CREATE = 'CREATE'
 export const UPDATE = 'UPDATE'
 export const DELETE = 'DELETE'
@@ -70,13 +69,9 @@ const appReducer = (state = initialState, action: ActionsTypes): StateType => {
          }
       }
       case SET_ERROR_MESSAGE: {
-         let errorText = action.errorText;
-         if (errorText === 'Unauthorized') {
-            errorText = 'Wrong password or email';
-         }
          return {
             ...state,
-            errorText
+            errorText: action.errorText
          }
       }
       case ERASE_ERROR: {
@@ -125,9 +120,9 @@ export const loginThunk = (formData: FormDataLogType): ThunksTypes => {
    return async (dispatch) => {
       api.login(formData)?.then(res => {
          if (typeof res === 'string') {
-            dispatch(appActions.setErrorText(errorStringHandler(res)))
+            let msg = errorStringHandler(res)
+            dispatch(appActions.setErrorText(msg))
          } else {
-
             api.me().then(res => {
                dispatch(appActions.init(res))
             })
@@ -148,7 +143,7 @@ export const logoutThunk = (): ThunksTypes => {
 export const registerThunk = (formData: FormDataRegType): ThunksTypes => {
    return async (dispatch) => {
       api.register(formData)?.then(res => {
-         if (typeof res === 'string') {
+         if (typeof res === 'string' || res === undefined) {
             dispatch(appActions.setErrorText(errorStringHandler(res)))
          } else {
             api.me().then(res => {
@@ -164,7 +159,7 @@ export const setData = (): ThunksTypes => {
       api.me().then(res => {
          if (!localStorage?.access_token) {
             dispatch(appActions.canselInit())
-            dispatch(appActions.setErrorText('Authorize please'))
+            // dispatch(appActions.setErrorText('Authorize please'))
             return
          }
          typeof res === 'string'

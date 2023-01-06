@@ -68,9 +68,8 @@ export const api = {
       localStorage.access_token = response.data.access_token;
     })
       .catch(err => {
-        if (err.response) {
-          console.log(err)
-          return err.response.statusText
+        if (err?.response?.data) {
+          return err.response.data?.message
         } else if (err.request) {
           return 'Bad network. Try again later'
         } else {
@@ -78,7 +77,7 @@ export const api = {
         }
       });
   },
-  login: function (formData: FormDataLogType) {
+  login: (formData: FormDataLogType)=> {
     return instance.post("auth/login", { ...formData }).then(response => {
       localStorage.access_token = response.data.access_token;
     }).catch(err => {
@@ -269,7 +268,7 @@ export const api = {
 
   //task
   getTasks: function (category_id = '', tag_id = '', listSaved = [] as Array<number>) {
-    return instance.get(`tasks?category_id=${category_id}&tag_id=${tag_id}${listSaved.length > 0 ? `&ids=${listSaved}`:''}`).then(res => {
+    return instance.get(`tasks?category_id=${category_id}&tag_id=${tag_id}${listSaved.length > 0 ? `&ids=${listSaved}` : ''}`).then(res => {
       return res.data.data;
     }).catch(err => {
       if (err.response) {

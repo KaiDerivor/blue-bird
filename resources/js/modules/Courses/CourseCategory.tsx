@@ -96,7 +96,7 @@ const BodyCourseCategory: React.FC<BodyCourseCategory> = ({ toggleShowingTasks, 
                   <Box className={styles.boxSession__list}>
                      {currCategory.tags?.length
                         ? currCategory?.tags.map((tag) => {
-                           return <Typography key={tag.id} variant="body1" color="fpage.main"><NavLink to={tag.textUrl} style={{ color: 'inherit' }}>{tag.title}</NavLink> </Typography>
+                           return <Typography key={tag.id} variant="body1" color="fpage.main"><NavLink to={tag.slug} style={{ color: 'inherit' }}>{tag.title}</NavLink> </Typography>
                         })
                         : <Typography variant="h5" color="fpage.main" sx={{ pb: 4 }}>Не має доступних тестів</Typography>
                      }
@@ -154,7 +154,7 @@ const BodyCourseTasks: React.FC<BodyCourseCategory> = React.memo(({ toggleShowin
       if (!(themes.length > 0)) return <div></div>
 
       let ret = themes.map((theme: ThemeType, index: number) => {
-         return <NavLink key={index} to={theme.textUrl}>
+         return <NavLink key={index} to={theme.slug}>
 
             <Paper className={styles.itemTheme}
                sx={{ color: 'fpage.light', backgroundColor: 'bgmode.main', mb: 3 }}

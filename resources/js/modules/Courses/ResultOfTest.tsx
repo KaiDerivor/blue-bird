@@ -178,7 +178,7 @@ export const ResultOfTest: React.FC<ResultOfTestType> = React.memo(({ currCatego
                   {isAsThemeTest || <Typography variant="subtitle1" color="inherit" component='div' >  Ваш рейтинговий бал: <strong>{defineRating()} </strong>з 200 можливих.</Typography>}
                   <Typography variant="subtitle1" color="inherit" component='div' > Витрачено часу: <strong>{getWastedTime()}</strong> з {categoryTagInfo?.maxTime && categoryTagInfo.maxTime} запропонованих</Typography>
                </Box>
-               <NavigationTest startTestAgainHandler={startTestAgainHandler} currCategoryUrl={currCategory.textUrl} />
+               <NavigationTest startTestAgainHandler={startTestAgainHandler} currCategoryUrl={currCategory.slug} />
                <Box sx={{ pt: 3 }}>
                   {displayAllTasks()}
                </Box>

@@ -18,9 +18,9 @@ class CategoryResource extends JsonResource
         return [
             "title" => $this->title,
             'id' => $this->id,
-            'tags' => TagResource::collection($this->tags),
+            // 'tags' => TagResource::collection($this->tags),
             'description' => $this->description,
-            'img' => $this->img,
+            'img' => $this->image,
             'slug' => $this->slug
         ];
     }

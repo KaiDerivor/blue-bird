@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { URL_STORAGE } from '../../redux/appReducer'
 import { getLikedTasks, getSavedTasks } from '../../redux/appSelector'
 import { initSavedTasks } from '../../redux/taskReducer'
 import { SectionSavCategory } from "./SectionSavCategory"
@@ -34,10 +33,10 @@ export const SavingsItems = React.memo(() => {
             initSavedTasks.push({
                title: `Категорія: ${it.category.title.toLocaleLowerCase()}`,
                subtitle: `${it.tag.title}`,
-               category: it.category.textUrl,
-               id: it.tag.textUrl,
+               category: it.category.slug,
+               id: it.tag.slug,
                content: JSON.parse(it.test_qa)?.question ? JSON.parse(it.test_qa)?.question : '',
-               imgUrl: it?.task ? `${URL_STORAGE}${it.task}` : '',
+               imgUrl: it?.task ? it.task : '',
                taskId: it.id,
                numberOfTask: `${it.numberOfTask}`
             })

@@ -1,6 +1,5 @@
 import React from 'react'
 import { TaskSavedType, TaskType } from '../../redux/taskReducer'
-import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 import Collapse from '@mui/material/Collapse'
 import { ButtonTask } from './ButtonTask'

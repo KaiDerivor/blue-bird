@@ -24,12 +24,12 @@ class RequestCreate extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string|max:50|min:4',
-            'img' => 'required',
-            'description' => '',
+            'title' => 'required|string|max:50|min:4|unique:categories',
+            'img' => 'required|file',
+            'description' => 'nullable|string',
             'tags' => 'array',
-
-            'textUrl' => 'nullable|string|max:20'
+            'tags.*' => 'nullable|exists:tags,id',
+            'slug' => 'nullable|string|max:20|unique:categories'
         ];
     }
 }

@@ -28,7 +28,7 @@ class ThemeRequestUpdate extends FormRequest
             'description'=>'nullable|string',
             'slug'=>'nullable|string',
             'numberOfTheme'=>'required|integer',
-            'category_id'=>'nullable|exist:categories,id'
+            'category_id'=>'nullable|exists:categories,id'
         ];
     }
 }

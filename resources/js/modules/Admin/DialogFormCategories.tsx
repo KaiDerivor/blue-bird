@@ -10,7 +10,7 @@ import { getTagsInit } from '../../redux/tagReducer';
 import { Formik, Field, Form } from 'formik';
 //@ts-ignore
 import styles from './style.module.scss'
-import { ACTION_OF_CRUD, DELETE, URL_STORAGE } from '../../redux/appReducer';
+import { ACTION_OF_CRUD, DELETE } from '../../redux/appReducer';
 import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
@@ -88,7 +88,7 @@ export const DialogFormCategories: React.FC<DialogFormCategoryType> = ({ openDil
                      <Form className={styles.forms}>
 
                         <Box className={styles.wrapperField}>
-                           {item?.img && <img src={`${URL_STORAGE}${item?.img}`} />}
+                           {item?.img && <img src={item?.img} />}
                         </Box>
                         <Box className={styles.wrapperField}>
                            <Typography variant="caption" color="inherit">Choose image</Typography>

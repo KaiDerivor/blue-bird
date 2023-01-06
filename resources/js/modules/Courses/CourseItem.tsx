@@ -64,7 +64,7 @@ const CourseItem = React.memo(() => {
    useEffect(() => {
       if (tags.length > 0) {
          for (const tag of tags) {
-            if (tag.textUrl === params.id) {
+            if (tag.slug === params.id) {
                setCurrTag(tag)
             }
          }
@@ -75,7 +75,7 @@ const CourseItem = React.memo(() => {
    useEffect(() => {
       if (categories.length > 0) {
          for (const category of categories) {
-            if (category.textUrl === params.category) {
+            if (category.slug === params.category) {
                setCurrCategory(category)
             }
          }

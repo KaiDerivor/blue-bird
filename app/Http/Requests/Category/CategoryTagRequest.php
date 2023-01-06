@@ -24,11 +24,11 @@ class CategoryTagRequest extends FormRequest
     public function rules()
     {
         return [
-            'maxTime' => 'string',
-            'table200img' => 'file',
-            'table12img' => 'file',
-            'someInfo' => '',
-            'maxPoints' => 'integer'
+            'maxTime' => 'required|string',
+            'table200img' => 'nullable|file',
+            'table12img' => 'nullable|file',
+            'someInfo' => 'nullable|string',
+            'maxPoints' => 'required|integer'
         ];
     }
 }

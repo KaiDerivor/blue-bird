@@ -3,7 +3,6 @@ import React, { useState } from 'react'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { lettersOfAnswers, TaskSavedType, TaskType } from '../../redux/taskReducer'
-import { URL_STORAGE } from '../../redux/appReducer'
 import { AnswerField } from './AnswerField'
 import { CategoryRecordType } from '../../redux/catReducer'
 import { TagRecordType } from '../../redux/tagReducer'
@@ -58,8 +57,7 @@ export const TaskComponent: React.FC<TaskComponentType> = ({
       </Box>
       {task.task &&
         <Box sx={{ pb: 3, minHeight: '200px' }}>
-          {/* <img src={`${URL_STORAGE}${task.task}`} alt={`${currCategory.textUrl}-${currTag.textUrl}-${task.number_of_task}`} loading="eager" /> */}
-          <img src={`${task.task}`} alt={`${currCategory.textUrl}-${currTag.textUrl}-${task.number_of_task}`} loading="eager" />
+          <img src={`${task.task}`} alt={`${currCategory.slug}-${currTag.slug}-${task.number_of_task}`} loading="eager" />
         </Box>
       }
       <Box sx={{}}>

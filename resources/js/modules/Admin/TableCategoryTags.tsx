@@ -25,7 +25,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
-import { ACTION_OF_CRUD, DELETE, UPDATE, URL_STORAGE } from '../../redux/appReducer';
+import { ACTION_OF_CRUD, DELETE, UPDATE } from '../../redux/appReducer';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
    [`&.${tableCellClasses.head}`]: {
@@ -190,7 +190,7 @@ export const ResultDialog: React.FC<FormDialogType> = ({
                      >
                         <Form className={styles.forms}>
                            <Box className={styles.wrapperField}>
-                              {item.table200img && <img src={`${URL_STORAGE}${item.table200img}`} />}
+                              {item.table200img && <img src={item.table200img} />}
                               <Stack direction="row" alignItems="center" spacing={2}>
                                  <div>
 
@@ -216,7 +216,7 @@ export const ResultDialog: React.FC<FormDialogType> = ({
                               </Stack>
                            </Box>
                            <Box className={styles.wrapperField}>
-                              {item.table12img && <img src={`${URL_STORAGE}${item.table12img}`} />}
+                              {item.table12img && <img src={item.table12img} />}
                               <Stack direction="row" alignItems="center" spacing={2}>
                                  <div>
 

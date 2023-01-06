@@ -1,7 +1,7 @@
 
 export const errorStringHandler=(errStr:string)=>{
    if(errStr==='Internal Server Error'){
-      return 'Something went wrong'
+      return 'Щось пішло не так :( Спробуйте будь ласка пізніше'
    }else{
       return errStr
    }

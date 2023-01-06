@@ -15,13 +15,9 @@ class IndexController extends BaseController
     public function __invoke(RuleFilterRequest $request)
     {
         $data = $request->validated();
-        $page = $data['page'] ?? 1;
-        $perPage = $data['per_page'] ?? 50;
-
         $filter = app()->make(SubFilterByCategory::class, ['queryParams' => array_filter($data)]);
-
         $filter = new SubFilterByCategory($data);
-        $rules = Rule::filter($filter)->paginate($perPage, ['*'], 'page', $page);
-        return  RuleResource::collection(($rules));
+        $rules = Rule::filter($filter)->get(); //->paginate($perPage, ['*'], 'page', $page);
+        return  RuleResource::collection($rules);
     }
 }
