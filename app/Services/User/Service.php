@@ -11,7 +11,7 @@ class Service
 {
    public function update($data)
    {
-      Log::info('Trying update user by ' . join(" ",$data));
+      Log::info('Trying update user by ', $data);
 
       if (auth()->user() === null) {
          abort(401);
@@ -39,7 +39,7 @@ class Service
    }
    public function store($data)
    {
-      Log::info('Trying create user by ' . join(" ",$data));
+      Log::info('Trying create user by ', $data);
       User::create($data);
    }
 }

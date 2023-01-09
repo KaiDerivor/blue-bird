@@ -14,7 +14,7 @@ class Service extends Path2File
 {
    public function update($tag, $data)
    {
-      Log::info('Trying update tag by ' . join(" ", $data));
+      Log::info('Trying update tag by ' , $data);
       try {
          DB::beginTransaction();
          DB::commit();
@@ -38,7 +38,7 @@ class Service extends Path2File
    }
    public function store($data)
    {
-      Log::info('Trying create tag by ' . join(" ", $data));
+      Log::info('Trying create tag by ' , $data);
       try {
          DB::beginTransaction();
          if (isset($data['img'])) {

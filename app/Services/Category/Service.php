@@ -16,7 +16,7 @@ class Service extends Path2File
 {
    public function update($category, $data)
    {
-      Log::info('Trying update categoryTag by ' . join(" ", $data));
+      Log::info('Trying update categoryTag by ' , $data);
       try {
          DB::beginTransaction();
          if (isset($data['tags'])) {
@@ -47,7 +47,7 @@ class Service extends Path2File
    }
    public function store($category)
    {
-      Log::info('Trying create category by ' . join(" ", $category));
+      Log::info('Trying create category by ' , $category);
       try {
          DB::beginTransaction();
          $tags = $category['tags'];
@@ -69,7 +69,7 @@ class Service extends Path2File
    }
    public function updateCategoryTags($categoryTag, $data)
    {
-      Log::info('Trying update categoryTag by ' . join(" ", $data));
+      Log::info('Trying update categoryTag by ' , $data);
       try {
          DB::beginTransaction();
          if (isset($data['table200img'])) {

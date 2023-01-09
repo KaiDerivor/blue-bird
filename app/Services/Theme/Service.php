@@ -14,7 +14,7 @@ class Service extends Path2File
 {
    public function update($theme, $data)
    {
-      Log::info('Trying update theme by ' . join(" ", $data));
+      Log::info('Trying update theme by ', $data);
       try {
          DB::beginTransaction();
 
@@ -41,7 +41,7 @@ class Service extends Path2File
    }
    public function store($data)
    {
-      Log::info('Trying create theme by ' . join(" ", $data));
+      Log::info('Trying create theme by ', $data);
 
       try {
          DB::beginTransaction();

@@ -35,7 +35,7 @@ Route::group([
         Route::patch('me', 'UpdateController');
     });
     Route::group(['namespace' => 'User', 'middleware' => ['jwt.auth', 'auth']], function () {
-        Route::patch('/users/{user}', "UpdateController")->name('admin.user.update');
+        Route::patch('/users/{user}', "UpdateController")->name('user.update');
         Route::get('info', "IndexController");
     });
     // Route::group(['namespace' => 'User','middleware' => ['api', 'auth']], function () {
