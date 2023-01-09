@@ -25,7 +25,7 @@ class RequestUpdate extends FormRequest
     {
         return [
             'title' => 'required|string|max:50|min:4',
-            'img' => 'file',
+            'img' => 'nullable|file|mimes:jpg,bmp,png,jpeg',
             'description' => 'nullable|string',
             'tags' => 'array',
             'tags.*' => 'nullable|exists:tags,id',

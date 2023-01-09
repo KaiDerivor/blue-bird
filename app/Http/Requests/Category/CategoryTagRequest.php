@@ -25,8 +25,8 @@ class CategoryTagRequest extends FormRequest
     {
         return [
             'maxTime' => 'required|string',
-            'table200img' => 'nullable|file',
-            'table12img' => 'nullable|file',
+            'table200img' => 'nullable|file||mimes:jpg,bmp,png,jpeg',
+            'table12img' => 'nullable|file||mimes:jpg,bmp,png,jpeg',
             'someInfo' => 'nullable|string',
             'maxPoints' => 'required|integer'
         ];

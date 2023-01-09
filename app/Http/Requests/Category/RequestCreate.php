@@ -25,7 +25,7 @@ class RequestCreate extends FormRequest
     {
         return [
             'title' => 'required|string|max:50|min:4|unique:categories',
-            'img' => 'required|file',
+            'img' => 'required|file|mimes:jpg,bmp,png,jpeg,svg',
             'description' => 'nullable|string',
             'tags' => 'array',
             'tags.*' => 'nullable|exists:tags,id',

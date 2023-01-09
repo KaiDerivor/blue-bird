@@ -24,7 +24,7 @@ class RequestUpdate extends FormRequest
     public function rules()
     {
         return [
-            'img'=>'',
+            'img'=>'nullable|file|mimes:jpg,bmp,png,jpeg',
             'answer'=>'required|string',
             'content'=>'nullable|string',
             'category_id'=>'required|exists:categories,id',

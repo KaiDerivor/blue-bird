@@ -25,7 +25,7 @@ class RequestCreate extends FormRequest
     {
         return [
             'title'=>'required|string|max:50|min:4|unique:tags',
-            'img'=>'nullable|file',
+            'img'=>'nullable|file|mimes:jpg,bmp,png,jpeg',
             'description'=>'nullable|string',
             'slug'=>'nullable|string|max:20|unique:tags'
         ];
