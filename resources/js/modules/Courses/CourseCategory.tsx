@@ -141,10 +141,8 @@ const BodyCourseTasks: React.FC<BodyCourseCategory> = React.memo(({ toggleShowin
 
    const themes = useSelector(getThemesList)
    useEffect(() => {
-      return () => {
-         if (currCategory?.id)
-            dispatch(getThemesInit(`${currCategory.id}`))
-      };
+      if (currCategory?.id)
+         dispatch(getThemesInit(`${currCategory.id}`))
    }, [currCategory])
 
    const renderThemes = () => {
@@ -190,10 +188,8 @@ const CourseCategory = React.memo(() => {
    const categories: Array<CategoryType> = useSelector(getCategories)
    const currCategory = detectCategory(categories, params);
    useEffect(() => {
-      return () => {
-         if (categories.length < 1)
-            dispatch(getCategoriesInit())
-      };
+      if (categories.length < 1)
+         dispatch(getCategoriesInit())
    }, [])
    const toggleShowingTasks = () => {
       setIsShowTaskByCategory(prev => !prev)

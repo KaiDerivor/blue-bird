@@ -24,8 +24,8 @@ class FilterRequest extends FormRequest
     public function rules()
     {
         return [
-            'ids' => 'nullable|array',
-            'ids[]' => 'nullable|integer|exists:tasks,id',
+            'ids' => 'nullable',
+            'ids.*' => 'nullable|integer|exists:tasks,id',
             'tag_id' => 'nullable|exists:tags,id',
             'category_id' => 'nullable|exists:categories,id',
             'theme_id' => 'nullable|exists:themes,id',
