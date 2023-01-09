@@ -9,13 +9,13 @@ class Service
 {
    public function store($data)
    {
-      Log::info('Trying create result by ' . join(" ",$data));
-      $result=Result::firstOrCreate($data);
+      Log::info('Trying create result by ' . join(" ", $data));
+      $result = Result::firstOrCreate(['slig' => $data['slug']], $data);
       return $result;
    }
    public function update($result, $data)
    {
-      Log::info('Trying update result by ' . join(" ",$data));
+      Log::info('Trying update result by ' . join(" ", $data));
       $result->update($data);
       return $result;
    }

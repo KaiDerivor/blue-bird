@@ -6,6 +6,7 @@ use App\Http\Resources\Category\CategoryTagResource;
 use App\Models\Category;
 use App\Models\CategoryTags;
 use App\Services\Path2File;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -15,61 +16,83 @@ class Service extends Path2File
 {
    public function update($category, $data)
    {
-      Log::info('Trying update categoryTag by ' . join(" ",$data));
+      Log::info('Trying update categoryTag by ' . join(" ", $data));
+      try {
+         DB::beginTransaction();
+         if (isset($data['tags'])) {
 
-      if (isset($data['tags'])) {
-
-         $tags = $data['tags'];
-         unset($data['tags']);
-         $category->tags()->sync($tags);
-      }
-      if (isset($data['img'])) {
-         $image_path  = $this->makePath($category['img']);
-         if (File::exists($image_path)) {
-            File::delete($image_path);
+            $tags = $data['tags'];
+            unset($data['tags']);
+            $category->tags()->sync($tags);
          }
-         $data['img'] = Storage::disk('public')->put('/img-categories', $data['img']);
+         if (isset($data['img'])) {
+            $image_path  = $this->makePath($category['img']);
+            if (File::exists($image_path)) {
+               File::delete($image_path);
+            }
+            $data['img'] = Storage::disk('public')->put('/img-categories', $data['img']);
+         }
+         if (!isset($data['slug'])) {
+            $data['slug'] = Str::slug($data['title'], '-');
+         }
+         $category->update($data);
+         $category->fresh();
+         DB::commit();
+      } catch (\Exception $ex) {
+         DB::rollBack();
+         Log::error("Can not update category id:$category->id. Error:" . $ex->getMessage());
+         return $ex->getMessage();
       }
-      if (!isset($data['slug'])) {
-         $data['slug'] = Str::slug($data['title'], '-');
-      }
-      $category->update($data);
-      $category->fresh();
       return $category;
    }
    public function store($category)
    {
-      Log::info('Trying create category by ' . join(" ",$category));
+      Log::info('Trying create category by ' . join(" ", $category));
+      try {
+         DB::beginTransaction();
+         $tags = $category['tags'];
+         unset($category['tags']);
+         if (!isset($category['slug'])) {
+            $category['slug'] = Str::slug($category['title'], '-');
+         }
+         $category['img'] = Storage::disk('public')->put('/img-categories', $category['img']);
 
-      $tags = $category['tags'];
-      unset($category['tags']);
-      if (!isset($category['slug'])) {
-         $category['slug'] = Str::slug($category['title'], '-');
+         $category = Category::firstOrCreate($category);
+         $category->tags()->attach($tags);
+         DB::commit();
+      } catch (\Exception $ex) {
+         DB::rollBack();
+         Log::error("Can't create category. Error text:" . $ex->getMessage());
+         return $ex->getMessage();
       }
-      $category['img'] = Storage::disk('public')->put('/img-categories', $category['img']);
-
-      $category = Category::firstOrCreate($category);
-      $category->tags()->attach($tags);
       return $category;
    }
    public function updateCategoryTags($categoryTag, $data)
    {
-      Log::info('Trying update categoryTag by ' . join(" ",$data));
-      if (isset($data['table200img'])) {
-         $image_path  = $this->makePath($data['table200img']);
-         if (File::exists($image_path)) {
-            File::delete($image_path);
+      Log::info('Trying update categoryTag by ' . join(" ", $data));
+      try {
+         DB::beginTransaction();
+         if (isset($data['table200img'])) {
+            $image_path  = $this->makePath($data['table200img']);
+            if (File::exists($image_path)) {
+               File::delete($image_path);
+            }
+            $data['table200img'] = Storage::disk('public')->put('/img-category-tags', $data['table200img']);
          }
-         $data['table200img'] = Storage::disk('public')->put('/img-category-tags', $data['table200img']);
-      }
-      if (isset($data['table12img'])) {
-         $image_path  = $this->makePath($data['table12img']);
-         if (File::exists($image_path)) {
-            File::delete($image_path);
+         if (isset($data['table12img'])) {
+            $image_path  = $this->makePath($data['table12img']);
+            if (File::exists($image_path)) {
+               File::delete($image_path);
+            }
+            $data['table12img'] = Storage::disk('public')->put('/img-category-tags', $data['table12img']);
          }
-         $data['table12img'] = Storage::disk('public')->put('/img-category-tags', $data['table12img']);
+         $categoryTag->update($data);
+         DB::commit();
+      } catch (\Exception $ex) {
+         DB::rollBack();
+         Log::error("Can't update categoryTag id:$categoryTag->id Error text: " . $ex->getMessage());
+         return $ex->getMessage();
       }
-      $categoryTag->update($data);
       return new CategoryTagResource($categoryTag);
    }
 }

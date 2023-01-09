@@ -40,7 +40,6 @@ class Service
    public function store($data)
    {
       Log::info('Trying create user by ' . join(" ",$data));
-
       User::create($data);
    }
 }
