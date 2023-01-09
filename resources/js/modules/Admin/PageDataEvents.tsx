@@ -15,12 +15,10 @@ const DataEvents = React.memo(() => {
    const categories = useSelector(getCategories)
 
    useEffect(() => {
-      return () => {
-         if (!events || events.length <= 0)
-            dispatch(getEventsInit())
-         if (!categories || categories.length <= 0)
-            dispatch(getCategoriesInit())
-      }
+      if (!events || events.length <= 0)
+         dispatch(getEventsInit())
+      if (!categories || categories.length <= 0)
+         dispatch(getCategoriesInit())
    }, [])
    const handleConfirm = (eventId = 0, event = {} as EventRecordType) => {
       switch (switchHandler) {

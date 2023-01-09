@@ -122,7 +122,7 @@ class TaskFactory extends Factory
         $img = fake()->boolean() ? 'https://source.unsplash.com/random/?' . fake()->word() : null;
 
         return [
-            'task' => $img,
+            'img' => $img,
             'answer' => $taskAnswer,
             'content' => fake()->text(),
             'task_type' => $taskType,
@@ -133,16 +133,6 @@ class TaskFactory extends Factory
             'category_id' => fake()->numberBetween(1, 10),
             'tag_id' => fake()->numberBetween(1, 10),
 
-            // 'task' =>' $img',
-            // 'answer' =>"join('', taskAnswer)",
-            // 'content' =>"fake()->text()",
-            // 'task_type' =>" taskType",
-            // // 'test_qa' => "json_encode([
-            // //     'question' => taskQuestion,
-            // //     'answer' => taskVariants
-            // // ])",
-            // 'category_id' =>" fake()->numberBetween(0, 10)",
-            // 'tag_id' =>"fake()->numberBetween(0, 10)",
         ];
     }
 }

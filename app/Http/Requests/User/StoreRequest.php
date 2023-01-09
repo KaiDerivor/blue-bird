@@ -25,9 +25,15 @@ class StoreRequest extends FormRequest
     {
         return [
             'name'=>'string|required',
-            'email'=>'email|required',
+            'email'=>'email|required|unique:users',
             'password'=>'string|required|confirmed',
             'password_confirmation'=>'string|required'
+        ];
+    }
+    public function messages()
+    {
+        return [
+            'email.unique'=>'Користувач з таким емейлом уже існує'
         ];
     }
 }

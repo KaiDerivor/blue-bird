@@ -14,11 +14,11 @@ class StoreController extends BaseController
     public function __invoke(RuleRequest $request)
     {
         $data = $request->validated();
-        $rule = $this->service->store($data);
-        if ($rule instanceof Rule) {
-            return new RuleResource($rule);
+        $response = $this->service->store($data);
+        if ($response instanceof Rule) {
+            return new RuleResource($response);
         } else {
-            return response(['data' => $rule]);
+            return response(['data' => $response]);
         }
     }
 }

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('title')->nullable();
             $table->string('description')->nullable();
-            $table->string('text_url')->unique()->nullable();
+            $table->string('slug')->unique()->nullable();
             $table->integer('number_of_theme')->nullable();
 
             $table->unsignedBigInteger('category_id')->nullable();

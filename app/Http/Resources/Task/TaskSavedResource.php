@@ -24,7 +24,7 @@ class TaskSavedResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'task' => $this->task,
+            'img' => $this->image,
             'answer' => $this->answer,
             'content' => $this->content,
             'category' => new CategoryResource(Category::find($this->category_id)),

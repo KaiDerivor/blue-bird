@@ -15,8 +15,8 @@ import Box from '@mui/material/Box'
 import styles from './style.module.scss'
 import { useDispatch, useSelector } from 'react-redux'
 import { getCategories, getChapterInfo } from './../../redux/appSelector'
-import { getCategoriesInit } from '../../redux/catReducer';
 import { detectItem } from '../utils/detectCategory';
+import { CategoryType } from '../../redux/catReducer';
 
 const initDataChart = {
    0: null,
@@ -106,21 +106,15 @@ type DataChapterType = {
    backgroundColor?: string
    tension?: number
 }
+type MainChapter = {
+   categories: CategoryType[]
+}
+export const MainChapter: React.FC<MainChapter> = React.memo(({ categories }) => {
 
-export const MainChapter: React.FC = React.memo(() => {
-
-   const dispatch: any = useDispatch()
    const chapter = useSelector(getChapterInfo)
-   const categories = useSelector(getCategories)
 
    let dataChapter = [] as Array<DataChapterType>;
-   const [dataChapters, setdataChapters] = useState({})
-   useEffect(() => {
-      return () => {
-         if (categories.length <= 0)
-            dispatch(getCategoriesInit())
-      };
-   }, [])
+
    const valuesFromObject = (obj: Object) => Object.values(obj).map((e) => (e));
    const mapFromObject = (obj: Object) => {
       let vars = []
@@ -134,7 +128,7 @@ export const MainChapter: React.FC = React.memo(() => {
       if (Object.prototype.hasOwnProperty.call(chapter, key)) {
 
          const element = chapter[key];
-         if(!element.isShow||element?.chart===undefined) continue;
+         if (!element.isShow || element?.chart === undefined) continue;
          const recorded = mapFromObject(element.chart)
          dataChapter.push({
             label: detectItem(key, categories),

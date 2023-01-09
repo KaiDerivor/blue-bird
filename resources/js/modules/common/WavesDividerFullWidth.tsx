@@ -1,3 +1,4 @@
+import React from 'react'
 export const WavesDividerFullWidth = () => {
    return (
       <svg aria-hidden="true" width="100%" height="8" fill="none" xmlns="http://www.w3.org/2000/svg">

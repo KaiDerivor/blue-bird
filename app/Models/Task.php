@@ -5,13 +5,14 @@ namespace App\Models;
 use App\Models\Traits\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Task extends Model
 {
     use HasFactory;
     use Filterable;
 
-    const ALL='all';
+    const ALL = 'all';
 
     protected $guarded = [];
     public function category()
@@ -34,5 +35,14 @@ class Task extends Model
     public function themes()
     {
         return $this->belongsTo(Theme::class, 'theme_id', 'id');
+    }
+    public function getImageAttribute()
+    {
+        $isImageUrl = Str::of($this->img)->startsWith('http');
+        if ($isImageUrl) {
+            return $this->img;
+        } else {
+            return asset('storage/' . $this->img);
+        }
     }
 }

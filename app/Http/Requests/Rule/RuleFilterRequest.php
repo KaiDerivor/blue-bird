@@ -24,7 +24,7 @@ class RuleFilterRequest extends FormRequest
     public function rules()
     {
         return [
-            'category_id'=>'integer'
+            'category_id'=>'nullable|exists:categories,id'
         ];
     }
 }

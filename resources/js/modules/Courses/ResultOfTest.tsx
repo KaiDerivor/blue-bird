@@ -42,10 +42,8 @@ export const ResultOfTest: React.FC<ResultOfTestType> = React.memo(({ currCatego
    const [userPoint, setUserPoint] = useState(0)
 
    useEffect(() => {
-      return () => {
-         if (currCategory.id !== undefined && currTag.id !== undefined && !isAsThemeTest) {
-            dispatch(getCategoryTagsInit(`${currCategory.id}`, `${currTag.id}`))
-         }
+      if (currCategory.id !== undefined && currTag.id !== undefined && !isAsThemeTest) {
+         dispatch(getCategoryTagsInit(`${currCategory.id}`, `${currTag.id}`))
       }
    }, [currCategory, currTag])
 
@@ -137,35 +135,34 @@ export const ResultOfTest: React.FC<ResultOfTestType> = React.memo(({ currCatego
    }
 
    useEffect(() => {
-      return () => {
-         if (isInitUser && !isAsThemeTest && chart) {
-            const currMonth = new Date().getMonth()
-            const defRating = defineRating()
-            const userRatingResult = defRating === WORST_RESULT ? 100 : defRating
-            let isSetData = false
-            let chartPairUpd = {}
-            for (const chartPair of chart[currCategory.id].chart) {
-               if (Object.keys(chartPair)[0] === `${currMonth}`) {
-                  chartPairUpd = { [currMonth]: Math.round((chartPair[currMonth] + userRatingResult) / 2) }
-                  isSetData = true
-               }
+
+      if (isInitUser && !isAsThemeTest && chart) {
+         const currMonth = new Date().getMonth()
+         const defRating = defineRating()
+         const userRatingResult = defRating === WORST_RESULT ? 100 : defRating
+         let isSetData = false
+         let chartPairUpd = {}
+         for (const chartPair of chart[currCategory.id].chart) {
+            if (Object.keys(chartPair)[0] === `${currMonth}`) {
+               chartPairUpd = { [currMonth]: Math.round((chartPair[currMonth] + userRatingResult) / 2) }
+               isSetData = true
             }
-            if (!isSetData) {
-               chartPairUpd = { [currMonth]: userRatingResult }
-            }
-            let sendMe = {
-               chart: JSON.stringify({
-                  ...chart,
-                  [currCategory.id]: {
-                     ...chart[currCategory.id],
-                     chart: [...chart[currCategory.id].chart.filter((chartPair: ChartPairType) => Object.keys(chartPair)[0] != `${currMonth}`), chartPairUpd]
-                  }
-               })
-            }
-            dispatch(updateMe(sendMe, false))
-         } else if (!isAsThemeTest) {
-            dispatch(appActions.setErrorText('Результат не збережено, для цього потрібно увійти'))
          }
+         if (!isSetData) {
+            chartPairUpd = { [currMonth]: userRatingResult }
+         }
+         let sendMe = {
+            chart: JSON.stringify({
+               ...chart,
+               [currCategory.id]: {
+                  ...chart[currCategory.id],
+                  chart: [...chart[currCategory.id].chart.filter((chartPair: ChartPairType) => Object.keys(chartPair)[0] != `${currMonth}`), chartPairUpd]
+               }
+            })
+         }
+         dispatch(updateMe(sendMe, false))
+      } else if (!isAsThemeTest && !isInitUser) {
+         dispatch(appActions.setErrorText('Результат не збережено, для цього потрібно увійти'))
       }
    }, [])
    return (
@@ -178,7 +175,7 @@ export const ResultOfTest: React.FC<ResultOfTestType> = React.memo(({ currCatego
                   {isAsThemeTest || <Typography variant="subtitle1" color="inherit" component='div' >  Ваш рейтинговий бал: <strong>{defineRating()} </strong>з 200 можливих.</Typography>}
                   <Typography variant="subtitle1" color="inherit" component='div' > Витрачено часу: <strong>{getWastedTime()}</strong> з {categoryTagInfo?.maxTime && categoryTagInfo.maxTime} запропонованих</Typography>
                </Box>
-               <NavigationTest startTestAgainHandler={startTestAgainHandler} currCategoryUrl={currCategory.textUrl} />
+               <NavigationTest startTestAgainHandler={startTestAgainHandler} currCategoryUrl={currCategory.slug} />
                <Box sx={{ pt: 3 }}>
                   {displayAllTasks()}
                </Box>

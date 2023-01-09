@@ -10,7 +10,7 @@ import { getTagsInit } from '../../redux/tagReducer';
 import { Formik, Field, Form } from 'formik';
 //@ts-ignore
 import styles from './style.module.scss'
-import { ACTION_OF_CRUD, DELETE, URL_STORAGE } from '../../redux/appReducer';
+import { ACTION_OF_CRUD, DELETE } from '../../redux/appReducer';
 import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
@@ -39,9 +39,7 @@ export const DialogFormCategories: React.FC<DialogFormCategoryType> = ({ openDil
    const [img, setImg] = useState({ name: '' })
 
    useEffect(() => {
-      return () => {
-         dispatch(getTagsInit())
-      };
+      dispatch(getTagsInit())
    }, [])
 
    const handleCloseForm = () => {
@@ -69,7 +67,7 @@ export const DialogFormCategories: React.FC<DialogFormCategoryType> = ({ openDil
                         title: item?.title ? item.title : '',
                         description: item?.description ? item.description : '',
                         tags: item?.tags ? item.tags.map(tag => tag.id) : [],
-                        textUrl: item?.textUrl ? item.textUrl : '',
+                        slug: item?.slug ? item.slug : '',
                      }}
                      onSubmit={(values) => {
                         //@ts-ignore
@@ -78,7 +76,7 @@ export const DialogFormCategories: React.FC<DialogFormCategoryType> = ({ openDil
                            setError('Set title')
                            return;
                         }
-                        if (!formData.textUrl) {
+                        if (!formData.slug) {
                            setError('Fill url')
                            return;
                         }
@@ -88,7 +86,7 @@ export const DialogFormCategories: React.FC<DialogFormCategoryType> = ({ openDil
                      <Form className={styles.forms}>
 
                         <Box className={styles.wrapperField}>
-                           {item?.img && <img src={`${URL_STORAGE}${item?.img}`} />}
+                           {item?.img && <img src={item?.img} />}
                         </Box>
                         <Box className={styles.wrapperField}>
                            <Typography variant="caption" color="inherit">Choose image</Typography>
@@ -131,9 +129,9 @@ export const DialogFormCategories: React.FC<DialogFormCategoryType> = ({ openDil
                         </Box>
 
                         <Box className={styles.wrapperField}>
-                           <Typography variant="caption" color="inherit">textUrl</Typography>
-                           <Field type="text" name="textUrl" className={styles.inputField}
-                              placeholder='textUrl' autoComplete='' />
+                           <Typography variant="caption" color="inherit">slug</Typography>
+                           <Field type="text" name="slug" className={styles.inputField}
+                              placeholder='slug' autoComplete='' />
                         </Box>
                         <Box className={styles.wrapperField}>
                            <Typography variant="caption" color="inherit">Select tags which test exist</Typography>
@@ -151,7 +149,7 @@ export const DialogFormCategories: React.FC<DialogFormCategoryType> = ({ openDil
             </DialogContent>
             <DialogActions>
                <Button onClick={handleCloseForm}>Cancel</Button>
-               {switchHandler === DELETE &&<Button onClick={() => handleConfirmForm()}>Confirm</Button>}
+               {switchHandler === DELETE && <Button onClick={() => handleConfirmForm()}>Confirm</Button>}
             </DialogActions>
          </Dialog>
       </div >

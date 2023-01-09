@@ -48,15 +48,14 @@ const CourseItem = React.memo(() => {
       dispatch(appActions.toggleFetchingOn())
       let idTime = setTimeout(() => { dispatch(appActions.toggleFetchingOff()) }, 1000)
 
+      if (categories.length <= 0) {
+         dispatch(getCategoriesInit())
+      }
+      if (tags.length <= 0) {
+         dispatch(getTagsInit())
+      }
       return () => {
          clearTimeout(idTime)
-
-         if (categories.length <= 0) {
-            dispatch(getCategoriesInit())
-         }
-         if (tags.length <= 0) {
-            dispatch(getTagsInit())
-         }
       };
 
    }, [])
@@ -64,7 +63,7 @@ const CourseItem = React.memo(() => {
    useEffect(() => {
       if (tags.length > 0) {
          for (const tag of tags) {
-            if (tag.textUrl === params.id) {
+            if (tag.slug === params.id) {
                setCurrTag(tag)
             }
          }
@@ -75,7 +74,7 @@ const CourseItem = React.memo(() => {
    useEffect(() => {
       if (categories.length > 0) {
          for (const category of categories) {
-            if (category.textUrl === params.category) {
+            if (category.slug === params.category) {
                setCurrCategory(category)
             }
          }

@@ -24,8 +24,8 @@ class FilterRequest extends FormRequest
     public function rules()
     {
         return [
-            'categoryId' => '',
-            'tagId' => '',
+            'categoryId' => 'nullable|exists:categories,id',
+            'tagId' => 'nullable|exists:tags,id',
         ];
     }
 }

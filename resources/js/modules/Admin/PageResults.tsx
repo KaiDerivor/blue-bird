@@ -19,14 +19,12 @@ const Results = React.memo(() => {
 
 
    useEffect(() => {
-      return () => {
-         if (!tags || tags.length <= 0)
-            dispatch(getTagsInit())
-         if (!categories || categories.length <= 0)
-            dispatch(getCategoriesInit())
-         if (!results || results.length <= 0)
-            dispatch(getResultTableInit())
-      }
+      if (!tags || tags.length <= 0)
+         dispatch(getTagsInit())
+      if (!categories || categories.length <= 0)
+         dispatch(getCategoriesInit())
+      if (!results || results.length <= 0)
+         dispatch(getResultTableInit())
    }, [])
 
    const handleConfirm = (resultTableId = 0, resultTable = {} as ResultRecordType) => {

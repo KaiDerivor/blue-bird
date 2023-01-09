@@ -8,21 +8,10 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import { ROLE_ADMIN, ROLE_USER, UserRecordType } from '../../redux/userReducer';
-import { ErrorMessage, Form, Formik, Field } from 'formik';
-import Box from '@mui/material/Box'
-//@ts-ignore
-import styles from './style.module.scss'
-import Typography from '@mui/material/Typography';
-import { ButtonSubmit } from '../Auth/ButtonSubmit';
-import { SearchBarUser } from './SearchBarUser';
+import { UserRecordType } from '../../redux/userReducer';
+
 import { ACTION_OF_CRUD, DELETE, UPDATE } from '../../redux/appReducer';
-import { FormDialog } from './DialofFormUser';
+import { FormDialog } from './DialogFormUser';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
    [`&.${tableCellClasses.head}`]: {

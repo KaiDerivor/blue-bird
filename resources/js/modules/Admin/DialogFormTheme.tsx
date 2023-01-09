@@ -59,7 +59,7 @@ export const DialogFormTheme: React.FC<DialogFormThemeType> = ({ openDilaog, set
                         description: item?.description ? item.description : '',
                         category_id: item?.categoryId ? item.categoryId : '',
                         numberOfTheme: item?.numberOfTheme ? item.numberOfTheme : '',
-                        textUrl: item?.textUrl ? item.textUrl : '',
+                        slug: item?.slug ? item.slug : '',
 
 
                      }}
@@ -89,7 +89,7 @@ export const DialogFormTheme: React.FC<DialogFormThemeType> = ({ openDilaog, set
                            </Box>
                            <Box className={styles.wrapperField}>
                            <Typography variant="caption" color="inherit">Text url</Typography>
-                              <Field type='text' name="textUrl" className={styles.inputField}
+                              <Field type='text' name="slug" className={styles.inputField}
                                  placeholder="theme-" autoComplete='' />
                            </Box>
                            <Box className={styles.wrapperField}>

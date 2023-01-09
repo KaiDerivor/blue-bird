@@ -24,12 +24,11 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'string|max:50',
+            'title' => 'string|required|max:50',
             'description' => 'string|max:200',
-            'eventType' => 'string|in:update,zno',
-            'time' => 'string|max:50|min:8',
-            'categoryId' => 'integer'
-
+            'eventType' => 'string|required|in:update,zno',
+            'time' => 'nullable|string|max:50|min:8',
+            'categoryId' => 'nullable|integer|exists:categories,id'
         ];
     }
 }

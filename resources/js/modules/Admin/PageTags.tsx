@@ -13,10 +13,8 @@ const Tags = React.memo(() => {
    const [switchHandler, setSwitchHandler] = useState<ACTION_OF_CRUD>(CREATE)
 
    useEffect(() => {
-      return () => {
-         if (!tasgs || tasgs.length <= 0)
-            dispatch(getTagsInit())
-      }
+      if (!tasgs || tasgs.length <= 0)
+         dispatch(getTagsInit())
    }, [])
    const handleConfirm = (tagId = 0, tag = {} as TagRecordType) => {
       switch (switchHandler) {

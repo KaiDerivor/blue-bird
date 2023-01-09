@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Container from '@mui/material/Container'
 import Box from '@mui/material/Box'
 //@ts-ignore
@@ -8,29 +8,40 @@ import { MainChapter } from './MainChapter';
 import { Greetings } from './Greetings';
 import { SelectedCourses } from './SelectedCourses';
 import Fade from '@mui/material/Fade'
-import { useSelector } from 'react-redux';
-import { getIsInit } from '../../redux/appSelector';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCategories, getIsInit } from '../../redux/appSelector';
 import { Navigate } from 'react-router-dom';
 import { Preference } from './Preference';
+import { getCategoriesInit } from '../../redux/catReducer';
 
-const Profile = React.memo(() => {
+const Profile = () => {
    const isInit = useSelector(getIsInit)
+   const categories = useSelector(getCategories)
+   const dispatch: any = useDispatch()
+
+   useEffect(() => {
+      if (categories.length <= 0) {
+         // isRequested = true
+         dispatch(getCategoriesInit())
+      }
+   }, [])
+
    if (!isInit) {
       return (
          <Navigate to='/login' />
       )
    }
    return (
-      <Container maxWidth="xl" sx={{pb:3}} >
+      <Container maxWidth="xl" sx={{ pb: 3 }} >
          <Fade in={true} timeout={500} style={{ transitionDelay: '500ms' }}>
             <Box sx={{ display: 'flex', gap: 3 }} className={styles.profileWrapper}>
                <Box className={styles.wrapperMain} sx={{ pr: 2 }}>
                   <Greetings />
-                  <MainChapter />
-                  <SelectedCourses />
+                  <MainChapter categories={categories} />
+                  <SelectedCourses categories={categories} />
                   {/* <NotFinished /> */}
                </Box>
-               <Box className={styles.wrapperSide} sx={{mt:2}}>
+               <Box className={styles.wrapperSide} sx={{ mt: 2 }}>
                   <DateEvents />
                   <Preference />
                </Box>
@@ -38,6 +49,6 @@ const Profile = React.memo(() => {
          </Fade>
       </Container>
    )
-})
+}
 
 export default Profile

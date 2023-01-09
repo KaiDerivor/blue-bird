@@ -20,7 +20,7 @@ export type CategoryRecordType = {
    title?: string,
    description?: string
    img?: any,
-   textUrl?: string,
+   slug?: string,
    tags?: Array<TagRecordType>
 }
 export type CategoryType = {
@@ -28,7 +28,7 @@ export type CategoryType = {
    title: string,
    description?: string
    img?: any,
-   textUrl: string,
+   slug: string,
    tags: TagType[]
 }
 export type CategoryTagType = {

@@ -19,7 +19,7 @@ class CategoryTagCategoryResource extends JsonResource
             'id' => $this->id,
             'description' => $this->description,
             'img' => $this->img,
-            'textUrl' => $this->text_url
+            'slug' => $this->text_url
         ];
     }
 }

@@ -14,10 +14,6 @@ import { detectCategory } from "../utils/detectCategory"
 import { appActions, FormDataMeUpdateType, updateMe } from "../../redux/appReducer"
 import { getThemesInit, ThemeType } from "../../redux/themeReducer"
 import Paper from "@mui/material/Paper"
-import { Button } from "@mui/material"
-
-
-
 
 type BodyCourseCategory = {
    toggleShowingTasks: () => void
@@ -25,8 +21,6 @@ type BodyCourseCategory = {
 }
 
 const BodyCourseCategory: React.FC<BodyCourseCategory> = ({ toggleShowingTasks, currCategory }) => {
-
-
 
    const dispatch: any = useDispatch()
 
@@ -36,7 +30,7 @@ const BodyCourseCategory: React.FC<BodyCourseCategory> = ({ toggleShowingTasks, 
    const [isCategoryAdded, setisCategoryAdded] = useState(likedCategories.includes(currCategory.id))
 
    const [isCategoryChapterShow, setisCategoryChapterShow] = useState(() => {
-      if (currCategory.id) {
+      if (currCategory.id && chart) {
          return chart.hasOwnProperty(currCategory.id) && chart[currCategory.id].isShow
       }
       else {
@@ -99,7 +93,7 @@ const BodyCourseCategory: React.FC<BodyCourseCategory> = ({ toggleShowingTasks, 
                   <Box className={styles.boxSession__list}>
                      {currCategory.tags?.length
                         ? currCategory?.tags.map((tag) => {
-                           return <Typography key={tag.id} variant="body1" color="fpage.main"><NavLink to={tag.textUrl} style={{ color: 'inherit' }}>{tag.title}</NavLink> </Typography>
+                           return <Typography key={tag.id} variant="body1" color="fpage.main"><NavLink to={tag.slug} style={{ color: 'inherit' }}>{tag.title}</NavLink> </Typography>
                         })
                         : <Typography variant="h5" color="fpage.main" sx={{ pb: 4 }}>Не має доступних тестів</Typography>
                      }
@@ -147,17 +141,15 @@ const BodyCourseTasks: React.FC<BodyCourseCategory> = React.memo(({ toggleShowin
 
    const themes = useSelector(getThemesList)
    useEffect(() => {
-      return () => {
-         if (currCategory?.id)
-            dispatch(getThemesInit(`${currCategory.id}`))
-      };
+      if (currCategory?.id)
+         dispatch(getThemesInit(`${currCategory.id}`))
    }, [currCategory])
 
    const renderThemes = () => {
       if (!(themes.length > 0)) return <div></div>
 
       let ret = themes.map((theme: ThemeType, index: number) => {
-         return <NavLink key={index} to={theme.textUrl}>
+         return <NavLink key={index} to={theme.slug}>
 
             <Paper className={styles.itemTheme}
                sx={{ color: 'fpage.light', backgroundColor: 'bgmode.main', mb: 3 }}
@@ -195,12 +187,9 @@ const CourseCategory = React.memo(() => {
    const [isShowTaskByCategory, setIsShowTaskByCategory] = useState(false)
    const categories: Array<CategoryType> = useSelector(getCategories)
    const currCategory = detectCategory(categories, params);
-
    useEffect(() => {
-      return () => {
-         if (categories.length < 1)
-            dispatch(getCategoriesInit())
-      };
+      if (categories.length < 1)
+         dispatch(getCategoriesInit())
    }, [])
    const toggleShowingTasks = () => {
       setIsShowTaskByCategory(prev => !prev)

@@ -3,13 +3,11 @@ import Box from '@mui/material/Box'
 import { useDispatch, useSelector } from 'react-redux'
 import { getLikedTasks, getSavedTasks } from '../../redux/appSelector'
 import { initSavedTasks, lettersOfAnswers, TaskSavedType } from '../../redux/taskReducer'
-import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom'
-import { TaskComponent } from '../Courses/Task'
+import { Navigate, useNavigate, useParams } from 'react-router-dom'
 //@ts-ignore
 import styles from './../Courses/style.module.scss'
 import Typography from '@mui/material/Typography'
 import Divider from '@mui/material/Divider'
-import { URL_STORAGE } from '../../redux/appReducer'
 import { ButtonsActionSecond } from '../Courses/ButtonsActionSecond'
 import { Button } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -91,9 +89,9 @@ const TaskOne = () => {
                <Box sx={{ pb: 3 }}>
                   <Typography variant="body1" color="inherit">{taskQuestion}</Typography>
                </Box>
-               {currTask.task &&
+               {currTask.img &&
                   <Box sx={{ pb: 3 }}>
-                     <img src={`${URL_STORAGE}${currTask.task}`} alt={`saved-${currTask.numberOfTask}`} />
+                     <img src={currTask.img} alt={`saved-${currTask.numberOfTask}`} />
                   </Box>
                }
                <Box sx={{}}>

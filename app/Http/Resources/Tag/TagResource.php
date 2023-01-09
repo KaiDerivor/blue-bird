@@ -18,8 +18,8 @@ class TagResource extends JsonResource
             'id'=>$this->id,
             "title" => $this->title,
             'description'=>$this->description,
-            'img'=>$this->img,
-            'textUrl'=>$this->text_url
+            // 'img'=>$this->img,
+            'slug'=>$this->slug
         ];
     }
 }

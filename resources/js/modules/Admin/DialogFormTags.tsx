@@ -10,7 +10,7 @@ import { TagRecordType } from '../../redux/tagReducer';
 import { Formik, Field, Form } from 'formik';
 //@ts-ignore
 import styles from './style.module.scss'
-import { ACTION_OF_CRUD, DELETE, URL_STORAGE } from '../../redux/appReducer';
+import { ACTION_OF_CRUD, DELETE } from '../../redux/appReducer';
 import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
@@ -57,7 +57,7 @@ export const DialogFormTags: React.FC<DialogFormTagsType> = ({ openDilaog, setOp
                      initialValues={{
                         title: item?.title ? item.title : '',
                         description: item?.description ? item.description : '',
-                        textUrl: item?.textUrl ? item.textUrl : '',
+                        slug: item?.slug ? item.slug : '',
                      }}
                      onSubmit={(values) => {
                         //@ts-ignore
@@ -66,17 +66,14 @@ export const DialogFormTags: React.FC<DialogFormTagsType> = ({ openDilaog, setOp
                            setError('Set title')
                            return;
                         }
-                        if (!formData.textUrl) {
-                           setError('Fill url')
-                           return;
-                        }
+                      
                         handleConfirmForm(formData as TagRecordType)
                      }}
                   >
                      <Form className={styles.forms}>
 
                         <Box className={styles.wrapperField}>
-                           {item?.img && <img src={`${URL_STORAGE}${item?.img}`} />}
+                           {item?.img && <img src={item?.img} />}
                         </Box>
                         <Box className={styles.wrapperField}>
                         <Typography variant="caption" color="inherit">Image</Typography>
@@ -119,8 +116,8 @@ export const DialogFormTags: React.FC<DialogFormTagsType> = ({ openDilaog, setOp
 
                         <Box className={styles.wrapperField}>
                         <Typography variant="caption" color="inherit">Text url</Typography>
-                           <Field type="text" name="textUrl" className={styles.inputField}
-                              placeholder='textUrl' autoComplete='' />
+                           <Field type="text" name="slug" className={styles.inputField}
+                              placeholder='slug' autoComplete='' />
                         </Box>
                         <Typography variant="body1" color="error">{error}</Typography>
                         <ButtonSubmit text='Відправити' />

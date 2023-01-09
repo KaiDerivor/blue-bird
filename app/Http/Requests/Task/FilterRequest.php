@@ -24,14 +24,14 @@ class FilterRequest extends FormRequest
     public function rules()
     {
         return [
-            'ids' => '',
-            'ids[]' => 'integer',
-            'tag_id' => '',
-            'category_id' => '',
-            'theme_id'=>'',
-            
-            'page' => '',
-            'per_page' => ''
+            'ids' => 'nullable',
+            'ids.*' => 'nullable|integer|exists:tasks,id',
+            'tag_id' => 'nullable|exists:tags,id',
+            'category_id' => 'nullable|exists:categories,id',
+            'theme_id' => 'nullable|exists:themes,id',
+
+            'page' => 'nullable|integer',
+            'per_page' => 'nullable|integer'
         ];
     }
 }

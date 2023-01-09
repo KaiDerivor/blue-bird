@@ -24,8 +24,8 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'categoryId' => 'required|integer',
-            'tagId' => 'required|integer',
+            'categoryId' => 'required|integer|exists:categories,id',
+            'tagId' => 'required|integer|exists:tags,id',
             'value' => 'required|json'
         ];
     }

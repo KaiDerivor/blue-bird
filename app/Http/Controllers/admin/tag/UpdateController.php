@@ -12,7 +12,11 @@ class UpdateController extends BaseController
     public function __invoke(RequestUpdate $request, Tag $tag)
     {
         $data = $request->validated();
-        $msg = $this->service->update($tag, $data);
-        return new TagResource($msg) ;
+        $response = $this->service->update($tag, $data);
+        if ($response instanceof Tag) {
+            return new TagResource($response);
+        } else {
+            return response(['data' => $response]);
+        }
     }
 }

@@ -16,6 +16,7 @@ class User extends Authenticatable implements JWTSubject
     use HasApiTokens, HasFactory, Notifiable;
     use Filterable;
     const ROLE_ADMIN = 'admin';
+    const ROLE_USER = 'user';
     /**
      * The attributes that are mass assignable.
      *
@@ -26,7 +27,7 @@ class User extends Authenticatable implements JWTSubject
         'email',
         'password',
         'chart'
-        
+
     ];
     protected $guarded = ['role'];
     /**

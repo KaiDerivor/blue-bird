@@ -3,8 +3,6 @@ import { CommonHeader } from "../common/CommonHeader"
 import { Container } from "@mui/system"
 import { Footer } from "../Footer/Footer"
 import Box from "@mui/material/Box"
-//@ts-ignore
-import styles from './style.module.scss'
 import { Route, Routes, useParams } from "react-router-dom"
 import Fade from '@mui/material/Fade'
 import { Loader } from "../common/Loader"

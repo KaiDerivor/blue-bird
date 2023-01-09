@@ -25,9 +25,9 @@ class RequestUpdate extends FormRequest
     {
         return [
             'title'=>'required|string|max:50|min:4',
-            'img'=>'',
-            'description'=>'',
-            'textUrl'=>'string|required|max:20'
+            'img'=>'nullable|file',
+            'description'=>'nullable|string',
+            'slug'=>'nullable|string|max:20'
         ];
     }
 }

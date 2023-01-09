@@ -14,11 +14,11 @@ class UpdateController extends BaseController
     public function __invoke(UpdateRequest $request, Event $event)
     {
         $data = $request->validated();
-        $msg = $this->service->update($event, $data);
-        if ($msg instanceof Event) {
-            return new EventResource($msg);
+        $response = $this->service->update($event, $data);
+        if ($response instanceof Event) {
+            return new EventResource($response);
         } else {
-            return response(['data' => $msg]);
+            return response(['data' => $response]);
         }
     }
 }

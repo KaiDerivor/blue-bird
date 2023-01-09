@@ -7,7 +7,7 @@ import { ResultRecordType, TaskRecordType } from "../redux/taskReducer";
 import { ThemeRecordType, ThemeType } from "../redux/themeReducer";
 import { UserRecordType } from "../redux/userReducer";
 import { FormDataLogType, FormDataMeUpdateType } from './../redux/appReducer'
-
+let count = 0;
 const url = `http://127.0.0.1:8000/api/`;
 const instance = axios.create({
   baseURL: url,
@@ -39,6 +39,7 @@ instance.interceptors.response.use(
   (error) => {
     if (error?.response?.status === 401) {
       if (localStorage.getItem('access_token')) {
+        if (count === 3) return Promise.reject(error)
         return instance.post("auth/refresh", {}, {
           headers: {
             'authorization': `Bearer ${localStorage.getItem('access_token')}`,
@@ -47,6 +48,7 @@ instance.interceptors.response.use(
 
           localStorage.setItem('access_token', response.data.access_token)
           error.config.headers.authorization = `Bearer ${response.data.access_token}`;
+          count++;
           return instance.request(error.config);
         });
       }
@@ -66,9 +68,8 @@ export const api = {
       localStorage.access_token = response.data.access_token;
     })
       .catch(err => {
-        if (err.response) {
-          console.log(err)
-          return err.response.statusText
+        if (err?.response?.data) {
+          return err.response.data?.message
         } else if (err.request) {
           return 'Bad network. Try again later'
         } else {
@@ -76,7 +77,7 @@ export const api = {
         }
       });
   },
-  login: function (formData: FormDataLogType) {
+  login: (formData: FormDataLogType)=> {
     return instance.post("auth/login", { ...formData }).then(response => {
       localStorage.access_token = response.data.access_token;
     }).catch(err => {
@@ -107,6 +108,7 @@ export const api = {
     return instance.post("auth/me").then((response) => {
       return response.data.data
     }).catch(err => {
+      localStorage.removeItem('access_token')
       return axiosErrorHandler(err)
     });
   },
@@ -115,7 +117,6 @@ export const api = {
 
       return response.data.data
     }).catch(err => {
-      console.log(err)
       return axiosErrorHandler(err)
     });
   },
@@ -134,7 +135,7 @@ export const api = {
   },
   //category
   getCategories: function () {
-    return instance.get('admin/categories').then(res => {
+    return instance.get('categories').then(res => {
       return res.data.data;
     }).catch(err => {
       if (err.response) {
@@ -201,7 +202,7 @@ export const api = {
   },
   //tag
   getTags: function () {
-    return instance.get('admin/tags').then(res => {
+    return instance.get('tags').then(res => {
       return res.data.data;
     }).catch(err => {
       if (err.response) {
@@ -267,7 +268,7 @@ export const api = {
 
   //task
   getTasks: function (category_id = '', tag_id = '', listSaved = [] as Array<number>) {
-    return instance.get(`admin/tasks?category_id=${category_id}&tag_id=${tag_id}${listSaved.length > 0 && `&ids=${listSaved}`}`).then(res => {
+    return instance.get(`tasks?category_id=${category_id}&tag_id=${tag_id}${listSaved.length > 0 ? `&ids=${listSaved}` : ''}`).then(res => {
       return res.data.data;
     }).catch(err => {
       if (err.response) {
@@ -280,7 +281,7 @@ export const api = {
     });
   },
   getTest: function (category_id: number | string, tag_id: number | string, theme_id?: number | string) {
-    return instance.get(`admin/tasks?category_id=${category_id}&tag_id=${tag_id}&theme_id=${theme_id}`).then(res => {
+    return instance.get(`tasks?category_id=${category_id}&tag_id=${tag_id}&theme_id=${theme_id}`).then(res => {
       // return instance.get(`admin/tasks?category_id=${category_id}&tag_id=${tag_id}&${theme_id && `theme_id=${theme_id}`}`).then(res => {
       return res.data.data;
     }).catch(err => {
@@ -406,7 +407,7 @@ export const api = {
   },
   //result
   getResult: function (categoryId: string = '', tagId: string = '') {
-    return instance.get(`admin/results?categoryId=${categoryId}&tagId=${tagId}`).then(res => {
+    return instance.get(`results?categoryId=${categoryId}&tagId=${tagId}`).then(res => {
       return res.data.data;
     }).catch(err => {
       if (err.response) {
@@ -465,7 +466,7 @@ export const api = {
   },
   //events
   getEvents: function () {
-    return instance.get(`admin/events`).then(res => {
+    return instance.get(`events`).then(res => {
       return res.data.data;
     }).catch(err => {
       if (err.response) {
@@ -522,7 +523,7 @@ export const api = {
   },
   //cat tag
   getCategoryTags: function (categoryId: string, tagId: string) {
-    return instance.get(`admin/category-tags?categoryId=${categoryId}&tagId=${tagId}`).then(res => {
+    return instance.get(`category-tags?categoryId=${categoryId}&tagId=${tagId}`).then(res => {
       return res.data.data;
     }).catch(err => {
       if (err.response) {
@@ -566,7 +567,7 @@ export const api = {
   },
   //rules
   getRules: function (categoryId: string) {
-    return instance.get(`admin/rules${categoryId ? `?category_id=${categoryId}` : ''}`).then(res => {
+    return instance.get(`rules${categoryId ? `?category_id=${categoryId}` : ''}`).then(res => {
       return res.data.data;
     }).catch(err => {
       if (err.response) {
@@ -624,7 +625,7 @@ export const api = {
   },
   //themes
   getThemes: function (categoryId: string) {
-    return instance.get(`admin/themes${categoryId ? `?category_id=${categoryId}` : ''}`).then(res => {
+    return instance.get(`themes${categoryId ? `?category_id=${categoryId}` : ''}`).then(res => {
       return res.data.data;
     }).catch(err => {
       if (err.response) {

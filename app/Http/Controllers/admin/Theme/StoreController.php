@@ -14,11 +14,11 @@ class StoreController extends BaseController
     public function __invoke(ThemeRequestStore $request)
     {
         $data = $request->validated();
-        $theme = $this->service->store($data);
-        if ($theme instanceof Theme) {
-            return new ThemeResource($theme);
+        $response = $this->service->store($data);
+        if ($response instanceof Theme) {
+            return new ThemeResource($response);
         } else {
-            return response(['data' => $theme]);
+            return response(['data' => $response]);
         }
     }
 }

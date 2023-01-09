@@ -24,16 +24,16 @@ class RequestUpdate extends FormRequest
     public function rules()
     {
         return [
-            'task' => '',
-            'answer' => '',
-            'content' => '',
-            'category_id' => '',
-            'tag_id' => '',
-            'number_of_task' => '',
-            'task_type' => 'required|string|in:letter4,letter5,range1,range2,range3,letters3,letters4,default',
-            'test_qa' => 'json',
-            'rule_id' =>'',
-            'theme_id' =>''
+            'img'=>'nullable|file|mimes:jpg,bmp,png,jpeg',
+            'answer'=>'required|string',
+            'content'=>'nullable|string',
+            'category_id'=>'required|exists:categories,id',
+            'tag_id'=>'nullable|integer|exists:tags,id',
+            'number_of_task'=>'required|integer',
+            'task_type' => 'required|string|in:letter4,letter5,range1,range2,range3,letters4,letters3,default',
+            'test_qa'=>'nullable|json',
+            'rule_id' =>'nullable|integer|exists:rules,id',
+            'theme_id' =>'nullable|integer|exists:themes,id',
         ];
     }
 }

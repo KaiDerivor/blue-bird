@@ -14,10 +14,8 @@ const Users = React.memo(() => {
    const [switchHandler, setSwitchHandler] = useState<ACTION_OF_CRUD>(CREATE)
 
    useEffect(() => {
-      return () => {
-         if (!users || users.length <= 0)
-            dispatch(getUsersInit())
-      }
+      if (!users || users.length <= 0)
+         dispatch(getUsersInit())
    }, [])
    const handleConfirm = (userId = '' as string | number, user: UserRecordType = {}) => {
       switch (switchHandler) {

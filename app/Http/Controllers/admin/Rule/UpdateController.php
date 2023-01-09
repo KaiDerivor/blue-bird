@@ -13,11 +13,11 @@ class UpdateController extends BaseController
     public function __invoke(RuleRequest $request,Rule $rule){
         $dataRequest=$request->validated();
 
-        $rule=$this->service->update($rule,$dataRequest);
-        if($rule instanceof Rule){
-            return new RuleResource($rule);
+        $response=$this->service->update($rule,$dataRequest);
+        if($response instanceof Rule){
+            return new RuleResource($response);
         }else{
-            return response(['data'=>$rule]);
+            return response(['data'=>$response]);
         }
     }
 }

@@ -20,9 +20,7 @@ const FormReg = () => {
 
    const [isSubmiting, setIsSubmiting] = useState(false)
    useEffect(() => {
-      if (errorText.length <= 1) {
-         setIsSubmiting(false)
-      }
+      errorText && errorText.length <= 1 && setIsSubmiting(false)
    }, [errorText])
 
 

@@ -15,7 +15,7 @@ export type TagRecordType = {
    id?: number
    title?: string
    description?: string
-   textUrl?: string
+   slug?: string
    img?:any
 }
 export type TagType = {
@@ -23,7 +23,7 @@ export type TagType = {
    title: string,
    description: string
    img: string
-   textUrl: string
+   slug: string
 }
 const initialState = {
    isFetching: false,

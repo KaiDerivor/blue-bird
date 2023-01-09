@@ -20,8 +20,8 @@ class CategoryResource extends JsonResource
             'id' => $this->id,
             'tags' => TagResource::collection($this->tags),
             'description' => $this->description,
-            'img' => $this->img,
-            'textUrl' => $this->text_url
+            'img' => $this->image,
+            'slug' => $this->slug
         ];
     }
 }

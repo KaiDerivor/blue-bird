@@ -19,14 +19,12 @@ const CategoryTags = React.memo(() => {
       dispatch(getCategoryTagsInit(categoryId, tagId))
    }
    useEffect(() => {
-      return () => {
-         if (!categoryTags || categoryTags.length <= 0)
-            dispatch(getCategoryTagsInit())
-         if (!tags || tags.length <= 0)
-            dispatch(getTagsInit())
-         if (!categories || categories.length <= 0)
-            dispatch(getCategoriesInit())
-      }
+      if (!categoryTags || categoryTags.length <= 0)
+         dispatch(getCategoryTagsInit())
+      if (!tags || tags.length <= 0)
+         dispatch(getTagsInit())
+      if (!categories || categories.length <= 0)
+         dispatch(getCategoriesInit())
    }, [])
 
    const handleConfirm = (categoryTagId = 0, categoryTag = {} as CategoryTagRecordType) => {

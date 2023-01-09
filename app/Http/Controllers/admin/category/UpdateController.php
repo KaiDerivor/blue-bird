@@ -12,11 +12,11 @@ class UpdateController extends BaseController
     public function __invoke(RequestUpdate $request, Category $category)
     {
         $data = $request->validated();
-        $msg=$this->service->update($category, $data);
-        if($msg instanceof Category){
-            return new CategoryResource($msg);
-        }else{
-            return response(['data'=>$msg]);
+        $response = $this->service->update($category, $data);
+        if ($response instanceof Category) {
+            return new CategoryResource($response);
+        } else {
+            return response(['data' => $response]);
         }
     }
 }

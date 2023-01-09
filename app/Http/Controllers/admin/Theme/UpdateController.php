@@ -13,11 +13,11 @@ class UpdateController extends BaseController
     public function __invoke(ThemeRequestUpdate $request,Theme $theme){
         $dataRequest=$request->validated();
 
-        $theme=$this->service->update($theme,$dataRequest);
-        if($theme instanceof Theme){
-            return new ThemeResource($theme);
+        $response=$this->service->update($theme,$dataRequest);
+        if($response instanceof Theme){
+            return new ThemeResource($response);
         }else{
-            return response(['data'=>$theme]);
+            return response(['data'=>$response]);
         }
     }
 }
